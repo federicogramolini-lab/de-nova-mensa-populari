@@ -2181,7 +2181,10 @@ function tmToast(txt){ let t = document.getElementById("tm-toast"); if (!t){ t =
 function telApri(nome, ms){
   if (telSveglia() === "iphone"){ const sec = Math.max(1, Math.round(ms / 1000));
     const fuoriClaude = !(window.claude && window.claude.use);
-    try { navigator.clipboard.writeText(String(sec)).then(() => { if (fuoriClaude){ location.href = "shortcuts://x-callback-url/run-shortcut?name=" + encodeURIComponent("Timer Mensa") + "&x-success=" + encodeURIComponent(location.href.split("#")[0]) + "&x-cancel=" + encodeURIComponent(location.href.split("#")[0]) + "&x-error=" + encodeURIComponent(location.href.split("#")[0]); } else tmToast("Pronto per il timer dell'iPhone: esci dall'app e parte da solo."); }, () => tmToast("Non riesco a copiare negli appunti: tocca ⏰ sulla riga del timer.")); } catch (e) { tmToast("Non riesco a copiare negli appunti."); }
+    try { navigator.clipboard.writeText(String(sec)).then(() => { if (fuoriClaude){ const home = navigator.standalone === true || (window.matchMedia && matchMedia("(display-mode: standalone)").matches);
+        const back = encodeURIComponent(location.href.split("#")[0]);
+        /* dall'icona sulla Home il ritorno automatico riaprirebbe Safari: lì si torna con il "◀" in alto a sinistra */
+        location.href = home ? "shortcuts://run-shortcut?name=" + encodeURIComponent("Timer Mensa") : "shortcuts://x-callback-url/run-shortcut?name=" + encodeURIComponent("Timer Mensa") + "&x-success=" + back + "&x-cancel=" + back + "&x-error=" + back; } else tmToast("Pronto per il timer dell'iPhone: esci dall'app e parte da solo."); }, () => tmToast("Non riesco a copiare negli appunti: tocca ⏰ sulla riga del timer.")); } catch (e) { tmToast("Non riesco a copiare negli appunti."); }
     return; }
   const u = telUrl(nome, ms); if (!u) return; const a = document.createElement("a"); a.href = u; a.target = "_blank"; a.rel = "noopener"; document.body.appendChild(a); try { a.click(); } catch (e) {} a.remove(); }
 function tmStart(){ const ms = tmCompMs(); if (!ms) return; const n = document.getElementById("tm-nome"); tmAdd(n ? n.value.trim() : "", ms, true); telApri(TM.list[TM.list.length - 1].nome, ms); if (n) n.value = ""; TM.dig = ""; tmComp(); }
