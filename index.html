@@ -2132,7 +2132,7 @@ function tmBeep(){ const c = TM.ctx; if (!c) return; const t0 = c.currentTime;
   try { navigator.vibrate && navigator.vibrate([150, 80, 150, 80, 150]); } catch (e) {} }
 function tmAdd(nome, ms, parti){ TM.list.push({ id: Date.now().toString(36) + Math.random().toString(36).slice(2, 5), nome: nome || `Timer ${TM.list.length + 1}`, durata: ms, resto: ms, stato: parti ? "va" : "fermo", fine: parti ? Date.now() + ms : 0 }); tmSave(); tmRender(); }
 function tmAct(id, a){ const t = TM.list.find(x => x.id === id); if (!t) return;
-  if (a === "via"){ if (t.stato === "suona" || t.resto <= 0) t.resto = t.durata; t.fine = Date.now() + t.resto; t.stato = "va"; }
+  if (a === "via"){ const daCapo = t.stato !== "pausa"; if (t.stato === "suona" || t.resto <= 0) t.resto = t.durata; t.fine = Date.now() + t.resto; t.stato = "va"; if (daCapo) telApri(t.nome, t.resto); }
   else if (a === "pausa"){ t.resto = tmLeft(t); t.stato = "pausa"; }
   else if (a === "stop" || a === "reset"){ t.resto = t.durata; t.stato = "fermo"; }
   else if (a === "piu"){ if (t.stato === "va") t.fine += 60000; else if (t.stato === "suona"){ t.stato = "va"; t.fine = Date.now() + 60000; } else t.resto += 60000; if (t.durata < 60000 || t.stato !== "va") t.durata = Math.max(t.durata, t.resto); }
@@ -2181,7 +2181,7 @@ function tmToast(txt){ let t = document.getElementById("tm-toast"); if (!t){ t =
 function telApri(nome, ms){
   if (telSveglia() === "iphone"){ const sec = Math.max(1, Math.round(ms / 1000));
     const fuoriClaude = !(window.claude && window.claude.use);
-    try { navigator.clipboard.writeText(String(sec)).then(() => { if (fuoriClaude){ location.href = "shortcuts://run-shortcut?name=" + encodeURIComponent("Timer Mensa"); } else tmToast("Pronto per il timer dell'iPhone: esci dall'app e parte da solo."); }, () => tmToast("Non riesco a copiare negli appunti: tocca ⏰ sulla riga del timer.")); } catch (e) { tmToast("Non riesco a copiare negli appunti."); }
+    try { navigator.clipboard.writeText(String(sec)).then(() => { if (fuoriClaude){ location.href = "shortcuts://x-callback-url/run-shortcut?name=" + encodeURIComponent("Timer Mensa") + "&x-success=" + encodeURIComponent(location.href.split("#")[0]) + "&x-cancel=" + encodeURIComponent(location.href.split("#")[0]) + "&x-error=" + encodeURIComponent(location.href.split("#")[0]); } else tmToast("Pronto per il timer dell'iPhone: esci dall'app e parte da solo."); }, () => tmToast("Non riesco a copiare negli appunti: tocca ⏰ sulla riga del timer.")); } catch (e) { tmToast("Non riesco a copiare negli appunti."); }
     return; }
   const u = telUrl(nome, ms); if (!u) return; const a = document.createElement("a"); a.href = u; a.target = "_blank"; a.rel = "noopener"; document.body.appendChild(a); try { a.click(); } catch (e) {} a.remove(); }
 function tmStart(){ const ms = tmCompMs(); if (!ms) return; const n = document.getElementById("tm-nome"); tmAdd(n ? n.value.trim() : "", ms, true); telApri(TM.list[TM.list.length - 1].nome, ms); if (n) n.value = ""; TM.dig = ""; tmComp(); }
