@@ -1227,7 +1227,7 @@ function chiediProfilo(){ try { if (sessionStorage.getItem("ricettario-chiesto")
   d.innerHTML = `<div class="dot-box" role="dialog" aria-modal="true" aria-labelledby="pf-t"><h2 id="pf-t">Chi sei?</h2>
     <p>Così ti mostro il ricettario giusto.</p>
     <button class="btn" data-pf="federico"><b>Federico</b><small>forno IKEA FXJM6, piano a induzione e Ninja, timer collegato all'orologio del telefono, senza consumi</small></button>
-    <button class="btn" data-pf="andreina"><b>Andreina Roma</b><small>forno IKEA MATTRADITION, piano a induzione e Ninja, senza consumi</small></button>
+    <button class="btn" data-pf="andreina"><b>Andreina Roma</b><small>forno IKEA MATTRADITION e piano a induzione, senza consumi</small></button>
     <button class="btn ghost" data-pf="altro"><b>Altri</b><small>ricette per una cucina qualsiasi, con i consumi; il timer lo imposti tu</small></button></div>`;
   document.body.appendChild(d);
   d.addEventListener("click", e => { const b = e.target.closest("[data-pf]"); if (!b) return; impostaProfilo(b.dataset.pf); d.remove(); if (location.hash === "#elettrodomestici" && b.dataset.pf === "altro") location.hash = ""; route(); });
@@ -1238,7 +1238,7 @@ function federico(){ return profilo() !== "altro"; }
 function persona(){ const p = profilo(); return p === "andreina" || p === "altro" ? p : "federico"; }
 function cucina(){ if (DOT) return DOT === "casa" ? "federico" : DOT === "andreina" ? "andreina" : null; return persona() === "altro" ? null : persona(); }
 function flagOn(k){ if (DOT) return true; try { return localStorage.getItem(k) !== "no"; } catch (e){ return true; } }
-function showNinja(){ return !!cucina(); }
+function showNinja(){ return cucina() === "federico"; }
 function fornoCasa(){ return cucina() === "federico" && flagOn("ricettario-fornocasa"); }
 function fornoMa(){ return cucina() === "andreina" && flagOn("ricettario-fornocasa"); }
 function induzioneCasa(){ return !!cucina() && flagOn("ricettario-induzione"); }
@@ -1621,7 +1621,7 @@ function chiediDotazione(){
       <h2 id="dot-t">Per quale cucina?</h2>
       <p>Le ricette nel PDF devono essere scritte per la dotazione di una delle due case oppure per una cucina qualsiasi?</p>
       <button class="btn" data-v="casa"><b>Casa di Federico</b><small>forno IKEA FXJM6 con gli scatti e i ripiani, piano a induzione con i livelli, Ninja Foodi e schede degli elettrodomestici</small></button>
-      <button class="btn" data-v="andreina"><b>Casa di Andreina</b><small>forno IKEA MATTRADITION con funzioni e ripiani, piano a induzione con i livelli, Ninja Foodi e schede degli elettrodomestici</small></button>
+      <button class="btn" data-v="andreina"><b>Casa di Andreina</b><small>forno IKEA MATTRADITION con funzioni e ripiani, piano a induzione con i livelli e schede degli elettrodomestici</small></button>
       <button class="btn ghost" data-v="gen"><b>Cucina generica</b><small>forno, fuochi e tempi generici, senza Ninja e senza schede degli elettrodomestici</small></button>
       <button class="link" data-v="">Annulla</button></div>`;
     document.body.appendChild(d);
@@ -1773,7 +1773,7 @@ const FORNO_MA = {
 
 function scatti(nome){ if (!fornoCasa()) return ""; const f = FORNO.funzioni.find(x => x[1] === nome); return f ? ` (${f[0]} scatt${f[0] === 1 ? "o" : "i"})` : ""; }
 
-const ELETTRO = () => [fornoCasa() ? FORNO : fornoMa() ? FORNO_MA : null, induzioneCasa() ? PIASTRA : null, NINJA].filter(Boolean);
+const ELETTRO = () => [fornoCasa() ? FORNO : fornoMa() ? FORNO_MA : null, induzioneCasa() ? PIASTRA : null, showNinja() ? NINJA : null].filter(Boolean);
 
 function listeOf(E){ return E.liste || [E.consumi, E.tabella ? { titolo: "Indicazioni del manuale (con preriscaldamento)", righe: E.tabella } : null].filter(Boolean); }
 
