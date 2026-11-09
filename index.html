@@ -1663,7 +1663,7 @@ function dataIt(ts){ try { return new Date(ts).toLocaleDateString("it-IT", { day
 const FORNO = {
   id: "forno", nome: "Forno IKEA", path: "Forno da incasso",
   intro: "Forno da incasso IKEA costruito da Whirlpool (tipo FXJM6), con manopola delle funzioni, display, tasti Indietro, OK, Luce e Contaminuti, e manopola di regolazione. Tutte le cotture del ricettario sono tarate su questo forno.",
-  dati: [["Temperatura massima", "250 °C", "Il valore più alto della tabella di cottura del manuale"], ["Ripiani", "5", "Si contano dal basso: 1 è il più vicino alla resistenza inferiore"], ["Funzioni sulla manopola", "10", "Contando gli scatti da 0 (spento) in senso orario"]],
+  dati: [["Temperatura", "50–250 °C", "Scala della manopola di destra"], ["Ripiani", "5", "Si contano dal basso: 1 è il più vicino alla resistenza inferiore"], ["Funzioni sulla manopola", "10", "Contando gli scatti da 0 (spento) in senso orario"]],
   funzioni: [
     [1, "Termoventilato", "Forced air", "dolci e lievitati in stampo, cotture uniformi anche su più ripiani", "fino a 250 °C"],
     [2, "Statico", "Conventional", "sopra e sotto: pane, granola, un solo ripiano, meglio il 2 o il 3", "fino a 250 °C"],
@@ -1743,7 +1743,7 @@ const NINJA = {
 
 const FORNO_MA = {
   id: "forno", nome: "Forno IKEA MATTRADITION", path: "Forno da incasso",
-  intro: "Forno da incasso IKEA MATTRADITION (IKEA 300, ventilato), costruito da Whirlpool, tutto a manopole: a sinistra le funzioni, al centro il contaminuti, a destra la temperatura. Nelle ricette, con il profilo di Andreina, cotture e ripiani sono tarati su questo forno.",
+  intro: "Forno da incasso IKEA MATTRADITION bianco (IKEA 300, ventilato), costruito da Whirlpool, tutto a manopole: a sinistra le funzioni (0 in alto e 7 posizioni), al centro il contaminuti, a destra la temperatura da 50 a 250 °C, e accanto la spia del termostato. Nelle ricette, con il profilo di Andreina, cotture e ripiani sono tarati su questo forno.",
   dati: [["Temperatura massima", "250 °C", "Il valore più alto della tabella di cottura del manuale"], ["Ripiani", "5", "Si contano dal basso: 1 è il più vicino alla resistenza inferiore"], ["Volume", "71 litri", ""], ["Preriscaldamento", "spia del termostato", "La spia si accende quando scegli una funzione e si spegne quando il forno è in temperatura: allora inforna. Non c'è segnale acustico"]],
   funzioni: [
     ["", "Termoventilato", "Forced air", "cotture uniformi anche su tre ripiani insieme, senza passaggio di odori; dolci e lievitati in stampo", "fino a 250 °C"],
@@ -1768,7 +1768,7 @@ const FORNO_MA = {
   ],
   consumi: { titolo: "Consumi tipici", nota: "Dal manuale: 0,81 kWh per il ciclo di prova in termoventilato e 0,99 kWh in statico (classe A).", righe: [["Preriscaldamento fino a 180–200 °C", "0,35–0,45 kWh"], ["Preriscaldamento fino a 250 °C", "0,7–0,9 kWh"], ["Un'ora a 180–200 °C", "0,8–1 kWh"], ["Un'ora a 250 °C", "1,2–1,4 kWh"], ["Luce accesa per la lievitazione, 2 ore", "circa 0,05 kWh"]] },
   tabella: [["Pane, pizza, focaccia: Statico, ripiano 1 o 2", "220–250 °C · 10–40 min"], ["Torte lievitate: Statico, ripiano 2", "150–170 °C · 30–90 min"], ["Torte lievitate: Termoventilato, ripiano 2", "150–170 °C · 30–90 min"], ["Biscotti e crostatine: Termoventilato, ripiano 2 o 3", "160–180 °C · 15–40 min"], ["Torte ripiene: Statico, ripiano 2", "160–200 °C · 35–90 min"]],
-  nota: "Funzioni, ripiani e tabella dal manuale IKEA MATTRADITION (forno ventilato IKEA 300). I nomi italiani delle funzioni sono quelli dei simboli sulla manopola: se il tuo pannello è diverso dimmelo e lo correggo."
+  nota: "Funzioni, ripiani e tabella dal manuale IKEA MATTRADITION (forno ventilato IKEA 300), modello verificato dalla foto del pannello. Sulla manopola le funzioni sono indicate con i simboli: scegli quella con il simbolo corrispondente al nome."
 };
 
 function scatti(nome){ if (!fornoCasa()) return ""; const f = FORNO.funzioni.find(x => x[1] === nome); return f ? ` (${f[0]} scatt${f[0] === 1 ? "o" : "i"})` : ""; }
