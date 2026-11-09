@@ -171,6 +171,7 @@ a{color:inherit}
 .panel{background:var(--surface);border:1.5px solid var(--line);border-radius:16px;padding:16px}
 .scaler{display:flex;flex-direction:column;gap:10px;padding-bottom:14px;margin-bottom:6px;border-bottom:1.5px solid var(--line)}
 .scaler-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.cond-row{margin:0 0 12px}
 .stepper{display:flex;align-items:center;border:1.5px solid var(--line);border-radius:10px;overflow:hidden}
 .stepper button{width:40px;height:40px;border:none;background:var(--accent-soft);cursor:pointer;font-size:20px;font-weight:700;color:var(--accent)}
 .seg{display:flex;border:1.5px solid var(--line);border-radius:10px;overflow:hidden}
@@ -327,7 +328,7 @@ const RICETTE = [
     fonte: { nome: "Malati di Pizza su YouTube", url: "https://www.youtube.com/watch?v=iU0eoHq_Yyk" },
     porzioni: 1, unitaPorzioni: ["teglia","teglie"],
     cont: { nome: "teglia", label: "impasto", forma: "rett", a: 30, b: 40, d: 30, n: 1, peso: 600, formula: true },
-    ninja: { ok: true, funzione: "Bake, poi Grill HI per finire", temp: "230 °C (il massimo)", tempo: "circa 12–15 minuti + 3–4 minuti", contenitore: "La teglia in dotazione (33 × 32 cm → 528 g di impasto) o una tonda fino a 32 cm. Imposta la teglia nella sezione Ingredienti e l'impasto si ricalcola.", passi: [
+    ninja: { ok: true, funzione: "Bake, poi Grill HI per finire", temp: "230 °C (il massimo)", tempo: "circa 12–17 minuti + 3–5 minuti", contenitore: "La teglia in dotazione (33 × 32 cm → 528 g di impasto) o una tonda fino a 32 cm. Imposta la teglia nella sezione Ingredienti e l'impasto si ricalcola.", passi: [
       "Ungi con poco olio di semi la teglia in dotazione o una tua teglia fino a 33 × 32 cm. Una 30 × 40 non entra.",
       "Stendi e condisci con pomodoro e olio come da ricetta.",
       "Ribalta il forno in posizione d'uso, scegli Bake, 230 °C, e aspetta la fine del preriscaldamento (PRE smette di lampeggiare).",
@@ -357,13 +358,7 @@ const RICETTE = [
         { nome: "Sale", qta: 6.7530, u: "g", base: true },
         { nome: "Lievito di birra fresco", qta: 2.3635, u: "g", k: ["Lievito di birra"] }
       ]},
-      { nome: "Condimento", ingredienti: [
-        { nome: "Pomodoro (passata o polpa)", qta: 290, u: "g", k: ["Passata di pomodoro"] },
-        { nome: "Sale nel pomodoro", nota: "1 g ogni 100 g di pomodoro", qta: 2.9, u: "g", base: true },
-        { nome: "Fior di latte", nota: "ben asciutto, a listarelle o a cubetti", qta: 280, u: "g", k: ["Fior di latte"] },
-        { nome: "Olio extravergine d'oliva", qta: null, u: "", k: ["Olio extravergine"] },
-        { nome: "Basilico", qta: null, u: "", k: ["Basilico"] }
-      ]},
+      { nome: "Condimento", cond: true, ingredienti: [] },
       { nome: "Per teglia e spolvero", ingredienti: [
         { nome: "Olio di semi", nota: "per ungere teglie, mani e contenitori", qta: null, u: "", k: ["Olio di semi"] },
         { nome: "Semola rimacinata o farina di riso", nota: "per lo spolvero", qta: null, u: "", k: ["Semola rimacinata"] }
@@ -378,14 +373,65 @@ const RICETTE = [
       "Staglio: infarina il piano, rovescia l'impasto e dividilo in panetti. Peso del panetto: per una teglia rettangolare lato × lato ÷ 2 (30 × 40 → 600 g), per una tonda raggio × raggio × 3,14 ÷ 2 (Ø 30 cm → circa 353 g). L'app lo calcola da sola quando scegli la teglia. Chiudi i panetti ben stretti, con una forma un po' allungata.",
       "Appretto: metti i panetti in cassette o contenitori unti o con un velo di semola e falli raddoppiare: circa 2–3 ore a temperatura ambiente, oppure 6–8 ore in frigorifero. Nei primi 30 minuti controllali: se si allargano troppo, richiudi il panetto.",
       "Se vuoi, prima di stendere metti l'impasto 20–30 minuti in frigorifero: fresco è più facile da lavorare.",
-      "Ungi la teglia con poco olio di semi, stendendolo con carta da cucina: troppo olio fa ritirare l'impasto. Spolvera il piano con semola, rovescia il panetto e stendilo a dita larghe. Scrolla via la semola in eccesso, mettilo in teglia e finisci di stenderlo, schiacciando bene i bordi: non serve il cornicione.",
-      "Sala il pomodoro (1 g di sale ogni 100 g) e stendilo con le mani senza lasciare spazi bianchi. Finisci con un filo d'olio d'oliva.",
-      { casa: "forno", si: "Accendi il forno in Preriscaldamento rapido (9 scatti) a 250 °C e poi passa alla funzione Pizza (7 scatti), 250 °C. Quando suona il segnale aspetta altri 10 minuti, così anche le pareti sono calde. Inforna sul ripiano 1 (il più basso) per 10–14 minuti, finché il fondo non è ben dorato.", no: "Preriscalda il forno statico alla temperatura massima (250 °C). Quando arriva in temperatura aspetta altri 10 minuti, così anche le pareti sono calde. Inforna sul ripiano più basso per 10–14 minuti, finché il fondo non è ben dorato." },
-      { casa: "forno", si: "Aggiungi il fior di latte e sposta la teglia sul ripiano 4, sempre funzione Pizza a 250 °C, per 3–5 minuti, finché il fior di latte non è sciolto e la pizza è colorata. Togli subito la pizza dalla teglia, perché il vapore non ammorbidisca il fondo, e finisci con il basilico.", no: "Aggiungi il fior di latte e sposta la teglia in alto, sempre statico al massimo, per 3–5 minuti, finché il fior di latte non è sciolto e la pizza è colorata. Togli subito la pizza dalla teglia, perché il vapore non ammorbidisca il fondo, e finisci con il basilico." }
+      "Ungi la teglia con poco olio di semi, stendendolo con carta da cucina: troppo olio fa ritirare l'impasto. Spolvera il piano con semola, rovescia il panetto e stendilo a dita larghe. Scrolla via la semola in eccesso, mettilo in teglia e finisci di stenderlo, schiacciando bene i bordi: non serve il cornicione."
     ],
     note: [
-      "Altro pomodoro e olio mettili dopo la cottura: il latticino rilascia un po' di siero e rischi di annacquare la pizza.",
       "Proporzioni dell'impasto: per 1 kg di farina 750 g di acqua, 20 g di sale e 7 g di lievito fresco (circa 1.780 g di impasto, tre teglie 30 × 40)."
+    ],
+    condimenti: [
+      { id: "margherita", nome: "Pomodoro e fior di latte",
+        ingredienti: [
+          { nome: "Pomodoro (passata o polpa)", qta: 290, u: "g", k: ["Passata di pomodoro"] },
+          { nome: "Sale nel pomodoro", nota: "1 g ogni 100 g di pomodoro", qta: 2.9, u: "g", base: true },
+          { nome: "Fior di latte", nota: "ben asciutto, a listarelle o a cubetti", qta: 280, u: "g", k: ["Fior di latte"] },
+          { nome: "Olio extravergine d'oliva", qta: null, u: "", k: ["Olio extravergine"] },
+          { nome: "Basilico", qta: null, u: "", k: ["Basilico"] }
+        ],
+        procedimento: [
+          "Sala il pomodoro (1 g di sale ogni 100 g) e stendilo con le mani senza lasciare spazi bianchi. Finisci con un filo d'olio d'oliva.",
+          { casa: "forno", si: "Accendi il forno in Preriscaldamento rapido (9 scatti) a 250 °C e poi passa alla funzione Pizza (7 scatti), 250 °C. Quando suona il segnale aspetta altri 10 minuti, così anche le pareti sono calde. Inforna sul ripiano 1 (il più basso) per 10–14 minuti, finché il fondo non è ben dorato.", no: "Preriscalda il forno statico alla temperatura massima (250 °C). Quando arriva in temperatura aspetta altri 10 minuti, così anche le pareti sono calde. Inforna sul ripiano più basso per 10–14 minuti, finché il fondo non è ben dorato." },
+          { casa: "forno", si: "Aggiungi il fior di latte e sposta la teglia sul ripiano 4, sempre funzione Pizza a 250 °C, per 3–5 minuti, finché il fior di latte non è sciolto e la pizza è colorata. Togli subito la pizza dalla teglia, perché il vapore non ammorbidisca il fondo, e finisci con il basilico.", no: "Aggiungi il fior di latte e sposta la teglia in alto, sempre statico al massimo, per 3–5 minuti, finché il fior di latte non è sciolto e la pizza è colorata. Togli subito la pizza dalla teglia, perché il vapore non ammorbidisca il fondo, e finisci con il basilico." }
+        ],
+        cottura: { min: 13, max: 19, extra: "Ripiano basso 10–14 min, poi in alto 3–5 min", forno: [
+          { fase: "Fondo", funzione: "Pizza", temp: "250 °C", ripiano: "1 (il più basso)", tempo: "10–14 min" },
+          { fase: "Con il fior di latte", funzione: "Pizza", temp: "250 °C", ripiano: "4", tempo: "3–5 min" }
+        ] },
+        ninja: [
+          "Ungi con poco olio di semi la teglia in dotazione o una tua teglia fino a 33 × 32 cm. Una 30 × 40 non entra.",
+          "Stendi e condisci con pomodoro e olio come da ricetta.",
+          "Ribalta il forno in posizione d'uso, scegli Bake, 230 °C, e aspetta la fine del preriscaldamento (PRE smette di lampeggiare).",
+          "Teglia sulla griglia: cuoci 12–15 minuti, finché il fondo è ben dorato. Il Ninja ha un solo ripiano, quindi niente spostamento in basso: guarda il fondo.",
+          "Aggiungi il fior di latte e passa a Grill HI per 3–4 minuti, finché il latticino è sciolto e la superficie colorata. Sforna subito dalla teglia."
+        ],
+        note: ["Altro pomodoro e olio mettili dopo la cottura: il latticino rilascia un po' di siero e rischi di annacquare la pizza."] },
+      { id: "patate", nome: "Patate e provola",
+        ingredienti: [
+          { nome: "Patate a pasta gialla", nota: "crude, affettate sottilissime (1–2 mm)", qta: 350, u: "g", k: ["Patate"] },
+          { nome: "Olio extravergine d'oliva", nota: "per condire le patate", qta: 15, u: "g", k: ["Olio extravergine"] },
+          { nome: "Sale per le patate", qta: 3, u: "g", base: true },
+          { nome: "Rosmarino", nota: "aghi tritati grossolanamente", qta: 2, u: "g", k: ["Rosmarino"] },
+          { nome: "Provola affumicata", nota: "a dadini o a fette sottili, ben scolata", qta: 200, u: "g", k: ["Provola affumicata"] },
+          { nome: "Pepe nero", nota: "facoltativo", qta: null, u: "", k: ["Pepe nero"] }
+        ],
+        procedimento: [
+          "Taglia la provola a dadini o a fette sottili e mettila in un colino mentre prepari le patate: perde il siero e non bagna la pizza.",
+          "Pela le patate e affettale sottilissime, 1–2 mm (meglio con la mandolina). Sciacquale in acqua fredda per togliere l'amido e asciugale bene con un canovaccio. In una ciotola condiscile con l'olio, il sale e il rosmarino.",
+          "Stendi le patate sull'impasto, sovrapponendole appena come le tegole di un tetto, fino ai bordi e senza lasciare spazi vuoti.",
+          { casa: "forno", si: "Accendi il forno in Preriscaldamento rapido (9 scatti) a 250 °C e poi passa alla funzione Pizza (7 scatti), 250 °C. Quando suona il segnale aspetta altri 10 minuti, così anche le pareti sono calde. Inforna sul ripiano 1 (il più basso) per 12–15 minuti, finché il fondo non è ben dorato e le patate sono morbide.", no: "Preriscalda il forno statico alla temperatura massima (250 °C). Quando arriva in temperatura aspetta altri 10 minuti, così anche le pareti sono calde. Inforna sul ripiano più basso per 12–15 minuti, finché il fondo non è ben dorato e le patate sono morbide." },
+          { casa: "forno", si: "Distribuisci la provola e sposta la teglia sul ripiano 4, sempre funzione Pizza a 250 °C, per 5–7 minuti, finché la provola non è sciolta e le patate sono dorate sui bordi. Togli subito la pizza dalla teglia, perché il vapore non ammorbidisca il fondo. Se vuoi, finisci con una macinata di pepe.", no: "Distribuisci la provola e sposta la teglia in alto, sempre statico al massimo, per 5–7 minuti, finché la provola non è sciolta e le patate sono dorate sui bordi. Togli subito la pizza dalla teglia, perché il vapore non ammorbidisca il fondo. Se vuoi, finisci con una macinata di pepe." }
+        ],
+        cottura: { min: 17, max: 22, extra: "Ripiano basso 12–15 min, poi in alto 5–7 min", forno: [
+          { fase: "Fondo e patate", funzione: "Pizza", temp: "250 °C", ripiano: "1 (il più basso)", tempo: "12–15 min" },
+          { fase: "Con la provola", funzione: "Pizza", temp: "250 °C", ripiano: "4", tempo: "5–7 min" }
+        ] },
+        ninja: [
+          "Ungi con poco olio di semi la teglia in dotazione o una tua teglia fino a 33 × 32 cm. Una 30 × 40 non entra.",
+          "Stendi l'impasto e coprilo con le patate condite come da ricetta.",
+          "Ribalta il forno in posizione d'uso, scegli Bake, 230 °C, e aspetta la fine del preriscaldamento (PRE smette di lampeggiare).",
+          "Teglia sulla griglia: cuoci 14–17 minuti, finché il fondo è ben dorato e le patate sono morbide. Il Ninja ha un solo ripiano: guarda il fondo.",
+          "Aggiungi la provola e passa a Grill HI per 4–5 minuti, finché è sciolta e le patate sono dorate. Sforna subito dalla teglia."
+        ],
+        note: ["Le patate devono essere davvero sottili: se sono spesse restano crude prima che il fondo sia cotto."] }
     ]
   },
   {
@@ -1127,6 +1173,23 @@ let titoliRef = null;
 /*SYNC*/const SYNC_DATA = {"titoli":{"focaccia-barese":"Focaccia barese senza patata"},"cestino":["pan-brioche-giapponese","pizza-teglia-75","pan-brioche-giallozafferano"]};/*/SYNC*/
 /* nomi cambiati ed eliminazioni fatti su claude.ai, copiati qui ogni notte: valgono anche nella copia su GitHub */
 RICETTE.forEach(r => { const t = SYNC_DATA.titoli[r.id]; if (typeof t === "string" && t.trim()) r.titolo = t.trim().slice(0, 120); r.titoloOrig = r.titolo; });
+/* Condimenti alternativi: stesso impasto, condimento a scelta (salvato sul dispositivo) */
+function condSaved(){ try { return JSON.parse(localStorage.getItem("ricettario-condimenti") || "{}") || {}; } catch (e){ return {}; } }
+function condSel(r){ const id = condSaved()[r.id]; return r.condimenti.find(c => c.id === id) || r.condimenti[0]; }
+function applyCond(r, id){
+  if (!r.condimenti) return;
+  if (!r._base) r._base = { proc: r.procedimento.slice(), note: (r.note || []).slice(), fasi: r.fasi.map(f => ({ ...f })) };
+  const c = id ? (r.condimenti.find(x => x.id === id) || r.condimenti[0]) : condSel(r);
+  r.condScelto = c.id;
+  const g = r.gruppi.find(x => x.cond); g.ingredienti = c.ingredienti; g.nome = "Condimento: " + c.nome.toLowerCase();
+  r.procedimento = r._base.proc.concat(c.procedimento);
+  r.note = c.note.concat(r._base.note);
+  r.fasi = r._base.fasi.map((f, k, a) => k === a.length - 1 ? { ...f, min: c.cottura.min, max: c.cottura.max } : f);
+  r.cottura.forno = c.cottura.forno; if (r.cottura.gen) r.cottura.gen.extra = c.cottura.extra;
+  if (r.ninja && c.ninja) r.ninja.passi = c.ninja;
+}
+function setCond(r, id){ const m = condSaved(); m[r.id] = id; try { localStorage.setItem("ricettario-condimenti", JSON.stringify(m)); } catch (e) {} applyCond(r, id); }
+RICETTE.forEach(r => applyCond(r));
 if (!(window.claude && window.claude.use)) for (let i = RICETTE.length - 1; i >= 0; i--) if (SYNC_DATA.cestino.includes(RICETTE[i].id)) RICETTE.splice(i, 1);
 const editTitle = { id: null };
 const store = { ref: null, menus: [], ready: false, note: "", local: false, writing: Promise.resolve() };
@@ -1342,6 +1405,7 @@ function renderRecipe(r){
   <div class="recipe-body">
     <div class="panel ing">
       <h2 style="font-size:20px;margin-bottom:10px">Ingredienti</h2>
+      ${r.condimenti ? `<div class="scaler-row cond-row"><span>Condimento</span><div class="seg" role="group" aria-label="Condimento">${r.condimenti.map(c => `<button data-cond="${c.id}" aria-pressed="${r.condScelto === c.id}">${esc(c.nome)}</button>`).join("")}</div></div>` : ""}
       <div class="scaler">
         ${r.cont ? (() => { const t = tgState(r); const per = tgPerPan(r); const match = Math.abs(tgFactor(r) - f) < 1e-6; const C1 = r.cont.nome === "teglia" ? "Teglia" : "Stampo";
           const formula = r.cont.formula ? (t.forma === "rett" ? "lato × lato ÷ 2" : "raggio × raggio × 3,14 ÷ 2") : tgChiuso(r) ? `${r.cont.chiuso.gl} g per litro di stampo chiuso` : r.cont.nome === "stampo" && r.cont.h ? `${fmt(Math.round(r.cont.peso / (r.cont.n * tgArea(r.cont) * r.cont.h) * 1000))} g per litro di stampo` : `${fmt(Math.round(tgDens(r) * 100) / 100)} g per cm² di fondo`;
@@ -1435,6 +1499,7 @@ function renderRecipe(r){
   document.getElementById("minus").onclick = () => { const p = Math.max(step, Math.round((porz - step) / step) * step); setF(p / r.porzioni); };
   document.getElementById("plus").onclick = () => { const p = Math.round((porz + step) / step) * step; setF(p / r.porzioni); };
   app.querySelectorAll("[data-x]").forEach(b => b.onclick = () => setF(parseFloat(b.dataset.x)));
+  app.querySelectorAll("[data-cond]").forEach(b => b.onclick = () => { const y = scrollY; setCond(r, b.dataset.cond); renderRecipe(r); scrollTo(0, y); });
   const reset = document.getElementById("reset"); if (reset) reset.onclick = () => setF(1);
   app.querySelectorAll(".qty input").forEach(inp => {
     const base = parseFloat(inp.dataset.base);
