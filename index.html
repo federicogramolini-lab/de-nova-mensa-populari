@@ -343,10 +343,10 @@ const RICETTE = [
       { nome: "Staglio e panetti", min: 10 },
       { nome: "Appretto fino al raddoppio (oppure 6–8 h in frigo)", min: 120, max: 180 },
       { nome: "Stesura e condimento", min: 15 },
-      { nome: { casa: "forno", si: "Preriscaldamento rapido + 10 minuti", no: "Preriscaldamento + 10 minuti" }, min: 25, max: 30, parallelo: true },
+      { nome: { casa: "forno", si: "Preriscaldamento rapido + 10 minuti", ma: "Preriscaldamento + 10 minuti", no: "Preriscaldamento + 10 minuti" }, min: 25, max: 30, parallelo: true },
       { nome: "Cottura in due fasi", min: 13, max: 19 }
     ],
-    cottura: { tipo: "forno", gen: { dettaglio: "Forno statico al massimo (250 °C)", extra: "Ripiano basso 10–14 min, poi in alto 3–5 min" }, dettaglio: "Funzione Pizza 250 °C", preriscaldo: "Preriscaldamento rapido (9 scatti) a 250 °C, poi funzione Pizza (7 scatti); dopo il segnale aspetta altri 10 minuti", forno: [
+    cottura: { tipo: "forno", gen: { dettaglio: "Forno statico al massimo (250 °C)", extra: "Ripiano basso 10–14 min, poi in alto 3–5 min" }, dettaglio: "Funzione Pizza 250 °C", preriscaldo: "Preriscaldamento rapido (9 scatti) a 250 °C, poi funzione Pizza (7 scatti); dopo il segnale aspetta altri 10 minuti", ma: { dettaglio: "Statico 250 °C", preriscaldo: "Statico a 250 °C; quando si spegne la spia del termostato aspetta altri 10 minuti", forno: [] }, forno: [
       { fase: "Fondo", funzione: "Pizza", temp: "250 °C", ripiano: "1 (il più basso)", tempo: "10–14 min" },
       { fase: "Con il fior di latte", funzione: "Pizza", temp: "250 °C", ripiano: "4", tempo: "3–5 min" }
     ] },
@@ -390,12 +390,15 @@ const RICETTE = [
         ],
         procedimento: [
           "Sala il pomodoro (1 g di sale ogni 100 g) e stendilo con le mani senza lasciare spazi bianchi. Finisci con un filo d'olio d'oliva.",
-          { casa: "forno", si: "Accendi il forno in Preriscaldamento rapido (9 scatti) a 250 °C e poi passa alla funzione Pizza (7 scatti), 250 °C. Quando suona il segnale aspetta altri 10 minuti, così anche le pareti sono calde. Inforna sul ripiano 1 (il più basso) per 10–14 minuti, finché il fondo non è ben dorato.", no: "Preriscalda il forno statico alla temperatura massima (250 °C). Quando arriva in temperatura aspetta altri 10 minuti, così anche le pareti sono calde. Inforna sul ripiano più basso per 10–14 minuti, finché il fondo non è ben dorato." },
-          { casa: "forno", si: "Aggiungi il fior di latte e sposta la teglia sul ripiano 4, sempre funzione Pizza a 250 °C, per 3–5 minuti, finché il fior di latte non è sciolto e la pizza è colorata. Togli subito la pizza dalla teglia, perché il vapore non ammorbidisca il fondo, e finisci con il basilico.", no: "Aggiungi il fior di latte e sposta la teglia in alto, sempre statico al massimo, per 3–5 minuti, finché il fior di latte non è sciolto e la pizza è colorata. Togli subito la pizza dalla teglia, perché il vapore non ammorbidisca il fondo, e finisci con il basilico." }
+          { casa: "forno", si: "Accendi il forno in Preriscaldamento rapido (9 scatti) a 250 °C e poi passa alla funzione Pizza (7 scatti), 250 °C. Quando suona il segnale aspetta altri 10 minuti, così anche le pareti sono calde. Inforna sul ripiano 1 (il più basso) per 10–14 minuti, finché il fondo non è ben dorato.", ma: "Accendi il forno in Statico a 250 °C. Quando si spegne la spia del termostato aspetta altri 10 minuti, così anche le pareti sono calde. Inforna sul ripiano 1 (il più basso) per 10–14 minuti, finché il fondo non è ben dorato.", no: "Preriscalda il forno statico alla temperatura massima (250 °C). Quando arriva in temperatura aspetta altri 10 minuti, così anche le pareti sono calde. Inforna sul ripiano più basso per 10–14 minuti, finché il fondo non è ben dorato." },
+          { casa: "forno", si: "Aggiungi il fior di latte e sposta la teglia sul ripiano 4, sempre funzione Pizza a 250 °C, per 3–5 minuti, finché il fior di latte non è sciolto e la pizza è colorata. Togli subito la pizza dalla teglia, perché il vapore non ammorbidisca il fondo, e finisci con il basilico.", ma: "Aggiungi il fior di latte e sposta la teglia sul ripiano 4, sempre Statico a 250 °C, per 3–5 minuti, finché il fior di latte non è sciolto e la pizza è colorata. Togli subito la pizza dalla teglia, perché il vapore non ammorbidisca il fondo, e finisci con il basilico.", no: "Aggiungi il fior di latte e sposta la teglia in alto, sempre statico al massimo, per 3–5 minuti, finché il fior di latte non è sciolto e la pizza è colorata. Togli subito la pizza dalla teglia, perché il vapore non ammorbidisca il fondo, e finisci con il basilico." }
         ],
         cottura: { min: 13, max: 19, extra: "Ripiano basso 10–14 min, poi in alto 3–5 min", forno: [
           { fase: "Fondo", funzione: "Pizza", temp: "250 °C", ripiano: "1 (il più basso)", tempo: "10–14 min" },
           { fase: "Con il fior di latte", funzione: "Pizza", temp: "250 °C", ripiano: "4", tempo: "3–5 min" }
+        ], ma: [
+          { fase: "Fondo", funzione: "Statico", temp: "250 °C", ripiano: "1 (il più basso)", tempo: "10–14 min" },
+          { fase: "Con il fior di latte", funzione: "Statico", temp: "250 °C", ripiano: "4", tempo: "3–5 min" }
         ] },
         ninja: [
           "Ungi con poco olio di semi la teglia in dotazione o una tua teglia fino a 33 × 32 cm. Una 30 × 40 non entra.",
@@ -418,12 +421,15 @@ const RICETTE = [
           "Taglia la provola a dadini o a fette sottili e mettila in un colino mentre prepari le patate: perde il siero e non bagna la pizza.",
           "Pela le patate e affettale sottilissime, 1–2 mm (meglio con la mandolina). Sciacquale in acqua fredda per togliere l'amido e asciugale bene con un canovaccio. In una ciotola condiscile con l'olio, il sale e il rosmarino.",
           "Stendi le patate sull'impasto, sovrapponendole appena come le tegole di un tetto, fino ai bordi e senza lasciare spazi vuoti.",
-          { casa: "forno", si: "Accendi il forno in Preriscaldamento rapido (9 scatti) a 250 °C e poi passa alla funzione Pizza (7 scatti), 250 °C. Quando suona il segnale aspetta altri 10 minuti, così anche le pareti sono calde. Inforna sul ripiano 1 (il più basso) per 12–15 minuti, finché il fondo non è ben dorato e le patate sono morbide.", no: "Preriscalda il forno statico alla temperatura massima (250 °C). Quando arriva in temperatura aspetta altri 10 minuti, così anche le pareti sono calde. Inforna sul ripiano più basso per 12–15 minuti, finché il fondo non è ben dorato e le patate sono morbide." },
-          { casa: "forno", si: "Distribuisci la provola e sposta la teglia sul ripiano 4, sempre funzione Pizza a 250 °C, per 5–7 minuti, finché la provola non è sciolta e le patate sono dorate sui bordi. Togli subito la pizza dalla teglia, perché il vapore non ammorbidisca il fondo. Se vuoi, finisci con una macinata di pepe.", no: "Distribuisci la provola e sposta la teglia in alto, sempre statico al massimo, per 5–7 minuti, finché la provola non è sciolta e le patate sono dorate sui bordi. Togli subito la pizza dalla teglia, perché il vapore non ammorbidisca il fondo. Se vuoi, finisci con una macinata di pepe." }
+          { casa: "forno", si: "Accendi il forno in Preriscaldamento rapido (9 scatti) a 250 °C e poi passa alla funzione Pizza (7 scatti), 250 °C. Quando suona il segnale aspetta altri 10 minuti, così anche le pareti sono calde. Inforna sul ripiano 1 (il più basso) per 12–15 minuti, finché il fondo non è ben dorato e le patate sono morbide.", ma: "Accendi il forno in Statico a 250 °C. Quando si spegne la spia del termostato aspetta altri 10 minuti, così anche le pareti sono calde. Inforna sul ripiano 1 (il più basso) per 12–15 minuti, finché il fondo non è ben dorato e le patate sono morbide.", no: "Preriscalda il forno statico alla temperatura massima (250 °C). Quando arriva in temperatura aspetta altri 10 minuti, così anche le pareti sono calde. Inforna sul ripiano più basso per 12–15 minuti, finché il fondo non è ben dorato e le patate sono morbide." },
+          { casa: "forno", si: "Distribuisci la provola e sposta la teglia sul ripiano 4, sempre funzione Pizza a 250 °C, per 5–7 minuti, finché la provola non è sciolta e le patate sono dorate sui bordi. Togli subito la pizza dalla teglia, perché il vapore non ammorbidisca il fondo. Se vuoi, finisci con una macinata di pepe.", ma: "Distribuisci la provola e sposta la teglia sul ripiano 4, sempre Statico a 250 °C, per 5–7 minuti, finché la provola non è sciolta e le patate sono dorate sui bordi. Togli subito la pizza dalla teglia, perché il vapore non ammorbidisca il fondo. Se vuoi, finisci con una macinata di pepe.", no: "Distribuisci la provola e sposta la teglia in alto, sempre statico al massimo, per 5–7 minuti, finché la provola non è sciolta e le patate sono dorate sui bordi. Togli subito la pizza dalla teglia, perché il vapore non ammorbidisca il fondo. Se vuoi, finisci con una macinata di pepe." }
         ],
         cottura: { min: 17, max: 22, extra: "Ripiano basso 12–15 min, poi in alto 5–7 min", forno: [
           { fase: "Fondo e patate", funzione: "Pizza", temp: "250 °C", ripiano: "1 (il più basso)", tempo: "12–15 min" },
           { fase: "Con la provola", funzione: "Pizza", temp: "250 °C", ripiano: "4", tempo: "5–7 min" }
+        ], ma: [
+          { fase: "Fondo e patate", funzione: "Statico", temp: "250 °C", ripiano: "1 (il più basso)", tempo: "12–15 min" },
+          { fase: "Con la provola", funzione: "Statico", temp: "250 °C", ripiano: "4", tempo: "5–7 min" }
         ] },
         ninja: [
           "Ungi con poco olio di semi la teglia in dotazione o una tua teglia fino a 33 × 32 cm. Una 30 × 40 non entra.",
@@ -453,10 +459,10 @@ const RICETTE = [
       { nome: "Lavare e schiacciare i pomodori", min: 10, parallelo: true },
       { nome: "Stesura in teglia e condimento", min: 15 },
       { nome: "Seconda lievitazione in teglia", min: 90 },
-      { nome: { casa: "forno", si: "Preriscaldamento rapido a 250 °C", no: "Preriscaldamento a 250 °C" }, min: 20, max: 25, parallelo: true },
+      { nome: { casa: "forno", si: "Preriscaldamento rapido a 250 °C", ma: "Preriscaldamento a 250 °C", no: "Preriscaldamento a 250 °C" }, min: 20, max: 25, parallelo: true },
       { nome: "Cottura", min: 20 }
     ],
-    cottura: { tipo: "forno", gen: { dettaglio: "Forno statico 250 °C", extra: "Parte medio-bassa, 20 minuti" }, dettaglio: "Statico 250 °C", preriscaldo: "Preriscaldamento rapido (9 scatti) a 250 °C: a fine riscaldamento il forno passa da solo allo Statico; aspetta il segnale acustico", forno: [
+    cottura: { tipo: "forno", gen: { dettaglio: "Forno statico 250 °C", extra: "Parte medio-bassa, 20 minuti" }, dettaglio: "Statico 250 °C", preriscaldo: "Preriscaldamento rapido (9 scatti) a 250 °C: a fine riscaldamento il forno passa da solo allo Statico; aspetta il segnale acustico", ma: { preriscaldo: "Statico a 250 °C: aspetta che si spenga la spia del termostato" }, forno: [
       { fase: "Cottura", funzione: "Statico", temp: "250 °C", ripiano: "2", tempo: "20 min" }
     ] },
     strumenti: ["Ciotola capiente", "Ciotolina e cucchiaino per sciogliere il lievito", "Canovaccio pulito", "Teglia tonda Ø 35 cm alta 5,5 cm, meglio in ferro blu", "Bilancia"],
@@ -490,7 +496,7 @@ const RICETTE = [
       "Ungi abbondantemente il fondo della teglia e trasferisci dentro l'impasto. Schiaccialo delicatamente con le mani per allargarlo, versa l'olio in superficie e fai i buchi con le dita continuando ad allargarlo fino ai bordi.",
       "Distribuisci bene sopra i pomodori schiacciati e metti intorno i pomodorini tagliati a metà. Aggiungi un pizzico di sale, le olive e l'origano.",
       "Lascia lievitare in teglia per 1 ora e mezza, al riparo da correnti d'aria.",
-      { casa: "forno", si: "Mezz'ora prima della fine della lievitazione accendi il forno in Preriscaldamento rapido (9 scatti) a 250 °C: a fine riscaldamento passa da solo allo Statico. Al segnale inforna sul ripiano 2 e cuoci 20 minuti, finché il fondo è dorato e i bordi croccanti.", no: "Mezz'ora prima della fine della lievitazione accendi il forno statico a 250 °C. Quando è caldo inforna nella parte medio-bassa e cuoci 20 minuti, finché il fondo è dorato e i bordi croccanti." },
+      { casa: "forno", si: "Mezz'ora prima della fine della lievitazione accendi il forno in Preriscaldamento rapido (9 scatti) a 250 °C: a fine riscaldamento passa da solo allo Statico. Al segnale inforna sul ripiano 2 e cuoci 20 minuti, finché il fondo è dorato e i bordi croccanti.", ma: "Mezz'ora prima della fine della lievitazione accendi il forno in Statico a 250 °C. Quando si spegne la spia del termostato inforna sul ripiano 2 e cuoci 20 minuti, finché il fondo è dorato e i bordi croccanti.", no: "Mezz'ora prima della fine della lievitazione accendi il forno statico a 250 °C. Quando è caldo inforna nella parte medio-bassa e cuoci 20 minuti, finché il fondo è dorato e i bordi croccanti." },
       "Sforna e servi la focaccia calda o tiepida."
     ],
     note: [
@@ -566,7 +572,7 @@ const RICETTE = [
       "Appiattisci ogni pezzo a ovale con la punta delle dita, infarina appena e stendilo con il mattarello a circa 4 mm di spessore, a forma di grossa lingua. Ripiega un terzo verso il centro, sovrapponi il lato destro, giralo verso di te, chiudi la parte alta verso il centro, sigilla i bordi e arrotola piano: ottieni una chiocciola.",
       "Metti i 3 pezzi ben ravvicinati nello stampo da plumcake, con la chiusura verso un lato. Se lo stampo non è molto antiaderente, prima imburralo e infarinalo leggermente. Copri con pellicola e lascia lievitare circa 2 ore, fino al raddoppio.",
       "Sbatti l'uovo con il latte e spennella la superficie in modo uniforme. Se vuoi, aggiungi dei semi.",
-      { casa: "forno", si: "Cuoci nel forno già caldo in Statico a 180 °C, ripiano 2, per 25 minuti. Sforna, togli subito dallo stampo e lascia raffreddare.", no: "Cuoci nel forno statico già caldo a 180 °C, a metà altezza, per 25 minuti. Sforna, togli subito dallo stampo e lascia raffreddare." }
+      { casa: "forno", si: "Cuoci nel forno già caldo in Statico a 180 °C, ripiano 2, per 25 minuti. Sforna, togli subito dallo stampo e lascia raffreddare.", ma: "Cuoci nel forno in Statico a 180 °C, quando la spia del termostato si è spenta, sul ripiano 2 per 25 minuti. Sforna, togli subito dallo stampo e lascia raffreddare.", no: "Cuoci nel forno statico già caldo a 180 °C, a metà altezza, per 25 minuti. Sforna, togli subito dallo stampo e lascia raffreddare." }
     ],
     note: [
       "Si impasta anche a mano. Rispetta tutti i riposi e le lievitazioni: è da lì che viene la sofficità.",
@@ -610,7 +616,7 @@ const RICETTE = [
       "Fai delle pieghe all'impasto e stendilo a rettangolo: il lato lungo deve essere uguale a quello dello stampo.",
       "Arrotola l'impasto su se stesso, \"stirandolo\" mentre lo arrotoli.",
       "Metti il filone nello stampo oliato e lascialo lievitare nel forno spento con la luce accesa (circa 28–30 °C) per circa due ore.",
-      { casa: "forno", si: "Quando è lievitato, togli lo stampo e preriscalda il forno in Statico a 185 °C. Al segnale inforna sul ripiano 2 e cuoci 55–65 minuti: se la crosta sopra è dorata il pane è pronto, altrimenti continua finché non lo diventa.", no: "Quando è lievitato, togli lo stampo e preriscalda il forno statico a 185 °C. Inforna nella parte medio-bassa e cuoci 55–65 minuti: se la crosta sopra è dorata il pane è pronto, altrimenti continua finché non lo diventa." },
+      { casa: "forno", si: "Quando è lievitato, togli lo stampo e preriscalda il forno in Statico a 185 °C. Al segnale inforna sul ripiano 2 e cuoci 55–65 minuti: se la crosta sopra è dorata il pane è pronto, altrimenti continua finché non lo diventa.", ma: "Quando è lievitato, togli lo stampo e preriscalda il forno in Statico a 185 °C. Quando si spegne la spia del termostato inforna sul ripiano 2 e cuoci 55–65 minuti: se la crosta sopra è dorata il pane è pronto, altrimenti continua finché non lo diventa.", no: "Quando è lievitato, togli lo stampo e preriscalda il forno statico a 185 °C. Inforna nella parte medio-bassa e cuoci 55–65 minuti: se la crosta sopra è dorata il pane è pronto, altrimenti continua finché non lo diventa." },
       "Lascia raffreddare il pane nello stampo se non vuoi una crosta dura, fuori dallo stampo se la preferisci."
     ],
     note: []
@@ -1013,7 +1019,7 @@ const RICETTE = [
     procedimento: [
       "In una ciotola mescola tutti gli ingredienti tranne il cioccolato e \"impasta\".",
       "Stendi il composto su una teglia coperta di carta forno, con uno spessore uniforme di 1 cm e premendolo appena con il dorso del cucchiaio: in una 30 × 40 ci stanno circa 530 g di composto (l'app lo ricalcola se cambi teglia).",
-      { casa: "forno", si: "Preriscalda il forno in Statico a 180 °C. Al segnale inforna sul ripiano 3 e cuoci 18–22 minuti, finché è dorata.", no: "Preriscalda il forno statico a 180 °C e cuoci a metà altezza per 18–22 minuti, finché è dorata." },
+      { casa: "forno", si: "Preriscalda il forno in Statico a 180 °C. Al segnale inforna sul ripiano 3 e cuoci 18–22 minuti, finché è dorata.", ma: "Preriscalda il forno in Statico a 180 °C. Quando si spegne la spia del termostato inforna sul ripiano 3 e cuoci 18–22 minuti, finché è dorata.", no: "Preriscalda il forno statico a 180 °C e cuoci a metà altezza per 18–22 minuti, finché è dorata." },
       "Lascia raffreddare, spezza il composto e mescolalo con il cioccolato tritato."
     ],
     note: ["Il tempo di raffreddamento è indicativo: il cioccolato va aggiunto a composto freddo, altrimenti si scioglie."]
@@ -1055,7 +1061,7 @@ const RICETTE = [
       "In planetaria unisci uova, miele, sale, estratto di vaniglia e buccia grattugiata, e monta.",
       "Aggiungi a filo il latte e l'olio continuando a montare.",
       "Quando è tutto montato aggiungi la farina con il lievito: l'impasto risulterà abbastanza liquido. Versalo nello stampo.",
-      { casa: "forno", si: "Scalda il forno in Termoventilato a 170 °C e, al segnale, inforna sul ripiano 2 per una prima cottura di 15 minuti, finché non si forma una cupoletta (può volerci qualche minuto in più o in meno).", no: "Scalda il forno ventilato a 170 °C e inforna a metà altezza per una prima cottura di 15 minuti, finché non si forma una cupoletta (può volerci qualche minuto in più o in meno)." },
+      { casa: "forno", si: "Scalda il forno in Termoventilato a 170 °C e, al segnale, inforna sul ripiano 2 per una prima cottura di 15 minuti, finché non si forma una cupoletta (può volerci qualche minuto in più o in meno).", ma: "Scalda il forno in Termoventilato a 170 °C e, quando si spegne la spia del termostato, inforna sul ripiano 2 per una prima cottura di 15 minuti, finché non si forma una cupoletta (può volerci qualche minuto in più o in meno).", no: "Scalda il forno ventilato a 170 °C e inforna a metà altezza per una prima cottura di 15 minuti, finché non si forma una cupoletta (può volerci qualche minuto in più o in meno)." },
       "Senza aprire il forno, abbassa a 150 °C e cuoci per altri 35 minuti.",
       "Il plumcake è cotto quando la temperatura al cuore è intorno ai 98 °C."
     ],
@@ -1077,7 +1083,7 @@ const RICETTE = [
       { nome: "Impastare", min: 10 },
       { nome: "Riposo in frigorifero", min: 30 },
       { nome: "Stendere e guarnire", min: 15 },
-      { nome: { casa: "forno", si: "Preriscaldamento in Statico", no: "Preriscaldamento" }, min: 15, parallelo: true },
+      { nome: { casa: "forno", si: "Preriscaldamento in Statico", ma: "Preriscaldamento in Statico", no: "Preriscaldamento" }, min: 15, parallelo: true },
       { nome: "Cottura", min: 35 }
     ],
     cottura: { tipo: "forno", gen: { dettaglio: "Forno statico 180 °C", extra: "A metà altezza, 35 minuti" }, dettaglio: "Statico 180 °C", preriscaldo: "Aspetta il segnale acustico", forno: [
@@ -1101,7 +1107,7 @@ const RICETTE = [
       "Mescola tutti gli ingredienti, aggiungendo il lievito per ultimo, fino a un impasto compatto.",
       "Avvolgi l'impasto nella pellicola e lascialo riposare in frigorifero almeno 30 minuti.",
       "Stendi l'impasto e guarnisci (crostata, biscotti…).",
-      { casa: "forno", si: "Preriscalda il forno in Statico (2 scatti) a 180 °C. Al segnale inforna sul ripiano 2 e cuoci 35 minuti.", no: "Preriscalda il forno statico a 180 °C e cuoci a metà altezza per 35 minuti." }
+      { casa: "forno", si: "Preriscalda il forno in Statico (2 scatti) a 180 °C. Al segnale inforna sul ripiano 2 e cuoci 35 minuti.", ma: "Preriscalda il forno in Statico a 180 °C. Quando si spegne la spia del termostato inforna sul ripiano 2 e cuoci 35 minuti.", no: "Preriscalda il forno statico a 180 °C e cuoci a metà altezza per 35 minuti." }
     ],
     note: ["I 35 minuti sono per la crostata: per i biscotti la cottura è più breve, controllali dai 12 minuti."]
   },
@@ -1186,7 +1192,7 @@ function applyCond(r, id){
   r.procedimento = r._base.proc.concat(c.procedimento);
   r.note = c.note.concat(r._base.note);
   r.fasi = r._base.fasi.map((f, k, a) => k === a.length - 1 ? { ...f, min: c.cottura.min, max: c.cottura.max } : f);
-  r.cottura.forno = c.cottura.forno; if (r.cottura.gen) r.cottura.gen.extra = c.cottura.extra;
+  r.cottura.forno = c.cottura.forno; if (r.cottura.ma && c.cottura.ma) r.cottura.ma.forno = c.cottura.ma; if (r.cottura.gen) r.cottura.gen.extra = c.cottura.extra;
   if (r.ninja && c.ninja) r.ninja.passi = c.ninja;
 }
 function setCond(r, id){ const m = condSaved(); m[r.id] = id; try { localStorage.setItem("ricettario-condimenti", JSON.stringify(m)); } catch (e) {} applyCond(r, id); }
@@ -1209,29 +1215,38 @@ function acciaio(){ try { return localStorage.getItem("ricettario-padelle") !== 
 function mostraConsumi(){ try { return localStorage.getItem("ricettario-consumi") !== "no"; } catch (e){ return true; } }
 function setConsumi(v){ try { localStorage.setItem("ricettario-consumi", v ? "si" : "no"); } catch (e) {} }
 function setPadelle(v){ try { localStorage.setItem("ricettario-padelle", v ? "acciaio" : "antiaderente"); } catch (e) {} }
-let DOT = null; /* dotazione forzata per il PDF: "casa" | "gen" | null */
+let DOT = null; /* dotazione forzata per il PDF: "casa" (Federico) | "andreina" | "gen" | null */
 function impostaProfilo(p){ try {
   localStorage.setItem("ricettario-profilo", p);
   if (p === "federico"){ localStorage.setItem("ricettario-fornocasa", "si"); localStorage.setItem("ricettario-induzione", "si"); localStorage.setItem("ricettario-consumi", "no"); if (/iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1)) localStorage.setItem("ricettario-telsveglia", "iphone"); }
+  else if (p === "andreina"){ localStorage.setItem("ricettario-fornocasa", "si"); localStorage.setItem("ricettario-induzione", "si"); localStorage.setItem("ricettario-consumi", "no"); localStorage.setItem("ricettario-telsveglia", "no"); }
   else { localStorage.setItem("ricettario-consumi", "si"); localStorage.setItem("ricettario-telsveglia", "no"); }
   sessionStorage.setItem("ricettario-chiesto", "1"); } catch (e) {} }
 function chiediProfilo(){ try { if (sessionStorage.getItem("ricettario-chiesto")) return; } catch (e) {}
   const d = document.createElement("div"); d.className = "dot-modal";
-  d.innerHTML = `<div class="dot-box" role="dialog" aria-modal="true" aria-labelledby="pf-t"><h2 id="pf-t">Sei Federico?</h2>
+  d.innerHTML = `<div class="dot-box" role="dialog" aria-modal="true" aria-labelledby="pf-t"><h2 id="pf-t">Chi sei?</h2>
     <p>Così ti mostro il ricettario giusto.</p>
-    <button class="btn" data-pf="federico"><b>Sì, sono Federico</b><small>ricette per il forno IKEA, il piano a induzione e il Ninja, timer collegato all'orologio del telefono, senza consumi</small></button>
-    <button class="btn ghost" data-pf="altro"><b>No</b><small>ricette per una cucina qualsiasi, con i consumi; il timer lo imposti tu</small></button></div>`;
+    <button class="btn" data-pf="federico"><b>Federico</b><small>forno IKEA FXJM6, piano a induzione e Ninja, timer collegato all'orologio del telefono, senza consumi</small></button>
+    <button class="btn" data-pf="andreina"><b>Andreina Roma</b><small>forno IKEA MATTRADITION, piano a induzione e Ninja, senza consumi</small></button>
+    <button class="btn ghost" data-pf="altro"><b>Altri</b><small>ricette per una cucina qualsiasi, con i consumi; il timer lo imposti tu</small></button></div>`;
   document.body.appendChild(d);
-  d.addEventListener("click", e => { const b = e.target.closest("[data-pf]"); if (!b) return; impostaProfilo(b.dataset.pf); d.remove(); if (location.hash === "#elettrodomestici" && b.dataset.pf !== "federico") location.hash = ""; route(); });
+  d.addEventListener("click", e => { const b = e.target.closest("[data-pf]"); if (!b) return; impostaProfilo(b.dataset.pf); d.remove(); if (location.hash === "#elettrodomestici" && b.dataset.pf === "altro") location.hash = ""; route(); });
   d.querySelector("[data-pf=federico]").focus(); }
 function profilo(){ try { return localStorage.getItem("ricettario-profilo") || ""; } catch (e){ return ""; } }
+/* federico(): una delle cucine conosciute (Federico o Andreina); persona(): chi usa il dispositivo; cucina(): di chi è la dotazione in uso (anche per i PDF) */
 function federico(){ return profilo() !== "altro"; }
-function showNinja(){ return DOT ? DOT === "casa" : federico(); }
-function fornoCasa(){ if (DOT) return DOT === "casa"; if (!federico()) return false; try { return localStorage.getItem("ricettario-fornocasa") !== "no"; } catch (e){ return true; } }
-function induzioneCasa(){ if (DOT) return DOT === "casa"; if (!federico()) return false; try { return localStorage.getItem("ricettario-induzione") !== "no"; } catch (e){ return true; } }
+function persona(){ const p = profilo(); return p === "andreina" || p === "altro" ? p : "federico"; }
+function cucina(){ if (DOT) return DOT === "casa" ? "federico" : DOT === "andreina" ? "andreina" : null; return persona() === "altro" ? null : persona(); }
+function flagOn(k){ if (DOT) return true; try { return localStorage.getItem(k) !== "no"; } catch (e){ return true; } }
+function showNinja(){ return !!cucina(); }
+function fornoCasa(){ return cucina() === "federico" && flagOn("ricettario-fornocasa"); }
+function fornoMa(){ return cucina() === "andreina" && flagOn("ricettario-fornocasa"); }
+function induzioneCasa(){ return !!cucina() && flagOn("ricettario-induzione"); }
 function setFlag(k, v){ try { localStorage.setItem(k, v ? "si" : "no"); } catch (e) {} }
-function V(x){ if (x && typeof x === "object" && x.casa) return V((x.casa === "forno" ? fornoCasa() : induzioneCasa()) ? x.si : x.no); return x && typeof x === "object" && x.padella ? x[acciaio() ? "acciaio" : "antiaderente"] : x; }
-function cot(r){ const c = r.cottura; const casa = c.tipo === "forno" ? fornoCasa() : c.tipo === "fornelli" ? induzioneCasa() : true; return casa || !c.gen ? c : { tipo: c.tipo, dettaglio: c.gen.dettaglio, extra: c.gen.extra }; }
+function V(x){ if (x && typeof x === "object" && x.casa){ if (x.casa === "forno" && fornoMa()) return V(x.ma ?? x.no); return V((x.casa === "forno" ? fornoCasa() : induzioneCasa()) ? x.si : x.no); } return x && typeof x === "object" && x.padella ? x[acciaio() ? "acciaio" : "antiaderente"] : x; }
+function cot(r){ const c = r.cottura;
+  if (c.tipo === "forno" && fornoMa()){ const m = c.ma || {}; return { tipo: c.tipo, dettaglio: m.dettaglio || c.dettaglio, preriscaldo: m.preriscaldo || (c.preriscaldo || "").replace(/([Aa])spetta il segnale acustico/, "$1spetta che si spenga la spia del termostato"), forno: m.forno || c.forno, extra: c.gen && c.gen.extra }; }
+  const casa = c.tipo === "forno" ? fornoCasa() : c.tipo === "fornelli" ? induzioneCasa() : true; return casa || !c.gen ? c : { tipo: c.tipo, dettaglio: c.gen.dettaglio, extra: c.gen.extra }; }
 function showPiastra(r){ return !!r.piastra && induzioneCasa(); }
 function VL(list){ return (Array.isArray(list) ? list : list ? [list] : []).flatMap(x => { const v = V(x); return Array.isArray(v) ? v : [v]; }); }
 function usaPadelle(r){ return JSON.stringify([r.strumenti, r.procedimento, r.piastra || null]).includes('"padella":true'); }
@@ -1604,8 +1619,9 @@ function chiediDotazione(){
     const d = document.createElement("div"); d.className = "dot-modal";
     d.innerHTML = `<div class="dot-box" role="dialog" aria-modal="true" aria-labelledby="dot-t">
       <h2 id="dot-t">Per quale cucina?</h2>
-      <p>Le ricette nel PDF devono essere scritte per la dotazione di Casa di Federico oppure per una cucina qualsiasi?</p>
-      <button class="btn" data-v="casa"><b>Casa di Federico</b><small>forno IKEA con gli scatti e i ripiani, piano a induzione con i livelli, Ninja Foodi e schede degli elettrodomestici</small></button>
+      <p>Le ricette nel PDF devono essere scritte per la dotazione di una delle due case oppure per una cucina qualsiasi?</p>
+      <button class="btn" data-v="casa"><b>Casa di Federico</b><small>forno IKEA FXJM6 con gli scatti e i ripiani, piano a induzione con i livelli, Ninja Foodi e schede degli elettrodomestici</small></button>
+      <button class="btn" data-v="andreina"><b>Casa di Andreina</b><small>forno IKEA MATTRADITION con funzioni e ripiani, piano a induzione con i livelli, Ninja Foodi e schede degli elettrodomestici</small></button>
       <button class="btn ghost" data-v="gen"><b>Cucina generica</b><small>forno, fuochi e tempi generici, senza Ninja e senza schede degli elettrodomestici</small></button>
       <button class="link" data-v="">Annulla</button></div>`;
     document.body.appendChild(d);
@@ -1613,7 +1629,7 @@ function chiediDotazione(){
     const esc1 = e => { if (e.key === "Escape") done(null); };
     document.addEventListener("keydown", esc1);
     d.addEventListener("click", e => { const b = e.target.closest("[data-v]"); if (b) done(b.dataset.v); else if (e.target === d) done(null); });
-    d.querySelector("[data-v=casa]").focus();
+    d.querySelector(`[data-v=${persona() === "andreina" ? "andreina" : "casa"}]`).focus();
   });
 }
 async function conDotazione(fn){ const v = await chiediDotazione(); if (!v) return; DOT = v; try { fn(v); } finally { DOT = null; } }
@@ -1725,9 +1741,39 @@ const NINJA = {
   nota: "Dati dal manuale Ninja del modello SP101 e dalle schede tecniche del rivenditore."
 };
 
-function scatti(nome){ const f = FORNO.funzioni.find(x => x[1] === nome); return f ? ` (${f[0]} scatt${f[0] === 1 ? "o" : "i"})` : ""; }
+const FORNO_MA = {
+  id: "forno", nome: "Forno IKEA MATTRADITION", path: "Forno da incasso",
+  intro: "Forno da incasso IKEA MATTRADITION (IKEA 300, ventilato), costruito da Whirlpool, tutto a manopole: a sinistra le funzioni, al centro il contaminuti, a destra la temperatura. Nelle ricette, con il profilo di Andreina, cotture e ripiani sono tarati su questo forno.",
+  dati: [["Temperatura massima", "250 °C", "Il valore più alto della tabella di cottura del manuale"], ["Ripiani", "5", "Si contano dal basso: 1 è il più vicino alla resistenza inferiore"], ["Volume", "71 litri", ""], ["Preriscaldamento", "spia del termostato", "La spia si accende quando scegli una funzione e si spegne quando il forno è in temperatura: allora inforna. Non c'è segnale acustico"]],
+  funzioni: [
+    ["", "Termoventilato", "Forced air", "cotture uniformi anche su tre ripiani insieme, senza passaggio di odori; dolci e lievitati in stampo", "fino a 250 °C"],
+    ["", "Statico", "Conventional", "sopra e sotto, un solo ripiano (meglio il 2): pane, pizza, focaccia, granola, crostate", "fino a 250 °C"],
+    ["", "Grill", "Grill", "gratinare e dorare; per la carne metti una leccarda con un po' d'acqua sotto la griglia", ""],
+    ["", "Turbo grill", "Grilling with fan", "pezzi grandi di carne (arrosti, pollo), con acqua nella leccarda", ""],
+    ["", "Ventilato", "Convection bake", "torte con ripieni umidi, su uno o due ripiani", "fino a 250 °C"],
+    ["", "Scongelamento", "Defrost", "scongela più in fretta: cibo al centro, ripiano 3", ""],
+    ["", "Luce", "Light", "accende solo la lampada: serve per la lievitazione a forno spento", ""]
+  ],
+  pregi: [
+    ["Semplice e robusto", "manopole e basta: funzione, temperatura e via."],
+    ["Statico fino a 250 °C", "basta per la pizza in teglia, con il fondo sul ripiano 1."],
+    ["5 ripiani", "comodo spostare la teglia a metà cottura, come serve per la pizza."],
+    ["Luce da sola", "con la manopola su Luce il forno resta spento e scalda appena: buono per far lievitare (circa 28–30 °C)."]
+  ],
+  difetti: [
+    ["Niente preriscaldamento rapido né funzione Pizza", "per la pizza usa lo Statico al massimo e accendi il forno con anticipo."],
+    ["Nessun segnale acustico di temperatura", "guarda la spia del termostato: quando si spegne il forno è caldo. Per pizza e pane aspetta altri 10 minuti, così si scaldano anche le pareti."],
+    ["Il contaminuti non spegne il forno", "suona e basta: a fine cottura riporta tu la manopola delle funzioni su 0."],
+    ["Il termoventilato asciuga", "per dolci e lievitati in stampo resta sui 160–170 °C e controlla con uno stecchino o il termometro."]
+  ],
+  consumi: { titolo: "Consumi tipici", nota: "Dal manuale: 0,81 kWh per il ciclo di prova in termoventilato e 0,99 kWh in statico (classe A).", righe: [["Preriscaldamento fino a 180–200 °C", "0,35–0,45 kWh"], ["Preriscaldamento fino a 250 °C", "0,7–0,9 kWh"], ["Un'ora a 180–200 °C", "0,8–1 kWh"], ["Un'ora a 250 °C", "1,2–1,4 kWh"], ["Luce accesa per la lievitazione, 2 ore", "circa 0,05 kWh"]] },
+  tabella: [["Pane, pizza, focaccia: Statico, ripiano 1 o 2", "220–250 °C · 10–40 min"], ["Torte lievitate: Statico, ripiano 2", "150–170 °C · 30–90 min"], ["Torte lievitate: Termoventilato, ripiano 2", "150–170 °C · 30–90 min"], ["Biscotti e crostatine: Termoventilato, ripiano 2 o 3", "160–180 °C · 15–40 min"], ["Torte ripiene: Statico, ripiano 2", "160–200 °C · 35–90 min"]],
+  nota: "Funzioni, ripiani e tabella dal manuale IKEA MATTRADITION (forno ventilato IKEA 300). I nomi italiani delle funzioni sono quelli dei simboli sulla manopola: se il tuo pannello è diverso dimmelo e lo correggo."
+};
 
-const ELETTRO = () => [fornoCasa() ? FORNO : null, induzioneCasa() ? PIASTRA : null, NINJA].filter(Boolean);
+function scatti(nome){ if (!fornoCasa()) return ""; const f = FORNO.funzioni.find(x => x[1] === nome); return f ? ` (${f[0]} scatt${f[0] === 1 ? "o" : "i"})` : ""; }
+
+const ELETTRO = () => [fornoCasa() ? FORNO : fornoMa() ? FORNO_MA : null, induzioneCasa() ? PIASTRA : null, NINJA].filter(Boolean);
 
 function listeOf(E){ return E.liste || [E.consumi, E.tabella ? { titolo: "Indicazioni del manuale (con preriscaldamento)", righe: E.tabella } : null].filter(Boolean); }
 
@@ -1751,8 +1797,8 @@ function schedaHTML(E){
   const row = (a, b) => `<li><span>${a}</span><b>${b}</b></li>`;
   const tiles = `<div class="recap">${E.dati.map(([l, v, sub]) => `<div class="rc"><span class="lab">${esc(l)}</span><span class="big"${v.length > 8 ? ' style="font-size:18px"' : ""}>${esc(v)}</span>${sub ? `<span class="sub">${esc(sub)}</span>` : ""}</div>`).join("")}</div>`;
   const knob = E.funzioni && E.id === "forno" ? `<div class="panel">
-      <h3 class="ph">La manopola delle funzioni</h3><p class="tip" style="margin-bottom:8px">Il numero è quante volte scatta la manopola partendo da 0 (spento), girando in senso orario.</p>
-      <ul class="fasi knob" style="columns:1">${E.funzioni.map(([k, n, en, d, t]) => `<li><span class="scatti">${k}</span><span><b>${esc(n)}</b> <small class="en">${esc(en)}</small><br>${esc(d)}</span><b>${esc(t)}</b></li>`).join("")}</ul></div>` : "";
+      <h3 class="ph">La manopola delle funzioni</h3>${E === FORNO ? `<p class="tip" style="margin-bottom:8px">Il numero è quante volte scatta la manopola partendo da 0 (spento), girando in senso orario.</p>` : ""}
+      <ul class="fasi knob" style="columns:1">${E.funzioni.map(([k, n, en, d, t]) => `<li>${k !== "" ? `<span class="scatti">${k}</span>` : ""}<span><b>${esc(n)}</b> <small class="en">${esc(en)}</small><br>${esc(d)}</span><b>${esc(t)}</b></li>`).join("")}</ul></div>` : "";
   const liste = listeOf(E).map(L => `<div class="panel"><h3 class="ph">${esc(L.titolo)}</h3>${L.nota ? `<p class="tip" style="margin-bottom:8px">${esc(L.nota)}</p>` : ""}<ul class="fasi" style="columns:1">${L.righe.map(([a, b]) => row(esc(a), esc(b))).join("")}</ul></div>`).join("");
   return `<section class="scheda" id="scheda-${E.id}">
     <span class="path">${esc(E.path)}</span>
@@ -1788,7 +1834,7 @@ function writeScheda(P, E){
   P.para(E.nome, 20, "bold", C.ink, 0, 1.25); P.y += 1;
   P.para(E.intro, 10, "normal", C.grey); P.y += 3;
   E.dati.forEach(([l, v, sub]) => P.para(`${l}: ${v}${sub ? " (" + sub + ")" : ""}`, 10, "normal", C.ink));
-  if (E.id === "forno"){ P.y += 3; P.para("La manopola delle funzioni (scatti da 0, senso orario)", 14, "bold", C.ink); P.y += 1; E.funzioni.forEach(([k, n, en, d, t]) => P.para(`${k} scatt${k === 1 ? "o" : "i"} - ${n} (${en}): ${d}${t ? " (" + t + ")" : ""}`, 10, "normal", C.ink, 2)); }
+  if (E.id === "forno"){ P.y += 3; P.para(E === FORNO ? "La manopola delle funzioni (scatti da 0, senso orario)" : "La manopola delle funzioni", 14, "bold", C.ink); P.y += 1; E.funzioni.forEach(([k, n, en, d, t]) => P.para(`${k !== "" ? `${k} scatt${k === 1 ? "o" : "i"} - ` : ""}${n} (${en}): ${d}${t ? " (" + t + ")" : ""}`, 10, "normal", C.ink, 2)); }
   listeOf(E).forEach(L => { P.y += 3; P.para(L.titolo, 14, "bold", C.ink); P.y += 1; if (L.nota) P.para(L.nota, 9, "italic", C.grey); L.righe.forEach(([a, b]) => P.para(`- ${a}: ${b}`, 10, "normal", C.ink, 2)); });
   P.y += 3; P.para("Pregi", 14, "bold", C.ink); P.y += 1; E.pregi.forEach(([a, b]) => P.para(`- ${a}: ${b}`, 10, "normal", C.ink, 2));
   P.y += 3; P.para("Difetti e attenzioni", 14, "bold", C.ink); P.y += 1; E.difetti.forEach(([a, b]) => P.para(`- ${a}: ${b}`, 10, "normal", C.ink, 2));
@@ -1871,7 +1917,7 @@ function buildBookPdf(S, v){
   doc.setTextColor(255, 255, 255); doc.setFont("helvetica", "bold"); doc.setFontSize(34);
   doc.text("De (Nova) Mensa", 20, 120); doc.text("Populari", 20, 136);
   doc.setFont("helvetica", "normal"); doc.setFontSize(12);
-  const parti = [recipes.length ? `${recipes.length} ${recipes.length === 1 ? "ricetta" : "ricette"}` : "", menus.length ? `${menus.length} ${menus.length === 1 ? "menù" : "menù"}` : "", apps0.length ? (apps0.length === 1 ? "1 elettrodomestico" : `${apps0.length} elettrodomestici`) : "", v === "gen" ? "per una cucina generica" : "per la cucina di Casa di Federico"].filter(Boolean).join(" · ");
+  const parti = [recipes.length ? `${recipes.length} ${recipes.length === 1 ? "ricetta" : "ricette"}` : "", menus.length ? `${menus.length} ${menus.length === 1 ? "menù" : "menù"}` : "", apps0.length ? (apps0.length === 1 ? "1 elettrodomestico" : `${apps0.length} elettrodomestici`) : "", v === "gen" ? "per una cucina generica" : v === "andreina" ? "per la cucina di Casa di Andreina" : "per la cucina di Casa di Federico"].filter(Boolean).join(" · ");
   doc.text(pdfText(parti), 20, 150);
   doc.text(new Date().toLocaleDateString("it-IT", { day: "numeric", month: "long", year: "numeric" }), 20, 158);
   // righe dell'indice
@@ -1933,8 +1979,8 @@ function renderImpostazioni(){
   <p class="status" style="max-width:68ch;margin:0 0 14px">Forno, piano a induzione, padelle e consumi valgono solo per questo dispositivo; il prezzo dell'energia vale per il tuo account su tutti i dispositivi.</p>
   <div class="panel settings">
     <label class="ck"><input type="checkbox" id="set-padelle" ${acciaio() ? "checked" : ""}><span><b>Uso padelle in acciaio</b><br><span class="tip">Con la spunta le ricette sul fuoco sono scritte per l'acciaio, senza per l'antiaderente.</span></span></label>
-    <div class="ck"><span><b>Chi usa il ricettario su questo dispositivo</b><br><span class="seg" style="margin-top:8px;display:inline-flex"><button type="button" data-profilo="federico" aria-pressed="${federico()}">Federico</button><button type="button" data-profilo="altro" aria-pressed="${!federico()}">Altra persona</button></span><br><span class="tip">Te lo chiedo anche a ogni apertura del ricettario.</span></span></div>
-    ${federico() ? `    <label class="ck"><input type="checkbox" id="set-forno" ${fornoCasa() ? "checked" : ""}><span><b>Uso il mio forno di casa</b> (IKEA, tipo FXJM6)<br><span class="tip">Con la spunta ricette e tempi sono scritti per il tuo forno: funzioni con gli scatti della manopola, ripiani, preriscaldamento. Senza, indicazioni per un forno generico e niente scheda del forno.</span></span></label>
+    <div class="ck"><span><b>Chi usa il ricettario su questo dispositivo</b><br><span class="seg" style="margin-top:8px;display:inline-flex"><button type="button" data-profilo="federico" aria-pressed="${persona() === "federico"}">Federico</button><button type="button" data-profilo="andreina" aria-pressed="${persona() === "andreina"}">Andreina Roma</button><button type="button" data-profilo="altro" aria-pressed="${persona() === "altro"}">Altri</button></span><br><span class="tip">Te lo chiedo anche a ogni apertura del ricettario.</span></span></div>
+    ${federico() ? `    <label class="ck"><input type="checkbox" id="set-forno" ${flagOn("ricettario-fornocasa") ? "checked" : ""}><span><b>Uso il mio forno di casa</b> (${persona() === "andreina" ? "IKEA MATTRADITION" : "IKEA, tipo FXJM6"})<br><span class="tip">Con la spunta ricette e tempi sono scritti per il tuo forno: ${persona() === "andreina" ? "funzioni della manopola, ripiani, spia del preriscaldamento" : "funzioni con gli scatti della manopola, ripiani, preriscaldamento"}. Senza, indicazioni per un forno generico e niente scheda del forno.</span></span></label>
     <label class="ck"><input type="checkbox" id="set-induzione" ${induzioneCasa() ? "checked" : ""}><span><b>Uso il mio piano a induzione</b> (IKEA)<br><span class="tip">Con la spunta le ricette sul fuoco hanno i livelli del tuo piano e il riquadro «Sul tuo piano a induzione». Senza, indicazioni per un fornello normale e niente scheda della piastra.</span></span></label>
 ` : ""}
     <label class="ck"><input type="checkbox" id="set-consumi" ${mostraConsumi() ? "checked" : ""}><span><b>Mostra consumi e costi dell'energia</b><br><span class="tip">Nelle ricette, nei menù e nei PDF.</span></span></label>
