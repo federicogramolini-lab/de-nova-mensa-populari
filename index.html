@@ -477,7 +477,7 @@ const RICETTE = [
       { fase: "Cottura", funzione: "Statico", temp: "180 °C", ripiano: "2", tempo: "25 min" }
     ] },
     piastra: {
-      zona: "Il water roux in un pentolino d'acciaio sulla zona più piccola",
+      zona: "Il water roux in un pentolino sulla zona più piccola",
       passi: [ { fase: "Water roux, mescolando sempre", livello: "4", tempo: "circa 1 min" } ],
       attenzioni: [
         "Mescola senza fermarti con la frusta: sull'induzione il composto si addensa in pochi secondi e attacca sul fondo.",
@@ -486,7 +486,7 @@ const RICETTE = [
       differenza: "Sul gas il «fuoco medio» corrisponde qui al livello 4, non a 5–6: l'induzione scalda il fondo del pentolino subito e con poca acqua si rischia di cuocere troppo il roux."
     },
     ninja: { ok: false, motivo: "Il pan brioche lievita nello stampo da plumcake ben oltre i 7,5 cm di spazio tra la griglia e la resistenza del Ninja: brucerebbe sopra. Meglio il forno di casa." },
-    strumenti: ["Pentolino d'acciaio e frusta", "Planetaria con gancio (o a mano)", "Ciotola oliata e pellicola", "Tarocco e mattarello", "Stampo da plumcake", "Pennello da cucina"],
+    strumenti: ["Pentolino e frusta", "Planetaria con gancio (o a mano)", "Ciotola oliata e pellicola", "Tarocco e mattarello", "Stampo da plumcake", "Pennello da cucina"],
     energia: [{ app: "forno", kwh: [0.75, 0.85], come: "preriscaldamento e 25 minuti a 180 °C statico (il water roux sul piano consuma pochissimo)" }],
     gruppi: [
       { nome: "Water roux", ingredienti: [
@@ -508,7 +508,7 @@ const RICETTE = [
       ]}
     ],
     procedimento: [
-      "Water roux: in un pentolino mescola con la frusta la farina e l'acqua finché non ci sono più grumi. Cuoci per circa un minuto mescolando, senza far bollire, finché diventa una crema liscia. Versalo in una ciotolina e lascialo raffreddare bene.",
+      { casa: "induzione", si: "Water roux: in un pentolino mescola con la frusta la farina e l'acqua finché non ci sono più grumi. Mettilo sulla zona più piccola a livello 4 e cuoci per circa un minuto mescolando, senza far bollire, finché diventa una crema liscia. Versalo in una ciotolina e lascialo raffreddare bene.", no: "Water roux: in un pentolino mescola con la frusta la farina e l'acqua finché non ci sono più grumi. Cuoci per circa un minuto mescolando, senza far bollire, finché diventa una crema liscia. Versalo in una ciotolina e lascialo raffreddare bene." },
       "In una ciotola grande (o in planetaria con il gancio) metti farina, zucchero, lievito e latte a temperatura ambiente e impasta per 2 minuti, fino a un impasto grezzo.",
       "Unisci il water roux freddo e impasta altri 2 minuti.",
       "Aggiungi il sale e l'uovo a temperatura ambiente e impasta circa 5 minuti, finché l'impasto si stacca dalle pareti.",
@@ -624,15 +624,15 @@ const RICETTE = [
       ]}
     ],
     procedimento: [
-      "Metti sul fuoco la pentola con l'acqua per la pasta e salala quando bolle.",
-      "Sbuccia gli spicchi d'aglio, tagliali a metà e togli l'anima verde. Mettili in un pentolino d'acqua bollente e lasciali cuocere 8–10 minuti, finché sono morbidi.",
+      { casa: "induzione", si: "Metti la pentola con l'acqua per la pasta sulla zona grande con il Boost; quando bolle scendi a livello 7 e salala.", no: "Metti sul fuoco la pentola con l'acqua per la pasta e salala quando bolle." },
+      { casa: "induzione", si: "Sbuccia gli spicchi d'aglio, tagliali a metà e togli l'anima verde. Mettili in un pentolino d'acqua bollente su una zona media a livello 6 e lasciali cuocere 8–10 minuti, finché sono morbidi.", no: "Sbuccia gli spicchi d'aglio, tagliali a metà e togli l'anima verde. Mettili in un pentolino d'acqua bollente e lasciali cuocere 8–10 minuti, finché sono morbidi." },
       "Intanto taglia il prezzemolo fine, ma senza ridurlo in poltiglia.",
       "Metti l'aglio cotto nel bicchiere del frullatore con un po' della sua acqua di cottura, lo stesso peso di olio e un pizzico di sale. Frulla fino a una cremina liscia: così l'aglio non è forte e non rischi di bruciarlo.",
-      "Butta gli spaghetti nella pentola grande.",
-      { padella: true,
+      { casa: "induzione", si: "Butta gli spaghetti nella pentola grande e cuocili a livello 7.", no: "Butta gli spaghetti nella pentola grande." },
+      { casa: "induzione", si: { padella: true, acciaio: "Qualche minuto prima che la pasta sia pronta versa la cremina nella padella d'acciaio fredda, aggiungi il peperoncino e accendi la zona media a livello 3.", antiaderente: "Qualche minuto prima che la pasta sia pronta versa la cremina nella padella fredda, aggiungi il peperoncino e accendi la zona media a livello 3." }, no: { padella: true,
         acciaio: "Qualche minuto prima che la pasta sia pronta versa la cremina nella padella d'acciaio fredda, aggiungi il peperoncino e scalda a fuoco basso.",
-        antiaderente: "Qualche minuto prima che la pasta sia pronta versa la cremina nella padella fredda, aggiungi il peperoncino e scalda a fuoco basso." },
-      "Scola gli spaghetti con le pinze direttamente nella padella e falli saltare con un po' della loro acqua di cottura (non quella dell'aglio) finché la cremina li avvolge.",
+        antiaderente: "Qualche minuto prima che la pasta sia pronta versa la cremina nella padella fredda, aggiungi il peperoncino e scalda a fuoco basso." } },
+      { casa: "induzione", si: "Scola gli spaghetti con le pinze direttamente nella padella, alza a livello 5 e falli saltare con un po' della loro acqua di cottura (non quella dell'aglio) finché la cremina li avvolge.", no: "Scola gli spaghetti con le pinze direttamente nella padella e falli saltare con un po' della loro acqua di cottura (non quella dell'aglio) finché la cremina li avvolge." },
       "Finisci con il prezzemolo e servi. Chi vuole può aggiungere del parmigiano grattugiato."
     ]
   },
@@ -697,17 +697,19 @@ const RICETTE = [
       ]}
     ],
     procedimento: [
-      "Metti sul fuoco una pentola capiente con circa 3 kg d'acqua (1 kg ogni 100 g di pasta) e porta a bollore. Sala con 10 g di sale grosso per kg d'acqua.",
+      { casa: "induzione", si: "Metti una pentola capiente con circa 3 kg d'acqua (1 kg ogni 100 g di pasta) sulla zona grande e porta a bollore con il Boost, poi scendi a livello 7. Sala con 10 g di sale grosso per kg d'acqua.", no: "Metti sul fuoco una pentola capiente con circa 3 kg d'acqua (1 kg ogni 100 g di pasta) e porta a bollore. Sala con 10 g di sale grosso per kg d'acqua." },
       "Pulisci il guanciale: togli la cotenna con un coltello seghettato, poi la parte scura sotto e la crosta di sale e pepe della stagionatura, che in padella brucerebbe e darebbe amaro. Deve restare solo la parte bianca e rosa.",
       "Taglia il guanciale a fette di circa mezzo centimetro e poi a cubetti regolari: tagli uguali cuociono in modo uniforme.",
-      { padella: true,
+      { casa: "induzione", si: { padella: true,
+        acciaio: "Metti il guanciale nella padella d'acciaio ancora fredda, senza olio né burro, e accendi la zona media a livello 4: così «suda» e rilascia il suo grasso, che fa da antiaderente. Se all'inizio attacca un po', aspetta: si stacca da solo quando è rosolato. Quando il grasso si è sciolto passa a livello 5 per rosolare. Man mano che si scioglie, scola il grasso in un contenitore e tienilo da parte. Per 4 persone bastano circa 5–6 minuti.",
+        antiaderente: "Scalda appena la padella a livello 4, metti il guanciale senza olio né burro e lascialo «sudare» a livello 5, così rilascia il suo grasso. Man mano che si scioglie, scola il grasso in un contenitore e tienilo da parte. Per 4 persone bastano circa 4 minuti." }, no: { padella: true,
         acciaio: "Metti il guanciale nella padella d'acciaio ancora fredda, senza olio né burro, e accendi a fuoco moderato: così «suda» e rilascia il suo grasso, che fa da antiaderente. Se all'inizio attacca un po', aspetta: si stacca da solo quando è rosolato. Man mano che si scioglie, scola il grasso in un contenitore e tienilo da parte. Per 4 persone bastano circa 5–6 minuti.",
-        antiaderente: "Scalda appena la padella, metti il guanciale senza olio né burro e lascialo «sudare» a fuoco moderato, così rilascia il suo grasso. Man mano che si scioglie, scola il grasso in un contenitore e tienilo da parte. Per 4 persone bastano circa 4 minuti." },
+        antiaderente: "Scalda appena la padella, metti il guanciale senza olio né burro e lascialo «sudare» a fuoco moderato, così rilascia il suo grasso. Man mano che si scioglie, scola il grasso in un contenitore e tienilo da parte. Per 4 persone bastano circa 4 minuti." } },
       "Metti il guanciale su carta assorbente e lascialo raffreddare a temperatura ambiente per tutto il tempo di cottura della pasta: diventa croccante fuori e morbido dentro.",
       "In una ciotola d'acciaio mescola con la frusta pecorino, grana, tuorli e pepe. Aggiungi un po' d'acqua di cottura e metà del grasso del guanciale, e mescola fino a una crema liscia che scivola via dalla frusta.",
-      "Butta gli spaghetti e cuocili 10–11 minuti: non al dente, così restano flessibili in mantecatura e lasciano l'amido nell'acqua.",
-      "Intanto appoggia la ciotola sulla pentola della pasta e cuoci la crema a bagnomaria, come uno zabaione salato: mescola piano e fermati ogni 30–40 secondi per farle prendere calore. È pronta quando tracci una riga e non cola più, oppure a 60–65 °C con il termometro. Attento che l'acqua non trabocchi.",
-      "Scola gli spaghetti con le pinze direttamente nella crema, ben sgocciolati, e lascia la pentola dell'acqua sul fuoco. Aggiungi due mestoli d'acqua di cottura e manteca a bagnomaria sulla pentola, alzando un po' il bollore, finché la pasta è cremosa.",
+      { casa: "induzione", si: "Butta gli spaghetti e cuocili a livello 7 per 10–11 minuti: non al dente, così restano flessibili in mantecatura e lasciano l'amido nell'acqua.", no: "Butta gli spaghetti e cuocili 10–11 minuti: non al dente, così restano flessibili in mantecatura e lasciano l'amido nell'acqua." },
+      { casa: "induzione", si: "Intanto appoggia la ciotola sulla pentola della pasta, con la zona a livello 6–7, e cuoci la crema a bagnomaria, come uno zabaione salato: mescola piano e fermati ogni 30–40 secondi per farle prendere calore. È pronta quando tracci una riga e non cola più, oppure a 60–65 °C con il termometro. Attento che l'acqua non trabocchi.", no: "Intanto appoggia la ciotola sulla pentola della pasta e cuoci la crema a bagnomaria, come uno zabaione salato: mescola piano e fermati ogni 30–40 secondi per farle prendere calore. È pronta quando tracci una riga e non cola più, oppure a 60–65 °C con il termometro. Attento che l'acqua non trabocchi." },
+      { casa: "induzione", si: "Scola gli spaghetti con le pinze direttamente nella crema, ben sgocciolati, e lascia la pentola dell'acqua sul piano. Aggiungi due mestoli d'acqua di cottura e manteca a bagnomaria sulla pentola, alzando a livello 7–8, finché la pasta è cremosa.", no: "Scola gli spaghetti con le pinze direttamente nella crema, ben sgocciolati, e lascia la pentola dell'acqua sul fuoco. Aggiungi due mestoli d'acqua di cottura e manteca a bagnomaria sulla pentola, alzando un po' il bollore, finché la pasta è cremosa." },
       "Aggiungi il guanciale e manteca ancora con un altro mestolo d'acqua. Lascia riposare sul bagnomaria circa un minuto.",
       "Impiatta e completa con una spolverata di pecorino e una macinata di pepe."
     ],
@@ -728,7 +730,7 @@ const RICETTE = [
       { nome: "Piselli, spinaci e crema di verdure", min: 5 },
       { nome: "Spinaci crudi e riposo", min: 2 }
     ],
-    cottura: { tipo: "fornelli", gen: { dettaglio: "Pentola sul fuoco", extra: "Fuoco basso, 40 minuti + 5" }, dettaglio: "Piano a induzione, pentola d'acciaio", extra: "Livello 3–4, 40 minuti + 5" },
+    cottura: { tipo: "fornelli", gen: { dettaglio: "Pentola sul fuoco", extra: "Fuoco basso, 40 minuti + 5" }, dettaglio: "Piano a induzione, pentola", extra: "Livello 3–4, 40 minuti + 5" },
     piastra: {
       zona: "Pentola capiente sulla zona grande",
       passi: [
@@ -739,13 +741,13 @@ const RICETTE = [
         { fase: "Spinaci crudi a fine cottura", livello: "spento", tempo: "2 min" }
       ],
       attenzioni: [
-        "Usa una pentola d'acciaio con fondo spesso: le verdure all'inizio vanno solo insaporite, non rosolate, quindi non salire oltre il livello 5.",
+        "Usa una pentola con fondo spesso: le verdure all'inizio vanno solo insaporite, non rosolate, quindi non salire oltre il livello 5.",
         "Quando bolle abbassa subito a 3–4: il minestrone deve sobbollire piano, altrimenti le patate si sfaldano troppo presto e l'acqua cala.",
         "Con la crema di verdure il minestrone diventa denso e può attaccare sul fondo: mescola spesso negli ultimi minuti."
       ],
       differenza: "Rispetto a un fornello a gas l'acqua arriva a bollore molto prima con il Boost, e il «fuoco basso» per far sobbollire corrisponde al livello 3–4. Con l'induzione il calore è solo sul fondo: per questo, quando il minestrone si addensa, conviene mescolare più spesso che sul gas."
     },
-    strumenti: ["Pentola capiente d'acciaio con coperchio", "Tagliere", "Coltello", "Pelapatate", "Mestolo", "Frullatore a immersione", "Cucchiaio di legno"],
+    strumenti: ["Pentola capiente con coperchio", "Tagliere", "Coltello", "Pelapatate", "Mestolo", "Frullatore a immersione", "Cucchiaio di legno"],
     energia: [{ app: "piastra", kwh: [0.45, 0.6], come: { casa: "induzione", si: "bollore di 1,5 litri d'acqua e 45 minuti a livello 3–4", no: "bollore di 1,5 litri d'acqua e 45 minuti a fuoco basso" } }],
     gruppi: [
       { nome: "Verdure", ingredienti: [
@@ -839,13 +841,15 @@ const RICETTE = [
     procedimento: [
       "Togli le bistecche dal frigo 30 minuti prima di cuocerle.",
       "Asciugale bene su entrambi i lati con carta da cucina, per togliere l'umidità in superficie, e condiscile generosamente con sale e pepe.",
-      { padella: true,
+      { casa: "induzione", si: { padella: true,
+        acciaio: "Scalda la padella d'acciaio vuota sulla zona grande a livello 4–5 per 4–5 minuti, senza alzare al massimo: l'olio brucerebbe e la padella si rovinerebbe prima ancora di mettere la carne. Per capire se è pronta versa una goccia d'acqua: deve formare una o due perline che scivolano sul fondo.",
+        antiaderente: "Scalda la padella antiaderente sulla zona grande a livello 5–6 per 1–2 minuti, senza esagerare con il calore." }, no: { padella: true,
         acciaio: "Scalda la padella d'acciaio vuota a fuoco medio-basso per 4–5 minuti, senza alzare al massimo: l'olio brucerebbe e la padella si rovinerebbe prima ancora di mettere la carne. Per capire se è pronta versa una goccia d'acqua: deve formare una o due perline che scivolano sul fondo.",
-        antiaderente: "Scalda la padella antiaderente per 1–2 minuti a fuoco medio-alto, senza esagerare con il calore." },
+        antiaderente: "Scalda la padella antiaderente per 1–2 minuti a fuoco medio-alto, senza esagerare con il calore." } },
       "Versa un filo d'olio ad alto punto di fumo. Se fuma molto, la padella è già troppo calda.",
-      "Metti le bistecche e premile leggermente, così la crosta si forma in modo uniforme. Lasciale senza toccarle per un paio di minuti, poi girale e cuoci l'altro lato.",
-      "Abbassa il fuoco e lascia intiepidire un attimo la padella. Aggiungi il burro, l'aglio schiacciato e il timo.",
-      "Tenendo il fuoco basso, perché il burro non bruci, inclina la padella e versa il burro sulle bistecche con un cucchiaio, circa 30 secondi per lato.",
+      { casa: "induzione", si: "Alza a livello 5–6, metti le bistecche e premile leggermente, così la crosta si forma in modo uniforme. Lasciale senza toccarle per un paio di minuti, poi girale e cuoci l'altro lato.", no: "Metti le bistecche e premile leggermente, così la crosta si forma in modo uniforme. Lasciale senza toccarle per un paio di minuti, poi girale e cuoci l'altro lato." },
+      { casa: "induzione", si: "Scendi a livello 3 e lascia intiepidire un attimo la padella. Aggiungi il burro, l'aglio schiacciato e il timo.", no: "Abbassa il fuoco e lascia intiepidire un attimo la padella. Aggiungi il burro, l'aglio schiacciato e il timo." },
+      { casa: "induzione", si: "Sempre a livello 3, perché il burro non bruci, inclina la padella e versa il burro sulle bistecche con un cucchiaio, circa 30 secondi per lato.", no: "Tenendo il fuoco basso, perché il burro non bruci, inclina la padella e versa il burro sulle bistecche con un cucchiaio, circa 30 secondi per lato." },
       "Per una cottura media al sangue la temperatura al cuore deve essere circa 49 °C. Lascia riposare le bistecche 5 minuti prima di tagliarle."
     ],
     note: [
