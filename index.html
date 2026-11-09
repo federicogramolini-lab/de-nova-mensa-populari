@@ -1120,7 +1120,10 @@ const cestino = new Set();
 let cestinoRef = null;
 let isOwner = false;
 let titoliRef = null;
-RICETTE.forEach(r => { r.titoloOrig = r.titolo; });
+/*SYNC*/const SYNC_DATA = {"titoli":{"focaccia-barese":"Focaccia barese senza patata"},"cestino":["pan-brioche-giapponese","pizza-teglia-75","pan-brioche-giallozafferano"]};/*/SYNC*/
+/* nomi cambiati ed eliminazioni fatti su claude.ai, copiati qui ogni notte: valgono anche nella copia su GitHub */
+RICETTE.forEach(r => { const t = SYNC_DATA.titoli[r.id]; if (typeof t === "string" && t.trim()) r.titolo = t.trim().slice(0, 120); r.titoloOrig = r.titolo; });
+if (!(window.claude && window.claude.use)) for (let i = RICETTE.length - 1; i >= 0; i--) if (SYNC_DATA.cestino.includes(RICETTE[i].id)) RICETTE.splice(i, 1);
 const editTitle = { id: null };
 const store = { ref: null, menus: [], ready: false, note: "", local: false, writing: Promise.resolve() };
 
