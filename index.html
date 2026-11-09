@@ -172,6 +172,7 @@ a{color:inherit}
 .scaler{display:flex;flex-direction:column;gap:10px;padding-bottom:14px;margin-bottom:6px;border-bottom:1.5px solid var(--line)}
 .scaler-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .cond-row{margin:0 0 12px}
+.cond-sel{font:inherit;font-weight:600;color:var(--ink);background-color:var(--surface);border:1.5px solid var(--line,#ccc);border-radius:10px;padding:8px 34px 8px 12px;min-width:220px;max-width:100%;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23555' stroke-width='2'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center}
 .stepper{display:flex;align-items:center;border:1.5px solid var(--line);border-radius:10px;overflow:hidden}
 .stepper button{width:40px;height:40px;border:none;background:var(--accent-soft);cursor:pointer;font-size:20px;font-weight:700;color:var(--accent)}
 .seg{display:flex;border:1.5px solid var(--line);border-radius:10px;overflow:hidden}
@@ -1405,7 +1406,7 @@ function renderRecipe(r){
   <div class="recipe-body">
     <div class="panel ing">
       <h2 style="font-size:20px;margin-bottom:10px">Ingredienti</h2>
-      ${r.condimenti ? `<div class="scaler-row cond-row"><span>Condimento</span><div class="seg" role="group" aria-label="Condimento">${r.condimenti.map(c => `<button data-cond="${c.id}" aria-pressed="${r.condScelto === c.id}">${esc(c.nome)}</button>`).join("")}</div></div>` : ""}
+      ${r.condimenti ? `<label class="scaler-row cond-row" for="cond-sel"><span>Condimento</span><select id="cond-sel" class="cond-sel">${r.condimenti.map(c => `<option value="${c.id}" ${r.condScelto === c.id ? "selected" : ""}>${esc(c.nome)}</option>`).join("")}</select></label>` : ""}
       <div class="scaler">
         ${r.cont ? (() => { const t = tgState(r); const per = tgPerPan(r); const match = Math.abs(tgFactor(r) - f) < 1e-6; const C1 = r.cont.nome === "teglia" ? "Teglia" : "Stampo";
           const formula = r.cont.formula ? (t.forma === "rett" ? "lato × lato ÷ 2" : "raggio × raggio × 3,14 ÷ 2") : tgChiuso(r) ? `${r.cont.chiuso.gl} g per litro di stampo chiuso` : r.cont.nome === "stampo" && r.cont.h ? `${fmt(Math.round(r.cont.peso / (r.cont.n * tgArea(r.cont) * r.cont.h) * 1000))} g per litro di stampo` : `${fmt(Math.round(tgDens(r) * 100) / 100)} g per cm² di fondo`;
@@ -1499,7 +1500,7 @@ function renderRecipe(r){
   document.getElementById("minus").onclick = () => { const p = Math.max(step, Math.round((porz - step) / step) * step); setF(p / r.porzioni); };
   document.getElementById("plus").onclick = () => { const p = Math.round((porz + step) / step) * step; setF(p / r.porzioni); };
   app.querySelectorAll("[data-x]").forEach(b => b.onclick = () => setF(parseFloat(b.dataset.x)));
-  app.querySelectorAll("[data-cond]").forEach(b => b.onclick = () => { const y = scrollY; setCond(r, b.dataset.cond); renderRecipe(r); scrollTo(0, y); });
+  const cs = document.getElementById("cond-sel"); if (cs) cs.onchange = () => { const y = scrollY; setCond(r, cs.value); renderRecipe(r); scrollTo(0, y); };
   const reset = document.getElementById("reset"); if (reset) reset.onclick = () => setF(1);
   app.querySelectorAll(".qty input").forEach(inp => {
     const base = parseFloat(inp.dataset.base);
