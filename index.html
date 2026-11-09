@@ -321,6 +321,11 @@ a{color:inherit}
    ===================================================================== */
 const SEZIONI = ["Antipasti","Primi","Secondi","Dolci","Lievitati"];
 
+const GNOCCHI_CODA = [
+          "Preleva una parte di impasto e, sulla spianatoia spolverata di semola, stendila con la punta delle dita in filoncini spessi 2 cm. Intanto tieni il resto dell'impasto coperto con un canovaccio, perché non si secchi.",
+          "Taglia i filoncini a tocchetti e trascina ogni pezzo sul rigagnocchi, o sui rebbi di una forchetta, premendo appena con il pollice; usa la semola perché non si attacchino. Man mano sistema gli gnocchi su un vassoio coperto da un canovaccio spolverato di semola, ben distanziati.",
+          { casa: "induzione", si: "Porta a bollore l'acqua per gli gnocchi sulla zona grande con il Boost, salala e scendi a livello 8. Butta pochi gnocchi per volta: appena salgono a galla sono cotti, scolali con la schiumarola e condiscili.", no: "Porta a bollore l'acqua per gli gnocchi e salala. Butta pochi gnocchi per volta: appena salgono a galla sono cotti, scolali con la schiumarola e condiscili." }
+        ];
 const RICETTE = [
   {
     id: "pizza-teglia-malati-di-pizza", img: "margherita",
@@ -771,6 +776,80 @@ const RICETTE = [
     ]
   },
   {
+    id: "gnocchi-di-patate", img: "gnocchi",
+    titolo: "Gnocchi di patate",
+    sezione: "Primi", sottosezione: "Gnocchi",
+    fonte: { nome: "GialloZafferano", url: "https://ricette.giallozafferano.it/Gnocchi-di-patate.html" },
+    porzioni: 4, unitaPorzioni: ["persona","persone"],
+    condLabel: "Versione",
+    fasi: [
+      { nome: "Lessare le patate (30–40 min dal bollore)", min: 40, max: 50 },
+      { nome: "Impastare", min: 5, max: 8 },
+      { nome: "Formare gli gnocchi", min: 15, max: 20 },
+      { nome: "Acqua degli gnocchi a bollore", min: 12, max: 15, parallelo: true },
+      { nome: "Cottura a gruppi", min: 5, max: 8 }
+    ],
+    cottura: { tipo: "fornelli", gen: { dettaglio: "Fornelli, pentola capiente", extra: "Patate 30–40 min dal bollore, gnocchi finché salgono a galla" }, dettaglio: "Piano a induzione, pentola capiente", extra: "Patate 30–40 min dal bollore, gnocchi finché salgono a galla" },
+    piastra: {
+      zona: "Pentola delle patate e poi pentola degli gnocchi sulla zona grande",
+      passi: [
+        { fase: "Patate in acqua fredda fino al bollore", livello: "Boost", tempo: "10 min" },
+        { fase: "Patate a bollore leggero", livello: "6", tempo: "30–40 min" },
+        { fase: "Acqua degli gnocchi a bollore", livello: "Boost", tempo: "12–15 min" },
+        { fase: "Cottura degli gnocchi a gruppi", livello: "8", tempo: "1–2 min a gruppo" }
+      ],
+      attenzioni: ["Butta pochi gnocchi per volta: se l'acqua smette di bollire si sfaldano. Tra un gruppo e l'altro aspetta che riprenda il bollore."],
+      differenza: "Con il Boost l'acqua torna a bollire in fretta tra un gruppo di gnocchi e l'altro: a livello 8 resta in bollore senza traboccare."
+    },
+    strumenti: ["Pentola capiente per le patate", "Pentola capiente per gli gnocchi", "Schiacciapatate", "Spianatoia", "Setaccio", "Rigagnocchi o forchetta", "Vassoio e canovaccio", "Schiumarola"],
+    energia: [{ app: "piastra", kwh: [1.1, 1.4], come: "patate lesse per 40 minuti e bollitura di 4 kg d'acqua per gli gnocchi" }],
+    gruppi: [
+      { nome: "Impasto", cond: true, condNome: "Impasto", ingredienti: [] },
+      { nome: "Per la spianatoia", ingredienti: [
+        { nome: "Semola di grano duro rimacinata", qta: 50, u: "g", k: ["Semola rimacinata"] }
+      ]},
+      { nome: "Per la cottura", ingredienti: [
+        { nome: "Acqua per lessare le patate", nota: "fredda, deve coprirle bene", qta: 2500, u: "g", base: true },
+        { nome: "Acqua per gli gnocchi", qta: 4000, u: "g", base: true },
+        { nome: "Sale grosso", nota: "10 g ogni kg d'acqua degli gnocchi", qta: 40, u: "g", base: true }
+      ]}
+    ],
+    procedimento: [
+      { casa: "induzione", si: "Metti le patate intere, con la buccia, in una pentola capiente e coprile con abbondante acqua fredda. Porta a bollore sulla zona grande con il Boost, poi scendi a livello 6 e cuocile 30–40 minuti dal bollore, secondo la grandezza. Fai la prova della forchetta: se i rebbi entrano al centro senza fatica, scolale.", no: "Metti le patate intere, con la buccia, in una pentola capiente e coprile con abbondante acqua fredda. Dal bollore cuocile 30–40 minuti, secondo la grandezza. Fai la prova della forchetta: se i rebbi entrano al centro senza fatica, scolale." }
+    ],
+    note: [],
+    condimenti: [
+      { id: "uovo", nome: "Con l'uovo",
+        ingredienti: [
+          { nome: "Patate rosse", nota: "non novelle", qta: 1000, u: "g", k: ["Patate"] },
+          { nome: "Farina 00", qta: 300, u: "g", k: ["Farina 00"] },
+          { nome: "Uovo medio", qta: 1, u: "", k: ["Uova"] },
+          { nome: "Sale fino", nota: "un pizzico", qta: 1, u: "g", base: true }
+        ],
+        procedimento: [
+          "Setaccia la farina sulla spianatoia e disponila a fontana. Schiaccia le patate ancora calde direttamente sulla farina con lo schiacciapatate: non serve sbucciarle, la buccia resta dentro lo schiacciapatate. Aggiungi l'uovo leggermente sbattuto con il sale.",
+          "Impasta con le mani solo il tempo che serve per avere un impasto morbido ma compatto: se lo lavori troppo gli gnocchi diventano duri in cottura."
+        ].concat(GNOCCHI_CODA),
+        note: [] },
+      { id: "senza-uova", nome: "Senza uova",
+        ingredienti: [
+          { nome: "Patate rosse", nota: "non novelle", qta: 1000, u: "g", k: ["Patate"] },
+          { nome: "Farina 00", qta: 350, u: "g", k: ["Farina 00"] },
+          { nome: "Sale fino", qta: 15, u: "g", base: true }
+        ],
+        procedimento: [
+          "Schiaccia le patate ancora calde sulla spianatoia con lo schiacciapatate: non serve sbucciarle, la buccia resta dentro lo schiacciapatate. Aggiungi la farina e il sale.",
+          "Impasta con le mani solo il tempo che serve per avere un composto morbido ma compatto: se lo lavori troppo gli gnocchi diventano duri in cottura."
+        ].concat(GNOCCHI_CODA),
+        note: [] }
+    ],
+    noteFisse: [
+      "Usa patate rosse, di montagna o vecchie, ricche di amido e povere d'acqua: le novelle ne contengono troppa e richiedono più farina. Lavora le patate calde: fredde assorbono più farina e gli gnocchi vengono duri.",
+      "Crudi si conservano sul canovaccio al massimo un paio d'ore; si asciugano e cuociono un po' di più.",
+      "Per congelarli metti il vassoio nel congelatore per circa 20 minuti, poi passa gli gnocchi in un sacchetto. Cuocili ancora congelati, pochi per volta, senza scongelarli."
+    ]
+  },
+  {
     id: "minestrone-di-verdure", img: "minestrone",
     titolo: "Minestrone di verdure",
     sezione: "Primi", sottosezione: "Zuppe e minestre",
@@ -1141,6 +1220,7 @@ const ART = {
   arrosto: `<svg viewBox="0 0 160 120" aria-hidden="true"><ellipse cx="80" cy="108" rx="62" ry="6" fill="#000" opacity=".08"/><rect x="8" y="58" width="18" height="8" rx="4" fill="#2b2f33"/><rect x="134" y="58" width="18" height="8" rx="4" fill="#2b2f33"/><path d="M22 54 H138 V92 Q138 104 124 104 H36 Q22 104 22 92 Z" fill="#33383d"/><ellipse cx="80" cy="54" rx="58" ry="12" fill="#23272b"/><ellipse cx="80" cy="56" rx="52" ry="9" fill="#6b2a1e"/><ellipse cx="80" cy="50" rx="34" ry="13" fill="#8a4a2b"/><ellipse cx="74" cy="46" rx="20" ry="6" fill="#a55e36" opacity=".8"/><g stroke="#e9dcc3" stroke-width="2" fill="none"><path d="M62 38 q2 12 0 24"/><path d="M80 37 q2 13 0 26"/><path d="M98 38 q2 12 0 24"/></g><g fill="#e07a2f"><rect x="40" y="55" width="6" height="4" rx="1"/><rect x="114" y="54" width="6" height="4" rx="1"/></g><g fill="#3d7a3a"><ellipse cx="50" cy="52" rx="5" ry="2" transform="rotate(-20 50 52)"/><ellipse cx="110" cy="50" rx="5" ry="2" transform="rotate(20 110 50)"/></g></svg>`,
   minestrone: `<svg viewBox="0 0 160 120" aria-hidden="true"><ellipse cx="80" cy="108" rx="60" ry="6" fill="#000" opacity=".08"/><path d="M18 58h124c0 26-26 46-62 46S18 84 18 58z" fill="#f3f1ec" stroke="#d7d2c8" stroke-width="2"/><ellipse cx="80" cy="58" rx="62" ry="16" fill="#d7d2c8"/><ellipse cx="80" cy="59" rx="56" ry="13" fill="#b9892f"/><rect x="40" y="52" width="9" height="7" rx="2" fill="#e8873a"/><rect x="58" y="56" width="10" height="8" rx="2" fill="#f1dca0"/><rect x="92" y="53" width="9" height="7" rx="2" fill="#e8873a"/><rect x="108" y="58" width="10" height="7" rx="2" fill="#f1dca0"/><circle cx="76" cy="52" r="3.5" fill="#7fb24a"/><circle cx="84" cy="62" r="3.5" fill="#7fb24a"/><circle cx="52" cy="64" r="3" fill="#7fb24a"/><path d="M98 64c6-4 12-3 16 0-6 3-11 3-16 0z" fill="#3f7a35"/><path d="M62 50c5-4 11-4 15 0-5 3-10 3-15 0z" fill="#3f7a35"/><rect x="70" y="60" width="16" height="3" rx="1.5" fill="#5d9a3c" transform="rotate(-20 78 61)"/><rect x="118" y="20" width="8" height="40" rx="4" fill="#cfc6b6" transform="rotate(25 122 40)"/></svg>`,
   focaccia: `<svg viewBox="0 0 160 120" aria-hidden="true"><ellipse cx="80" cy="108" rx="62" ry="6" fill="#000" opacity=".08"/><ellipse cx="80" cy="64" rx="66" ry="40" fill="#5b5f66"/><ellipse cx="80" cy="62" rx="61" ry="36" fill="#d9a54a"/><ellipse cx="80" cy="60" rx="56" ry="32" fill="#e8bb5c"/><g fill="#d8412f" stroke="#a82a1c" stroke-width="1"><circle cx="52" cy="50" r="7"/><circle cx="78" cy="42" r="7"/><circle cx="104" cy="50" r="7"/><circle cx="62" cy="72" r="7"/><circle cx="92" cy="70" r="7"/><circle cx="118" cy="66" r="6"/><circle cx="40" cy="64" r="6"/></g><g fill="#6b7b2a"><ellipse cx="66" cy="56" rx="4" ry="3"/><ellipse cx="92" cy="56" rx="4" ry="3"/><ellipse cx="78" cy="82" rx="4" ry="3"/><ellipse cx="108" cy="80" rx="4" ry="3"/><ellipse cx="50" cy="80" rx="4" ry="3"/></g><g fill="#4f6b2a"><circle cx="70" cy="62" r="1"/><circle cx="86" cy="50" r="1"/><circle cx="100" cy="62" r="1"/><circle cx="58" cy="60" r="1"/></g></svg>`,
+  gnocchi: `<svg viewBox="0 0 160 120" aria-hidden="true"><ellipse cx="80" cy="66" rx="64" ry="44" fill="#f3f1ec" stroke="#d7d2c8" stroke-width="2"/><ellipse cx="80" cy="66" rx="46" ry="30" fill="#e9e4da"/>${[[58,54,-20],[76,50,10],[96,54,-10],[50,70,15],[68,68,-5],[88,68,20],[106,70,-15],[62,84,5],[82,84,-20],[100,84,10]].map(([x,y,a]) => `<g transform="rotate(${a} ${x} ${y})"><ellipse cx="${x}" cy="${y}" rx="9" ry="6.5" fill="#f1dca0" stroke="#d9bb6e" stroke-width="1"/><path d="M${x-5} ${y-3}v6M${x-2} ${y-4}v8M${x+1} ${y-4}v8M${x+4} ${y-3}v6" stroke="#d9bb6e" stroke-width="1"/></g>`).join("")}<path d="M44 60c4-3 8-3 11 0" stroke="#3f7a35" stroke-width="3" fill="none" stroke-linecap="round"/><circle cx="114" cy="58" r="3" fill="#3f7a35"/></svg>`,
   aglioolio: `<svg viewBox="0 0 160 120" aria-hidden="true"><ellipse cx="80" cy="66" rx="64" ry="44" fill="#f3f1ec" stroke="#d7d2c8" stroke-width="2"/><ellipse cx="80" cy="66" rx="44" ry="30" fill="#efe6cf"/><g fill="none" stroke="#e7c873" stroke-width="3" stroke-linecap="round"><path d="M50 64c10-14 26-14 34-2s22 12 30-2"/><path d="M48 72c12-12 28-10 36 0s22 10 30-4"/><path d="M54 80c10-8 24-8 32 0s20 6 26-4"/><path d="M58 56c8-8 20-8 28 0s18 6 22-2"/><path d="M60 86c8-4 18-4 26 0"/></g><g fill="#3f7a35"><circle cx="66" cy="60" r="1.6"/><circle cx="90" cy="70" r="1.6"/><circle cx="78" cy="78" r="1.6"/><circle cx="100" cy="62" r="1.6"/><circle cx="58" cy="74" r="1.6"/></g><g fill="#c8321e"><rect x="72" y="64" width="4" height="2" rx="1"/><rect x="94" y="78" width="4" height="2" rx="1"/><rect x="62" y="68" width="4" height="2" rx="1" transform="rotate(30 64 69)"/><rect x="86" y="58" width="4" height="2" rx="1"/></g></svg>`,
   frolla: `<svg viewBox="0 0 160 120" aria-hidden="true"><ellipse cx="80" cy="106" rx="62" ry="6" fill="#000" opacity=".08"/><ellipse cx="80" cy="68" rx="62" ry="34" fill="#c98a3c"/><ellipse cx="80" cy="64" rx="58" ry="30" fill="#e6b265"/><ellipse cx="80" cy="64" rx="48" ry="23" fill="#b8342a"/><g stroke="#e6b265" stroke-width="6" stroke-linecap="round"><path d="M50 50l40 30M70 44l40 30M42 64l34 24M90 42l30 22"/><path d="M110 50l-40 30M90 44l-40 30M118 64l-34 24M70 42l-30 22"/></g></svg>`,
   carbonara: `<svg viewBox="0 0 160 120" aria-hidden="true"><ellipse cx="80" cy="66" rx="64" ry="44" fill="#f3f1ec" stroke="#d7d2c8" stroke-width="2"/><ellipse cx="80" cy="66" rx="44" ry="30" fill="#efc65a"/><g fill="none" stroke="#e2b23e" stroke-width="3" stroke-linecap="round"><path d="M50 62 q15 -14 30 0 t30 0"/><path d="M48 72 q16 -12 32 0 t32 0"/><path d="M56 54 q12 -10 24 0 t24 0"/><path d="M58 82 q11 -8 22 0 t22 0"/></g><g fill="#a5462f"><rect x="62" y="58" width="7" height="6" rx="1.5"/><rect x="88" y="66" width="7" height="6" rx="1.5"/><rect x="76" y="76" width="7" height="6" rx="1.5"/><rect x="96" y="54" width="6" height="5" rx="1.5"/><rect x="56" y="70" width="6" height="5" rx="1.5"/></g><g fill="#f4e7d0"><rect x="64" y="58" width="3" height="2"/><rect x="90" y="66" width="3" height="2"/></g><g fill="#2b2b2b"><circle cx="70" cy="52" r="1"/><circle cx="84" cy="60" r="1"/><circle cx="100" cy="74" r="1"/><circle cx="62" cy="78" r="1"/><circle cx="92" cy="84" r="1"/></g><g fill="#fffaf0" opacity=".9"><circle cx="74" cy="66" r="1.4"/><circle cx="86" cy="76" r="1.4"/><circle cx="96" cy="62" r="1.4"/></g></svg>`,
@@ -1185,14 +1265,17 @@ function condSaved(){ try { return JSON.parse(localStorage.getItem("ricettario-c
 function condSel(r){ const id = condSaved()[r.id]; return r.condimenti.find(c => c.id === id) || r.condimenti[0]; }
 function applyCond(r, id){
   if (!r.condimenti) return;
-  if (!r._base) r._base = { proc: r.procedimento.slice(), note: (r.note || []).slice(), fasi: r.fasi.map(f => ({ ...f })) };
+  if (!r._base) r._base = { proc: r.procedimento.slice(), note: (r.noteFisse || r.note || []).slice(), fasi: r.fasi.map(f => ({ ...f })) };
   const c = id ? (r.condimenti.find(x => x.id === id) || r.condimenti[0]) : condSel(r);
   r.condScelto = c.id;
-  const g = r.gruppi.find(x => x.cond); g.ingredienti = c.ingredienti; g.nome = "Condimento: " + c.nome.toLowerCase();
+  const g = r.gruppi.find(x => x.cond); g.ingredienti = c.ingredienti; g.nome = (g.condNome || "Condimento") + ": " + c.nome.toLowerCase();
   r.procedimento = r._base.proc.concat(c.procedimento);
-  r.note = c.note.concat(r._base.note);
-  r.fasi = r._base.fasi.map((f, k, a) => k === a.length - 1 ? { ...f, min: c.cottura.min, max: c.cottura.max } : f);
-  r.cottura.forno = c.cottura.forno; if (r.cottura.ma && c.cottura.ma) r.cottura.ma.forno = c.cottura.ma; if (r.cottura.gen) r.cottura.gen.extra = c.cottura.extra;
+  r.note = (c.note || []).concat(r._base.note);
+  if (c.cottura){
+    r.fasi = r._base.fasi.map((f, k, a) => k === a.length - 1 ? { ...f, min: c.cottura.min, max: c.cottura.max } : f);
+    if (c.cottura.forno) r.cottura.forno = c.cottura.forno; if (r.cottura.gen && c.cottura.extra) r.cottura.gen.extra = c.cottura.extra;
+    if (r.cottura.ma && c.cottura.ma) r.cottura.ma.forno = c.cottura.ma;
+  }
   if (r.ninja && c.ninja) r.ninja.passi = c.ninja;
 }
 function setCond(r, id){ const m = condSaved(); m[r.id] = id; try { localStorage.setItem("ricettario-condimenti", JSON.stringify(m)); } catch (e) {} applyCond(r, id); }
@@ -1421,7 +1504,7 @@ function renderRecipe(r){
   <div class="recipe-body">
     <div class="panel ing">
       <h2 style="font-size:20px;margin-bottom:10px">Ingredienti</h2>
-      ${r.condimenti ? `<label class="scaler-row cond-row" for="cond-sel"><span>Condimento</span><select id="cond-sel" class="cond-sel">${r.condimenti.map(c => `<option value="${c.id}" ${r.condScelto === c.id ? "selected" : ""}>${esc(c.nome)}</option>`).join("")}</select></label>` : ""}
+      ${r.condimenti ? `<label class="scaler-row cond-row" for="cond-sel"><span>${esc(r.condLabel || "Condimento")}</span><select id="cond-sel" class="cond-sel">${r.condimenti.map(c => `<option value="${c.id}" ${r.condScelto === c.id ? "selected" : ""}>${esc(c.nome)}</option>`).join("")}</select></label>` : ""}
       <div class="scaler">
         ${r.cont ? (() => { const t = tgState(r); const per = tgPerPan(r); const match = Math.abs(tgFactor(r) - f) < 1e-6; const C1 = r.cont.nome === "teglia" ? "Teglia" : "Stampo";
           const formula = r.cont.formula ? (t.forma === "rett" ? "lato × lato ÷ 2" : "raggio × raggio × 3,14 ÷ 2") : tgChiuso(r) ? `${r.cont.chiuso.gl} g per litro di stampo chiuso` : r.cont.nome === "stampo" && r.cont.h ? `${fmt(Math.round(r.cont.peso / (r.cont.n * tgArea(r.cont) * r.cont.h) * 1000))} g per litro di stampo` : `${fmt(Math.round(tgDens(r) * 100) / 100)} g per cm² di fondo`;
