@@ -270,6 +270,8 @@ a{color:inherit}
 .tree-items{margin-left:22px;display:flex;flex-direction:column;gap:2px}
 .tree-sez > .tree-sub:has(> .tree-items:first-child) {margin-left:0}
 .ck{display:flex;align-items:center;gap:10px;padding:4px 0;cursor:pointer}
+.cv-list{display:flex;flex-direction:column;gap:2px;margin:6px 0 4px;text-align:left}
+.cv-h{font-size:13px;margin-top:6px}
 .ck input{width:20px;height:20px;accent-color:var(--accent);flex:0 0 auto}
 .ck .n{color:var(--muted);font-size:14px}
 .trash{margin-top:28px;background:var(--surface);border:1.5px solid var(--line);border-radius:12px;padding:10px 14px}
@@ -302,6 +304,20 @@ a{color:inherit}
 .field input{padding:11px 12px;border:1.5px solid var(--line);border-radius:10px;background:var(--surface)}
 .field input:focus{border-color:var(--accent);outline:none}
 .shop{columns:2 220px;margin:8px 0 0;padding-left:20px}
+.dishes{display:flex;flex-direction:column;gap:10px}
+.dish{display:grid;grid-template-columns:84px 1fr;gap:14px;align-items:start;background:var(--surface);border:1.5px solid var(--line);border-radius:14px;padding:12px}
+.dish .th{width:84px;height:64px;border-radius:10px;background:var(--tile);display:grid;place-items:center}
+.dish .th svg{width:92%;height:auto}
+.dish-main{display:flex;flex-direction:column;gap:6px;min-width:0}
+.dish-main > a{color:var(--ink);text-decoration:none;font-size:17px}
+.dish-ctl{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center}
+.dish-ctl .dc{display:flex;align-items:center;gap:6px;font-size:14px}
+.dish-ctl .dc > span:first-child{color:var(--muted)}
+.dish-ctl .cond-sel{min-width:0;padding:6px 30px 6px 10px}
+.dish .dose{color:var(--accent);font-weight:600}
+.dish-ctl .dc{max-width:100%;min-width:0}
+.dish-ctl .dc .cond-sel{max-width:100%;flex:1 1 auto}
+@media (max-width:560px){.dish{grid-template-columns:1fr}.dish .th{width:100%;height:84px;overflow:hidden}.dish .th svg{width:auto;height:92%}.dish-ctl .dc{flex:1 1 100%;justify-content:space-between}.dish-ctl .dc .cond-sel{min-width:0;width:auto}}
 .shop li{break-inside:avoid;margin-bottom:4px}
 .shop small{color:var(--muted)}
 .sticky-bar{position:sticky;bottom:0;background:var(--bg);padding:12px 0;border-top:1.5px solid var(--line);display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:18px}
@@ -324,7 +340,7 @@ const SEZIONI = ["Antipasti","Primi","Secondi","Dolci","Lievitati"];
 const GNOCCHI_CODA = [
           "Preleva una parte di impasto e, sulla spianatoia spolverata di semola, stendila con la punta delle dita in filoncini spessi 2 cm. Intanto tieni il resto dell'impasto coperto con un canovaccio, perché non si secchi.",
           "Taglia i filoncini a tocchetti e trascina ogni pezzo sul rigagnocchi, o sui rebbi di una forchetta, premendo appena con il pollice; usa la semola perché non si attacchino. Man mano sistema gli gnocchi su un vassoio coperto da un canovaccio spolverato di semola, ben distanziati.",
-          { casa: "induzione", si: "Porta a bollore l'acqua per gli gnocchi sulla zona grande con il Boost, salala e scendi a livello 8. Butta pochi gnocchi per volta: appena salgono a galla sono cotti, scolali con la schiumarola e condiscili.", no: "Porta a bollore l'acqua per gli gnocchi e salala. Butta pochi gnocchi per volta: appena salgono a galla sono cotti, scolali con la schiumarola e condiscili." }
+          { casa: "induzione", si: "Porta a bollore l'acqua per gli gnocchi sulla zona grande con il Boost, salala e scendi a livello 8. Butta pochi gnocchi per volta: appena salgono a galla sono cotti.", no: "Porta a bollore l'acqua per gli gnocchi e salala. Butta pochi gnocchi per volta: appena salgono a galla sono cotti." }
         ];
 const RICETTE = [
   {
@@ -782,6 +798,73 @@ const RICETTE = [
     fonte: { nome: "GialloZafferano", url: "https://ricette.giallozafferano.it/Gnocchi-di-patate.html" },
     porzioni: 4, unitaPorzioni: ["persona","persone"],
     condLabel: "Versione",
+    altreScelte: [{ key: "sugo", label: "Condimento", items: [
+      { id: "ragu-stracotto", nome: "Ragù di stracotto di scottona",
+        ingredienti: [
+          { nome: "Scottona in un pezzo unico", nota: "cappello del prete o reale", qta: 600, u: "g", k: ["Scottona"] },
+          { nome: "Cipolla", qta: 100, u: "g", k: ["Cipolla"] },
+          { nome: "Carota", qta: 80, u: "g", k: ["Carota"] },
+          { nome: "Sedano", qta: 60, u: "g", k: ["Sedano"] },
+          { nome: "Olio extravergine d'oliva", qta: 30, u: "g", k: ["Olio extravergine"] },
+          { nome: "Vino rosso", qta: 150, u: "g", k: ["Vino rosso"] },
+          { nome: "Passata di pomodoro", qta: 700, u: "g", k: ["Passata di pomodoro"] },
+          { nome: "Concentrato di pomodoro", nota: "facoltativo", qta: 20, u: "g", k: ["Concentrato di pomodoro"] },
+          { nome: "Foglie di alloro", qta: 2, u: "", k: ["Alloro"] },
+          { nome: "Sale fino", qta: 6, u: "g", base: true },
+          { nome: "Pepe nero macinato", nota: "facoltativo", qta: 1, u: "g", k: ["Pepe nero"] },
+          { nome: "Parmigiano grattugiato", nota: "facoltativo", qta: 40, u: "g", k: ["Parmigiano","Grana"] }
+        ],
+        prima: [
+          { casa: "induzione", si: "Inizia dal ragù, almeno tre ore prima. Trita fine cipolla, carota e sedano. Scalda l'olio nella pentola di ghisa sulla zona grande a livello 7 e rosola il pezzo di carne intero su tutti i lati per 8–10 minuti, finché è ben colorito; poi toglilo e tienilo da parte.", no: "Inizia dal ragù, almeno tre ore prima. Trita fine cipolla, carota e sedano. Scalda l'olio nella pentola di ghisa a fuoco medio-alto e rosola il pezzo di carne intero su tutti i lati per 8–10 minuti, finché è ben colorito; poi toglilo e tienilo da parte." },
+          { casa: "induzione", si: "Scendi a livello 4, metti il trito con un pizzico del sale e fallo appassire 8–10 minuti, mescolando.", no: "Abbassa il fuoco, metti il trito con un pizzico del sale e fallo appassire 8–10 minuti, mescolando." },
+          { casa: "induzione", si: "Rimetti la carne nella pentola, sali a livello 6 e sfuma con il vino rosso finché non senti più l'odore dell'alcol, 2–3 minuti.", no: "Rimetti la carne nella pentola, alza il fuoco e sfuma con il vino rosso finché non senti più l'odore dell'alcol, 2–3 minuti." },
+          { casa: "induzione", si: "Aggiungi la passata, le foglie di alloro, il resto del sale e, se vuoi, il concentrato sciolto in un po' di passata. Quando bolle scendi a livello 2, copri con il coperchio e lascia stracuocere 3 ore, girando la carne ogni tanto; se il sugo si asciuga troppo aggiungi poca acqua calda. Nell'ultima ora prepara gli gnocchi.", no: "Aggiungi la passata, le foglie di alloro, il resto del sale e, se vuoi, il concentrato sciolto in un po' di passata. Quando bolle abbassa al minimo, copri con il coperchio e lascia stracuocere 3 ore, girando la carne ogni tanto; se il sugo si asciuga troppo aggiungi poca acqua calda. Nell'ultima ora prepara gli gnocchi." },
+          { casa: "induzione", si: "A fine cottura togli l'alloro, sfilaccia la carne con due forchette direttamente nella pentola e, se vuoi, aggiungi il pepe. Tieni il ragù al caldo a livello 1.", no: "A fine cottura togli l'alloro, sfilaccia la carne con due forchette direttamente nella pentola e, se vuoi, aggiungi il pepe. Tieni il ragù al caldo a fuoco minimo." }
+        ],
+        dopo: [
+          { casa: "induzione", si: "Scola gli gnocchi con la schiumarola direttamente nella pentola del ragù e saltali delicatamente a livello 3 per 1 minuto. Servili subito, se vuoi con il parmigiano.", no: "Scola gli gnocchi con la schiumarola direttamente nella pentola del ragù e saltali delicatamente a fuoco basso per 1 minuto. Servili subito, se vuoi con il parmigiano." }
+        ],
+        fasiPrima: [
+          { nome: "Rosolatura, soffritto e vino del ragù", min: 25, max: 30 },
+          { nome: "Stracotto del ragù fino all'ultima ora", min: 105, max: 120 }
+        ],
+        fasi: [{ nome: "Saltare gli gnocchi nel ragù", min: 2 }],
+        passiPrima: [
+          { fase: "Carne rosolata nella pentola di ghisa", livello: "7", tempo: "8–10 min" },
+          { fase: "Soffritto", livello: "4", tempo: "8–10 min" },
+          { fase: "Vino rosso sfumato", livello: "6", tempo: "2–3 min" },
+          { fase: "Ragù a fuoco minimo con il coperchio", livello: "2", tempo: "3 h" }
+        ],
+        passi: [{ fase: "Gnocchi saltati nel ragù", livello: "3", tempo: "1 min" }],
+        attenzioni: ["La ghisa trattiene molto il calore: dopo la rosolatura aspetta un minuto a livello 4 prima di mettere il trito, così non brucia."],
+        strumenti: ["Pentola di ghisa con coperchio", "Due forchette"],
+        energia: [{ app: "piastra", kwh: [1.0, 1.3], come: "ragù stracotto per 3 ore" }] },
+      { id: "pomodoro-basilico", nome: "Pomodoro e basilico",
+        ingredienti: [
+          { nome: "Passata di pomodoro", qta: 600, u: "g", k: ["Passata di pomodoro"] },
+          { nome: "Aglio", nota: "schiacciato", qta: 1, u: "spicchi", k: ["Aglio"] },
+          { nome: "Olio extravergine d'oliva", qta: 40, u: "g", k: ["Olio extravergine"] },
+          { nome: "Basilico", qta: 10, u: "g", k: ["Basilico"] },
+          { nome: "Sale fino", qta: 5, u: "g", base: true },
+          { nome: "Parmigiano grattugiato", nota: "facoltativo", qta: 30, u: "g", k: ["Parmigiano","Grana"] }
+        ],
+        prima: [
+          { casa: "induzione", si: "Prepara il sugo mentre le patate cuociono. In un tegame largo scalda l'olio con l'aglio a livello 3 per 2 minuti, senza farlo colorire.", no: "Prepara il sugo mentre le patate cuociono. In un tegame largo scalda l'olio con l'aglio a fuoco basso per 2 minuti, senza farlo colorire." },
+          { casa: "induzione", si: "Aggiungi la passata e il sale, porta a bollore a livello 6, poi scendi a livello 3 e cuoci 15–20 minuti, finché il sugo si addensa. Togli l'aglio e spegni.", no: "Aggiungi la passata e il sale, porta a bollore, poi abbassa e cuoci 15–20 minuti, finché il sugo si addensa. Togli l'aglio e spegni." }
+        ],
+        dopo: [
+          { casa: "induzione", si: "Scola gli gnocchi con la schiumarola direttamente nel tegame con il sugo, aggiungi il basilico spezzettato a mano e saltali a livello 3 per 1 minuto. Servili subito, se vuoi con il parmigiano.", no: "Scola gli gnocchi con la schiumarola direttamente nel tegame con il sugo, aggiungi il basilico spezzettato a mano e saltali a fuoco basso per 1 minuto. Servili subito, se vuoi con il parmigiano." }
+        ],
+        fasiPrima: [{ nome: "Sugo di pomodoro, mentre le patate cuociono", min: 20, max: 25, parallelo: true }],
+        fasi: [{ nome: "Saltare gli gnocchi nel sugo", min: 2 }],
+        passiPrima: [
+          { fase: "Aglio nell'olio", livello: "3", tempo: "2 min" },
+          { fase: "Sugo: bollore, poi fuoco basso", livello: "6, poi 3", tempo: "15–20 min" }
+        ],
+        passi: [{ fase: "Gnocchi saltati nel sugo", livello: "3", tempo: "1 min" }],
+        strumenti: ["Tegame largo"],
+        energia: [{ app: "piastra", kwh: [0.15, 0.25], come: "sugo di pomodoro" }] }
+    ] }],
     fasi: [
       { nome: "Lessare le patate (30–40 min dal bollore)", min: 40, max: 50 },
       { nome: "Impastare", min: 5, max: 8 },
@@ -805,6 +888,7 @@ const RICETTE = [
     energia: [{ app: "piastra", kwh: [1.1, 1.4], come: "patate lesse per 40 minuti e bollitura di 4 kg d'acqua per gli gnocchi" }],
     gruppi: [
       { nome: "Impasto", cond: true, condNome: "Impasto", ingredienti: [] },
+      { nome: "Condimento", cond: "sugo", ingredienti: [] },
       { nome: "Per la spianatoia", ingredienti: [
         { nome: "Semola di grano duro rimacinata", qta: 50, u: "g", k: ["Semola rimacinata"] }
       ]},
@@ -1260,25 +1344,71 @@ let titoliRef = null;
 /*SYNC*/const SYNC_DATA = {"titoli":{"focaccia-barese":"Focaccia barese senza patata"},"cestino":["pan-brioche-giapponese","pizza-teglia-75","pan-brioche-giallozafferano"]};/*/SYNC*/
 /* nomi cambiati ed eliminazioni fatti su claude.ai, copiati qui ogni notte: valgono anche nella copia su GitHub */
 RICETTE.forEach(r => { const t = SYNC_DATA.titoli[r.id]; if (typeof t === "string" && t.trim()) r.titolo = t.trim().slice(0, 120); r.titoloOrig = r.titolo; });
-/* Condimenti alternativi: stesso impasto, condimento a scelta (salvato sul dispositivo) */
+/* Scelte alternative (versioni, condimenti…): uno o più menù a tendina per ricetta.
+   r.condimenti (etichetta r.condLabel) è la prima scelta, r.altreScelte le altre [{key, label, items}].
+   Ogni voce: ingredienti per il suo gruppo; procedimento (dopo il base), prima (prima del base), dopo (in fondo);
+   fasiPrima/fasi, passiPrima/passi (piano), strumenti, energia, note, cottura (sostituisce l'ultima fase), ninja. */
+function DIMS(r){ if (!r._dims){ const d = []; if (r.condimenti) d.push({ key: "c", label: r.condLabel || "Condimento", items: r.condimenti }); (r.altreScelte || []).forEach(x => d.push(x)); r._dims = d; } return r._dims; }
+function hasDims(r){ return DIMS(r).length > 0; }
+function dimPlur(label){ return ({ Condimento: "condimenti", Versione: "versioni" })[label] || label.toLowerCase(); }
 function condSaved(){ try { return JSON.parse(localStorage.getItem("ricettario-condimenti") || "{}") || {}; } catch (e){ return {}; } }
-function condSel(r){ const id = condSaved()[r.id]; return r.condimenti.find(c => c.id === id) || r.condimenti[0]; }
-function applyCond(r, id){
-  if (!r.condimenti) return;
-  if (!r._base) r._base = { proc: r.procedimento.slice(), note: (r.noteFisse || r.note || []).slice(), fasi: r.fasi.map(f => ({ ...f })) };
-  const c = id ? (r.condimenti.find(x => x.id === id) || r.condimenti[0]) : condSel(r);
-  r.condScelto = c.id;
-  const g = r.gruppi.find(x => x.cond); g.ingredienti = c.ingredienti; g.nome = (g.condNome || "Condimento") + ": " + c.nome.toLowerCase();
-  r.procedimento = r._base.proc.concat(c.procedimento);
-  r.note = (c.note || []).concat(r._base.note);
-  if (c.cottura){
-    r.fasi = r._base.fasi.map((f, k, a) => k === a.length - 1 ? { ...f, min: c.cottura.min, max: c.cottura.max } : f);
-    if (c.cottura.forno) r.cottura.forno = c.cottura.forno; if (r.cottura.gen && c.cottura.extra) r.cottura.gen.extra = c.cottura.extra;
-    if (r.cottura.ma && c.cottura.ma) r.cottura.ma.forno = c.cottura.ma;
-  }
-  if (r.ninja && c.ninja) r.ninja.passi = c.ninja;
+function sceltaValida(r, x){ const o = typeof x === "string" ? { c: x } : (x || {}); const out = {}; DIMS(r).forEach(d => { out[d.key] = d.items.some(i => i.id === o[d.key]) ? o[d.key] : d.items[0].id; }); return out; }
+function condSel(r){ return sceltaValida(r, condSaved()[r.id]); }
+function sceltaItems(r, sc){ return DIMS(r).map(d => d.items.find(i => i.id === sc[d.key]) || d.items[0]); }
+function sceltaNome(r, sc){ return sceltaItems(r, sc).map((it, k) => k ? it.nome.toLowerCase() : it.nome).join(", "); }
+function applyCond(r, sc){
+  if (!hasDims(r)) return;
+  if (!r._base) r._base = { proc: r.procedimento.slice(), note: (r.noteFisse || r.note || []).slice(), fasi: r.fasi.map(f => ({ ...f })), strumenti: (r.strumenti || []).slice(), energia: (r.energia || []).slice(), passi: r.piastra ? r.piastra.passi.slice() : null, attenzioni: r.piastra ? (r.piastra.attenzioni || []).slice() : null };
+  sc = sceltaValida(r, sc || condSel(r)); r.scelta = sc; r.condScelto = sc.c;
+  const its = sceltaItems(r, sc), B = r._base, cat = k => its.flatMap(i => i[k] || []);
+  DIMS(r).forEach((d, k) => { const g = r.gruppi.find(x => d.key === "c" ? x.cond === true : x.cond === d.key); if (g){ g.ingredienti = its[k].ingredienti; g.nome = (g.condNome || d.label) + ": " + its[k].nome.toLowerCase(); } });
+  r.procedimento = cat("prima").concat(B.proc, cat("procedimento"), cat("dopo"));
+  r.note = cat("note").concat(B.note);
+  const cc = its.find(i => i.cottura);
+  const fasi = B.fasi.map((f, k, a) => cc && k === a.length - 1 ? { ...f, min: cc.cottura.min, max: cc.cottura.max } : f);
+  r.fasi = cat("fasiPrima").concat(fasi, cat("fasi"));
+  if (cc){ if (cc.cottura.forno) r.cottura.forno = cc.cottura.forno; if (r.cottura.gen && cc.cottura.extra) r.cottura.gen.extra = cc.cottura.extra; if (r.cottura.ma && cc.cottura.ma) r.cottura.ma.forno = cc.cottura.ma; }
+  r.strumenti = B.strumenti.concat(cat("strumenti"));
+  r.energia = B.energia.concat(cat("energia"));
+  if (r.piastra){ r.piastra.passi = cat("passiPrima").concat(B.passi, cat("passi")); r.piastra.attenzioni = B.attenzioni.concat(cat("attenzioni")); }
+  const nj = its.find(i => i.ninja); if (r.ninja && nj) r.ninja.passi = nj.ninja;
 }
-function setCond(r, id){ const m = condSaved(); m[r.id] = id; try { localStorage.setItem("ricettario-condimenti", JSON.stringify(m)); } catch (e) {} applyCond(r, id); }
+/* esegue fn con la ricetta impostata sulla scelta sc (titolo con i nomi delle scelte), poi rimette com'era */
+function conCond(r, sc, fn, conTitolo = true){
+  if (!hasDims(r) || !sc) return fn();
+  const prev = r.scelta, t = r.titolo;
+  applyCond(r, sc); if (conTitolo) r.titolo = t + " (" + sceltaNome(r, r.scelta) + ")";
+  try { return fn(); } finally { r.titolo = t; applyCond(r, prev); }
+}
+/* tutte le combinazioni: sets = {key: [id]} */
+function combos(r, sets){ return DIMS(r).reduce((acc, d) => acc.flatMap(o => d.items.filter(i => (sets[d.key] || []).includes(i.id)).map(i => ({ ...o, [d.key]: i.id }))), [{}]); }
+function chiediCond(r){
+  return new Promise(res => {
+    const D = DIMS(r), d = document.createElement("div"); d.className = "dot-modal";
+    const tit = D.length === 1 ? `Quali ${dimPlur(D[0].label)} nel PDF?` : `Cosa mettere nel PDF?`;
+    d.innerHTML = `<div class="dot-box" role="dialog" aria-modal="true" aria-labelledby="cv-t">
+      <h2 id="cv-t">${tit}</h2>
+      <p>${D.length === 1 ? `Ogni ${D[0].label.toLowerCase()} scelto ha le sue pagine, con ingredienti e procedimento.` : `Ogni combinazione scelta ha le sue pagine, con ingredienti e procedimento.`}</p>
+      ${D.map(dm => `<div class="cv-list" data-dim="${dm.key}">${D.length > 1 ? `<b class="cv-h">${esc(dm.label)}</b>` : ""}${dm.items.map(c => `<label class="ck"><input type="checkbox" value="${c.id}" ${c.id === r.scelta[dm.key] ? "checked" : ""}><span>${esc(c.nome)}</span></label>`).join("")}</div>`).join("")}
+      <p class="cv-err status" style="color:#b3261e;min-height:1em"></p>
+      <button class="btn" data-ok="1"><b>Continua</b></button>
+      <button class="link" data-no="1">Annulla</button></div>`;
+    document.body.appendChild(d);
+    const done = v => { d.remove(); document.removeEventListener("keydown", esc1); res(v); };
+    const esc1 = e => { if (e.key === "Escape") done(null); };
+    document.addEventListener("keydown", esc1);
+    d.addEventListener("click", e => {
+      if (e.target.closest("[data-no]") || e.target === d) return done(null);
+      if (e.target.closest("[data-ok]")){
+        const sets = {}; D.forEach(dm => sets[dm.key] = [...d.querySelectorAll(`[data-dim="${dm.key}"] input:checked`)].map(i => i.value));
+        if (D.some(dm => !sets[dm.key].length)){ d.querySelector(".cv-err").textContent = D.length === 1 ? "Scegline almeno uno." : "Scegli almeno una voce per ogni gruppo."; return; }
+        done(combos(r, sets));
+      }
+    });
+    d.querySelector("[data-ok]").focus();
+  });
+}
+function setCond(r, sc){ const m = condSaved(); sc = sceltaValida(r, sc); m[r.id] = sc; try { localStorage.setItem("ricettario-condimenti", JSON.stringify(m)); } catch (e) {} applyCond(r, sc); }
 RICETTE.forEach(r => applyCond(r));
 if (!(window.claude && window.claude.use)) for (let i = RICETTE.length - 1; i >= 0; i--) if (SYNC_DATA.cestino.includes(RICETTE[i].id)) RICETTE.splice(i, 1);
 const editTitle = { id: null };
@@ -1504,7 +1634,7 @@ function renderRecipe(r){
   <div class="recipe-body">
     <div class="panel ing">
       <h2 style="font-size:20px;margin-bottom:10px">Ingredienti</h2>
-      ${r.condimenti ? `<label class="scaler-row cond-row" for="cond-sel"><span>${esc(r.condLabel || "Condimento")}</span><select id="cond-sel" class="cond-sel">${r.condimenti.map(c => `<option value="${c.id}" ${r.condScelto === c.id ? "selected" : ""}>${esc(c.nome)}</option>`).join("")}</select></label>` : ""}
+      ${DIMS(r).map(d => `<label class="scaler-row cond-row" for="cond-sel-${d.key}"><span>${esc(d.label)}</span><select id="cond-sel-${d.key}" class="cond-sel" data-dim="${d.key}">${d.items.map(c => `<option value="${c.id}" ${r.scelta[d.key] === c.id ? "selected" : ""}>${esc(c.nome)}</option>`).join("")}</select></label>`).join("")}
       <div class="scaler">
         ${r.cont ? (() => { const t = tgState(r); const per = tgPerPan(r); const match = Math.abs(tgFactor(r) - f) < 1e-6; const C1 = r.cont.nome === "teglia" ? "Teglia" : "Stampo";
           const formula = r.cont.formula ? (t.forma === "rett" ? "lato × lato ÷ 2" : "raggio × raggio × 3,14 ÷ 2") : tgChiuso(r) ? `${r.cont.chiuso.gl} g per litro di stampo chiuso` : r.cont.nome === "stampo" && r.cont.h ? `${fmt(Math.round(r.cont.peso / (r.cont.n * tgArea(r.cont) * r.cont.h) * 1000))} g per litro di stampo` : `${fmt(Math.round(tgDens(r) * 100) / 100)} g per cm² di fondo`;
@@ -1598,7 +1728,7 @@ function renderRecipe(r){
   document.getElementById("minus").onclick = () => { const p = Math.max(step, Math.round((porz - step) / step) * step); setF(p / r.porzioni); };
   document.getElementById("plus").onclick = () => { const p = Math.round((porz + step) / step) * step; setF(p / r.porzioni); };
   app.querySelectorAll("[data-x]").forEach(b => b.onclick = () => setF(parseFloat(b.dataset.x)));
-  const cs = document.getElementById("cond-sel"); if (cs) cs.onchange = () => { const y = scrollY; setCond(r, cs.value); renderRecipe(r); scrollTo(0, y); };
+  app.querySelectorAll("select.cond-sel[data-dim]").forEach(cs => cs.onchange = () => { const y = scrollY; setCond(r, { ...r.scelta, [cs.dataset.dim]: cs.value }); renderRecipe(r); scrollTo(0, y); });
   const reset = document.getElementById("reset"); if (reset) reset.onclick = () => setF(1);
   app.querySelectorAll(".qty input").forEach(inp => {
     const base = parseFloat(inp.dataset.base);
@@ -1611,7 +1741,7 @@ function renderRecipe(r){
     inp.addEventListener("keydown", e => { if (e.key === "Enter"){ e.preventDefault(); inp.blur(); } });
     inp.addEventListener("focus", () => inp.select());
   });
-  document.getElementById("pdf").onclick = () => conDotazione(() => saveRecipePdf(r, f));
+  document.getElementById("pdf").onclick = async () => { let cids = null; if (hasDims(r)){ cids = await chiediCond(r); if (!cids) return; } conDotazione(() => saveRecipePdf(r, f, cids)); };
   document.getElementById("delr").onclick = () => {
     if (state.confirmDel !== r.id){ state.confirmDel = r.id; renderRecipe(r); return; }
     state.confirmDel = null; cestino.add(r.id); saveCestino(); location.hash = "";
@@ -1624,68 +1754,125 @@ function newPdf(){
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF({ unit: "mm", format: "a4" });
   const P = { doc, M: 18, CW: 174, y: 20 };
-  P.need = h => { if (P.y + h > 280){ doc.addPage(); P.y = 20; } };
-  P.para = (txt, size, style, color, indent = 0, lh = 1.4) => {
-    doc.setFont("helvetica", style); doc.setFontSize(size); doc.setTextColor(...color);
+  P.need = h => { if (P.y + h > 278){ doc.addPage(); P.y = 22; return true; } return false; };
+  P.para = (txt, size, style, color, indent = 0, lh = 1.4, font = "helvetica") => {
+    doc.setFont(font, style); doc.setFontSize(size); doc.setTextColor(...color);
     for (const l of doc.splitTextToSize(pdfText(txt), P.CW - indent)){ P.need(size * 0.36 * lh); doc.text(l, P.M + indent, P.y); P.y += size * 0.36 * lh; }
+  };
+  /* intestazione di pagina: etichetta verde spaziata, titolo, filetto oro */
+  P.h1 = (label, title) => {
+    doc.setFillColor(...C.green); doc.rect(0, 0, 210, 5, "F");
+    doc.setFont("helvetica", "bold"); doc.setFontSize(8.5); doc.setTextColor(...C.green);
+    doc.text(pdfText(label).toUpperCase(), P.M, P.y, { charSpace: 0.6 }); P.y += 7;
+    P.para(title, 22, "bold", C.ink, 0, 1.15); P.y -= 4.6;
+    doc.setDrawColor(...C.gold); doc.setLineWidth(0.6); doc.line(P.M, P.y, P.M + 28, P.y); P.y += 8;
+  };
+  /* titolo di sezione con barretta verde */
+  P.h2 = t => {
+    P.need(16); P.y += 2;
+    doc.setFillColor(...C.green); doc.roundedRect(P.M, P.y - 4.6, 1.6, 6, 0.6, 0.6, "F");
+    doc.setFont("helvetica", "bold"); doc.setFontSize(14); doc.setTextColor(...C.ink); doc.text(pdfText(t), P.M + 4.5, P.y);
+    P.y += 6.5;
+  };
+  /* riquadro con celle etichetta/valore su due colonne */
+  P.box = cells => {
+    cells = cells.filter(Boolean); if (!cells.length) return;
+    const cols = 2, pad = 5, cw = (P.CW - pad * 2 - 6) / cols;
+    doc.setFont("helvetica", "bold"); doc.setFontSize(11);
+    const rows = []; for (let i = 0; i < cells.length; i += cols) rows.push(cells.slice(i, i + cols));
+    const rh = rows.map(r => Math.max(...r.map(([, v]) => doc.splitTextToSize(pdfText(v), cw).length)) * 4.6 + 6.5);
+    const H = rh.reduce((a, b) => a + b, 0) + pad * 1.2;
+    P.need(H + 2);
+    doc.setFillColor(...C.soft); doc.roundedRect(P.M, P.y, P.CW, H, 3, 3, "F");
+    let y = P.y + pad + 1.5;
+    rows.forEach((r, k) => {
+      r.forEach(([lab, val], j) => {
+        const x = P.M + pad + j * (cw + 6);
+        doc.setFont("helvetica", "bold"); doc.setFontSize(7.5); doc.setTextColor(...C.green); doc.text(pdfText(lab).toUpperCase(), x, y, { charSpace: 0.4 });
+        doc.setFont("helvetica", "bold"); doc.setFontSize(11); doc.setTextColor(...C.ink);
+        doc.splitTextToSize(pdfText(val), cw).forEach((l, i) => doc.text(l, x, y + 5 + i * 4.6));
+      });
+      y += rh[k];
+    });
+    P.y += H + 5;
   };
   P.footer = () => {
     const n = doc.getNumberOfPages();
-    for (let i = 1; i <= n; i++){ doc.setPage(i); doc.setFont("helvetica", "italic"); doc.setFontSize(8); doc.setTextColor(140, 150, 145); doc.text("De (Nova) Mensa Populari", P.M, 290); doc.text(`${i}/${n}`, 192, 290, { align: "right" }); }
+    for (let i = 1; i <= n; i++){
+      doc.setPage(i); if (P.noFooter && P.noFooter.has(i)) continue;
+      doc.setDrawColor(...C.line); doc.setLineWidth(0.2); doc.line(P.M, 286, 192, 286);
+      doc.setFont("times", "italic"); doc.setFontSize(9); doc.setTextColor(...C.grey); doc.text("De (Nova) Mensa Populari", P.M, 291);
+      doc.setFont("helvetica", "normal"); doc.setFontSize(8.5); doc.text(`${i} / ${n}`, 192, 291, { align: "right" });
+    }
   };
   return P;
 }
-const C = { green: [47,107,79], ink: [29,38,34], grey: [93,107,100], red: [184,67,46] };
+const C = { green: [47,107,79], ink: [29,38,34], grey: [93,107,100], red: [184,67,46], gold: [176,141,62], soft: [236,243,238], cream: [250,246,236], line: [205,212,207], band: [246,248,246] };
 
 function writeRecipe(P, r, f){
   const { doc } = P;
-  P.para(pdfText(`${r.sezione}${r.sottosezione ? " - " + r.sottosezione : ""}`).toUpperCase(), 9, "bold", C.green);
-  P.y += 1; P.para(r.titolo, 20, "bold", C.ink, 0, 1.25); P.y += 1;
+  P.h1(`${r.sezione}${r.sottosezione ? " - " + r.sottosezione : ""}`, r.titolo);
   if (r.descrizione) P.para(r.descrizione, 10, "normal", C.grey);
-  if (r.fonte) P.para(`Fonte: ${r.fonte.nome}${r.fonte.url ? " - " + r.fonte.url : ""}`, 9, "italic", C.grey);
-  P.y += 2;
+  if (r.fonte){ P.para(`Fonte: ${r.fonte.nome}${r.fonte.url ? " - " + r.fonte.url : ""}`, 8.5, "italic", C.grey); P.y += 2; }
   const porz = r.porzioni * f;
-  if (r.cont && Math.abs(tgFactor(r) - f) < 1e-6) P.para(`${r.cont.nome === "teglia" ? "Teglia" : "Stampo"}: ${tgText(r)}`, 10, "bold", C.green);
-  else P.para(`Dosi per ${fmt(porz)} ${porzLabel(r, porz)}${Math.abs(f - 1) > 1e-9 ? ` (ricetta originale x ${fmt(Math.round(f * 100) / 100)})` : ""}`, 10, "bold", C.green);
+  const dosi = r.cont && Math.abs(tgFactor(r) - f) < 1e-6 ? tgText(r) : `${fmt(porz)} ${porzLabel(r, porz)}${Math.abs(f - 1) > 1e-9 ? ` (ricetta originale x ${fmt(Math.round(f * 100) / 100)})` : ""}`;
+  const en = r.energia && mostraConsumi() ? (() => { const [a, b] = energiaMain(r); return `${kwhTxt(a, b)} kWh, ${costoTxt(a, b)}`; })() : null;
+  P.box([[r.cont && Math.abs(tgFactor(r) - f) < 1e-6 ? (r.cont.nome === "teglia" ? "Teglia" : "Stampo") : "Dosi per", dosi], ["Tempo totale", durR(r)], ["Cottura", cot(r).dettaglio], en ? ["Consumo stimato", en] : null]);
+  const fz = (r.fasi || []).filter(x => !x.prima);
+  if (fz.length > 1){ P.para("TEMPI", 7.5, "bold", C.green); fz.forEach(x => P.para(`${V(x.nome)}${x.parallelo ? " (in contemporanea)" : ""}: ${faseDur(x)}`, 9, "normal", x.parallelo ? C.grey : C.ink, 3, 1.35)); P.y += 2; }
+  if (cot(r).forno){ P.para("NEL FORNO", 7.5, "bold", C.green); cot(r).forno.forEach(x => P.para(`${x.fase}: ${x.funzione}${scatti(x.funzione)} ${x.temp}${x.ripiano ? ", ripiano " + x.ripiano : ""}, ${x.tempo}`, 9, "normal", C.ink, 3, 1.35)); if (cot(r).preriscaldo) P.para(cot(r).preriscaldo, 9, "italic", C.grey, 3, 1.35); P.y += 2; }
+  else if (cot(r).extra){ P.para(cot(r).extra, 9, "italic", C.grey); P.y += 1; }
+  P.para("STRUMENTI", 7.5, "bold", C.green); P.para(VL(r.strumenti).join(" · "), 9, "normal", C.ink, 3, 1.35);
+  if (r.energia && mostraConsumi()){ const alt = r.energia.filter(x => x.alt && (x.app !== "ninja" || showNinja())); if (alt.length) P.para(alt.map(x => `Nel ${appNome(x.app)}: ${kwhTxt(x.kwh[0], x.kwh[1])} kWh, ${costoTxt(x.kwh[0], x.kwh[1])}`).join("; "), 8.5, "italic", C.grey, 3); }
   P.y += 2;
-  P.para(`Tempo totale: ${durR(r)}`, 10, "bold", C.ink);
-  (r.fasi || []).filter(fz => !fz.prima).forEach(fz => P.para(`- ${V(fz.nome)}${fz.parallelo ? " (in contemporanea)" : ""}: ${faseDur(fz)}`, 9, "normal", C.grey, 3));
-  P.para(`Cottura: ${cot(r).dettaglio}${!cot(r).forno && cot(r).extra ? " - " + cot(r).extra : ""}`, 10, "normal", C.ink);
-  if (cot(r).forno){ cot(r).forno.forEach(x => P.para(`- ${x.fase}: ${x.funzione}${scatti(x.funzione)} ${x.temp}${x.ripiano ? ", ripiano " + x.ripiano : ""}, ${x.tempo}`, 9, "normal", C.grey, 3)); if (cot(r).preriscaldo) P.para(`- ${cot(r).preriscaldo}`, 9, "normal", C.grey, 3); }
-  P.para(`Strumenti: ${VL(r.strumenti).join(", ")}`, 10, "normal", C.ink);
-  if (r.energia && mostraConsumi()){ const [a, b] = energiaMain(r); P.para(`Consumo stimato: ${kwhTxt(a, b)} kWh, ${costoTxt(a, b)} (a ${prezzo().toLocaleString("it-IT", { minimumFractionDigits: 2, maximumFractionDigits: 3 })} €/kWh)${r.energia.filter(x => x.alt && (x.app !== "ninja" || showNinja())).map(x => `; nel ${appNome(x.app)} ${kwhTxt(x.kwh[0], x.kwh[1])} kWh, ${costoTxt(x.kwh[0], x.kwh[1])}`).join("")}`, 10, "normal", C.ink); }
-  P.y += 3;
   if (r.verificare && r.verificare.length){ P.para("Da verificare", 11, "bold", C.red); r.verificare.forEach(v => P.para("- " + v, 9, "normal", C.red, 2)); P.y += 3; }
 
-  P.para("Ingredienti", 14, "bold", C.ink); P.y += 1;
+  P.h2("Ingredienti");
   for (const g of r.gruppi){
-    if (r.gruppi.length > 1){ P.y += 1; P.para(g.nome.toUpperCase(), 9, "bold", C.grey); }
-    for (const i of g.ingredienti){
-      P.need(6);
-      doc.setFont("helvetica", "bold"); doc.setFontSize(11); doc.setTextColor(...C.ink);
-      doc.text(pdfText(i.qta == null ? "q.b." : `${fmt(i.qta * f)} ${uLab(i.u, i.qta * f)}`), P.M + 26, P.y, { align: "right" });
-      doc.setFont("helvetica", "normal");
-      const lines = doc.splitTextToSize(pdfText(i.nome + (i.nota ? ` (${i.nota})` : "")), P.CW - 32);
-      lines.forEach((l, k) => { if (k){ P.y += 5; P.need(5); } doc.text(l, P.M + 32, P.y); });
-      P.y += 6;
-    }
-    if (g.totale) P.para(`Peso totale ${g.nome.toLowerCase()}: ${fmt(groupTotal(g, f))} g`, 9, "italic", C.grey, 32);
+    if (r.gruppi.length > 1){ P.need(12); P.y += 1.5; doc.setFont("helvetica", "bold"); doc.setFontSize(8); doc.setTextColor(...C.gold); doc.text(pdfText(g.nome).toUpperCase(), P.M, P.y, { charSpace: 0.5 }); P.y += 1.8; doc.setDrawColor(...C.line); doc.setLineWidth(0.2); doc.line(P.M, P.y, P.M + P.CW, P.y); P.y += 4.2; }
+    g.ingredienti.forEach((i, k) => {
+      doc.setFont("helvetica", "normal"); doc.setFontSize(10.5);
+      const lines = doc.splitTextToSize(pdfText(i.nome + (i.nota ? ` (${i.nota})` : "")), P.CW - 36);
+      const h = lines.length * 4.6 + 2.2;
+      P.need(h + 1);
+      if (k % 2 === 0){ doc.setFillColor(...C.band); doc.rect(P.M, P.y - 4.1, P.CW, h, "F"); }
+      doc.setFont("helvetica", "bold"); doc.setTextColor(...C.green);
+      doc.text(pdfText(i.qta == null ? "q.b." : `${fmt(i.qta * f)} ${uLab(i.u, i.qta * f)}`), P.M + 28, P.y, { align: "right" });
+      doc.setFont("helvetica", "normal"); doc.setTextColor(...C.ink);
+      lines.forEach((l, j) => doc.text(l, P.M + 33, P.y + j * 4.6));
+      P.y += h;
+    });
+    if (g.totale) P.para(`Peso totale ${g.nome.toLowerCase()}: ${fmt(groupTotal(g, f))} g`, 8.5, "italic", C.grey, 33);
   }
-  P.y += 4;
-  P.para("Procedimento", 14, "bold", C.ink); P.y += 1;
-  VL(r.procedimento).forEach((s, k) => {
-    P.need(6);
-    doc.setFont("helvetica", "bold"); doc.setFontSize(11); doc.setTextColor(...C.green);
-    doc.text(`${k + 1}.`, P.M, P.y);
-    P.para(s, 11, "normal", C.ink, 8); P.y += 2;
+  P.y += 3;
+  P.h2("Procedimento");
+  VL(r.procedimento).forEach((st, k) => {
+    doc.setFont("helvetica", "normal"); doc.setFontSize(10.5);
+    const lines = doc.splitTextToSize(pdfText(st), P.CW - 11);
+    P.need(Math.min(lines.length, 3) * 4.7 + 2);
+    doc.setFillColor(...C.green); doc.circle(P.M + 3.2, P.y - 1.4, 3.2, "F");
+    doc.setFont("helvetica", "bold"); doc.setFontSize(k >= 9 ? 7.5 : 8.5); doc.setTextColor(255, 255, 255); doc.text(String(k + 1), P.M + 3.2, P.y - 0.2, { align: "center" });
+    P.para(st, 10.5, "normal", C.ink, 11, 1.38); P.y += 2.4;
   });
-  if (showPiastra(r)){ P.y += 3; P.para("Sul tuo piano a induzione", 14, "bold", C.ink); P.y += 1;
-    VL(r.piastra.passi).forEach(p => P.para(`- ${p.fase}: ${/^\d/.test(p.livello) ? "livello " : ""}${p.livello}, ${p.tempo}`, 10, "normal", C.ink, 2));
-    if (r.piastra.zona) P.para(`Zona: ${r.piastra.zona}`, 9, "italic", C.grey, 2);
-    P.y += 1; P.para("Attenzioni", 11, "bold", C.ink); VL(r.piastra.attenzioni).forEach(a => P.para(`- ${a}`, 10, "normal", C.ink, 2));
-    P.y += 1; P.para("Rispetto a un fornello normale", 11, "bold", C.red); P.para(V(r.piastra.differenza), 10, "normal", C.red, 2); }
-  if (r.ninja && showNinja()){ P.y += 3; if (r.ninja.ok){ P.para("Nel Ninja Foodi SP101EU", 14, "bold", C.ink); P.y += 1; P.para(`Funzione ${r.ninja.funzione} - ${r.ninja.temp} - ${r.ninja.tempo}`, 10, "bold", C.green); P.para(r.ninja.contenitore, 10, "normal", C.ink); r.ninja.passi.forEach((p, k) => P.para(`${k + 1}. ${p}`, 10, "normal", C.ink, 2)); } else { P.para(`Ninja Foodi SP101EU: non adatta. ${r.ninja.motivo}`, 9, "italic", C.grey); } }
-  if (r.note && r.note.length){ P.y += 2; P.para("Note", 14, "bold", C.ink); P.y += 1; r.note.forEach(n => { P.para("- " + n, 10, "normal", C.grey, 2); P.y += 1; }); }
+  if (showPiastra(r)){
+    P.y += 1; P.h2("Sul piano a induzione");
+    VL(r.piastra.passi).forEach((x, k) => {
+      P.need(7); if (k % 2 === 0){ doc.setFillColor(...C.band); doc.rect(P.M, P.y - 4.1, P.CW, 6.2, "F"); }
+      doc.setFont("helvetica", "normal"); doc.setFontSize(9.5); doc.setTextColor(...C.ink);
+      doc.text(doc.splitTextToSize(pdfText(x.fase), 110)[0], P.M + 2, P.y);
+      doc.setFont("helvetica", "bold"); doc.setTextColor(...C.green); doc.text(pdfText(`${/^\d/.test(x.livello) ? "livello " : ""}${x.livello}`), P.M + 118, P.y);
+      doc.setFont("helvetica", "normal"); doc.setTextColor(...C.grey); doc.text(pdfText(x.tempo), P.M + P.CW - 2, P.y, { align: "right" });
+      P.y += 6.2;
+    });
+    if (r.piastra.zona) P.para(`Zona: ${r.piastra.zona}`, 8.5, "italic", C.grey, 2);
+    P.y += 1; VL(r.piastra.attenzioni).forEach(a => P.para(`- ${a}`, 9.5, "normal", C.ink, 2));
+    P.y += 1; P.para(V(r.piastra.differenza), 9, "italic", C.red, 2);
+  }
+  if (r.ninja && showNinja()){ P.y += 2; if (r.ninja.ok){ P.h2("Nel Ninja Foodi SP101EU"); P.para(`Funzione ${r.ninja.funzione} - ${r.ninja.temp} - ${r.ninja.tempo}`, 10, "bold", C.green); P.para(r.ninja.contenitore, 9.5, "normal", C.ink); r.ninja.passi.forEach((x, k) => P.para(`${k + 1}. ${x}`, 9.5, "normal", C.ink, 2)); } else { P.para(`Ninja Foodi SP101EU: non adatta. ${r.ninja.motivo}`, 8.5, "italic", C.grey); } }
+  if (r.note && r.note.length){
+    P.y += 2; P.h2("Note");
+    r.note.forEach(n => { doc.setFont("times", "italic"); doc.setFontSize(10.5); const L = doc.splitTextToSize(pdfText(n), P.CW - 6); P.need(L.length * 4.6 + 2); const y0 = P.y; P.para(n, 10.5, "italic", C.grey, 6, 1.35, "times"); doc.setDrawColor(...C.gold); doc.setLineWidth(0.8); doc.line(P.M + 1.5, y0 - 3.4, P.M + 1.5, Math.max(y0 - 3.4, P.y - 4)); P.y += 1.5; });
+  }
 }
 
 async function offer(doc, name, status){
@@ -1716,11 +1903,15 @@ function chiediDotazione(){
   });
 }
 async function conDotazione(fn){ const v = await chiediDotazione(); if (!v) return; DOT = v; try { fn(v); } finally { DOT = null; } }
-function saveRecipePdf(r, f){
+function saveRecipePdf(r, f, cids){
   const status = document.getElementById("status");
   if (!downloads || !window.jspdf){ status.textContent = "Il PDF non si può creare in questa vista."; return; }
-  const P = newPdf(); writeRecipe(P, r, f); P.footer();
-  offer(P.doc, r.titolo, status);
+  const P = newPdf();
+  if (cids && cids.length){
+    cids.forEach((cid, k) => { if (k){ P.doc.addPage(); P.y = 20; } conCond(r, cid, () => writeRecipe(P, r, f)); });
+  } else writeRecipe(P, r, f);
+  P.footer();
+  offer(P.doc, cids && cids.length === 1 ? r.titolo + " - " + sceltaNome(r, cids[0]) : r.titolo, status);
 }
 
 /* =====================================================================
@@ -1913,33 +2104,114 @@ function renderElettro(){
 }
 
 function writeScheda(P, E){
-  P.para(E.path.toUpperCase(), 9, "bold", C.green); P.y += 1;
-  P.para(E.nome, 20, "bold", C.ink, 0, 1.25); P.y += 1;
+  P.h1(E.path, E.nome);
   P.para(E.intro, 10, "normal", C.grey); P.y += 3;
-  E.dati.forEach(([l, v, sub]) => P.para(`${l}: ${v}${sub ? " (" + sub + ")" : ""}`, 10, "normal", C.ink));
-  if (E.id === "forno"){ P.y += 3; P.para(E === FORNO ? "La manopola delle funzioni (scatti da 0, senso orario)" : "La manopola delle funzioni", 14, "bold", C.ink); P.y += 1; E.funzioni.forEach(([k, n, en, d, t]) => P.para(`${k !== "" ? `${k} scatt${k === 1 ? "o" : "i"} - ` : ""}${n} (${en}): ${d}${t ? " (" + t + ")" : ""}`, 10, "normal", C.ink, 2)); }
-  listeOf(E).forEach(L => { P.y += 3; P.para(L.titolo, 14, "bold", C.ink); P.y += 1; if (L.nota) P.para(L.nota, 9, "italic", C.grey); L.righe.forEach(([a, b]) => P.para(`- ${a}: ${b}`, 10, "normal", C.ink, 2)); });
-  P.y += 3; P.para("Pregi", 14, "bold", C.ink); P.y += 1; E.pregi.forEach(([a, b]) => P.para(`- ${a}: ${b}`, 10, "normal", C.ink, 2));
-  P.y += 3; P.para("Difetti e attenzioni", 14, "bold", C.ink); P.y += 1; E.difetti.forEach(([a, b]) => P.para(`- ${a}: ${b}`, 10, "normal", C.ink, 2));
+  P.box(E.dati.map(([l, v]) => [l, v]));
+  E.dati.filter(d => d[2]).forEach(([l, , sub]) => P.para(`${l}: ${sub}`, 8.5, "italic", C.grey));
+  if (E.id === "forno"){ P.y += 1; P.h2(E === FORNO ? "La manopola delle funzioni (scatti da 0, senso orario)" : "La manopola delle funzioni"); E.funzioni.forEach(([k, n, en, d, t]) => P.para(`${k !== "" ? `${k} scatt${k === 1 ? "o" : "i"} - ` : ""}${n} (${en}): ${d}${t ? " (" + t + ")" : ""}`, 10, "normal", C.ink, 2)); }
+  listeOf(E).forEach(L => { P.y += 1; P.h2(L.titolo); if (L.nota) P.para(L.nota, 9, "italic", C.grey); L.righe.forEach(([a, b]) => P.para(`- ${a}: ${b}`, 10, "normal", C.ink, 2)); });
+  P.y += 1; P.h2("Pregi"); E.pregi.forEach(([a, b]) => P.para(`- ${a}: ${b}`, 10, "normal", C.ink, 2));
+  P.y += 1; P.h2("Difetti e attenzioni"); E.difetti.forEach(([a, b]) => P.para(`- ${a}: ${b}`, 10, "normal", C.ink, 2));
   P.y += 2; P.para(E.nota, 9, "italic", C.grey);
 }
 
+function senzaFonte(t){ return t.replace(/\s*\([^)]*\)\s*$/, ""); }
+/* menù per la cucina: piatti con dosi e tempi, lista della spesa con le quantità */
 function writeMenu(P, m){
-  const rs = menuRecipes(m), shop = shoppingList(m);
-  P.para(`MENÙ · ${dataIt(m.creato)}`.toUpperCase(), 9, "bold", C.green); P.y += 1; P.para(m.nome, 20, "bold", C.ink, 0, 1.25); P.y += 3;
-  for (const s of SEZIONI){
-    const items = rs.filter(r => r.sezione === s); if (!items.length) continue;
-    P.para(s.toUpperCase(), 10, "bold", C.green);
-    items.forEach(r => P.para(`${r.titolo}  -  ${durR(r)}, ${cot(r).dettaglio}`, 11, "normal", C.ink, 3));
+  const { doc } = P, rs = menuRecipes(m), shop = shoppingList(m), n = menuPersone(m);
+  P.h1(`Menù per la cucina - ${n} ${n === 1 ? "persona" : "persone"}`, m.nome);
+  const tA = rs.reduce((s, r) => s + conDish(m, r, () => tRange(r)[0]), 0), tB = rs.reduce((s, r) => s + conDish(m, r, () => tRange(r)[1]), 0);
+  const en = mostraConsumi() ? (() => { const a = rs.reduce((s, r) => s + conDish(m, r, () => energiaMain(r)[0]), 0), b = rs.reduce((s, r) => s + conDish(m, r, () => energiaMain(r)[1]), 0); return b > 0 ? `${kwhTxt(a, b)} kWh, ${costoTxt(a, b)}` : null; })() : null;
+  P.box([["Piatti", String(rs.length)], ["Persone", String(n)], ["Tempo, piatto per piatto", durAB(tA, tB)], en ? ["Energia stimata", en] : ["Da comprare", `${shop.length} ingredienti`]]);
+  for (const sz of SEZIONI){
+    const items = rs.filter(r => r.sezione === sz); if (!items.length) continue;
+    P.need(14); doc.setFont("helvetica", "bold"); doc.setFontSize(8); doc.setTextColor(...C.gold); doc.text(sz.toUpperCase(), P.M, P.y, { charSpace: 0.6 }); P.y += 5.5;
+    items.forEach(r => conDish(m, r, () => {
+      P.para(r.titolo + (hasDims(r) ? ` - ${sceltaNome(r, r.scelta)}` : ""), 11.5, "bold", C.ink, 2, 1.3);
+      P.para(`${dishDose(m, r)} · ${durR(r)} · ${cot(r).dettaglio}`, 9, "normal", C.grey, 2, 1.35); P.y += 2;
+    }));
+  }
+  if (shop.length){
+    P.h2("Lista della spesa");
+    if ((m.frigo || []).length) P.para(`Già in frigo: ${m.frigo.join(", ")}`, 8.5, "italic", C.grey);
+    P.y += 1;
+    const colW = (P.CW - 8) / 2, x0 = [P.M, P.M + colW + 8];
+    const cell = (x, X, y) => {
+      doc.setDrawColor(...C.green); doc.setLineWidth(0.35); doc.roundedRect(X, y - 3.2, 3.6, 3.6, 0.6, 0.6, "S");
+      doc.setFont("helvetica", "normal"); doc.setFontSize(10); doc.setTextColor(...C.ink);
+      const nl = doc.splitTextToSize(pdfText(x.nome + (x.fac ? " (facoltativo)" : "")), colW - 30); nl.forEach((l, i) => doc.text(l, X + 6, y + i * 4.4));
+      if (x.qta){ doc.setFont("helvetica", "bold"); doc.setTextColor(...C.green); doc.text(pdfText(x.qta), X + colW, y, { align: "right" }); }
+      doc.setFont("helvetica", "italic"); doc.setFontSize(7.5); doc.setTextColor(...C.grey);
+      const pl = doc.splitTextToSize(pdfText([...x.per].map(senzaFonte).join(", ")), colW - 7); pl.forEach((l, i) => doc.text(l, X + 6, y + nl.length * 4.4 - 0.8 + i * 3.4));
+      return nl.length * 4.4 + pl.length * 3.4 + 3;
+    };
+    const hOf = x => { doc.setFont("helvetica", "normal"); doc.setFontSize(10); const a = doc.splitTextToSize(pdfText(x.nome + (x.fac ? " (facoltativo)" : "")), colW - 30).length; doc.setFont("helvetica", "italic"); doc.setFontSize(7.5); return a * 4.4 + doc.splitTextToSize(pdfText([...x.per].map(senzaFonte).join(", ")), colW - 7).length * 3.4 + 3; };
+    for (let k = 0; k < shop.length; k += 2){
+      const pair = shop.slice(k, k + 2), h = Math.max(...pair.map(hOf));
+      P.need(h + 1);
+      pair.forEach((x, j) => cell(x, x0[j], P.y));
+      P.y += h;
+    }
     P.y += 2;
   }
-  if (mostraConsumi()){ const a = rs.reduce((s, r) => s + energiaMain(r)[0], 0), b = rs.reduce((s, r) => s + energiaMain(r)[1], 0); if (b > 0) P.para(`Energia stimata: ${kwhTxt(a, b)} kWh, ${costoTxt(a, b)}`, 10, "normal", C.ink); }
-  if ((m.frigo || []).length){ P.y += 1; P.para(`In frigo: ${m.frigo.join(", ")}`, 9, "italic", C.grey); }
-  if (shop.length){ P.y += 2; P.para("Lista della spesa", 14, "bold", C.ink); P.y += 1; shop.forEach(x => P.para(`[ ]  ${x.nome}  (${[...x.per].join(", ")})`, 10, "normal", C.ink, 2)); }
+}
+/* menù per gli ospiti: una pagina elegante, solo i piatti */
+function writeMenuOspite(P, m){
+  const { doc } = P, rs = menuRecipes(m);
+  doc.setFillColor(...C.cream); doc.rect(0, 0, 210, 297, "F");
+  doc.setDrawColor(...C.green); doc.setLineWidth(0.9); doc.rect(10, 10, 190, 277, "S");
+  doc.setDrawColor(...C.gold); doc.setLineWidth(0.3); doc.rect(13.5, 13.5, 183, 270, "S");
+  const orn = y => { doc.setDrawColor(...C.gold); doc.setLineWidth(0.4); doc.line(78, y, 99, y); doc.line(111, y, 132, y); doc.setFillColor(...C.gold); doc.lines([[2.2, 2.2], [2.2, -2.2], [-2.2, -2.2], [-2.2, 2.2]], 102.8, y, [1, 1], "F", true); };
+  const ORD = [["Antipasti", "Antipasti"], ["Lievitati", "Dal forno"], ["Primi", "Primi"], ["Secondi", "Secondi"], ["Dolci", "Dolci"]];
+  const blocks = ORD.map(([sz, lab]) => ({ lab, items: rs.filter(r => r.sezione === sz) })).filter(b => b.items.length);
+  const lines = blocks.reduce((s, b) => s + 16 + b.items.reduce((t, r) => t + (hasDims(r) ? 15 : 10.5), 0), 0);
+  let y = 46;
+  doc.setFont("times", "italic"); doc.setFontSize(13); doc.setTextColor(...C.gold); doc.text("De (Nova) Mensa Populari", 105, y, { align: "center" }); y += 14;
+  doc.setFont("times", "bolditalic"); doc.setFontSize(30); doc.setTextColor(...C.green);
+  doc.splitTextToSize(pdfText(m.nome), 160).forEach(l => { doc.text(l, 105, y, { align: "center" }); y += 12; });
+  y += 2; orn(y); y += 12;
+  const free = 262 - y; if (lines < free) y += Math.min(18, (free - lines) / 2);
+  blocks.forEach(b => {
+    doc.setFont("times", "bold"); doc.setFontSize(10.5); doc.setTextColor(...C.gold); doc.text(b.lab.toUpperCase(), 105, y, { align: "center", charSpace: 1.6 }); y += 9;
+    b.items.forEach(r => conDish(m, r, () => {
+      doc.setFont("times", "normal"); doc.setFontSize(17); doc.setTextColor(...C.ink);
+      doc.splitTextToSize(pdfText(senzaFonte(r.titolo)), 150).forEach(l => { doc.text(l, 105, y, { align: "center" }); y += 7; });
+      if (hasDims(r)){ doc.setFont("times", "italic"); doc.setFontSize(11.5); doc.setTextColor(...C.grey); doc.text(pdfText(sceltaItems(r, r.scelta).map(i => i.nome.toLowerCase()).join(" · ")), 105, y - 1, { align: "center" }); y += 5.5; }
+      y += 3.5;
+    }));
+    y += 6;
+  });
+  orn(Math.max(y, 250)); 
+  doc.setFont("times", "italic"); doc.setFontSize(10); doc.setTextColor(...C.grey);
+  doc.text(new Date().toLocaleDateString("it-IT", { day: "numeric", month: "long", year: "numeric" }), 105, 272, { align: "center" });
+}
+function chiediTipoMenu(){
+  return new Promise(res => {
+    const d = document.createElement("div"); d.className = "dot-modal";
+    d.innerHTML = `<div class="dot-box" role="dialog" aria-modal="true" aria-labelledby="tm-t">
+      <h2 id="tm-t">Per chi è il PDF?</h2>
+      <p>Il menù per gli ospiti è una pagina elegante con i soli piatti. Quello per la cucina ha i tempi, la lista della spesa con le quantità e le ricette con le dosi del menù.</p>
+      <button class="btn" data-v="ospite"><b>Per gli ospiti</b><small>solo i nomi dei piatti, senza tempi né spesa</small></button>
+      <button class="btn" data-v="cucina"><b>Per la cucina</b><small>tempi, lista della spesa con le quantità per le persone scelte e tutte le ricette</small></button>
+      <button class="link" data-v="">Annulla</button></div>`;
+    document.body.appendChild(d);
+    const done = v => { d.remove(); document.removeEventListener("keydown", esc1); res(v || null); };
+    const esc1 = e => { if (e.key === "Escape") done(null); };
+    document.addEventListener("keydown", esc1);
+    d.addEventListener("click", e => { const b = e.target.closest("[data-v]"); if (b) done(b.dataset.v); else if (e.target === d) done(null); });
+    d.querySelector("[data-v=ospite]").focus();
+  });
 }
 
 /* ---------- Scarica il ricettario (intero o in parte) ---------- */
-function sel(){ if (!state.sel) state.sel = { ricette: new Set(VIS().map(r => r.id)), menu: new Set(store.menus.map(m => m.id)), app: new Set(ELETTRO().map(E => E.id)) }; return state.sel; }
+function sel(){
+  if (!state.sel){ state.sel = { ricette: new Set(VIS().map(r => r.id)), menu: new Set(store.menus.map(m => m.id)), app: new Set(ELETTRO().map(E => E.id)), cond: {} }; }
+  const S = state.sel; VIS().forEach(r => { if (hasDims(r) && !S.cond[r.id]){ S.cond[r.id] = {}; DIMS(r).forEach(d => S.cond[r.id][d.key] = new Set(S.ricette.has(r.id) ? d.items.map(c => c.id) : [])); } });
+  return S;
+}
+/* accende o spegne ricette (e tutte le loro versioni) */
+function selRicette(S, ids, on){ ids.forEach(id => { on ? S.ricette.add(id) : S.ricette.delete(id); const r = RICETTE.find(x => x.id === id); if (r && hasDims(r)){ S.cond[id] = {}; DIMS(r).forEach(d => S.cond[id][d.key] = new Set(on ? d.items.map(c => c.id) : [])); } }); }
+function condTri(r, S){ const st = DIMS(r).map(d => triState(d.items.map(c => c.id), S.cond[r.id][d.key])); return st.every(x => x === "all") ? "all" : st.every(x => x === "none") ? "none" : "some"; }
 function triState(ids, set){ const n = ids.filter(id => set.has(id)).length; return n === 0 ? "none" : n === ids.length ? "all" : "some"; }
 
 function renderScarica(){
@@ -1947,7 +2219,7 @@ function renderScarica(){
   const allIds = VIS().map(r => r.id);
   const cb = (key, label, st, extra = "") => `<label class="ck ${extra}"><input type="checkbox" data-ck="${esc(key)}" ${st === "all" ? "checked" : ""} ${st === "some" ? 'data-ind="1"' : ""}><span>${label}</span></label>`;
   let html = masthead("scarica") + `<h1 style="margin-bottom:6px">Scarica in PDF</h1>
-  <p class="status" style="max-width:68ch;margin:0 0 14px">Scegli cosa mettere nel PDF: tutto il ricettario, intere sezioni, singole ricette, i menù e le schede degli elettrodomestici. Il file si apre con la copertina e un indice con i numeri di pagina. Le ricette sono con le dosi originali; prima di creare il PDF ti chiedo se scriverle per la dotazione di Casa di Federico o per una cucina generica.</p>
+  <p class="status" style="max-width:68ch;margin:0 0 14px">Scegli cosa mettere nel PDF: tutto il ricettario, intere sezioni, singole ricette, i menù e le schede degli elettrodomestici. Il file si apre con la copertina e un indice con i numeri di pagina. Le ricette sono con le dosi originali; per quelle con più condimenti o versioni scegli quali mettere: ognuno ha le sue pagine. Prima di creare il PDF ti chiedo se scriverle per la dotazione di Casa di Federico o per una cucina generica.</p>
   <div class="panel tree">
     ${cb("tutto", "<b>Tutto il ricettario</b>", (() => { const a = triState(allIds, S.ricette), b = triState(store.menus.map(m => m.id), S.menu); const vals = [a, store.menus.length ? b : null, triState(ELETTRO().map(E => E.id), S.app)].filter(Boolean); return vals.every(v => v === "all") ? "all" : vals.every(v => v === "none") ? "none" : "some"; })())}
     <div class="tree-group"><h3>Ricette</h3>`;
@@ -1958,7 +2230,9 @@ function renderScarica(){
     for (const sub of subs){
       const rr = rs.filter(r => (r.sottosezione || "") === sub).sort((a, b) => a.titolo.localeCompare(b.titolo, "it"));
       html += `<div class="tree-sub">${sub ? cb("sub:" + sez + "|" + sub, esc(sub), triState(rr.map(r => r.id), S.ricette)) : ""}
-        <div class="tree-items">${rr.map(r => cb("r:" + r.id, esc(r.titolo), S.ricette.has(r.id) ? "all" : "none")).join("")}</div></div>`;
+        <div class="tree-items">${rr.map(r => hasDims(r)
+          ? cb("r:" + r.id, esc(r.titolo), condTri(r, S)) + `<div class="tree-items">${DIMS(r).map(d => d.items.map(c => cb("v:" + r.id + "|" + d.key + "|" + c.id, `<span class="n">${esc(d.label)}:</span> ${esc(c.nome)}`, S.cond[r.id][d.key].has(c.id) ? "all" : "none")).join("")).join("")}</div>`
+          : cb("r:" + r.id, esc(r.titolo), S.ricette.has(r.id) ? "all" : "none")).join("")}</div></div>`;
     }
     html += `</div>`;
   }
@@ -1974,10 +2248,11 @@ function renderScarica(){
   app.querySelectorAll("[data-ck]").forEach(i => i.addEventListener("change", () => {
     const k = i.dataset.ck, on = i.checked;
     const setAll = (set, ids) => ids.forEach(id => on ? set.add(id) : set.delete(id));
-    if (k === "tutto"){ setAll(S.ricette, allIds); setAll(S.menu, store.menus.map(m => m.id)); setAll(S.app, ELETTRO().map(E => E.id)); }
-    else if (k.startsWith("sez:")) setAll(S.ricette, VIS().filter(r => r.sezione === k.slice(4)).map(r => r.id));
-    else if (k.startsWith("sub:")){ const [sz, sb] = k.slice(4).split("|"); setAll(S.ricette, VIS().filter(r => r.sezione === sz && (r.sottosezione || "") === sb).map(r => r.id)); }
-    else if (k.startsWith("r:")) setAll(S.ricette, [k.slice(2)]);
+    if (k === "tutto"){ selRicette(S, allIds, on); setAll(S.menu, store.menus.map(m => m.id)); setAll(S.app, ELETTRO().map(E => E.id)); }
+    else if (k.startsWith("sez:")) selRicette(S, VIS().filter(r => r.sezione === k.slice(4)).map(r => r.id), on);
+    else if (k.startsWith("sub:")){ const [sz, sb] = k.slice(4).split("|"); selRicette(S, VIS().filter(r => r.sezione === sz && (r.sottosezione || "") === sb).map(r => r.id), on); }
+    else if (k.startsWith("r:")) selRicette(S, [k.slice(2)], on);
+    else if (k.startsWith("v:")){ const [id, dk, cid] = k.slice(2).split("|"); const st = S.cond[id][dk]; on ? st.add(cid) : st.delete(cid); Object.values(S.cond[id]).every(x => x.size) ? S.ricette.add(id) : S.ricette.delete(id); }
     else if (k === "menu:all") setAll(S.menu, store.menus.map(m => m.id));
     else if (k.startsWith("m:")) setAll(S.menu, [k.slice(2)]);
     else if (k === "app:all") setAll(S.app, ELETTRO().map(E => E.id));
@@ -1991,25 +2266,30 @@ function buildBookPdf(S, v){
   const status = document.getElementById("status");
   if (!downloads || !window.jspdf){ status.textContent = "Il PDF non si può creare in questa vista."; return; }
   const recipes = SEZIONI.flatMap(sez => VIS().filter(r => r.sezione === sez && S.ricette.has(r.id)).sort((a, b) => (a.sottosezione || "").localeCompare(b.sottosezione || "", "it") || a.titolo.localeCompare(b.titolo, "it")));
+  const voci = recipes.flatMap(r => hasDims(r) ? combos(r, Object.fromEntries(Object.entries(S.cond[r.id] || {}).map(([k, v]) => [k, [...v]]))).map(sc => ({ r, cid: sc, label: r.titolo + " (" + sceltaNome(r, sc) + ")" })) : [{ r, cid: null, label: r.titolo }]);
   const menus = store.menus.filter(m => S.menu.has(m.id)).sort((a, b) => a.creato - b.creato);
   if (!recipes.length && !menus.length && !S.app.size){ status.textContent = "Scegli almeno una cosa da mettere nel PDF."; return; }
   const apps0 = v === "gen" ? [] : ELETTRO().filter(E => S.app.has(E.id));
   const P = newPdf(), doc = P.doc;
   // copertina
   doc.setFillColor(47, 107, 79); doc.rect(0, 0, 210, 297, "F");
-  doc.setTextColor(255, 255, 255); doc.setFont("helvetica", "bold"); doc.setFontSize(34);
-  doc.text("De (Nova) Mensa", 20, 120); doc.text("Populari", 20, 136);
-  doc.setFont("helvetica", "normal"); doc.setFontSize(12);
+  doc.setFillColor(58, 122, 92); doc.circle(182, 52, 70, "F"); doc.setFillColor(68, 134, 103); doc.circle(196, 30, 38, "F");
+  doc.setFillColor(40, 94, 69); doc.circle(-12, 292, 60, "F");
+  doc.setDrawColor(...C.gold); doc.setLineWidth(1.2); doc.line(20, 100, 52, 100);
+  doc.setTextColor(232, 214, 166); doc.setFont("times", "italic"); doc.setFontSize(14); doc.text("Ricettario di casa", 20, 112);
+  doc.setTextColor(255, 255, 255); doc.setFont("helvetica", "bold"); doc.setFontSize(36);
+  doc.text("De (Nova) Mensa", 20, 128); doc.text("Populari", 20, 144);
+  doc.setFont("helvetica", "normal"); doc.setFontSize(12); doc.setTextColor(222, 236, 228);
   const parti = [recipes.length ? `${recipes.length} ${recipes.length === 1 ? "ricetta" : "ricette"}` : "", menus.length ? `${menus.length} ${menus.length === 1 ? "menù" : "menù"}` : "", apps0.length ? (apps0.length === 1 ? "1 elettrodomestico" : `${apps0.length} elettrodomestici`) : "", v === "gen" ? "per una cucina generica" : v === "andreina" ? "per la cucina di Casa di Andreina" : "per la cucina di Casa di Federico"].filter(Boolean).join(" · ");
-  doc.text(pdfText(parti), 20, 150);
-  doc.text(new Date().toLocaleDateString("it-IT", { day: "numeric", month: "long", year: "numeric" }), 20, 158);
+  doc.text(doc.splitTextToSize(pdfText(parti), 170), 20, 160);
+  doc.setFont("times", "italic"); doc.text(new Date().toLocaleDateString("it-IT", { day: "numeric", month: "long", year: "numeric" }), 20, 176);
   // righe dell'indice
   const entries = [];
   let lastSez = null, lastSub = null;
-  recipes.forEach(r => {
+  voci.forEach(({ r, cid, label }) => {
     if (r.sezione !== lastSez){ entries.push({ lvl: 0, label: r.sezione, key: "sez:" + r.sezione }); lastSez = r.sezione; lastSub = null; }
     if ((r.sottosezione || "") !== lastSub){ if (r.sottosezione) entries.push({ lvl: 1, label: r.sottosezione, key: "sub:" + r.sezione + "|" + r.sottosezione }); lastSub = r.sottosezione || ""; }
-    entries.push({ lvl: 2, label: r.titolo, key: "r:" + r.id });
+    entries.push({ lvl: 2, label, key: "r:" + r.id + "|" + (cid ? JSON.stringify(cid) : "") });
   });
   if (menus.length){ entries.push({ lvl: 0, label: "Menù", key: "menus" }); menus.forEach(m => entries.push({ lvl: 2, label: m.nome, key: "m:" + m.id })); }
   const apps = v === "gen" ? [] : ELETTRO().filter(E => S.app.has(E.id));
@@ -2020,18 +2300,18 @@ function buildBookPdf(S, v){
   const mark = k => { if (!(k in page)) page[k] = doc.getNumberOfPages(); };
   // contenuto
   lastSez = null; lastSub = null;
-  recipes.forEach(r => {
+  voci.forEach(({ r, cid }) => {
     doc.addPage(); P.y = 20;
     if (r.sezione !== lastSez){ mark("sez:" + r.sezione); lastSez = r.sezione; lastSub = null; }
     if ((r.sottosezione || "") !== lastSub){ if (r.sottosezione) mark("sub:" + r.sezione + "|" + r.sottosezione); lastSub = r.sottosezione || ""; }
-    mark("r:" + r.id);
-    writeRecipe(P, r, 1);
+    mark("r:" + r.id + "|" + (cid ? JSON.stringify(cid) : ""));
+    conCond(r, cid, () => writeRecipe(P, r, 1));
   });
   menus.forEach((m, k) => { doc.addPage(); P.y = 20; if (!k) mark("menus"); mark("m:" + m.id); writeMenu(P, m); });
   apps.forEach((E, k) => { doc.addPage(); P.y = 20; if (!k) mark("apps"); mark("a:" + E.id); writeScheda(P, E); });
   // indice
   let ip = 2, y = 26;
-  doc.setPage(ip); doc.setFont("helvetica", "bold"); doc.setFontSize(22); doc.setTextColor(...C.ink); doc.text("Indice", 18, y); y += 12;
+  doc.setPage(ip); doc.setFillColor(...C.green); doc.rect(0, 0, 210, 5, "F"); doc.setFont("times", "bolditalic"); doc.setFontSize(28); doc.setTextColor(...C.green); doc.text("Indice", 18, y + 2); y += 6; doc.setDrawColor(...C.gold); doc.setLineWidth(0.6); doc.line(18, y, 46, y); y += 10;
   entries.forEach(e => {
     if (y > 280){ ip++; doc.setPage(ip); y = 24; }
     const x = 18 + e.lvl * 6, pg = page[e.key];
@@ -2050,8 +2330,7 @@ function buildBookPdf(S, v){
     y += e.lvl === 0 ? 8 : 7;
   });
   // numeri di pagina (non sulla copertina)
-  const n = doc.getNumberOfPages();
-  for (let i = 2; i <= n; i++){ doc.setPage(i); doc.setFont("helvetica", "italic"); doc.setFontSize(8); doc.setTextColor(140, 150, 145); doc.text("De (Nova) Mensa Populari", P.M, 290); doc.text(`${i}/${n}`, 192, 290, { align: "right" }); }
+  P.noFooter = new Set([1]); P.footer();
   const tutto = recipes.length === VIS().length && menus.length === store.menus.length && S.app.size === ELETTRO().length;
   offer(doc, tutto ? "De (Nova) Mensa Populari" : "De (Nova) Mensa Populari - selezione", status);
 }
@@ -2147,42 +2426,88 @@ function renderWizard(){
   }
   html += `<div class="sticky-bar">
     <div class="field" style="flex:1 1 240px"><label for="mname" class="status">Nome del menù</label><input id="mname" value="${esc(d.nome)}"></div>
+    <div class="field" style="flex:0 0 90px"><label for="mpers0" class="status">Persone</label><input id="mpers0" inputmode="numeric" value="${d.persone || 4}"></div>
     <button class="btn" id="save" ${d.piatti.size ? "" : "disabled"}>Salva menù (${d.piatti.size})</button>
   </div>`;
   app.innerHTML = html;
   const nameInp = document.getElementById("mname");
   nameInp.addEventListener("input", () => { d.nome = nameInp.value; });
+  const p0 = document.getElementById("mpers0"); p0.addEventListener("input", () => { const v = parseNum(p0.value); if (v) d.persone = Math.max(1, Math.round(v)); });
   document.getElementById("back1").onclick = e => { e.preventDefault(); d.step = 1; renderWizard(); };
   app.querySelectorAll("[data-r]").forEach(b => b.onclick = () => {
     const id = b.dataset.r; d.piatti.has(id) ? d.piatti.delete(id) : d.piatti.add(id);
     const y = window.scrollY; renderWizard(); window.scrollTo(0, y);
   });
   document.getElementById("save").onclick = () => {
-    const m = { id: Date.now().toString(36), nome: (d.nome || "").trim() || "Menù", creato: Date.now(), frigo: [...d.frigo], piatti: [...d.piatti] };
+    const m = { id: Date.now().toString(36), nome: (d.nome || "").trim() || "Menù", creato: Date.now(), frigo: [...d.frigo], piatti: [...d.piatti], persone: d.persone || 4, dish: {} };
     store.menus = [...store.menus, m]; persist(); state.draft = null;
     location.hash = "menu-" + m.id;
   };
 }
 
+/* ---------- Piatti del menù: persone, teglie e scelte per ogni piatto (salvati nel menù) ---------- */
+function menuPersone(m){ return m.persone || 4; }
+function dishCfg(m, r){ return (m.dish && m.dish[r.id]) || {}; }
+function setDish(m, r, patch){ m.dish = m.dish || {}; m.dish[r.id] = { ...dishCfg(m, r), ...patch }; persist(); }
+function perPersone(r){ return r.unitaPorzioni[0] === "persona"; }
+function dishSc(m, r){ return hasDims(r) ? sceltaValida(r, dishCfg(m, r).sc || r.scelta) : null; }
+function dishTg(m, r){ return r.cont ? { ...r.cont, h: 0, ...(dishCfg(m, r).tg || {}) } : null; }
+/* esegue fn(f) con la ricetta impostata come nel menù (scelte, teglia) e f = fattore delle dosi */
+function conDish(m, r, fn, conTitolo = false){
+  if (!state.tg) state.tg = {};
+  const t = dishTg(m, r), had = r.id in state.tg, old = state.tg[r.id];
+  if (t) state.tg[r.id] = t;
+  try {
+    return conCond(r, dishSc(m, r), () => {
+      const c = dishCfg(m, r);
+      const f = r.cont ? tgFactor(r) : perPersone(r) ? (c.persone || menuPersone(m)) / r.porzioni : (c.porz || r.porzioni) / r.porzioni;
+      return fn(f);
+    }, conTitolo);
+  } finally { if (t){ if (had) state.tg[r.id] = old; else delete state.tg[r.id]; } }
+}
+function dishDose(m, r){ return conDish(m, r, f => r.cont ? tgText(r) : `${fmt(r.porzioni * f)} ${porzLabel(r, r.porzioni * f)}`); }
+function qtaTxt(q){ return [...q].map(([u, v]) => { if (u.startsWith("#") || u === "spicchi"){ const n = Math.max(1, Math.ceil(v - 0.05)), l = u === "spicchi" ? uLab(u, n) : contaNum(u.slice(1), n); return `${n}${l ? " " + l : ""}`; } return `${fmt(v)} ${u}`; }).join(" + "); }
+function contaNum(l, n){ const P = { rametto: "rametti", foglia: "foglie", gambo: "gambi", tuorlo: "tuorli" }, S = Object.fromEntries(Object.entries(P).map(([a, b]) => [b, a])); return n === 1 ? (S[l] || l) : (P[l] || l); }
+function contaLab(i){ if (/^tuorl/i.test(i.nome)) return "tuorli"; if (i.nota && /^[a-zà-ù]+$/i.test(i.nota.trim())) return i.nota.trim(); return ""; }
 function shoppingList(m){
   const frigo = new Set(m.frigo || []);
   const out = new Map();
-  for (const r of menuRecipes(m)) for (const i of allIng(r)){
-    if (i.base || !i.k || i.k.some(k => frigo.has(k))) continue;
-    const key = i.k[0];
-    if (!out.has(key)) out.set(key, { nome: i.k.join(" o "), per: new Set() });
-    out.get(key).per.add(r.titolo);
-  }
-  return [...out.values()].sort((a, b) => a.nome.localeCompare(b.nome, "it"));
+  for (const r of menuRecipes(m)) conDish(m, r, f => {
+    for (const i of allIng(r)){
+      if (i.base || !i.k || i.k.some(k => frigo.has(k))) continue;
+      const key = i.k[0];
+      if (!out.has(key)) out.set(key, { nome: i.k.join(" o "), per: new Set(), q: new Map(), nq: false, fac: true });
+      const x = out.get(key); x.per.add(r.titolo); if (!/facoltativ/i.test(i.nota || "")) x.fac = false;
+      const u = i.u === "" ? "#" + contaLab(i) : i.u;
+      if (i.qta == null) x.nq = true; else x.q.set(u, (x.q.get(u) || 0) + i.qta * f);
+    }
+  });
+  return [...out.values()].map(x => ({ ...x, qta: x.q.size ? qtaTxt(x.q) : "" })).sort((a, b) => a.nome.localeCompare(b.nome, "it"));
 }
-
+function dishCtl(m, r){
+  const c = dishCfg(m, r), id = r.id;
+  let h = DIMS(r).map(d => `<label class="dc"><span>${esc(d.label)}</span><select class="cond-sel" data-mdim="${d.key}" data-r="${id}">${d.items.map(it => `<option value="${it.id}" ${dishSc(m, r)[d.key] === it.id ? "selected" : ""}>${esc(it.nome)}</option>`).join("")}</select></label>`).join("");
+  if (r.cont){
+    const t = dishTg(m, r);
+    h += `<label class="dc"><span>${r.cont.nome === "teglia" ? "Teglia" : "Stampo"}</span><select class="cond-sel" data-mforma="${id}"><option value="rett" ${t.forma === "rett" ? "selected" : ""}>Rettangolare</option><option value="tonda" ${t.forma === "tonda" ? "selected" : ""}>Tondo</option></select></label>
+      <span class="dc dims">${t.forma === "rett" ? `<span class="qty"><input data-mtg="a" data-r="${id}" inputmode="decimal" value="${fmt(t.a)}" aria-label="Primo lato in cm"></span><span>×</span><span class="qty"><input data-mtg="b" data-r="${id}" inputmode="decimal" value="${fmt(t.b)}" aria-label="Secondo lato in cm"><span class="u">cm</span></span>`
+        : `<span>Ø</span><span class="qty"><input data-mtg="d" data-r="${id}" inputmode="decimal" value="${fmt(t.d)}" aria-label="Diametro in cm"><span class="u">cm</span></span>`}
+      ${r.cont.nome === "stampo" ? `<span>h</span><span class="qty"><input data-mtg="h" data-r="${id}" inputmode="decimal" value="${fmt(t.h)}" aria-label="Altezza in cm, 0 per non considerarla"><span class="u">cm</span></span>` : ""}
+      <span>quante?</span><span class="qty"><input data-mtg="n" data-r="${id}" inputmode="numeric" value="${fmt(t.n)}" aria-label="Quante" style="width:40px"></span></span>`;
+  } else if (perPersone(r)) h += `<span class="dc"><span>Persone</span><span class="qty"><input data-mpers="${id}" inputmode="numeric" value="${fmt(c.persone || menuPersone(m))}" aria-label="Persone per ${esc(r.titolo)}" style="width:44px"></span></span>`;
+  else h += `<span class="dc"><span>Quantità</span><span class="qty"><input data-mporz="${id}" inputmode="decimal" value="${fmt(c.porz || r.porzioni)}" aria-label="Quantità"><span class="u">${esc(r.unitaPorzioni[1])}</span></span></span>`;
+  return h;
+}
 function renderMenu(m){
   const rs = menuRecipes(m);
   const shop = shoppingList(m);
-  const totA = rs.reduce((s, r) => s + tRange(r)[0], 0), totB = rs.reduce((s, r) => s + tRange(r)[1], 0);
+  const totA = rs.reduce((s, r) => s + conDish(m, r, () => tRange(r)[0]), 0), totB = rs.reduce((s, r) => s + conDish(m, r, () => tRange(r)[1]), 0);
   let html = masthead("menu") + `<a class="back" href="#menu"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>I tuoi menù</a>
-  <span class="path">Menù · ${dataIt(m.creato)}</span>
-  <h1 style="margin:4px 0 14px">${esc(m.nome)}</h1>
+  <span class="path">Menù per ${menuPersone(m)} ${menuPersone(m) === 1 ? "persona" : "persone"}</span>
+  <h1 style="margin:4px 0 10px">${esc(m.nome)}</h1>
+  <div class="scaler-row" style="margin-bottom:14px"><span>Persone</span>
+    <div class="stepper"><button id="mminus" aria-label="Meno">−</button><input id="mpers" type="text" inputmode="numeric" value="${menuPersone(m)}" aria-label="Persone"><button id="mplus" aria-label="Più">+</button></div>
+    <span class="status">vale per tutti i piatti a persona; teglie e stampi li scegli piatto per piatto</span></div>
   <div class="recap">
     <div class="rc"><span class="lab">${ICON.basket}Piatti</span><span class="big">${rs.length}</span></div>
     <div class="rc"><span class="lab">${ICON.clock}Tempo, piatto per piatto</span><span class="big" style="font-size:18px">${durAB(totA, totB)}</span><span class="sub">Somma dei tempi delle ricette</span></div>
@@ -2193,11 +2518,16 @@ function renderMenu(m){
   for (const s of SEZIONI){
     const items = rs.filter(r => r.sezione === s);
     if (!items.length) continue;
-    html += `<section class="section-block"><div class="section-title"><h2>${s}</h2><span>${items.length}</span></div><div class="grid">${items.map(cardHTML).join("")}</div></section>`;
+    html += `<section class="section-block"><div class="section-title"><h2>${s}</h2><span>${items.length}</span></div><div class="dishes">${items.map(r => `<div class="dish">
+      <a class="th" href="#${r.id}">${art(r)}</a>
+      <div class="dish-main"><a href="#${r.id}"><b>${esc(r.titolo)}</b></a>
+        <span class="mt">${conDish(m, r, () => `${durR(r)} · ${esc(cot(r).dettaglio)}`)}</span>
+        <div class="dish-ctl">${dishCtl(m, r)}</div>
+        <span class="mt dose">Dosi: ${esc(dishDose(m, r))}</span></div></div>`).join("")}</div></section>`;
   }
   if (!rs.length) html += `<p class="empty">Le ricette di questo menù non ci sono più nel ricettario.</p>`;
   html += `<section class="section-block"><div class="section-title"><h2>Lista della spesa</h2><span>${shop.length}</span></div>
-    ${shop.length ? `<ul class="shop">${shop.map(x => `<li>${esc(x.nome)} <small>· ${esc([...x.per].join(", "))}</small></li>`).join("")}</ul>` : `<p class="empty">Hai già tutto quello che serve.</p>`}
+    ${shop.length ? `<ul class="shop">${shop.map(x => `<li>${esc(x.nome)}${x.qta ? `: <b>${esc(x.qta)}</b>` : ""}${x.fac ? " <small>(facoltativo)</small>" : ""} <small>· ${esc([...x.per].join(", "))}</small></li>`).join("")}</ul>` : `<p class="empty">Hai già tutto quello che serve.</p>`}
   </section>
   <div class="actions" style="margin-top:22px">
     <button class="btn" id="mpdf" ${downloads ? "" : "disabled"}><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M12 4v11m0 0-4-4m4 4 4-4M5 20h14"/></svg>Scarica menù in PDF</button>
@@ -2205,19 +2535,35 @@ function renderMenu(m){
     <span class="status" id="status">${downloads ? "" : "Il download non è disponibile in questa vista."}</span>
   </div>`;
   app.innerHTML = html;
+  const redraw = () => { const y = scrollY; renderMenu(m); scrollTo(0, y); };
+  const setPers = n => { n = Math.max(1, Math.min(99, Math.round(n))); m.persone = n; Object.values(m.dish || {}).forEach(c => delete c.persone); persist(); redraw(); };
+  document.getElementById("mminus").onclick = () => setPers(menuPersone(m) - 1);
+  document.getElementById("mplus").onclick = () => setPers(menuPersone(m) + 1);
+  const mp = document.getElementById("mpers"); mp.addEventListener("change", () => { const v = parseNum(mp.value); v ? setPers(v) : redraw(); });
+  const R = id => RICETTE.find(x => x.id === id);
+  app.querySelectorAll("[data-mdim]").forEach(el => el.onchange = () => { const r = R(el.dataset.r); setDish(m, r, { sc: { ...dishSc(m, r), [el.dataset.mdim]: el.value } }); redraw(); });
+  app.querySelectorAll("[data-mforma]").forEach(el => el.onchange = () => { const r = R(el.dataset.mforma); setDish(m, r, { tg: { ...(dishCfg(m, r).tg || {}), forma: el.value } }); redraw(); });
+  app.querySelectorAll("[data-mtg]").forEach(el => el.addEventListener("change", () => { const r = R(el.dataset.r), k = el.dataset.mtg, v = parseNum(el.value); if (v != null || (k === "h" && String(el.value).trim() === "0")) setDish(m, r, { tg: { ...(dishCfg(m, r).tg || {}), [k]: k === "n" ? Math.max(1, Math.round(v)) : (v || 0) } }); redraw(); }));
+  app.querySelectorAll("[data-mpers]").forEach(el => el.addEventListener("change", () => { const r = R(el.dataset.mpers), v = parseNum(el.value); if (v) setDish(m, r, { persone: Math.max(1, Math.round(v)) }); redraw(); }));
+  app.querySelectorAll("[data-mporz]").forEach(el => el.addEventListener("change", () => { const r = R(el.dataset.mporz), v = parseNum(el.value); if (v) setDish(m, r, { porz: v }); redraw(); }));
+  app.querySelectorAll(".dish .qty input").forEach(i => { i.addEventListener("focus", () => i.select()); i.addEventListener("keydown", e => { if (e.key === "Enter"){ e.preventDefault(); i.blur(); } }); });
   document.getElementById("del").onclick = () => {
     if (state.confirmDel !== m.id){ state.confirmDel = m.id; renderMenu(m); return; }
     state.confirmDel = null; store.menus = store.menus.filter(x => x.id !== m.id); persist(); location.hash = "menu";
   };
-  document.getElementById("mpdf").onclick = () => conDotazione(() => {
+  document.getElementById("mpdf").onclick = async () => {
     const status = document.getElementById("status");
     if (!downloads || !window.jspdf){ status.textContent = "Il PDF non si può creare in questa vista."; return; }
-    const P = newPdf();
-    writeMenu(P, m);
-    rs.forEach(r => { P.doc.addPage(); P.y = 20; writeRecipe(P, r, 1); });
-    P.footer();
-    offer(P.doc, m.nome, status);
-  });
+    const tipo = await chiediTipoMenu(); if (!tipo) return;
+    if (tipo === "ospite"){ const P = newPdf(); writeMenuOspite(P, m); offer(P.doc, m.nome + " - per gli ospiti", status); return; }
+    conDotazione(() => {
+      const P = newPdf();
+      writeMenu(P, m);
+      rs.forEach(r => conDish(m, r, f => { P.doc.addPage(); P.y = 20; writeRecipe(P, r, f); }, true));
+      P.footer();
+      offer(P.doc, m.nome + " - per la cucina", status);
+    });
+  };
 }
 
 /* =====================================================================
