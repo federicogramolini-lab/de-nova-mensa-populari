@@ -2592,6 +2592,7 @@ const C = { green: [47,107,79], ink: [29,38,34], grey: [93,107,100], red: [184,6
 function writeRecipe(P, r, f){
   const { doc } = P;
   P.h1(`${r.sezione}${r.sottosezione ? " - " + r.sottosezione : ""}`, r.titolo);
+  if (DOT) P.para(DOT === "casa" ? "Per la cucina di Federico: forno IKEA, piano a induzione IKEA MATMÄSSIG e Ninja Foodi" : DOT === "andreina" ? "Per la cucina di Andreina, a Roma: forno IKEA MATTRADITION e piano a induzione IKEA MATMÄSSIG" : "Per una cucina qualsiasi", 9, "italic", C.green);
   if (r.descrizione) P.para(r.descrizione, 10, "normal", C.grey);
   if (r.fonte){ P.para(`Fonte: ${r.fonte.nome}${r.fonte.url ? " - " + r.fonte.url : ""}`, 8.5, "italic", C.grey); P.y += 2; }
   const porz = r.porzioni * f;
@@ -2717,7 +2718,7 @@ function dataIt(ts){ try { return new Date(ts).toLocaleDateString("it-IT", { day
 const FORNO = {
   id: "forno", nome: "Forno IKEA", path: "Forno da incasso",
   intro: "Forno da incasso IKEA costruito da Whirlpool (tipo FXJM6), con manopola delle funzioni, display, tasti Indietro, OK, Luce e Contaminuti, e manopola di regolazione. Tutte le cotture del ricettario sono tarate su questo forno.",
-  dati: [["Temperatura", "50–250 °C", "Scala della manopola di destra"], ["Ripiani", "5", "Si contano dal basso: 1 è il più vicino alla resistenza inferiore"], ["Funzioni sulla manopola", "10", "Contando gli scatti da 0 (spento) in senso orario"]],
+  dati: [["Temperatura", "50–250 °C", "Scala della manopola di destra"], ["Potenza massima", "circa 2,7–3 kW", "Valore dei forni Whirlpool per IKEA con queste funzioni (manuale ANRÄTTA, stessa famiglia): il dato esatto è sulla targhetta, sul bordo del vano a porta aperta"], ["Ripiani", "5", "Si contano dal basso: 1 è il più vicino alla resistenza inferiore"], ["Funzioni sulla manopola", "10", "Contando gli scatti da 0 (spento) in senso orario"]],
   funzioni: [
     [1, "Termoventilato", "Forced air", "dolci e lievitati in stampo, cotture uniformi anche su più ripiani", "fino a 250 °C"],
     [2, "Statico", "Conventional", "sopra e sotto: pane, granola, un solo ripiano, meglio il 2 o il 3", "fino a 250 °C"],
@@ -2749,11 +2750,11 @@ const FORNO = {
 };
 
 const PIASTRA = {
-  id: "piastra", nome: "Piano a induzione IKEA", path: "Piano cottura",
-  intro: "Piano a induzione IKEA da incasso con 4 zone e comandi touch: per ogni zona i tasti − e +, il Boost, il timer, la pausa (II) e il blocco comandi. Tutte le cotture sul fuoco del ricettario sono date in livelli di questo piano.",
-  dati: [["Zone", "4", "Usa sempre la zona con il diametro più vicino al fondo della pentola"], ["Livelli", "1–9 + Boost", "Il Boost è una spinta di potenza per pochi minuti, per portare a bollore"], ["Comandi", "− / + per zona", "Timer, pausa II e blocco comandi con il lucchetto"]],
+  id: "piastra", nome: "Piano a induzione IKEA MATMÄSSIG", path: "Piano cottura",
+  intro: "Piano a induzione IKEA MATMÄSSIG (IKEA 300, 59 cm), riconosciuto dalla foto: 4 zone, comandi touch − e + per ogni zona, Boost solo su due zone, timer, pausa (II) e blocco comandi. Tutte le cotture sul fuoco del ricettario sono date in livelli di questo piano.",
+  dati: [["Zone", "4", "Usa sempre la zona con il diametro più vicino al fondo della pentola"], ["Sinistra davanti", "Ø 21 cm · 2300 W", "Boost 3200 W: la zona più potente, per l'acqua della pasta"], ["Sinistra dietro", "Ø 18 cm · 1800 W", "Senza Boost"], ["Destra davanti", "Ø 14,5 cm · 1400 W", "Senza Boost: pentolini e caffettiera"], ["Destra dietro", "Ø 18 cm · 1800 W", "Boost 2500 W"], ["Potenza totale", "7350 W", "Le zone dello stesso lato si dividono la potenza: l'ultima che regoli ha la precedenza"], ["Livelli", "1–9 + Boost", "Da confermare sul display"]],
   liste: [
-    { titolo: "Consumi tipici", nota: "Stime per una zona da circa 1,8–2 kW. L'induzione spreca poco: quasi tutta l'energia va nella pentola.", righe: [["Livello 2, sobbollire", "0,15–0,25 kW"], ["Livello 5, soffriggere", "0,6–0,8 kW"], ["Livello 7–8, rosolare", "1,2–1,6 kW"], ["Boost", "fino a circa 3 kW"], ["Portare a bollore 3 litri d'acqua", "circa 0,3–0,35 kWh"]] },
+    { titolo: "Consumi tipici", nota: "Per una zona da 1,8 kW; la grande davanti a sinistra arriva a 2,3 kW. L'induzione spreca poco: quasi tutta l'energia va nella pentola. Con il contatore da 3 kW: niente Boost se il forno è acceso.", righe: [["Livello 2, sobbollire", "0,15–0,25 kW"], ["Livello 5, soffriggere", "0,6–0,8 kW"], ["Livello 7–8, rosolare", "1,2–1,6 kW"], ["Livello 9, zona grande", "2,3 kW"], ["Boost", "3,2 kW (sinistra davanti) o 2,5 kW (destra dietro)"], ["Portare a bollore 3 litri d'acqua", "circa 0,3–0,35 kWh"]] },
     { titolo: "Da fornello a gas a livelli dell'induzione", nota: "Corrispondenza indicativa: le ricette che dicono «fiamma» vanno tradotte così.", righe: [["Fiamma minima, appena un filo", "1–2"], ["Fiamma bassa, sobbollire", "3–4"], ["Fiamma media, soffriggere", "5–6"], ["Fiamma medio-alta, rosolare", "7"], ["Fiamma alta, sigillare, sfumare", "8–9"], ["Portare a bollore l'acqua", "Boost"]] }
   ],
   pregi: [
@@ -2798,7 +2799,7 @@ const NINJA = {
 const FORNO_MA = {
   id: "forno", nome: "Forno IKEA MATTRADITION", path: "Forno da incasso",
   intro: "Forno da incasso IKEA MATTRADITION bianco (IKEA 300, ventilato), costruito da Whirlpool, tutto a manopole: a sinistra le funzioni (0 in alto e 7 posizioni), al centro il contaminuti, a destra la temperatura da 50 a 250 °C, e accanto la spia del termostato. Nelle ricette, con il profilo di Andreina, cotture e ripiani sono tarati su questo forno.",
-  dati: [["Temperatura massima", "250 °C", "Il valore più alto della tabella di cottura del manuale"], ["Ripiani", "5", "Si contano dal basso: 1 è il più vicino alla resistenza inferiore"], ["Volume", "71 litri", ""], ["Preriscaldamento", "spia del termostato", "La spia si accende quando scegli una funzione e si spegne quando il forno è in temperatura: allora inforna. Non c'è segnale acustico"]],
+  dati: [["Temperatura massima", "250 °C", "Il valore più alto della tabella di cottura del manuale"], ["Ripiani", "5", "Si contano dal basso: 1 è il più vicino alla resistenza inferiore"], ["Volume", "71 litri", ""], ["Potenza massima", "2850 W", "Dal manuale: con il contatore da 3 kW, mentre preriscalda tieni spente le piastre o al massimo una zona bassa"], ["Preriscaldamento", "spia del termostato", "La spia si accende quando scegli una funzione e si spegne quando il forno è in temperatura: allora inforna. Non c'è segnale acustico"]],
   funzioni: [
     ["", "Termoventilato", "Forced air", "cotture uniformi anche su tre ripiani insieme, senza passaggio di odori; dolci e lievitati in stampo", "fino a 250 °C"],
     ["", "Statico", "Conventional", "sopra e sotto, un solo ripiano (meglio il 2): pane, pizza, focaccia, granola, crostate", "fino a 250 °C"],
@@ -3155,9 +3156,7 @@ function buildBookPdf(S, v){
   tl.forEach(l => { doc.text(l, 105, cy, { align: "center" }); cy += 13; });
   const parti = [recipes.length > 1 ? `${recipes.length} ricette` : "", voci.length > recipes.length ? `${voci.length} versioni` : "", menus.length && (recipes.length || menus.length > 1) ? `${menus.length} menù` : "", apps0.length ? (apps0.length === 1 ? "1 elettrodomestico" : `${apps0.length} elettrodomestici`) : ""].filter(Boolean).join("  ·  ");
   if (parti){ doc.setFont("times", "italic"); doc.setFontSize(13); doc.setTextColor(...C.grey); doc.text(pdfText(parti), 105, cy, { align: "center" }); cy += 8; }
-  orn(Math.max(cy + 4, 236));
-  doc.setFont("times", "italic"); doc.setFontSize(11.5); doc.setTextColor(...C.grey);
-  doc.text(v === "gen" ? "Per una cucina qualsiasi" : v === "andreina" ? "Per la cucina di Andreina, a Roma" : "Per la cucina di Federico", 105, 262, { align: "center" });
+  orn(Math.max(cy + 4, 240));
   // righe dell'indice
   const entries = [];
   let lastSez = null, lastSub = null;
@@ -3356,18 +3355,20 @@ function fasePassiva(f, d){
   return /lievit|riposo|marin|frigo|stracott|brasatura|sobboll|cottura lenta|raffredd|ammollo|preriscald|coperchio|a bollore|lessare|lessate|stufate|in forno|^cottura|fino al bollore|appretto|fuori dal frigo|bollito/i.test(V(f.nome));
 }
 /* Contatore: potenza massima che forno e piano possono usare insieme, per cucina (kW) */
-const CONTATORE = { federico: 3, andreina: 3 };
+// potenza impegnata 3 kW: il contatore regge senza limiti di tempo fino a 3,3 kW (+10%)
+const CONTATORE = { federico: 3.3, andreina: 3.3 };
 function limiteKw(){ const c = cucina(); return c && CONTATORE[c] ? CONTATORE[c] : null; }
 // potenza media stimata di una fase (kW) e se occupa il forno
 function caricoFase(r, nome, insieme){
   if (insieme) return { kw: 0, forno: false };
   const n = String(nome).toLowerCase(), tipo = r.cottura && r.cottura.tipo;
-  if (/preriscald/.test(n)) return { kw: /rapido/.test(n) ? 3 : 2.4, forno: true, pre: true };
+  // preriscaldamento: il forno va alla potenza di targa (MATTRADITION 2850 W; forno Whirlpool di Federico 2,7–3 kW)
+  if (/preriscald/.test(n)) return { kw: cucina() === "andreina" ? 2.85 : /rapido/.test(n) ? 3 : 2.8, forno: true, pre: true };
   if (/raffredd|fuori dal frigo|in frigo|riposo|marinatura|lievitaz|puntata|appretto|ammollo/.test(n)) return { kw: 0, forno: false };
   if (tipo === "forno" && /cottura|in forno|forno/.test(n)) return { kw: 1.2, forno: true };
   if (tipo !== "fornelli") return { kw: 0, forno: false };
   if (/stracott|cottura lenta|brasatura|sobboll|bollore leggero|stufat|caramell/.test(n)) return { kw: 0.4, forno: false };
-  if (/bollore/.test(n)) return { kw: 2, forno: false };
+  if (/bollore/.test(n)) return { kw: 2.3, forno: false };
   if (/rosol|sigillatura|scaldare|padella|frittura|scottat|carne|toast|^cottura$|scaloppine/.test(n)) return { kw: 1.5, forno: false };
   if (/cottura|lessare|sbollent/.test(n)) return { kw: 1, forno: false };
   if (/soffritt|fondo|sfumatura|vino|salsa|sugo|mantec|bagnomaria|insaporire|piselli|funghi|water roux|saltare|farina tostata|burro/.test(n)) return { kw: 0.8, forno: false };
@@ -3380,7 +3381,7 @@ function pianoMenu(m, solo, senzaLimite){
     const ph = []; let pre = null;
     (r.fasi || []).filter(f => !f.prima).forEach(f => {
       const d = Math.round((f.min + (f.max ?? f.min)) / 2), nome = V(f.nome);
-      if (f.parallelo){ const c = caricoFase(r, nome); if (c.pre) pre = LIM && rs.length > 1 && c.kw > 2.4 ? { nome: nome.replace(/ rapido/i, "") + " (non rapido, per il contatore)", d: d + 5, kw: 2.4 } : { nome, d, kw: c.kw }; return; }
+      if (f.parallelo){ const c = caricoFase(r, nome); if (c.pre) pre = LIM && rs.length > 1 && c.kw > 2.8 ? { nome: nome.replace(/ rapido/i, "") + " (non rapido, per il contatore)", d: d + 5, kw: 2.8 } : { nome, d, kw: c.kw }; return; }
       ph.push({ nome, d, pas: fasePassiva(f, d), tag: f.tag || null, r, pre }); pre = null;
     });
     dishes.push({ r, titolo: piattoNome(r).titolo, ph });
@@ -3450,7 +3451,7 @@ function pianoMenu(m, solo, senzaLimite){
     const libero = pianoMenu(m, solo, true);
     res.extra = Math.max(0, T - libero.totale);
     res.piccoMax = Math.max(0, ...righe.map(x => x.inizio).map(t => righe.reduce((s, y) => s + (y.inizio <= t && y.fine > t ? (y.kw || 0) : 0), 0)));
-    res.nota = `Contatore da ${String(LIM).replace(".", ",")} kW: il piano non fa mai lavorare insieme forno e piastre oltre questo limite (picco stimato ${res.piccoMax.toLocaleString("it-IT", { maximumFractionDigits: 1 })} kW)${res.extra ? `, e per questo dura ${dur(res.extra)} in più` : ""}. Niente Boost, e tieni spenti lavastoviglie, lavatrice${cucina() === "federico" ? ", Ninja" : ""} e bollitore mentre cucini.`;
+    res.nota = `Contatore da 3 kW (regge fino a ${String(LIM).replace(".", ",")} kW): il piano non fa mai lavorare insieme forno e piastre oltre questo limite (picco stimato ${res.piccoMax.toLocaleString("it-IT", { maximumFractionDigits: 1 })} kW)${res.extra ? `, e per questo dura ${dur(res.extra)} in più` : ""}. Niente Boost, e tieni spenti lavastoviglie, lavatrice${cucina() === "federico" ? ", Ninja" : ""} e bollitore mentre cucini.`;
   }
   return res;
 }
