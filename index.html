@@ -736,6 +736,67 @@ const RICETTE = [
     note: []
   },
   {
+    id: "pane-senza-impasto", img: "pagnotta", aggiunta: "2026-11-11T23:30:00+01:00",
+    titolo: "Pane senza impasto",
+    sezione: "Lievitati", sottosezione: "Pane",
+    fonte: { nome: "Le Ricette di Simo e Cicci (GialloZafferano)", url: "https://blog.giallozafferano.it/lericettedisimo/pane-senza-impasto/" },
+    porzioni: 1, unitaPorzioni: ["pagnotta","pagnotte"],
+    condLabel: "Farina",
+    condimenti: [
+      { id: "solo-0", nome: "Solo farina 0", ingredienti: [
+        { nome: "Farina 0", qta: 500, u: "g", k: ["Farina 0"] }
+      ]},
+      { id: "0-manitoba", nome: "Farina 0 e Manitoba", ingredienti: [
+        { nome: "Farina 0", qta: 300, u: "g", k: ["Farina 0"] },
+        { nome: "Farina Manitoba", qta: 200, u: "g", k: ["Manitoba"] }
+      ]}
+    ],
+    fasi: [
+      { nome: "Sciogliere il lievito nell'acqua", min: 5 },
+      { nome: "Mescolare con la forchetta", min: 5 },
+      { nome: "Lievitazione coperta a temperatura ambiente", min: 720, max: 1080, attesa: true },
+      { nome: "Pieghe e forma", min: 10 },
+      { nome: "Riposo sul canovaccio infarinato", min: 60, attesa: true },
+      { nome: "Preriscaldamento forno con la pentola dentro", min: 30, max: 40, parallelo: true },
+      { nome: "Cottura con il coperchio", min: 30 },
+      { nome: "Cottura senza coperchio", min: 20, max: 30 },
+      { nome: "Raffreddamento su gratella", min: 60, max: 120, attesa: true }
+    ],
+    ninja: { ok: false, motivo: "Il pane va cotto in una pentola con il coperchio: nel Ninja non c'è lo spazio (circa 7,5 cm sotto la resistenza). Meglio il forno di casa." },
+    cottura: { tipo: "forno", gen: { dettaglio: "Forno statico 230 °C, in pentola col coperchio", extra: "30 min col coperchio + 20–30 min senza" }, dettaglio: "Statico 230 °C, casseruola di ghisa", preriscaldo: "Preriscalda con la casseruola chiusa dentro; al segnale acustico aspetta altri 10 minuti", ma: { dettaglio: "Statico 230 °C, in pentola col coperchio", preriscaldo: "Preriscalda con la pentola chiusa dentro; quando si spegne la spia del termostato aspetta altri 10 minuti" }, forno: [
+      { fase: "Con il coperchio", funzione: "Statico", temp: "230 °C", ripiano: "1", tempo: "30 min" },
+      { fase: "Senza coperchio", funzione: "Statico", temp: "230 °C", ripiano: "1", tempo: "20–30 min" }
+    ] },
+    strumenti: ["Ciotola molto capiente", "Forchetta o cucchiaio", "Pellicola", "Carta da forno o canovaccio infarinati", { casa: "forno", si: "Casseruola Slowcook ovale in ghisa 25 × 20 cm, con il coperchio", ma: "Pentola da forno con il coperchio: ghisa, acciaio dal fondo spesso o vetro temperato", no: "Pentola da forno con il coperchio: ghisa, acciaio dal fondo spesso o vetro temperato" }, "Guanti da forno", "Gratella"],
+    energia: [{ app: "forno", kwh: [1.6, 2], come: "preriscaldamento con la pentola dentro e circa un'ora a 230 °C" }],
+    gruppi: [
+      { nome: "Farina", cond: true, condNome: "Farina", ingredienti: [] },
+      { nome: "Impasto", ingredienti: [
+        { nome: "Acqua", nota: "a temperatura ambiente", qta: 350, u: "g", base: true },
+        { nome: "Lievito di birra fresco", qta: 2, u: "g", k: ["Lievito di birra"] },
+        { nome: "Sale", qta: 10, u: "g", base: true },
+        { nome: "Farina per la spianatoia", nota: "poca", qta: null, u: "", base: true }
+      ]}
+    ],
+    procedimento: [
+      "Sciogli il lievito in circa un settimo dell'acqua, presa dal totale, e lascialo riposare qualche minuto.",
+      "In una ciotola molto capiente versa la farina e il sale, poi l'acqua rimasta e l'acqua con il lievito. Mescola velocemente con una forchetta o un cucchiaio finché è tutto amalgamato: l'impasto deve restare umido e appiccicoso.",
+      "Copri la ciotola con la pellicola e lascia lievitare a temperatura ambiente 12–18 ore: d'estate bastano 12 ore, d'inverno possono servirne 18 o anche di più. È pronto quando è raddoppiato e pieno di bolle in superficie.",
+      "Infarina leggermente le mani e il piano di lavoro, rovescia l'impasto e cospargilo con altra farina.",
+      { casa: "forno", si: "Fai le pieghe: allunga un lato dell'impasto e piegalo verso il centro, poi fai lo stesso con il lato opposto. Ripeti almeno 3 volte, poi dagli una forma ovale, un po' più piccola della casseruola (25 × 20 cm).", no: "Fai le pieghe: allunga un lato dell'impasto e piegalo verso il centro, poi fai lo stesso con il lato opposto. Ripeti almeno 3 volte, poi dagli una forma rotonda." },
+      "Rovescia il pane su un foglio di carta da forno o un canovaccio ben infarinati, coprilo con un altro canovaccio e lascialo riposare circa 1 ora.",
+      { casa: "forno", si: "Durante l'ultima mezz'ora di riposo metti la casseruola di ghisa chiusa con il coperchio sul ripiano 1 e preriscalda il forno in Statico a 230 °C. Al segnale acustico aspetta altri 10 minuti, così la ghisa è calda in tutto.", ma: "Durante l'ultima mezz'ora di riposo metti la pentola chiusa con il coperchio sul ripiano 1 e preriscalda il forno in Statico a 230 °C. Quando si spegne la spia del termostato aspetta altri 10 minuti, così la pentola è calda in tutto.", no: "Durante l'ultima mezz'ora di riposo metti la pentola chiusa con il coperchio nella parte bassa del forno e preriscalda il forno statico a 230 °C, poi aspetta altri 10 minuti, così la pentola è calda in tutto." },
+      "Con i guanti da forno tira fuori la pentola, che è rovente, togli il coperchio e rovescia dentro il pane aiutandoti con la carta o il canovaccio. Non serve la carta da forno sotto: con la pentola così calda il pane non attacca.",
+      "Rimetti il coperchio, inforna e cuoci 30 minuti.",
+      "Togli il coperchio e continua la cottura altri 20–30 minuti, finché il pane è ben dorato.",
+      "Sforna il pane e lascialo raffreddare completamente su una gratella prima di tagliarlo."
+    ],
+    note: [
+      "Si conserva fragrante 2–3 giorni in un sacchetto di carta ben chiuso. Si può anche congelare.",
+      "Senza pentola si può cuocere sulla placca con la carta da forno: i tempi cambiano secondo la pentola o il contenitore usato."
+    ]
+  },
+  {
     id: "aglio-olio-peperoncino-battisti", img: "aglioolio",
     titolo: "Spaghetti aglio, olio e peperoncino",
     sezione: "Primi", sottosezione: "Pasta",
@@ -2117,6 +2178,7 @@ const ART = {
   frolla: `<svg viewBox="0 0 160 120" aria-hidden="true"><ellipse cx="80" cy="106" rx="62" ry="6" fill="#000" opacity=".08"/><ellipse cx="80" cy="68" rx="62" ry="34" fill="#c98a3c"/><ellipse cx="80" cy="64" rx="58" ry="30" fill="#e6b265"/><ellipse cx="80" cy="64" rx="48" ry="23" fill="#b8342a"/><g stroke="#e6b265" stroke-width="6" stroke-linecap="round"><path d="M50 50l40 30M70 44l40 30M42 64l34 24M90 42l30 22"/><path d="M110 50l-40 30M90 44l-40 30M118 64l-34 24M70 42l-30 22"/></g></svg>`,
   carbonara: `<svg viewBox="0 0 160 120" aria-hidden="true"><ellipse cx="80" cy="66" rx="64" ry="44" fill="#f3f1ec" stroke="#d7d2c8" stroke-width="2"/><ellipse cx="80" cy="66" rx="44" ry="30" fill="#efc65a"/><g fill="none" stroke="#e2b23e" stroke-width="3" stroke-linecap="round"><path d="M50 62 q15 -14 30 0 t30 0"/><path d="M48 72 q16 -12 32 0 t32 0"/><path d="M56 54 q12 -10 24 0 t24 0"/><path d="M58 82 q11 -8 22 0 t22 0"/></g><g fill="#a5462f"><rect x="62" y="58" width="7" height="6" rx="1.5"/><rect x="88" y="66" width="7" height="6" rx="1.5"/><rect x="76" y="76" width="7" height="6" rx="1.5"/><rect x="96" y="54" width="6" height="5" rx="1.5"/><rect x="56" y="70" width="6" height="5" rx="1.5"/></g><g fill="#f4e7d0"><rect x="64" y="58" width="3" height="2"/><rect x="90" y="66" width="3" height="2"/></g><g fill="#2b2b2b"><circle cx="70" cy="52" r="1"/><circle cx="84" cy="60" r="1"/><circle cx="100" cy="74" r="1"/><circle cx="62" cy="78" r="1"/><circle cx="92" cy="84" r="1"/></g><g fill="#fffaf0" opacity=".9"><circle cx="74" cy="66" r="1.4"/><circle cx="86" cy="76" r="1.4"/><circle cx="96" cy="62" r="1.4"/></g></svg>`,
   bistecca: `<svg viewBox="0 0 160 120" aria-hidden="true"><ellipse cx="80" cy="108" rx="62" ry="6" fill="#000" opacity=".08"/><rect x="128" y="56" width="30" height="8" rx="4" fill="#9aa1a8"/><ellipse cx="74" cy="62" rx="58" ry="42" fill="#c9ced3"/><ellipse cx="74" cy="62" rx="50" ry="35" fill="#aeb4ba"/><path d="M44 52 C50 36 92 34 104 48 C114 60 104 82 82 86 C60 90 38 72 44 52 Z" fill="#7a3a24"/><path d="M50 54 C56 42 90 40 99 51 C106 60 98 76 82 79 C64 82 46 70 50 54 Z" fill="#8f4a2c"/><g stroke="#5c2a19" stroke-width="3" stroke-linecap="round" opacity=".8"><path d="M58 50 L88 74"/><path d="M68 46 L96 66"/><path d="M54 62 L78 80"/></g><path d="M44 52 C42 46 48 40 56 40" stroke="#f1e2c8" stroke-width="4" fill="none" stroke-linecap="round"/><g fill="#f3d36b" opacity=".7"><ellipse cx="108" cy="78" rx="7" ry="3"/><ellipse cx="40" cy="78" rx="6" ry="2.5"/></g><g fill="#4f7a3a"><ellipse cx="104" cy="44" rx="5" ry="1.6" transform="rotate(-30 104 44)"/><ellipse cx="110" cy="50" rx="5" ry="1.6" transform="rotate(20 110 50)"/></g><ellipse cx="34" cy="64" rx="5" ry="4" fill="#efe6d3"/></svg>`,
+  pagnotta: `<svg viewBox="0 0 160 120" aria-hidden="true"><ellipse cx="80" cy="106" rx="62" ry="7" fill="#000" opacity=".08"/><path d="M20 98 Q80 112 140 98 L136 104 Q80 116 24 104 Z" fill="#b98a55"/><path d="M24 96 C18 52 52 30 80 30 C108 30 142 52 136 96 Q80 108 24 96 Z" fill="#c98a43"/><path d="M34 88 C32 58 58 40 80 40 C102 40 128 58 126 88" fill="none" stroke="#e0b06e" stroke-width="5" stroke-linecap="round" opacity=".7"/><path d="M56 52 C66 60 70 72 70 84 M80 46 C88 56 92 70 91 84 M104 54 C110 62 112 72 111 82" fill="none" stroke="#f2d8a8" stroke-width="4" stroke-linecap="round"/><g fill="#fff" opacity=".55"><circle cx="48" cy="70" r="1.6"/><circle cx="98" cy="44" r="1.4"/><circle cx="118" cy="74" r="1.6"/><circle cx="66" cy="42" r="1.3"/></g></svg>`,
   pane: `<svg viewBox="0 0 160 120" aria-hidden="true"><ellipse cx="80" cy="108" rx="60" ry="6" fill="#000" opacity=".08"/><path d="M25 64 C28 26 132 26 135 64 Z" fill="#c4823d"/><path d="M42 50 C56 36 104 36 118 50" stroke="#e2ae69" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M58 42 l6 6 M78 38 l6 6 M98 42 l6 6" stroke="#a5672b" stroke-width="2.5" stroke-linecap="round"/><path d="M28 62 H132 L125 104 H35 Z" fill="#6e747a"/><path d="M28 62 H132 L131 68 H29 Z" fill="#8b9197"/></svg>`,
   brioche: `<svg viewBox="0 0 160 120" aria-hidden="true"><ellipse cx="80" cy="108" rx="60" ry="6" fill="#000" opacity=".08"/><ellipse cx="50" cy="56" rx="25" ry="24" fill="#cf8a35"/><ellipse cx="110" cy="56" rx="25" ry="24" fill="#cf8a35"/><ellipse cx="80" cy="50" rx="26" ry="27" fill="#d9963d"/><g fill="#fff" opacity=".35"><ellipse cx="42" cy="44" rx="8" ry="4" transform="rotate(-25 42 44)"/><ellipse cx="72" cy="36" rx="9" ry="4" transform="rotate(-20 72 36)"/><ellipse cx="102" cy="44" rx="8" ry="4" transform="rotate(-25 102 44)"/></g><path d="M28 62 H132 L125 104 H35 Z" fill="#6e747a"/><path d="M28 62 H132 L131 68 H29 Z" fill="#8b9197"/></svg>`,
   granola: `<svg viewBox="0 0 160 120" aria-hidden="true"><ellipse cx="80" cy="110" rx="50" ry="5" fill="#000" opacity=".08"/><path d="M20 56 Q80 128 140 56 Z" fill="#3f7f86"/><ellipse cx="80" cy="56" rx="60" ry="11" fill="#336a70"/><ellipse cx="80" cy="53" rx="54" ry="9" fill="#c99757"/><g fill="#b47c3c"><circle cx="50" cy="50" r="6"/><circle cx="70" cy="46" r="7"/><circle cx="96" cy="47" r="6"/><circle cx="114" cy="51" r="5"/><circle cx="84" cy="52" r="5"/></g><g fill="#dcb47c"><circle cx="60" cy="52" r="4"/><circle cx="104" cy="54" r="4"/><circle cx="80" cy="44" r="4"/></g><g fill="#4a2a1b"><rect x="64" y="52" width="6" height="5" rx="1" transform="rotate(15 67 54)"/><rect x="90" y="41" width="6" height="5" rx="1" transform="rotate(-20 93 43)"/><rect x="108" y="46" width="5" height="4" rx="1"/><rect x="44" y="46" width="5" height="4" rx="1" transform="rotate(25 46 48)"/></g><g fill="#a5653a"><ellipse cx="76" cy="55" rx="5" ry="2.6" transform="rotate(-15 76 55)"/><ellipse cx="56" cy="44" rx="5" ry="2.6" transform="rotate(30 56 44)"/><ellipse cx="100" cy="51" rx="5" ry="2.6" transform="rotate(10 100 51)"/></g><g fill="#fffaf0"><rect x="86" y="48" width="4" height="2" rx="1"/><rect x="62" y="44" width="4" height="2" rx="1"/><rect x="112" y="56" width="4" height="2" rx="1"/></g></svg>`,
@@ -3728,7 +3790,7 @@ function renderSpese(){
   let html = masthead("spesa") + `
   <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap"><h1>Lista della spesa</h1></div>
   <div class="spesa-new">
-    <form id="sp-nuova" class="spesa-form"><input id="sp-nome" placeholder="Nome della nuova lista" aria-label="Nome della nuova lista" value="Spesa del ${new Date().toLocaleDateString("it-IT", { day: "numeric", month: "long" })}"><button class="btn" type="submit">Nuova lista</button></form>
+    <form id="sp-nuova" class="spesa-form"><input id="sp-nome" placeholder="Nome della nuova lista" aria-label="Nome della nuova lista" autocomplete="off"><button class="btn" type="submit">Nuova lista</button></form>
     ${menus.length ? `<form id="sp-menu" class="spesa-form spesa-menu"><b style="flex-basis:100%">Nuova lista della spesa da menù</b>
       <select id="sp-msel" class="cond-sel" aria-label="Menù da cui prendere ingredienti e quantità">${menus.map(m => `<option value="${m.id}" data-p="${menuPersone(m)}">${esc(m.nome)}</option>`).join("")}</select>
       <label class="sp-pers">Persone <span class="stepper"><button type="button" id="sp-pm" aria-label="Meno">−</button><input id="sp-pers" inputmode="numeric" value="${menuPersone(menus[0])}" aria-label="Persone che mangiano"><button type="button" id="sp-pp" aria-label="Più">+</button></span></label>
@@ -3738,7 +3800,7 @@ function renderSpese(){
     return `<a class="mcard spesa-card" href="#spesa-${l.id}"><h3>${esc(l.nome)}</h3><span class="status">${n ? `${k} di ${n} ${n === 1 ? "voce presa" : "voci prese"}` : "lista vuota"} · ${dataIt(l.creata)}</span></a>`; }).join("")}</div>`
     : `<p class="hint" style="margin-top:16px">Non hai liste della spesa. Creane una nuova o prendila da un menù salvato.</p>`;
   app.innerHTML = html;
-  document.getElementById("sp-nuova").onsubmit = e => { e.preventDefault(); const l = spesaNuova(document.getElementById("sp-nome").value.trim() || "Spesa", []); location.hash = "spesa-" + l.id; };
+  document.getElementById("sp-nuova").onsubmit = e => { e.preventDefault(); const l = spesaNuova(document.getElementById("sp-nome").value.trim() || "Spesa del " + new Date().toLocaleDateString("it-IT", { day: "numeric", month: "long" }), []); location.hash = "spesa-" + l.id; };
   const fm = document.getElementById("sp-menu");
   if (fm){
     const sel = document.getElementById("sp-msel"), pin = document.getElementById("sp-pers");
