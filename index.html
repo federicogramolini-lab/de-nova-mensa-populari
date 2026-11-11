@@ -2421,7 +2421,8 @@ function renderRecipe(r){
   const porz = r.porzioni * f;
   const step = r.porzioniStep || (r.porzioni >= 4 ? 1 : 0.5);
   const dec = step < 1 ? 1 : 0;
-  const quick = [0.5, 1, 1.5, 2, 3];
+  const macchina = (r.strumenti || []).includes("Ariete My Veggie Drink");
+  const quick = macchina ? [1, 2, 3, 4] : [0.5, 1, 1.5, 2, 3];
 
   let html = masthead("ricette") + `
   <a class="back" href="#"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>Tutte le ricette</a>
@@ -2505,6 +2506,11 @@ function renderRecipe(r){
           ${quick.map(x => `<button data-x="${x}" aria-pressed="${Math.abs(f - x) < 1e-9}">×${fmt(x)}</button>`).join("")}
         </div>
         <span class="factor">${Math.abs(f - 1) < 1e-9 ? "Dosi originali" : `Dosi moltiplicate per <b>${fmt(Math.round(f * 100) / 100)}</b> rispetto all'originale`}</span>
+        ${macchina && Math.abs(f - 1) > 1e-9 ? (() => { const q = DIMS(r).find(d => d.key === "q"), qn = q ? q.items.find(i => i.id === r.scelta.q).nome : r.porzioni + " ml", giri = Math.ceil(f - 1e-9);
+          const intero = Math.abs(f - Math.round(f)) < 1e-6;
+          return `<div class="warn macchina-warn" role="alert"><b>${f > 1 ? `Devi fare la macchina ${giri} volte.` : "La macchina non fa mezze dosi."}</b> ${f > 1
+            ? `La My Veggie Drink fa al massimo ${esc(qn)} per volta. Le quantità qui sotto sono il totale: a ogni giro metti ${allIng(r).map(i => `${fmt(i.qta)} g di ${esc(i.nome.replace(/ nel serbatoio$/, "").toLowerCase())}`).join(", ")}.${intero ? "" : ` Con ×${fmt(Math.round(f * 100) / 100)} i giri non tornano: usa ×${giri} oppure scegli un'altra quantità.`}`
+            : `Per avere meno ${r.id === "latte-vegetale" ? "latte" : "bevanda"} scegli una quantità più piccola nel menù Quantità.`}</div>`; })() : ""}
         <p class="tip">Puoi anche scrivere la quantità di un ingrediente (o il peso totale): tutto il resto si ricalcola in proporzione.</p>
       </div>
       ${r.gruppi.map((g, gi) => `<div class="group">${r.gruppi.length > 1 ? `<h3>${esc(g.nome)}</h3>` : ""}
@@ -2577,7 +2583,7 @@ function renderRecipe(r){
     inp.addEventListener("keydown", e => { if (e.key === "Enter"){ e.preventDefault(); inp.blur(); } });
     inp.addEventListener("focus", () => inp.select());
   });
-  document.getElementById("pdf").onclick = async () => { let cids = null; if (hasDims(r)){ cids = await chiediCond(r); if (!cids) return; } await manoPrepara([r.titolo.split(" (")[0]]); conDotazione(() => saveRecipePdf(r, f, cids)); };
+  document.getElementById("pdf").onclick = async () => { let cids = null; if (hasDims(r)){ cids = await chiediCond(r); if (!cids) return; } await manoPrepara([r.titolo.split(" (")[0]]); const cop = await copertinaCanvas({ titolo: r.titolo, sezioni: [r.sezione], disegno: r.img }); conDotazione(() => saveRecipePdf(r, f, cids, cop)); };
   document.getElementById("delr").onclick = () => {
     if (state.confirmDel !== r.id){ state.confirmDel = r.id; renderRecipe(r); return; }
     state.confirmDel = null; cestino.add(r.id); saveCestino(); location.hash = "";
@@ -2750,10 +2756,12 @@ function chiediDotazione(){
   });
 }
 async function conDotazione(fn){ const v = await chiediDotazione(); if (!v) return; DOT = v; try { fn(v); } finally { DOT = null; } }
-function saveRecipePdf(r, f, cids){
+function saveRecipePdf(r, f, cids, cop){
   const status = document.getElementById("status");
   if (!downloads || !window.jspdf){ status.textContent = "Il PDF non si può creare in questa vista."; return; }
   const P = newPdf(); P.cornice = true; P.callig = true; P.y = 26;
+  // copertina con il disegno della ricetta, come nel ricettario
+  if (cop){ P.doc.addImage(cop.toDataURL("image/jpeg", 0.9), "JPEG", 0, 0, 210, 297); P.doc.addPage(); P.noFooter = new Set([1]); }
   if (cids && cids.length){
     cids.forEach((cid, k) => { if (k){ P.doc.addPage(); P.y = 20; } conCond(r, cid, () => writeRecipe(P, r, f)); });
   } else writeRecipe(P, r, f);
@@ -3062,65 +3070,49 @@ function writeMenu(P, m, opt = { modo: "tutto" }){
   }
 }
 /* menù per gli ospiti: una pagina elegante, solo i piatti */
+// menù per gli ospiti: foglio bianco di quaderno a quadretti delle elementari, con i margini rossi; nomi a mano sulle righe
+function menuOspiteTesti(m){ const t = [m.nome]; menuRecipes(m).forEach(r => conDish(m, r, () => t.push(piattoNome(r).titolo))); return t; }
 function writeMenuOspite(P, m){
   const { doc } = P, rs = menuRecipes(m);
-  doc.setFillColor(...C.cream); doc.rect(0, 0, 210, 297, "F");
-  doc.setDrawColor(...C.green); doc.setLineWidth(0.9); doc.rect(10, 10, 190, 277, "S");
-  doc.setDrawColor(...C.gold); doc.setLineWidth(0.3); doc.rect(13.5, 13.5, 183, 270, "S");
-  const orn = y => { doc.setDrawColor(...C.gold); doc.setLineWidth(0.4); doc.line(78, y, 99, y); doc.line(111, y, 132, y); doc.setFillColor(...C.gold); doc.lines([[2.2, 2.2], [2.2, -2.2], [-2.2, -2.2], [-2.2, 2.2]], 102.8, y, [1, 1], "F", true); };
-  const ORD = [["Antipasti", "Antipasti"], ["Lievitati", "Dal forno"], ["Primi", "Primi"], ["Secondi", "Secondi"], ["Contorni", "Contorni"], ["Dolci", "Dolci"]];
+  doc.setFillColor(255, 255, 255); doc.rect(0, 0, 210, 297, "F");
+  doc.setDrawColor(178, 204, 230); doc.setLineWidth(0.12);
+  for (let x = 3.5; x <= 210; x += 5) doc.line(x, 0, x, 297);
+  for (let y = 3.5; y <= 297; y += 5) doc.line(0, y, 210, y);
+  doc.setDrawColor(226, 110, 116); doc.setLineWidth(0.3); doc.rect(18.5, 18.5, 173, 260, "S");
+  const riga = y => 3.5 + 5 * Math.ceil((y - 3.5) / 5 - 1e-9);
+  const ORD = [["Antipasti", "Antipasti"], ["Lievitati", "Dal forno"], ["Primi", "Primi"], ["Secondi", "Secondi"], ["Contorni", "Contorni"], ["Dolci", "Dolci"], ["Bevande", "Da bere"]];
   const blocks = ORD.map(([sz, lab]) => ({ lab, items: rs.filter(r => r.sezione === sz) })).filter(b => b.items.length);
-  const lines = blocks.reduce((s, b) => s + 16 + b.items.reduce((t, r) => t + (hasDims(r) ? 15 : 10.5), 0), 0);
-  let y = 46;
-  doc.setFont("times", "italic"); doc.setFontSize(13); doc.setTextColor(...C.gold); doc.text("De (Nova) Mensa Populari", 105, y, { align: "center" }); y += 14;
-  doc.setFont("times", "bolditalic"); doc.setFontSize(30); doc.setTextColor(...C.ink);
-  doc.splitTextToSize(pdfText(m.nome), 160).forEach(l => { doc.text(l, 105, y, { align: "center" }); y += 12; });
-  y += 2; orn(y); y += 12;
-  const free = 262 - y; if (lines < free) y += Math.min(18, (free - lines) / 2);
+  const alto = blocks.reduce((s, b) => s + 15 + b.items.reduce((t, r) => t + (piattoNome(r).sotto ? 20 : 15), 0) + 5, 0);
+  let y = 43.5;
+  manoCopPdf(doc, m.nome, 105, y, 24, 150); y += 15;
+  const libero = 268 - y; if (alto < libero) y += Math.floor((libero - alto) / 2 / 5) * 5;
   blocks.forEach(b => {
-    doc.setFont("times", "bold"); doc.setFontSize(10.5); doc.setTextColor(...C.gold); { const L = b.lab.toUpperCase(), cs = 1.6, w = doc.getTextWidth(L) + cs * (L.length - 1); doc.text(L, 105 - w / 2, y, { charSpace: cs }); } y += 9;
+    y = riga(y);
+    doc.setFont("times", "bold"); doc.setFontSize(10); doc.setTextColor(...C.gold); { const L = b.lab.toUpperCase(), cs = 1.6, w = doc.getTextWidth(L) + cs * (L.length - 1); doc.text(L, 105 - w / 2, y, { charSpace: cs }); } y += 15;
     b.items.forEach(r => conDish(m, r, () => {
-      doc.setFont("times", "normal"); doc.setFontSize(17); doc.setTextColor(...C.ink);
       const pn = piattoNome(r);
-      doc.splitTextToSize(pdfText(pn.titolo), 150).forEach(l => { doc.text(l, 105, y, { align: "center" }); y += 7; });
-      if (pn.sotto){ doc.setFont("times", "italic"); doc.setFontSize(11.5); doc.setTextColor(...C.grey); doc.text(pdfText(pn.sotto), 105, y - 1, { align: "center" }); y += 5.5; }
-      y += 3.5;
+      manoCopPdf(doc, pn.titolo, 105, y, 15, 150);
+      if (pn.sotto){ y += 10; doc.setFont("times", "italic"); doc.setFontSize(10.5); doc.setTextColor(...C.grey); doc.text(pdfText(pn.sotto), 105, y - 0.6, { align: "center" }); y += 10; }
+      else y += 15;
     }));
-    y += 6;
+    y += 5;
   });
-  orn(Math.max(y, 250)); 
-  doc.setFont("times", "italic"); doc.setFontSize(10); doc.setTextColor(...C.grey);
-  doc.text(new Date().toLocaleDateString("it-IT", { day: "numeric", month: "long", year: "numeric" }), 105, 272, { align: "center" });
 }
-function chiediPiano(m){
-  const rs = menuRecipes(m);
+function chiediSottotitolo(m){
   return new Promise(res => {
     const d = document.createElement("div"); d.className = "dot-modal";
-    d.innerHTML = `<div class="dot-box" role="dialog" aria-modal="true" aria-labelledby="cp-t">
-      <h2 id="cp-t">Come vuoi cucinare?</h2>
-      <p>Il piano di lavoro nel PDF cambia secondo come ti organizzi.</p>
-      <button class="btn" data-m="tutto"><b>Tutte le portate insieme</b><small>un solo piano: mentre qualcosa cuoce da solo lavori sugli altri piatti, e tutto è pronto per servire</small></button>
-      <button class="btn" data-m="alcune"><b>Solo alcune insieme</b><small>scegli quali portate fare nello stesso momento; le altre a parte</small></button>
-      <div class="cv-list cp-list" hidden>${rs.map(r => `<label class="ck"><input type="checkbox" value="${r.id}" checked><span>${esc(conDish(m, r, () => piattoNome(r).titolo))}</span></label>`).join("")}
-        <p class="cv-err status" style="color:#b3261e;min-height:1em"></p><button class="btn small" data-ok="1"><b>Continua</b></button></div>
-      <button class="btn" data-m="separati"><b>In momenti diversi</b><small>ogni piatto per conto suo, con i suoi tempi</small></button>
-      <button class="link" data-m="">Annulla</button></div>`;
+    d.innerHTML = `<div class="dot-box" role="dialog" aria-modal="true" aria-labelledby="st-t">
+      <h2 id="st-t">Sottotitolo in copertina</h2>
+      <p>In copertina c'è scritto Menù. Sotto puoi aggiungere il nome del menù, oppure lasciare vuoto.</p>
+      <input id="st-in" class="cond-sel" style="width:100%" value="${esc(m.nome)}" aria-label="Sottotitolo">
+      <button class="btn" data-v="ok"><b>Continua</b></button>
+      <button class="link" data-v="">Annulla</button></div>`;
     document.body.appendChild(d);
-    const done = v => { d.remove(); document.removeEventListener("keydown", esc1); res(v); };
-    const esc1 = e => { if (e.key === "Escape") done(null); };
-    document.addEventListener("keydown", esc1);
-    d.addEventListener("click", e => {
-      if (e.target === d) return done(null);
-      if (e.target.closest("[data-ok]")){
-        const ids = [...d.querySelectorAll(".cp-list input:checked")].map(i => i.value);
-        if (ids.length < 2){ d.querySelector(".cv-err").textContent = "Scegli almeno due portate da fare insieme."; return; }
-        return done({ modo: ids.length === rs.length ? "tutto" : "alcune", ids: new Set(ids) });
-      }
-      const b = e.target.closest("[data-m]"); if (!b) return;
-      if (b.dataset.m === "alcune"){ const l = d.querySelector(".cp-list"); l.hidden = !l.hidden; return; }
-      done(b.dataset.m ? { modo: b.dataset.m } : null);
-    });
-    d.querySelector("[data-m=tutto]").focus();
+    const inp = d.querySelector("#st-in");
+    const done = v => { d.remove(); res(v); };
+    d.addEventListener("click", e => { const b = e.target.closest("[data-v]"); if (b) done(b.dataset.v ? inp.value.trim() : null); else if (e.target === d) done(null); });
+    inp.addEventListener("keydown", e => { if (e.key === "Enter") done(inp.value.trim()); if (e.key === "Escape") done(null); });
+    inp.focus(); inp.select();
   });
 }
 function chiediTipoMenu(){
@@ -3378,15 +3370,18 @@ async function manoDisegno(nome, n = 520){
 
 /* ---------- Copertina: quaderno a quadretti, cornici, tovaglia, titolo e scarabocchi a mano ----------
    Disegnata su canvas in mm (A4) e usata uguale nel PDF e all'apertura dell'app. Le scritte stanno sulle righe dei quadretti. */
-const COPERTINA = new Map(), COPERTINA_VER = "2026-11-11c";
+const COPERTINA = new Map(), COPERTINA_VER = "2026-11-11d";
+// prepara (con l'inchiostro delle copertine) e scrive nel PDF una riga a mano centrata sulla riga di base y
+async function manoCop(testi){ for (const t of new Set(testi)) if (t && !MANO.has("cop:" + t)){ try { const r = await manoRiga(t, "#376c54", 140, false, 0.038, 0.112, 1.01, 0.92); if (r) MANO.set("cop:" + t, r); } catch (e) {} } }
+function manoCopPdf(doc, t, x, y, hMax, maxW){ const M = MANO.get("cop:" + t); if (!M){ doc.setFont("times", "italic"); doc.setFontSize(hMax * 1.4); doc.setTextColor(...C.green); doc.text(pdfText(t), x, y, { align: "center" }); return hMax; } const h = Math.min(hMax, maxW / M.tw); doc.addImage(M.url, "PNG", x - (M.tx + M.tw / 2) * h, y - M.base * h, M.ratio * h, h, "cop:" + t, "FAST"); return h; }
 // le quantità della macchina (dimensione "q") non fanno pagine a parte: una pagina per gusto, con la tabella delle dosi per le quantità scelte
 function vociLibro(S, recipes){ return recipes.flatMap(r => { if (!hasDims(r)) return [{ r, cid: null, label: r.titolo }];
   const sets = Object.fromEntries(Object.entries(S.cond[r.id] || {}).map(([k, v]) => [k, [...v]])), qs = sets.q;
   if (qs && qs.length) sets.q = [qs[0]];
   return combos(r, sets).map(sc => ({ r, cid: sc, qs, label: r.titolo + " (" + (qs ? sceltaItems(r, sc).filter((it, k) => DIMS(r)[k].key !== "q").map(it => it.nome).join(", ") : sceltaNome(r, sc)) + ")" })); }); }
 function dosiQuantita(r, cid, qs){ const d = DIMS(r).find(x => x.key === "q"); return qs.map(q => { const it = d.items.find(i => i.id === q); return conCond(r, { ...cid, q }, () => it.nome + ": " + allIng(r).filter(i => !i.base).map(i => `${fmt(i.qta)} g di ${i.nome.toLowerCase()}`).join(", ") + ` · acqua ${fmt(q)} g · ${durR(r)}`, false); }); }
-async function copertinaCanvas({ titolo, conteggi = "", sezioni, deco = false, disegno = null }){
-  const key = JSON.stringify([titolo, conteggi, sezioni, deco, disegno]); if (COPERTINA.has(key)) return COPERTINA.get(key);
+async function copertinaCanvas({ titolo, conteggi = "", sezioni, deco = false, disegno = null, menu = false, sottotitolo = "" }){
+  const key = JSON.stringify([titolo, conteggi, sezioni, deco, disegno, menu, sottotitolo]); if (COPERTINA.has(key)) return COPERTINA.get(key);
   const s = 6, c = document.createElement("canvas"); c.width = 210 * s; c.height = 297 * s;
   const g = c.getContext("2d"); g.scale(s, s);
   g.fillStyle = "#faf6ec"; g.fillRect(0, 0, 210, 297);
@@ -3398,22 +3393,26 @@ async function copertinaCanvas({ titolo, conteggi = "", sezioni, deco = false, d
   g.stroke();
   g.strokeStyle = "#2f6b4f"; g.lineWidth = 0.9; g.strokeRect(10, 10, 190, 277);
   g.strokeStyle = "#b08d3e"; g.lineWidth = 0.3; g.strokeRect(13.5, 13.5, 183, 270);
+  if (!menu){
   // immagine sempre uguale: 160 × 96 mm, sempre nello stesso punto
-  const img = await svgPng(copertinaSvg(sezioni, disegno), 1750, 1050);
-  g.fillStyle = "#faf6ec"; g.fillRect(22.5, 61, 165, 101);
-  if (img){ const im = new Image(); await new Promise(r => { im.onload = r; im.onerror = r; im.src = img; }); g.drawImage(im, 25, 63.5, 160, 96); }
-  g.strokeStyle = "#b08d3e"; g.lineWidth = 0.5; g.strokeRect(22.5, 61, 165, 101);
+    const img = await svgPng(copertinaSvg(sezioni, disegno), 1750, 1050);
+    g.fillStyle = "#faf6ec"; g.fillRect(22.5, 61, 165, 101);
+    if (img){ const im = new Image(); await new Promise(r => { im.onload = r; im.onerror = r; im.src = img; }); g.drawImage(im, 25, 63.5, 160, 96); }
+    g.strokeStyle = "#b08d3e"; g.lineWidth = 0.5; g.strokeRect(22.5, 61, 165, 101);
+  }
   // scritta a mano appoggiata sulla riga y (base), centrata, larga al massimo maxW (solo il testo; gli scarabocchi possono uscire)
   const scrivi = async (t, y, hMax, maxW, conDeco = false) => {
     // stesso inchiostro dei titoli nell'app (verde un po' spento, tratto 0,038, inchiostro leggermente vario)
     const k = "cop:" + (conDeco ? "✶" : "") + t;
-    if (!MANO.has(k)){ try { const r = await manoRiga(t, "#356b52", 140, conDeco, 0.038, 0.112, 1.35, 0.92); if (r) MANO.set(k, r); } catch (e) {} }
+    if (!MANO.has(k)){ try { const r = await manoRiga(t, "#376c54", 140, conDeco, 0.038, 0.112, 1.01, 0.92); if (r) MANO.set(k, r); } catch (e) {} }
     const M = MANO.get(k); if (!M) return;
     const h = Math.min(hMax, maxW / M.tw), x = 105 - (M.tx + M.tw / 2) * h;
     g.drawImage(M.canvas, x, y - M.base * h, M.ratio * h, h);
   };
-  if (!deco) await scrivi("De (Nova) Mensa Populari", 43.5, 16, 68);
-  await scrivi(titolo, 188.5, deco ? 34 : 28, 160, true); // scarabocchi sul titolo in tutte le copertine
+  if (!deco || menu) await scrivi("De (Nova) Mensa Populari", 43.5, 16, 68);
+  // menù: niente immagine, "Menù" al centro del foglio e sotto, se c'è, il nome scelto all'esportazione
+  if (menu){ await scrivi(titolo, 153.5, 44, 110, true); if (sottotitolo) await scrivi(sottotitolo, 178.5, 13, 140); }
+  else await scrivi(titolo, 188.5, deco ? 34 : 28, 160, true); // scarabocchi sul titolo in tutte le copertine
   if (conteggi) await scrivi(conteggi, 203.5, 8.5, 90);
   const dis = async (n, x, y, w) => { const d = await manoDisegno(n); g.drawImage(d, x, y, w, w); };
   await dis("pentola", 17, 15, 42); await dis("fumetto", 146, 13, 48);
@@ -3425,7 +3424,7 @@ async function manoTitoloApp(){
   const h = app.querySelector("h1 .mano"); if (!h) return;
   const t = h.textContent, parole = t.split(/\s+/).filter(Boolean);
   // inchiostro meno saturo (verde-grigio da pennarello) e tratto più marcato, con l'inchiostro che varia di più
-  for (const w of parole) if (!MANO.has("app:" + w)){ try { const r = await manoRiga(w, "#356b52", 140, false, 0.038, 0.112, 1.35, 0.92); if (r) MANO.set("app:" + w, r); } catch (e) { return; } }
+  for (const w of parole) if (!MANO.has("app:" + w)){ try { const r = await manoRiga(w, "#376c54", 140, false, 0.038, 0.112, 1.01, 0.92); if (r) MANO.set("app:" + w, r); } catch (e) { return; } }
   if (!h.isConnected || h.textContent !== t || !parole.every(w => MANO.has("app:" + w))) return;
   h.classList.add("mano-img"); h.setAttribute("aria-label", t);
   h.innerHTML = parole.map(w => { const M = MANO.get("app:" + w); return `<img src="${M.url}" alt="" style="aspect-ratio:${M.ratio};margin-left:${-M.pad * 1.75}em;margin-right:${-M.pad * 1.75 + 0.32}em">`; }).join("");
@@ -3864,7 +3863,14 @@ function renderMenu(m){
     const status = document.getElementById("status");
     if (!downloads || !window.jspdf){ status.textContent = "Il PDF non si può creare in questa vista."; return; }
     const tipo = await chiediTipoMenu(); if (!tipo) return;
-    if (tipo === "ospite"){ const P = newPdf(); writeMenuOspite(P, m); offer(P.doc, m.nome + " - per gli ospiti", status); return; }
+    if (tipo === "ospite"){
+      const sotto = await chiediSottotitolo(m); if (sotto === null) return;
+      status.textContent = "Preparo la copertina e scrivo i piatti…";
+      const cop = await copertinaCanvas({ titolo: "Menù", sottotitolo: sotto, sezioni: [], deco: true, menu: true });
+      await manoCop(menuOspiteTesti(m));
+      const P = newPdf(); P.doc.addImage(cop.toDataURL("image/jpeg", 0.9), "JPEG", 0, 0, 210, 297);
+      P.doc.addPage(); writeMenuOspite(P, m); status.textContent = "";
+      offer(P.doc, m.nome + " - per gli ospiti", status); return; }
     const opt = rs.length > 1 ? await chiediPiano(m) : { modo: "tutto" }; if (!opt) return;
     conDotazione(() => {
       const P = newPdf();
