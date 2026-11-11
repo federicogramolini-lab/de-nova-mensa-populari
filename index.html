@@ -3418,7 +3418,7 @@ async function manoTitoloApp(){
   const h = app.querySelector("h1 .mano"); if (!h) return;
   const t = h.textContent, parole = t.split(/\s+/).filter(Boolean);
   // inchiostro meno saturo (verde-grigio da pennarello) e tratto più marcato, con l'inchiostro che varia di più
-  for (const w of parole) if (!MANO.has("app:" + w)){ try { const r = await manoRiga(w, "#4f6a5d", 140, false, 0.04, 0.16, 1.35, 0.9); if (r) MANO.set("app:" + w, r); } catch (e) { return; } }
+  for (const w of parole) if (!MANO.has("app:" + w)){ try { const r = await manoRiga(w, "#4f6a5d", 140, false, 0.04, 0.08, 1.35, 0.92); if (r) MANO.set("app:" + w, r); } catch (e) { return; } }
   if (!h.isConnected || h.textContent !== t || !parole.every(w => MANO.has("app:" + w))) return;
   h.classList.add("mano-img"); h.setAttribute("aria-label", t);
   h.innerHTML = parole.map(w => { const M = MANO.get("app:" + w); return `<img src="${M.url}" alt="" style="aspect-ratio:${M.ratio};margin-left:${-M.pad * 1.75}em;margin-right:${-M.pad * 1.75 + 0.32}em">`; }).join("");
