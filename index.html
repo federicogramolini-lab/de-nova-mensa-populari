@@ -500,7 +500,7 @@ const RICETTE = [
           { nome: "Sale nel pomodoro", nota: "1 g ogni 100 g di pomodoro", qta: 2.9, u: "g", base: true },
           { nome: "Fior di latte", nota: "ben asciutto, a listarelle o a cubetti", qta: 280, u: "g", k: ["Fior di latte"] },
           { nome: "Olio extravergine d'oliva", qta: null, u: "", k: ["Olio extravergine"] },
-          { nome: "Basilico", qta: null, u: "", k: ["Basilico"] }
+          { nome: "Basilico", qta: 6, u: "foglie", k: ["Basilico"] }
         ],
         procedimento: [
           "Sala il pomodoro (1 g di sale ogni 100 g) e stendilo con le mani senza lasciare spazi bianchi. Finisci con un filo d'olio d'oliva.",
@@ -527,7 +527,7 @@ const RICETTE = [
           { nome: "Patate a pasta gialla", nota: "crude, affettate sottilissime (1–2 mm)", qta: 350, u: "g", k: ["Patate"] },
           { nome: "Olio extravergine d'oliva", nota: "per condire le patate", qta: 15, u: "g", k: ["Olio extravergine"] },
           { nome: "Sale per le patate", qta: 3, u: "g", base: true },
-          { nome: "Rosmarino", nota: "aghi tritati grossolanamente", qta: 2, u: "g", k: ["Rosmarino"] },
+          { nome: "Rosmarino", nota: "aghi tritati grossolanamente", qta: 1, u: "rametti", k: ["Rosmarino"] },
           { nome: "Provola affumicata", nota: "a dadini o a fette sottili, ben scolata", qta: 200, u: "g", k: ["Provola affumicata"] },
           { nome: "Pepe nero", nota: "facoltativo", qta: null, u: "", k: ["Pepe nero"] }
         ],
@@ -786,7 +786,7 @@ const RICETTE = [
         { nome: "Acqua per la pasta", nota: "1 kg ogni 100 g di pasta", qta: 2000, u: "g", base: true },
         { nome: "Sale grosso", nota: "10 g ogni kg d'acqua", qta: 20, u: "g", base: true },
         { nome: "Peperoncino fresco", nota: "a rondelle (oppure un pizzico di peperoncino secco)", qta: 1, u: "", k: ["Peperoncino"] },
-        { nome: "Prezzemolo", nota: "abbondante", qta: 10, u: "g", k: ["Prezzemolo"] },
+        { nome: "Prezzemolo", nota: "abbondante", qta: 8, u: "rametti", k: ["Prezzemolo"] },
         { nome: "Parmigiano grattugiato", nota: "facoltativo", qta: 20, u: "g", k: ["Parmigiano","Grana"] }
       ]}
     ],
@@ -902,7 +902,7 @@ const RICETTE = [
           { nome: "Vino rosso", qta: 150, u: "g", k: ["Vino rosso"] },
           { nome: "Passata di pomodoro", qta: 700, u: "g", k: ["Passata di pomodoro"] },
           { nome: "Concentrato di pomodoro", nota: "facoltativo", qta: 20, u: "g", k: ["Concentrato di pomodoro"] },
-          { nome: "Foglie di alloro", qta: 2, u: "", k: ["Alloro"] },
+          { nome: "Alloro", qta: 2, u: "foglie", k: ["Alloro"] },
           { nome: "Sale fino", qta: 6, u: "g", base: true },
           { nome: "Pepe nero macinato", nota: "facoltativo", qta: 1, u: "g", k: ["Pepe nero"] },
           { nome: "Parmigiano grattugiato", nota: "facoltativo", qta: 40, u: "g", k: ["Parmigiano","Grana"] }
@@ -938,7 +938,7 @@ const RICETTE = [
           { nome: "Passata di pomodoro", qta: 600, u: "g", k: ["Passata di pomodoro"] },
           { nome: "Aglio", nota: "schiacciato", qta: 1, u: "spicchi", k: ["Aglio"] },
           { nome: "Olio extravergine d'oliva", qta: 40, u: "g", k: ["Olio extravergine"] },
-          { nome: "Basilico", qta: 10, u: "g", k: ["Basilico"] },
+          { nome: "Basilico", qta: 15, u: "foglie", k: ["Basilico"] },
           { nome: "Sale fino", qta: 5, u: "g", base: true },
           { nome: "Parmigiano grattugiato", nota: "facoltativo", qta: 30, u: "g", k: ["Parmigiano","Grana"] }
         ],
@@ -1062,7 +1062,7 @@ const RICETTE = [
         { nome: "Fassona piemontese", nota: "polpa tenera: filetto o coscia posteriore", qta: 300, u: "g", k: ["Fassona"] },
         { nome: "Farina 00", qta: 10, u: "g", k: ["Farina 00"] },
         { nome: "Olio extravergine d'oliva", nota: "per la padella", qta: 10, u: "g", k: ["Olio extravergine"] },
-        { nome: "Rosmarino tritato", qta: 2, u: "g", k: ["Rosmarino"] },
+        { nome: "Rosmarino", nota: "tritato", qta: 1, u: "rametti", k: ["Rosmarino"] },
         { nome: "Aceto balsamico", nota: "anche di mele", qta: 40, u: "g", k: ["Aceto balsamico"] },
         { nome: "Sale fino", qta: 2, u: "g", base: true }
       ]},
@@ -1125,8 +1125,8 @@ const RICETTE = [
       ]},
       { nome: "Carne", ingredienti: [
         { nome: "Noce di fassona", nota: "o la carne che preferisci", qta: 300, u: "g", k: ["Fassona"] },
-        { nome: "Rosmarino fresco", nota: "le cimette", qta: 2, u: "g", k: ["Rosmarino"] },
-        { nome: "Origano fresco", nota: "le cimette", qta: 2, u: "g", k: ["Origano"] },
+        { nome: "Rosmarino fresco", nota: "le cimette", qta: 1, u: "rametti", k: ["Rosmarino"] },
+        { nome: "Origano fresco", nota: "le cimette", qta: 2, u: "rametti", k: ["Origano"] },
         { nome: "Olio extravergine d'oliva", qta: 10, u: "g", k: ["Olio extravergine"] },
         { nome: "Burro", qta: 15, u: "g", k: ["Burro"] },
         { nome: "Sale fino", qta: 2, u: "g", base: true },
@@ -1179,7 +1179,7 @@ const RICETTE = [
         { nome: "Olio extravergine d'oliva", qta: 50, u: "g", k: ["Olio extravergine"] },
         { nome: "Aceto di vino", qta: 5, u: "g", k: ["Aceto di vino"] },
         { nome: "Origano secco", qta: 1, u: "g", k: ["Origano"] },
-        { nome: "Basilico", qta: 10, u: "g", k: ["Basilico"] },
+        { nome: "Basilico", qta: 15, u: "foglie", k: ["Basilico"] },
         { nome: "Sale fino", qta: 6, u: "g", base: true },
         { nome: "Pepe nero macinato", qta: 1, u: "g", k: ["Pepe nero"] }
       ]},
@@ -1237,8 +1237,8 @@ const RICETTE = [
         { nome: "Carota", qta: 150, u: "g", k: ["Carota"] },
         { nome: "Sedano", qta: 100, u: "g", k: ["Sedano"] },
         { nome: "Olio extravergine d'oliva", qta: 30, u: "g", k: ["Olio extravergine"] },
-        { nome: "Rosmarino", nota: "rametto", qta: 1, u: "", k: ["Rosmarino"] },
-        { nome: "Salvia", nota: "foglie", qta: 4, u: "", k: ["Salvia"] },
+        { nome: "Rosmarino", qta: 1, u: "rametti", k: ["Rosmarino"] },
+        { nome: "Salvia", qta: 4, u: "foglie", k: ["Salvia"] },
         { nome: "Sale fino", qta: 10, u: "g", base: true },
         { nome: "Pepe nero macinato", qta: 1, u: "g", k: ["Pepe nero"] },
         { nome: "Passata di pomodoro", nota: "facoltativo", qta: 50, u: "g", k: ["Passata di pomodoro"] }
@@ -1294,12 +1294,12 @@ const RICETTE = [
         { nome: "Sale fino", qta: 3, u: "g", base: true },
         { nome: "Pepe nero macinato", qta: 0.5, u: "g", k: ["Pepe nero"] },
         { nome: "Farina 00", nota: "da tostare", qta: 3, u: "g", k: ["Farina 00"] },
-        { nome: "Foglie di alloro", qta: 2, u: "", k: ["Alloro"] }
+        { nome: "Alloro", qta: 2, u: "foglie", k: ["Alloro"] }
       ]},
       { nome: "Toast", ingredienti: [
         { nome: "Focaccia", nota: "2 pezzi, oppure 4 fette di pane", qta: 300, u: "g", k: ["Focaccia","Pane"] },
         { nome: "Groviera", qta: 120, u: "g", k: ["Groviera"] },
-        { nome: "Timo fresco", qta: 2, u: "g", k: ["Timo"] },
+        { nome: "Timo fresco", qta: 4, u: "rametti", k: ["Timo"] },
         { nome: "Burro", nota: "per tostare", qta: 20, u: "g", k: ["Burro"] }
       ]}
     ],
@@ -1402,8 +1402,8 @@ const RICETTE = [
         { nome: "Burro", qta: 20, u: "g", k: ["Burro"] },
         { nome: "Olio extravergine d'oliva", qta: 20, u: "g", k: ["Olio extravergine"] },
         { nome: "Cipolle bianche", qta: 200, u: "g", k: ["Cipolla"] },
-        { nome: "Rosmarino", nota: "rametto", qta: 1, u: "", k: ["Rosmarino"] },
-        { nome: "Salvia", nota: "foglie", qta: 4, u: "", k: ["Salvia"] },
+        { nome: "Rosmarino", qta: 1, u: "rametti", k: ["Rosmarino"] },
+        { nome: "Salvia", qta: 4, u: "foglie", k: ["Salvia"] },
         { nome: "Aglio", qta: 2, u: "spicchi", k: ["Aglio"] },
         { nome: "Funghi porcini secchi", qta: 25, u: "g", k: ["Funghi secchi"] },
         { nome: "Acqua tiepida per i funghi", qta: 250, u: "g", base: true },
@@ -1469,7 +1469,7 @@ const RICETTE = [
           { nome: "Olio extravergine d'oliva", qta: 20, u: "g", k: ["Olio extravergine"] },
           { nome: "Burro", qta: 20, u: "g", k: ["Burro"] },
           { nome: "Aglio", nota: "schiacciato con la buccia", qta: 1, u: "spicchi", k: ["Aglio"] },
-          { nome: "Rosmarino", nota: "rametto", qta: 1, u: "", k: ["Rosmarino"] },
+          { nome: "Rosmarino", qta: 1, u: "rametti", k: ["Rosmarino"] },
           { nome: "Marsala", qta: 80, u: "g", k: ["Marsala"] },
           { nome: "Brodo di carne o vegetale", qta: 60, u: "g", k: ["Brodo"] }
         ],
@@ -1503,10 +1503,10 @@ const RICETTE = [
           { nome: "Fettine di vitello", nota: "posteriore, sottili", qta: 500, u: "g", k: ["Vitello"] },
           { nome: "Olio extravergine d'oliva", qta: 15, u: "g", k: ["Olio extravergine"] },
           { nome: "Burro", qta: 10, u: "g", k: ["Burro"] },
-          { nome: "Salvia", nota: "foglie", qta: 2, u: "", k: ["Salvia"] },
+          { nome: "Salvia", qta: 2, u: "foglie", k: ["Salvia"] },
           { nome: "Vino bianco", qta: 50, u: "g", k: ["Vino bianco"] },
-          { nome: "Cerfoglio o prezzemolo", qta: 5, u: "g", k: ["Prezzemolo"] },
-          { nome: "Timo", qta: 1, u: "g", k: ["Timo"] },
+          { nome: "Cerfoglio o prezzemolo", qta: 4, u: "rametti", k: ["Prezzemolo"] },
+          { nome: "Timo", qta: 2, u: "rametti", k: ["Timo"] },
           { nome: "Succo di limone", nota: "circa 1 limone", qta: 40, u: "g", k: ["Limone"] }
         ],
         procedimento: [
@@ -1546,7 +1546,7 @@ const RICETTE = [
     energia: [{ app: "altro", kwh: [0.01, 0.01], come: "pochi minuti di frullatore: trascurabile" }],
     gruppi: [
       { nome: "Maionese", ingredienti: [
-        { nome: "Aglio orsino fresco", qta: 20, u: "g", k: ["Aglio orsino"] },
+        { nome: "Aglio orsino fresco", qta: 12, u: "foglie", k: ["Aglio orsino"] },
         { nome: "Olio di semi", qta: 150, u: "g", k: ["Olio di semi"] },
         { nome: "Tuorlo", qta: 1, u: "", k: ["Uova"] },
         { nome: "Succo di limone", qta: 10, u: "g", k: ["Limone"] },
@@ -1599,7 +1599,7 @@ const RICETTE = [
         ingredienti: [
           { nome: "Pangrattato", qta: 150, u: "g", k: ["Pangrattato"] },
           { nome: "Burro chiarificato", qta: 200, u: "g", k: ["Burro chiarificato"] },
-          { nome: "Salvia", nota: "foglie", qta: 6, u: "", k: ["Salvia"] }
+          { nome: "Salvia", qta: 6, u: "foglie", k: ["Salvia"] }
         ],
         procedimento: [
           "Passale nelle uova sbattute e poi nel pangrattato, senza farina, dando forma con le mani. Mettile in frigo su un piatto per mezz'ora: la panatura aderisce bene e non si stacca in cottura.",
@@ -1624,10 +1624,10 @@ const RICETTE = [
         ingredienti: [
           { nome: "Mollica di pane casereccio", nota: "fresca", qta: 120, u: "g", k: ["Pane"] },
           { nome: "Grissini", qta: 40, u: "g", k: ["Grissini"] },
-          { nome: "Salvia", nota: "per la panatura", qta: 4, u: "g", k: ["Salvia"] },
+          { nome: "Salvia", nota: "per la panatura", qta: 6, u: "foglie", k: ["Salvia"] },
           { nome: "Olio di semi di arachide", qta: 100, u: "g", k: ["Olio di semi"] },
           { nome: "Burro chiarificato", qta: 100, u: "g", k: ["Burro chiarificato"] },
-          { nome: "Salvia", nota: "foglie", qta: 10, u: "", k: ["Salvia"] }
+          { nome: "Salvia", qta: 10, u: "foglie", k: ["Salvia"] }
         ],
         procedimento: [
           "Frulla la mollica fresca con i grissini spezzati e la salvia: deve restare leggermente umida, e se è troppo secca bagnala appena.",
@@ -1744,7 +1744,7 @@ const RICETTE = [
         { nome: "Acqua", qta: 1500, u: "g", base: true },
         { nome: "Sale fino", qta: 10, u: "g", base: true },
         { nome: "Pepe nero", nota: "abbondante, anche alla fine", qta: 2, u: "g", k: ["Pepe nero"] },
-        { nome: "Rosmarino", nota: "solo qualche fogliolina", qta: 1, u: "g", k: ["Rosmarino"] },
+        { nome: "Rosmarino", nota: "solo qualche fogliolina", qta: 1, u: "rametti", k: ["Rosmarino"] },
         { nome: "Pane raffermo", nota: "a pezzi, per servire", qta: 120, u: "g", k: ["Pane"] }
       ]}
     ],
@@ -1813,7 +1813,7 @@ const RICETTE = [
         { nome: "Olio di semi ad alto punto di fumo", nota: "arachide o girasole alto oleico", qta: 10, u: "g", k: ["Olio di semi"] },
         { nome: "Burro", qta: 30, u: "g", k: ["Burro"] },
         { nome: "Aglio", nota: "schiacciato", qta: 2, u: "spicchi", k: ["Aglio"] },
-        { nome: "Timo", nota: "rametti", qta: 3, u: "", k: ["Timo"] }
+        { nome: "Timo", qta: 3, u: "rametti", k: ["Timo"] }
       ]}
     ],
     procedimento: [
@@ -1879,9 +1879,9 @@ const RICETTE = [
         { nome: "Carota grande", nota: "pelata, intera", qta: 1, u: "", k: ["Carota"] },
         { nome: "Sedano", nota: "un gambo intero", qta: 1, u: "", k: ["Sedano"] },
         { nome: "Aglio", nota: "in camicia, schiacciato", qta: 1, u: "spicchi", k: ["Aglio"] },
-        { nome: "Rosmarino", nota: "rametto", qta: 1, u: "", k: ["Rosmarino"] },
-        { nome: "Salvia", nota: "foglie", qta: 4, u: "", k: ["Salvia"] },
-        { nome: "Alloro", nota: "foglie", qta: 2, u: "", k: ["Alloro"] },
+        { nome: "Rosmarino", qta: 1, u: "rametti", k: ["Rosmarino"] },
+        { nome: "Salvia", qta: 4, u: "foglie", k: ["Salvia"] },
+        { nome: "Alloro", qta: 2, u: "foglie", k: ["Alloro"] },
         { nome: "Vino rosso fermo e corposo", nota: "un bicchiere abbondante: Barbera, Chianti o Valpolicella", qta: 190, u: "g", k: ["Vino rosso"] },
         { nome: "Concentrato di pomodoro", nota: "facoltativo, sciolto nel brodo", qta: 20, u: "g", k: ["Concentrato di pomodoro"] }
       ]},
@@ -2478,7 +2478,9 @@ function tgPerPan(r){ const t = tgState(r); if (tgChiuso(r)) return tgArea(t) * 
 function tgFactor(r){ const t = tgState(r); return t.n * tgPerPan(r) / r.cont.peso; }
 function tgDim(t){ const h = t.h > 0 ? ` × h ${fmt(t.h)}` : ""; return t.forma === "tonda" ? `tondo Ø ${fmt(t.d)}${h} cm` : `${fmt(t.a)} × ${fmt(t.b)}${h} cm`; }
 function tgText(r){ const t = tgState(r); return `${tgChiuso(r) ? "chiuso, " : ""}${fmt(t.n)} ${t.n === 1 ? r.cont.nome : (r.cont.nome === "teglia" ? "teglie" : "stampi")} ${tgDim(t)}, ${fmt(tgPerPan(r))} g di ${r.cont.label} ciascun${r.cont.nome === "teglia" ? "a" : "o"}`; }
-function uLab(u, q){ return u === "spicchi" && fmt(q) === "1" ? "spicchio" : u; }
+const PEZZI = { spicchi: "spicchio", foglie: "foglia", rametti: "rametto" };
+function qN(u, v){ return PEZZI[u] ? String(Math.max(1, Math.round(v))) : fmt(v); }
+function uLab(u, q){ return PEZZI[u] && qN(u, q) === "1" ? PEZZI[u] : u; }
 function groupTotal(g, f){ return g.ingredienti.reduce((s, i) => s + (i.qta && (i.u === "g" || i.u === "ml") ? i.qta * f : 0), 0); }
 
 function renderRecipeVotoBind(r){
@@ -2586,7 +2588,7 @@ function renderRecipe(r){
         <ul class="ing-list">${g.ingredienti.map((i, ii) => `
           <li>
             ${i.qta == null ? `<span class="qb">q.b.</span>` :
-              `<span class="qty"><input type="text" inputmode="decimal" id="q-${gi}-${ii}" data-base="${i.qta}" value="${fmt(i.qta * f)}" aria-label="Quantità di ${esc(i.nome)}"><span class="u">${esc(uLab(i.u, i.qta * f))}</span></span>`}
+              `<span class="qty"><input type="text" inputmode="decimal" id="q-${gi}-${ii}" data-base="${i.qta}" value="${qN(i.u, i.qta * f)}" aria-label="Quantità di ${esc(i.nome)}"><span class="u">${esc(uLab(i.u, i.qta * f))}</span></span>`}
             <span class="ing-name">${esc(i.nome)}${i.nota ? `<small>${esc(i.nota)}</small>` : ""}</span>
           </li>`).join("")}
         </ul>${g.totale ? `<div class="total">Peso totale ${esc(g.nome.toLowerCase())}: <span class="qty"><input type="text" inputmode="decimal" id="tot-${gi}" data-base="${groupTotal(g, 1)}" value="${fmt(groupTotal(g, f))}" aria-label="Peso totale ${esc(g.nome)}"><span class="u">g</span></span></div>` : ""}</div>`).join("")}
@@ -2765,7 +2767,7 @@ function writeRecipe(P, r, f){
       P.need(h + 1);
       if (k % 2 === 0){ doc.setFillColor(...C.band); doc.rect(P.M, P.y - 4.1, P.CW, h, "F"); }
       doc.setFont("helvetica", "bold"); doc.setTextColor(...C.green);
-      doc.text(pdfText(i.qta == null ? "q.b." : `${fmt(i.qta * f)} ${uLab(i.u, i.qta * f)}`), P.M + 28, P.y, { align: "right" });
+      doc.text(pdfText(i.qta == null ? "q.b." : `${qN(i.u, i.qta * f)} ${uLab(i.u, i.qta * f)}`), P.M + 28, P.y, { align: "right" });
       doc.setFont("helvetica", "normal"); doc.setTextColor(...C.ink);
       lines.forEach((l, j) => doc.text(l, P.M + 33, P.y + j * 4.6));
       P.y += h;
@@ -3023,15 +3025,15 @@ const PLANETARIA = {
 const PADELLE = {
   id: "padelle", nome: "Padelle Aluinox 3ply", path: "Padelle · Pentole Agnelli",
   intro: "Cinque padelle Pentole Agnelli della linea Aluinox 3ply: tre strati, acciaio inox dentro e fuori e alluminio in mezzo, fondo per induzione, un manico in acciaio inox. Sono le padelle in acciaio delle ricette: per rosolare, saltare e mantecare.",
-  dati: [["Padelle a mantecare", "Ø 20, 24, 28 cm", "Lucide, bordo alto e dritto"], ["Padelle", "Ø 24 e Ø 20 cm", "24 lucida, 20 satinata"], ["Materiale", "Aluinox 3ply", "Inox + alluminio + inox"], ["Va su", "induzione, gas, forno", "Manico in acciaio inox"]],
+  dati: [["Padelle a mantecare", "Ø 20, 24, 28 cm", "Lucide, bordo alto e dritto"], ["Padelle", "Ø 24 e Ø 20 cm", "24 lucida, 20 satinata bassa"], ["Materiale", "Aluinox 3ply", "Inox + alluminio + inox"], ["Va su", "induzione, gas, forno", "Manico in acciaio inox"]],
   liste: [
-    { titolo: "Le tue padelle", righe: [["A mantecare Ø 20 cm", "lucida (ALUM111BM20): risotto o pasta per 1–2 persone, salse"], ["A mantecare Ø 24 cm", "lucida (ALUM111BM24), alta 8,7 cm: pasta e risotto per 2–3"], ["A mantecare Ø 28 cm", "lucida (ALUM111BM28): pasta e risotto per 4–6"], ["Padella Ø 24 cm", "lucida, svasata: bistecca, scaloppine, verdure saltate"], ["Padella Ø 20 cm", "satinata: uova, una bistecca, piccole quantità"]] },
+    { titolo: "Le tue padelle", righe: [["A mantecare Ø 20 cm", "lucida (ALUM111BM20): risotto o pasta per 1–2 persone, salse"], ["A mantecare Ø 24 cm", "lucida (ALUM111BM24), alta 8,7 cm: pasta e risotto per 2–3"], ["A mantecare Ø 28 cm", "lucida (ALUM111BM28): pasta e risotto per 4–6"], ["Padella Ø 24 cm", "lucida, svasata: bistecca, scaloppine, verdure saltate"], ["Padella Ø 20 cm", "satinata, bassa (ALIX111ALIN20), alta 4 cm: uova, una bistecca, piccole quantità"]] },
     { titolo: "Sul piano a induzione", nota: "Zone del tuo MATMÄSSIG: il fondo deve coprire bene la croce della zona.", righe: [["Ø 20 cm", "destra dietro o sinistra dietro (Ø 18)"], ["Ø 24 cm", "sinistra davanti (Ø 21)"], ["Ø 28 cm", "sinistra davanti (Ø 21): i bordi scaldano meno, mescola"], ["Preriscaldo", "a secco a livello 6–7 per 2–3 minuti, poi il grasso (prova della goccia d'acqua)"], ["Boost", "no a padella vuota: l'acciaio si macchia"]] },
     { titolo: "Cura", righe: [["Prima di cucinare", "padella ben calda prima del cibo: così non attacca"], ["Aloni o macchie", "aceto o bicarbonato con un panno morbido"], ["Lavaggio", "acqua calda e spugna non abrasiva"], ["Sale", "solo quando l'acqua bolle o sul cibo, non sul fondo vuoto"]] }
   ],
   pregi: [["Calore uniforme", "l'alluminio in mezzo scalda tutto il fondo, anche le pareti."], ["Per sempre", "niente rivestimento da rovinare: si usano anche utensili in metallo."], ["Mantecatura", "le padelle a mantecare hanno i bordi alti: si salta la pasta senza sporcare."]],
   difetti: [["Attacca se fredda", "va scaldata bene prima del cibo; per uova e pesce delicato serve più grasso."], ["Manico caldo", "è in acciaio: presina dopo qualche minuto e in forno."], ["Ø 28 cm", "più larga della zona più grande del piano: cuoce meno sui bordi."]],
-  nota: "Dati dalle schede Pentole Agnelli della linea Aluinox 3ply 1907 (codici ALUM111BM20/24/28); altezze e capacità esatte delle altre misure da controllare sulla padella."
+  nota: "Dati dalle schede Pentole Agnelli della linea Aluinox 3ply 1907 (codici ALUM111BM20/24/28, ALIX111ALIN20); altezze esatte delle mantecare Ø 20 e 28 e della padella Ø 24 da controllare sulla padella."
 };
 
 const ELETTRO = () => [fornoCasa() ? FORNO : fornoMa() ? FORNO_MA : null, induzioneCasa() ? PIASTRA : null, showNinja() ? NINJA : null, showNinja() ? GHISA : null, showNinja() ? VEGGIE : null, showNinja() ? PLANETARIA : null, showNinja() ? PADELLE : null].filter(Boolean);
@@ -3906,7 +3908,7 @@ function conDish(m, r, fn, conTitolo = false){
   } finally { if (t){ if (had) state.tg[r.id] = old; else delete state.tg[r.id]; } }
 }
 function dishDose(m, r){ return conDish(m, r, f => r.cont ? tgText(r) : `${fmt(r.porzioni * f)} ${porzLabel(r, r.porzioni * f)}`); }
-function qtaTxt(q){ return [...q].map(([u, v]) => { if (u.startsWith("#") || u === "spicchi"){ const n = Math.max(1, Math.ceil(v - 0.05)), l = u === "spicchi" ? uLab(u, n) : contaNum(u.slice(1), n); return `${n}${l ? " " + l : ""}`; } return `${fmt(v)} ${u}`; }).join(" + "); }
+function qtaTxt(q){ return [...q].map(([u, v]) => { if (u.startsWith("#") || PEZZI[u]){ const n = Math.max(1, Math.ceil(v - 0.05)), l = PEZZI[u] ? uLab(u, n) : contaNum(u.slice(1), n); return `${n}${l ? " " + l : ""}`; } return `${fmt(v)} ${u}`; }).join(" + "); }
 function contaNum(l, n){ const P = { rametto: "rametti", foglia: "foglie", gambo: "gambi", tuorlo: "tuorli" }, S = Object.fromEntries(Object.entries(P).map(([a, b]) => [b, a])); return n === 1 ? (S[l] || l) : (P[l] || l); }
 function contaLab(i){ if (/^tuorl/i.test(i.nome)) return "tuorli"; if (i.nota && /^[a-zà-ù]+$/i.test(i.nota.trim())) return i.nota.trim(); return ""; }
 /* ---------- Piano di lavoro del menù: una persona in cucina, le attese si sovrappongono ---------- */
