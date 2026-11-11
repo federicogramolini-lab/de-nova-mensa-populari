@@ -86,7 +86,9 @@ body.intro-on{overflow:hidden}
 @media (prefers-reduced-motion: reduce){.intro.apri .intro-libro{animation:none;opacity:0}.intro.apri{animation:none}}
 
 /* ---------- Timer ---------- */
-.tabs .tm-open{background:none;border:0;font:inherit;color:inherit;cursor:pointer;padding:7px 9px;border-radius:9px;position:relative}
+.tabs .tm-open{background:none;border:0;font:inherit;font-weight:700;font-size:15px;color:var(--muted);cursor:pointer;padding:7px 16px;border-radius:9px;position:relative;white-space:nowrap;flex:0 0 auto}
+.tabs .tab-gap{flex:1 1 4px;min-width:4px}
+.tabs a.tab-ico{padding:7px 10px}
 .tm-badge{position:absolute;top:0;right:0;min-width:15px;height:15px;border-radius:8px;background:var(--accent);color:var(--accent-ink);font-size:10px;font-weight:800;line-height:15px;text-align:center;padding:0 3px}
 .lcd{display:inline-flex;align-items:center;gap:2px;vertical-align:middle}
 .lcd svg{display:block}
@@ -175,6 +177,10 @@ a{color:inherit}
 .search svg{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--muted)}
 .chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;scrollbar-width:thin}
 .chips.wrapchips{flex-wrap:wrap;overflow:visible}
+.sez-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.sez-row .sez-sel{min-width:0;flex:1 1 200px;max-width:320px;border-radius:999px;padding:7px 34px 7px 14px;font-size:15px}
+.sez-row .sez-sel.on{background-color:var(--accent);border-color:var(--accent);color:var(--accent-ink);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23fff' stroke-width='2'/%3E%3C/svg%3E")}
+.frigo-q{width:100%;max-width:420px;font:inherit;font-size:16px;padding:9px 12px;border:1.5px solid var(--line);border-radius:10px;background:var(--surface);margin:0 0 12px}
 .chip{flex:0 0 auto;border:1.5px solid var(--line);background:var(--surface);border-radius:999px;padding:7px 14px;cursor:pointer;font-size:15px;white-space:nowrap}
 .chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:700}
 .chip .n{opacity:.7;margin-left:4px;font-variant-numeric:tabular-nums}
@@ -316,7 +322,7 @@ a{color:inherit}
 .btn.small{padding:5px 12px;font-size:14px}
 .tabs{flex-wrap:nowrap;overflow-x:auto;max-width:100%;scrollbar-width:none}
 .tabs a{white-space:nowrap;flex:0 0 auto}
-@media (max-width:480px){.tabs a{padding:7px 9px;font-size:14px}.masthead{gap:8px}}
+@media (max-width:480px){.tabs a,.tabs .tm-open{padding:7px 9px;font-size:14px}.tabs a.tab-ico{padding:7px 7px}.masthead{gap:8px}}
 .tree{display:flex;flex-direction:column;gap:14px}
 .tree-group{border-top:1.5px solid var(--line);padding-top:12px;display:flex;flex-direction:column;gap:6px}
 .tree-group h3{font-size:14px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}
@@ -2334,10 +2340,10 @@ function masthead(active){
       <a href="#" ${active === "ricette" ? 'aria-current="page"' : ""}>Ricette</a>
       <a href="#menu" ${active === "menu" ? 'aria-current="page"' : ""}>Menù</a>
       ${federico() ? `<a href="#spesa" ${active === "spesa" ? 'aria-current="page"' : ""}>Spesa</a>` : ""}
-      ${federico() ? `<a href="#elettrodomestici" ${active === "elettro" ? 'aria-current="page"' : ""}>Elettrodomestici</a>` : ""}
-      <a href="#scarica" ${active === "scarica" ? 'aria-current="page"' : ""} title="Scarica il ricettario in PDF">PDF</a>
-      <button type="button" class="tm-open" data-timer-open title="Timer" aria-label="Timer"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true" style="vertical-align:-3px"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5M9 2h6M12 2v3"/></svg><span class="tm-badge" hidden></span></button>
-      <a href="#impostazioni" ${active === "impostazioni" ? 'aria-current="page"' : ""} title="Impostazioni" aria-label="Impostazioni"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true" style="vertical-align:-3px"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></a>
+      <button type="button" class="tm-open" data-timer-open title="Timer">Timer<span class="tm-badge" hidden></span></button>
+      <span class="tab-gap"></span>
+      ${federico() ? `<a href="#elettrodomestici" class="tab-ico" ${active === "elettro" ? 'aria-current="page"' : ""} title="Elettrodomestici" aria-label="Elettrodomestici"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" aria-hidden="true" style="vertical-align:-3px"><rect x="3" y="3" width="18" height="18" rx="2.5"/><path d="M3 8h18"/><circle cx="7" cy="5.5" r=".6" fill="currentColor"/><circle cx="10.5" cy="5.5" r=".6" fill="currentColor"/><rect x="6.5" y="11" width="11" height="7" rx="1.2"/></svg></a>` : ""}
+      <a href="#impostazioni" class="tab-ico" ${active === "impostazioni" || active === "scarica" ? 'aria-current="page"' : ""} title="Impostazioni" aria-label="Impostazioni"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true" style="vertical-align:-3px"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></a>
     </nav>
   </header>`;
 }
@@ -2420,9 +2426,12 @@ function renderList(){
         ${[["", "Tutte"], ["si", "Già provate"], ["no", "Da provare"]].map(([v, l]) => `<option value="${v}" ${(state.fProv || "") === v ? "selected" : ""}>${l}</option>`).join("")}</select></label>
       ${state.fVoto || state.fProv || state.q ? `<button type="button" class="tv" id="freset">Togli i filtri</button>` : ""}
     </div>
-    <div class="chips" role="group" aria-label="Sezioni">
+    <div class="sez-row">
       <button class="chip" data-sez="Tutte" aria-pressed="${state.sezione === "Tutte"}">Tutte<span class="n">${VIS().length}</span></button>
-      ${SEZIONI.map(s => `<button class="chip" data-sez="${s}" aria-pressed="${state.sezione === s}">${s}<span class="n">${counts[s]}</span></button>`).join("")}
+      <select class="cond-sel sez-sel${state.sezione !== "Tutte" ? " on" : ""}" id="sez-sel" aria-label="Sezione">
+        <option value="Tutte" ${state.sezione === "Tutte" ? "selected" : ""}>Scegli una sezione…</option>
+        ${SEZIONI.filter(s => counts[s]).map(s => `<option value="${s}" ${state.sezione === s ? "selected" : ""}>${s} (${counts[s]})</option>`).join("")}
+      </select>
     </div>
     ${subs.length ? `<div class="chips subchips" role="group" aria-label="Sottosezioni">
       <button class="chip" data-sub="" aria-pressed="${!state.sotto}">Tutte</button>
@@ -2451,6 +2460,7 @@ function renderList(){
   document.getElementById("fprov").onchange = e => { state.fProv = e.target.value; renderList(); };
   const fr = document.getElementById("freset"); if (fr) fr.onclick = () => { state.fVoto = ""; state.fProv = ""; state.q = ""; renderList(); };
   app.querySelectorAll("[data-sez]").forEach(b => b.onclick = () => { state.sezione = b.dataset.sez; state.sotto = null; renderList(); });
+  const sezSel = document.getElementById("sez-sel"); if (sezSel) sezSel.onchange = () => { state.sezione = sezSel.value; state.sotto = null; renderList(); };
   app.querySelectorAll("[data-sub]").forEach(b => b.onclick = () => { state.sotto = b.dataset.sub || null; renderList(); });
   app.querySelectorAll("[data-restore]").forEach(b => b.onclick = () => { cestino.delete(b.dataset.restore); saveCestino(); renderList(); });
 }
@@ -3213,7 +3223,7 @@ function renderScarica(){
   const S = sel();
   const allIds = VIS().map(r => r.id);
   const cb = (key, label, st, extra = "") => `<label class="ck ${extra}"><input type="checkbox" data-ck="${esc(key)}" ${st === "all" ? "checked" : ""} ${st === "some" ? 'data-ind="1"' : ""}><span>${label}</span></label>`;
-  let html = masthead("scarica") + `<h1 style="margin-bottom:6px">Scarica in PDF</h1>
+  let html = masthead("scarica") + `<a class="back" href="#impostazioni"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>Impostazioni</a><h1 style="margin-bottom:6px">Scarica il ricettario</h1>
   <p class="status" style="max-width:68ch;margin:0 0 14px">Scegli cosa mettere nel PDF: tutto il ricettario, intere sezioni, singole ricette e le schede degli elettrodomestici. I menù si scaricano dalla loro pagina, nella scheda Menù. Il file si apre con la copertina e, se c'è più di una ricetta, un indice con i numeri di pagina. Le ricette sono con le dosi originali; per quelle con più condimenti o versioni scegli quali mettere: ognuno ha le sue pagine. Prima di creare il PDF ti chiedo se scriverle per la dotazione di Casa di Federico o per una cucina generica.</p>
   <div class="panel tree">
     ${cb("tutto", "<b>Tutto il ricettario</b>", (() => { const a = triState(allIds, S.ricette); const vals = [a, triState(ELETTRO().map(E => E.id), S.app)].filter(Boolean); return vals.every(v => v === "all") ? "all" : vals.every(v => v === "none") ? "none" : "some"; })())}
@@ -3591,13 +3601,14 @@ function renderImpostazioni(){
   <h1 style="margin-bottom:6px">Impostazioni</h1>
   <p class="status" style="max-width:68ch;margin:0 0 14px">Forno, piano a induzione, padelle e consumi valgono solo per questo dispositivo; il prezzo dell'energia vale per il tuo account su tutti i dispositivi.</p>
   <div class="panel settings">
+    <div class="ck"><span><b>Scarica ricettario</b><br><span class="tip">PDF con tutto il ricettario, intere sezioni, singole ricette e le schede degli elettrodomestici. I menù si scaricano dalla loro pagina.</span><br><a class="btn ghost" href="#scarica" style="margin-top:8px;display:inline-block;text-decoration:none">Scarica ricettario</a></span></div>
     <label class="ck"><input type="checkbox" id="set-padelle" ${acciaio() ? "checked" : ""}><span><b>Uso padelle in acciaio</b><br><span class="tip">Con la spunta le ricette sul fuoco sono scritte per l'acciaio, senza per l'antiaderente.</span></span></label>
     <div class="ck"><span><b>Chi usa il ricettario su questo dispositivo</b><br><span class="seg" style="margin-top:8px;display:inline-flex"><button type="button" data-profilo="federico" aria-pressed="${persona() === "federico"}">Federico</button><button type="button" data-profilo="andreina" aria-pressed="${persona() === "andreina"}">Andreina Roma</button><button type="button" data-profilo="altro" aria-pressed="${persona() === "altro"}">Altri</button></span><br><span class="tip">Te lo chiedo anche a ogni apertura del ricettario.</span></span></div>
     ${federico() ? `    <label class="ck"><input type="checkbox" id="set-forno" ${flagOn("ricettario-fornocasa") ? "checked" : ""}><span><b>Uso il mio forno di casa</b> (${persona() === "andreina" ? "IKEA MATTRADITION" : "IKEA, tipo FXJM6"})<br><span class="tip">Con la spunta ricette e tempi sono scritti per il tuo forno: ${persona() === "andreina" ? "funzioni della manopola, ripiani, spia del preriscaldamento" : "funzioni con gli scatti della manopola, ripiani, preriscaldamento"}. Senza, indicazioni per un forno generico e niente scheda del forno.</span></span></label>
     <label class="ck"><input type="checkbox" id="set-induzione" ${induzioneCasa() ? "checked" : ""}><span><b>Uso il mio piano a induzione</b> (IKEA)<br><span class="tip">Con la spunta le ricette sul fuoco hanno i livelli del tuo piano e il riquadro «Sul tuo piano a induzione». Senza, indicazioni per un fornello normale e niente scheda della piastra.</span></span></label>
 ` : ""}
     <label class="ck"><input type="checkbox" id="set-consumi" ${mostraConsumi() ? "checked" : ""}><span><b>Mostra consumi e costi dell'energia</b><br><span class="tip">Nelle ricette, nei menù e nei PDF.</span></span></label>
-    <div class="ck"><span><b>Timer</b><br><span class="tip">Più timer con un nome, solo su questo dispositivo. Si aprono anche dall'icona del cronometro in alto, da ogni pagina.</span><br><button type="button" class="btn ghost" data-timer-open style="margin-top:8px">Apri i timer</button></span></div>
+    <div class="ck"><span><b>Timer</b><br><span class="tip">Più timer con un nome, solo su questo dispositivo. Si aprono anche dalla voce «Timer» in alto, da ogni pagina.</span><br><button type="button" class="btn ghost" data-timer-open style="margin-top:8px">Apri i timer</button></span></div>
     <div class="ck"><span><b>Avvia anche il timer dell'orologio del telefono</b><br><span class="tip">Il timer dell'app è un suono della pagina e a schermo spento il telefono può fermarlo. Con questa opzione, quando avvii un timer parte anche quello vero dell'orologio, che suona sempre; l'app allora non suona e non vibra, così l'avviso è uno solo (il timer nell'app resta visibile e lampeggia a zero).</span>
       <span class="seg" style="margin-top:8px;display:inline-flex">${[["no", "No"], ["iphone", "iPhone"], ["android", "Android"]].map(([v, l]) => `<button type="button" data-telsveglia="${v}" aria-pressed="${telSveglia() === v}">${l}</button>`).join("")}</span>
       ${telSveglia() === "iphone" ? `<span class="tip" style="display:block;margin-top:8px">Quando avvii un timer (o tocchi ⏰) l'app copia negli appunti i secondi (es. 600); appena esci dall'app, un'automazione dell'iPhone avvia il timer dell'orologio e svuota gli appunti.<br><b>Comando «Timer Mensa»</b>: Ottieni numeri da Appunti → Se Numeri è maggiore di 0 → Avvia un timer di Numeri secondi → Copia negli appunti (Testo con uno spazio) → Fine se.<br><b>Automazione</b>: App Claude e Safari → «Viene chiusa» → Esegui immediatamente → Timer Mensa.</span>` : telSveglia() === "android" ? `<span class="tip" style="display:block;margin-top:8px">Si apre l'app Orologio con un timer della stessa durata e con lo stesso nome.</span>` : ""}</span></div>
@@ -3782,6 +3793,8 @@ function renderWizard(){
     html += `<div class="wizard-step">Passo 1 di 2</div>
     <h1>Cos'hai nel frigo?</h1>
     <p class="status" style="margin:6px 0 14px">Scegli gli ingredienti che hai in casa: sono quelli usati nelle tue ricette. Acqua e sale li do per scontati. Se non vuoi sceglierli, vai avanti.</p>
+    <input type="search" class="frigo-q" id="frigo-q" placeholder="Cerca un ingrediente…" value="${esc(d.q || "")}" aria-label="Cerca un ingrediente" autocomplete="off">
+    <p class="status" id="frigo-none" hidden>Nessun ingrediente con questo nome.</p>
     <div class="chips wrapchips" role="group" aria-label="Ingredienti disponibili">
       ${FRIGO_ALL().map(k => `<button class="frigo-chip" data-k="${esc(k)}" aria-pressed="${d.frigo.has(k)}">${esc(k)}</button>`).join("")}
     </div>
@@ -3790,7 +3803,10 @@ function renderWizard(){
       ${d.frigo.size ? `<button class="btn ghost" id="clear">Deseleziona tutto</button>` : ""}
     </div>`;
     app.innerHTML = html;
-    app.querySelectorAll("[data-k]").forEach(b => b.onclick = () => { const k = b.dataset.k; d.frigo.has(k) ? d.frigo.delete(k) : d.frigo.add(k); renderWizard(); });
+    app.querySelectorAll("[data-k]").forEach(b => b.onclick = () => { const k = b.dataset.k; d.frigo.has(k) ? d.frigo.delete(k) : d.frigo.add(k); const y = scrollY; renderWizard(); scrollTo(0, y); });
+    const fq = document.getElementById("frigo-q"), norm = t => t.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    const filtra = () => { d.q = fq.value; const q = norm(d.q.trim()); let n = 0; app.querySelectorAll("[data-k]").forEach(b => { const ok = !q || norm(b.dataset.k).includes(q); b.hidden = !ok; if (ok) n++; }); document.getElementById("frigo-none").hidden = n > 0; };
+    fq.oninput = filtra; filtra();
     document.getElementById("next").onclick = () => { d.step = 2; renderWizard(); window.scrollTo(0, 0); };
     const cl = document.getElementById("clear"); if (cl) cl.onclick = () => { d.frigo.clear(); renderWizard(); };
     return;
