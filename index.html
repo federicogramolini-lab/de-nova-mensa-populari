@@ -3309,7 +3309,9 @@ async function manoRiga(testo, colore = "#2f6b4f", fs = 140, deco = false, spess
   g.font = font; g.fillStyle = "#000"; g.strokeStyle = "#000"; g.lineJoin = "round"; g.lineCap = "round"; g.lineWidth = fs * spessore;
   const base = Math.round(deco ? fs * 1.5 : H * 0.62); let x = pad + L;
   parole.forEach(w => { g.fillText(w, x, base); g.strokeText(w, x, base); x += m.measureText(w).width + sp; });
+  const srcD = document.createElement("canvas"); srcD.width = W; srcD.height = H;
   if (deco){
+    const g = srcD.getContext("2d"); g.fillStyle = "#000"; g.strokeStyle = "#000"; g.lineJoin = "round"; g.lineCap = "round";
     g.lineWidth = fs * 0.04;
     const cx = pad + L * 0.45, cy = base - fs * 0.33; g.beginPath();
     for (let t = 0; t <= Math.PI * 3.6; t += 0.05){ const rr = fs * 0.03 + t * fs * 0.03; g.lineTo(cx + Math.cos(t) * rr, cy + Math.sin(t) * rr); }
@@ -3323,6 +3325,8 @@ async function manoRiga(testo, colore = "#2f6b4f", fs = 140, deco = false, spess
     for (let k = 0; k <= n; k++){ g.beginPath(); g.arc(x0 + st * k, yy + fs * 0.03, fs * 0.028, 0, Math.PI * 2); g.fill(); }
   }
   const out = manoRuvido(src, fs, colore, 0.03, inch, ruv, opac);
+  // gli scarabocchi del titolo restano con l'inchiostro di sempre
+  if (deco) out.getContext("2d").drawImage(manoRuvido(srcD, fs, "#2f6b4f"), 0, 0);
   // tx/tw: dove sta il testo dentro l'immagine (frazioni dell'altezza), per centrarlo e misurarlo senza gli scarabocchi
   return { url: out.toDataURL("image/png"), canvas: out, ratio: W / H, pad: pad / H, base: base / H, tx: (pad + L) / H, tw: tw / H };
 }
@@ -3374,7 +3378,7 @@ async function manoDisegno(nome, n = 520){
 
 /* ---------- Copertina: quaderno a quadretti, cornici, tovaglia, titolo e scarabocchi a mano ----------
    Disegnata su canvas in mm (A4) e usata uguale nel PDF e all'apertura dell'app. Le scritte stanno sulle righe dei quadretti. */
-const COPERTINA = new Map(), COPERTINA_VER = "2026-11-11b";
+const COPERTINA = new Map(), COPERTINA_VER = "2026-11-11c";
 // le quantità della macchina (dimensione "q") non fanno pagine a parte: una pagina per gusto, con la tabella delle dosi per le quantità scelte
 function vociLibro(S, recipes){ return recipes.flatMap(r => { if (!hasDims(r)) return [{ r, cid: null, label: r.titolo }];
   const sets = Object.fromEntries(Object.entries(S.cond[r.id] || {}).map(([k, v]) => [k, [...v]])), qs = sets.q;
@@ -3401,7 +3405,10 @@ async function copertinaCanvas({ titolo, conteggi = "", sezioni, deco = false, d
   g.strokeStyle = "#b08d3e"; g.lineWidth = 0.5; g.strokeRect(22.5, 61, 165, 101);
   // scritta a mano appoggiata sulla riga y (base), centrata, larga al massimo maxW (solo il testo; gli scarabocchi possono uscire)
   const scrivi = async (t, y, hMax, maxW, conDeco = false) => {
-    const k = (conDeco ? "✶" : "") + t; await manoPrepara([k]); const M = MANO.get(k); if (!M) return;
+    // stesso inchiostro dei titoli nell'app (verde un po' spento, tratto 0,038, inchiostro leggermente vario)
+    const k = "cop:" + (conDeco ? "✶" : "") + t;
+    if (!MANO.has(k)){ try { const r = await manoRiga(t, "#356b52", 140, conDeco, 0.038, 0.112, 1.35, 0.92); if (r) MANO.set(k, r); } catch (e) {} }
+    const M = MANO.get(k); if (!M) return;
     const h = Math.min(hMax, maxW / M.tw), x = 105 - (M.tx + M.tw / 2) * h;
     g.drawImage(M.canvas, x, y - M.base * h, M.ratio * h, h);
   };
