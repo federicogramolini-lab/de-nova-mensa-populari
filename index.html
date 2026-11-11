@@ -3075,14 +3075,13 @@ function menuOspiteTesti(m){ const t = [m.nome]; menuRecipes(m).forEach(r => con
 function writeMenuOspite(P, m){
   const { doc } = P, rs = menuRecipes(m);
   // quaderno a quadretti da 5 mm delle elementari (Quaderni Speciali "Classic"): carta bianca, righe grigio-lilla,
-  // una riga ogni tre evidenziata in azzurro, margine verde a sinistra e rosso a destra (22,5 mm), fascia bianca in alto e in basso
+  // niente righe colorate (richiesta dell'utente: le scritte devono leggersi bene), righe chiare, margine verde a sinistra e rosso a destra (22,5 mm), fascia bianca in alto e in basso
   const X0 = 22.5, X1 = 187.5, Y0 = 35, Y1 = 270;
   doc.setFillColor(255, 255, 255); doc.rect(0, 0, 210, 297, "F");
-  doc.setFillColor(222, 236, 248); for (let y = Y0 + 5, k = 0; y < Y1; y += 15, k++) doc.rect(X0, y, X1 - X0, 5, "F");
-  doc.setDrawColor(186, 186, 206); doc.setLineWidth(0.12);
+  doc.setDrawColor(204, 204, 214); doc.setLineWidth(0.12);
   for (let y = Y0; y <= Y1 + 0.01; y += 5) doc.line(0, y, 210, y);
   for (let x = X0 + 5; x < X1 - 0.01; x += 5) doc.line(x, 0, x, 297);
-  doc.setLineWidth(0.35); doc.setDrawColor(98, 170, 72); doc.line(X0, 0, X0, 297); doc.setDrawColor(214, 74, 70); doc.line(X1, 0, X1, 297);
+  doc.setLineWidth(0.3); doc.setDrawColor(132, 184, 110); doc.line(X0, 0, X0, 297); doc.setDrawColor(222, 118, 114); doc.line(X1, 0, X1, 297);
   const riga = y => Y0 + 5 * Math.ceil((y - Y0) / 5 - 1e-9);
   const ORD = [["Antipasti", "Antipasti"], ["Lievitati", "Dal forno"], ["Primi", "Primi"], ["Secondi", "Secondi"], ["Contorni", "Contorni"], ["Dolci", "Dolci"], ["Bevande", "Da bere"]];
   const blocks = ORD.map(([sz, lab]) => ({ lab, items: rs.filter(r => r.sezione === sz) })).filter(b => b.items.length);
