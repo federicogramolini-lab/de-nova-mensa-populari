@@ -115,7 +115,7 @@ h1,h2,h3{font-family:var(--display);text-wrap:balance;line-height:1.15;margin:0}
 h1{font-size:30px;font-weight:800;letter-spacing:-.01em}
 /* titolo della ricetta scritto a mano: corsivo legato, tratto ingrossato e bordi mossi dal filtro SVG #ruvido */
 h1 .mano-img{display:flex !important;flex-wrap:wrap;filter:none !important;-webkit-text-stroke:0 !important;padding-left:0 !important;font-size:30px}
-h1 .mano-img img{height:1.75em;display:block;margin-top:-.25em;margin-bottom:-.35em}
+h1 .mano-img img{height:1.75em;display:block;margin-top:-.12em;margin-bottom:-.38em}
 h1 .mano{font-family:ManoCorsivo,"Snell Roundhand","Segoe Script",cursive;font-weight:400;font-size:1.12em;letter-spacing:0;word-spacing:.22em;color:var(--accent);-webkit-text-stroke:.5px currentColor;filter:url(#ruvido);line-height:1.35;display:inline-block;padding:.05em .1em .12em 0}
 h2{font-size:24px;font-weight:800}
 h3{font-size:18px;font-weight:600}
@@ -2533,7 +2533,7 @@ function renderRecipe(r){
       </div>
     </div>
   </div>`;
-  app.innerHTML = html;
+  app.innerHTML = html; manoTitoloApp();
 
   const setF = nf => { if (nf > 0){ state.factor[r.id] = nf; renderRecipe(r); } };
   if (r.cont){
@@ -3277,12 +3277,12 @@ function manoNoise(seed){
     return t + ((c + (d - c) * xf) - t) * yf - 0.5; };
 }
 // rende "a mano" quello che è disegnato in nero su src: bordi mossi (poco, armonici), inchiostro non uniforme, colore
-function manoRuvido(src, fs, colore = "#2f6b4f", onda = 0.03){
+function manoRuvido(src, fs, colore = "#2f6b4f", onda = 0.03, inch = 0.2, ruv = 1, opac = 1){
   const W = src.width, H = src.height, S = src.getContext("2d").getImageData(0, 0, W, H).data;
   const out = document.createElement("canvas"); out.width = W; out.height = H;
   const o = out.getContext("2d"), D = o.createImageData(W, H), d = D.data;
   const wave = manoNoise(5), nx = manoNoise(11), ny = manoNoise(23), nx2 = manoNoise(31), ny2 = manoNoise(43), ink = manoNoise(57);
-  const A = fs * 0.012, B = fs * 0.009, s1 = fs * 0.06, s2 = fs * 0.011;
+  const A = fs * 0.012 * ruv, B = fs * 0.009 * ruv, s1 = fs * 0.06, s2 = fs * 0.011;
   const r = parseInt(colore.slice(1, 3), 16), gg = parseInt(colore.slice(3, 5), 16), b = parseInt(colore.slice(5, 7), 16);
   for (let y = 0; y < H; y++) for (let xx = 0; xx < W; xx++){
     const sx = Math.round(xx + nx(xx / s1, y / s1) * A + nx2(xx / s2, y / s2) * B);
@@ -3290,13 +3290,13 @@ function manoRuvido(src, fs, colore = "#2f6b4f", onda = 0.03){
     if (sx < 0 || sy < 0 || sx >= W || sy >= H) continue;
     let a = S[(sy * W + sx) * 4 + 3]; if (!a) continue;
     a = a > 140 ? 255 : a * 0.6;
-    a *= 0.92 + ink(xx / (fs * 0.08), y / (fs * 0.08)) * 0.2;
-    const i = (y * W + xx) * 4; d[i] = r; d[i + 1] = gg; d[i + 2] = b; d[i + 3] = Math.max(0, Math.min(255, a));
+    a *= 1 - inch / 2 + ink(xx / (fs * 0.08), y / (fs * 0.08)) * inch * 2;
+    const i = (y * W + xx) * 4; d[i] = r; d[i + 1] = gg; d[i + 2] = b; d[i + 3] = Math.max(0, Math.min(255, a * opac));
   }
   o.putImageData(D, 0, 0);
   return out;
 }
-async function manoRiga(testo, colore = "#2f6b4f", fs = 140, deco = false){
+async function manoRiga(testo, colore = "#2f6b4f", fs = 140, deco = false, spessore = 0.028, inch = 0.2, ruv = 1, opac = 1){
   if (!(await manoFont())) return null;
   const font = `${fs}px ManoCorsivo`, m = document.createElement("canvas").getContext("2d"); m.font = font;
   const parole = testo.split(" "), sp = m.measureText(" ").width * 1.7;
@@ -3306,7 +3306,7 @@ async function manoRiga(testo, colore = "#2f6b4f", fs = 140, deco = false){
   const W = tw + pad * 2 + L + Rr, H = Math.round(fs * (deco ? 2.35 : 1.75));
   const src = document.createElement("canvas"); src.width = W; src.height = H;
   const g = src.getContext("2d");
-  g.font = font; g.fillStyle = "#000"; g.strokeStyle = "#000"; g.lineJoin = "round"; g.lineCap = "round"; g.lineWidth = fs * 0.028;
+  g.font = font; g.fillStyle = "#000"; g.strokeStyle = "#000"; g.lineJoin = "round"; g.lineCap = "round"; g.lineWidth = fs * spessore;
   const base = Math.round(deco ? fs * 1.5 : H * 0.62); let x = pad + L;
   parole.forEach(w => { g.fillText(w, x, base); g.strokeText(w, x, base); x += m.measureText(w).width + sp; });
   if (deco){
@@ -3322,7 +3322,7 @@ async function manoRiga(testo, colore = "#2f6b4f", fs = 140, deco = false){
     g.stroke();
     for (let k = 0; k <= n; k++){ g.beginPath(); g.arc(x0 + st * k, yy + fs * 0.03, fs * 0.028, 0, Math.PI * 2); g.fill(); }
   }
-  const out = manoRuvido(src, fs, colore);
+  const out = manoRuvido(src, fs, colore, 0.03, inch, ruv, opac);
   // tx/tw: dove sta il testo dentro l'immagine (frazioni dell'altezza), per centrarlo e misurarlo senza gli scarabocchi
   return { url: out.toDataURL("image/png"), canvas: out, ratio: W / H, pad: pad / H, base: base / H, tx: (pad + L) / H, tw: tw / H };
 }
@@ -3417,10 +3417,11 @@ async function copertinaCanvas({ titolo, conteggi = "", sezioni, deco = false, d
 async function manoTitoloApp(){
   const h = app.querySelector("h1 .mano"); if (!h) return;
   const t = h.textContent, parole = t.split(/\s+/).filter(Boolean);
-  try { await manoPrepara(parole); } catch (e) { return; }
-  if (!h.isConnected || h.textContent !== t || !parole.every(w => MANO.has(w))) return;
+  // inchiostro meno saturo (verde-grigio da pennarello) e tratto più marcato, con l'inchiostro che varia di più
+  for (const w of parole) if (!MANO.has("app:" + w)){ try { const r = await manoRiga(w, "#4f6a5d", 140, false, 0.04, 0.16, 1.35, 0.9); if (r) MANO.set("app:" + w, r); } catch (e) { return; } }
+  if (!h.isConnected || h.textContent !== t || !parole.every(w => MANO.has("app:" + w))) return;
   h.classList.add("mano-img"); h.setAttribute("aria-label", t);
-  h.innerHTML = parole.map(w => { const M = MANO.get(w); return `<img src="${M.url}" alt="" style="aspect-ratio:${M.ratio};margin-left:${-M.pad * 1.75}em;margin-right:${-M.pad * 1.75 + 0.18}em">`; }).join("");
+  h.innerHTML = parole.map(w => { const M = MANO.get("app:" + w); return `<img src="${M.url}" alt="" style="aspect-ratio:${M.ratio};margin-left:${-M.pad * 1.75}em;margin-right:${-M.pad * 1.75 + 0.32}em">`; }).join("");
 }
 // un testo che inizia con "✶" viene scritto con gli scarabocchi attorno
 async function manoPrepara(testi){ for (const t of new Set(testi)) if (t && !MANO.has(t)){ try { const r = t[0] === "✶" ? await manoRiga(t.slice(1), "#2f6b4f", 140, true) : await manoRiga(t); if (r) MANO.set(t, r); } catch (e){} } }
@@ -3578,7 +3579,6 @@ function renderWizard(){
       ${d.frigo.size ? `<button class="btn ghost" id="clear">Deseleziona tutto</button>` : ""}
     </div>`;
     app.innerHTML = html;
-   manoTitoloApp();
     app.querySelectorAll("[data-k]").forEach(b => b.onclick = () => { const k = b.dataset.k; d.frigo.has(k) ? d.frigo.delete(k) : d.frigo.add(k); renderWizard(); });
     document.getElementById("next").onclick = () => { d.step = 2; renderWizard(); window.scrollTo(0, 0); };
     const cl = document.getElementById("clear"); if (cl) cl.onclick = () => { d.frigo.clear(); renderWizard(); };
