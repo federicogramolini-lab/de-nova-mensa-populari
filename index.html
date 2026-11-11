@@ -102,6 +102,8 @@ button,input{font:inherit;color:inherit}
 .wrap{max-width:1060px;margin:0 auto;padding:0 16px 56px}
 h1,h2,h3{font-family:var(--display);text-wrap:balance;line-height:1.15;margin:0}
 h1{font-size:30px;font-weight:800;letter-spacing:-.01em}
+/* titolo della ricetta scritto a mano: corsivo legato, tratto ingrossato e bordi mossi dal filtro SVG #ruvido */
+h1 .mano{font-family:ManoCorsivo,"Snell Roundhand","Segoe Script",cursive;font-weight:400;font-size:1.12em;letter-spacing:0;word-spacing:.22em;color:var(--accent);-webkit-text-stroke:.7px currentColor;filter:url(#ruvido);line-height:1.35;display:inline-block;padding:.05em .1em .12em 0}
 h2{font-size:24px;font-weight:800}
 h3{font-size:18px;font-weight:600}
 a{color:inherit}
@@ -351,6 +353,7 @@ a{color:inherit}
 </style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="ruvido" x="-5%" y="-20%" width="110%" height="140%"><feTurbulence type="fractalNoise" baseFrequency="0.09" numOctaves="2" seed="4" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.6" xChannelSelector="R" yChannelSelector="G"/></filter></svg>
 <div class="wrap" id="app"></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -2374,7 +2377,7 @@ function renderRecipe(r){
     <div class="head">
       <span class="path">${pathOf(r)}${isNew(r) ? ` <span class="new-chip">NEW</span>` : ""}</span>
       ${editTitle.id === r.id ? `<div class="title-edit"><input id="tnew" value="${esc(r.titolo)}" aria-label="Nuovo nome della ricetta"><button class="btn small" id="tsave">Salva</button><button class="btn ghost small" id="tcancel">Annulla</button>${r.titolo !== r.titoloOrig ? `<button class="btn ghost small" id="treset">Nome originale</button>` : ""}</div>`
-        : `<h1>${esc(r.titolo)}${isOwner && titoliRef ? ` <button class="pencil" id="tedit" aria-label="Rinomina la ricetta" title="Rinomina"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M14 6l4 4"/></svg></button>` : ""}</h1>`}
+        : `<h1><span class="mano">${esc(r.titolo)}</span>${isOwner && titoliRef ? ` <button class="pencil" id="tedit" aria-label="Rinomina la ricetta" title="Rinomina"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M14 6l4 4"/></svg></button>` : ""}</h1>`}
       ${r.descrizione ? `<p>${esc(r.descrizione)}</p>` : ""}
       ${r.fonte ? `<p>Fonte: ${r.fonte.url ? `<a href="${esc(r.fonte.url)}" target="_blank" rel="noopener">${esc(r.fonte.nome)}</a>` : esc(r.fonte.nome)}</p>` : ""}
       ${votoHTML(r)}
@@ -3118,7 +3121,7 @@ function renderScarica(){
     const sez = SEZIONI.filter(sz => VIS().some(r => r.sezione === sz && S.ricette.has(r.id)));
     S.cover = [await svgPng(copertinaSvg(sez.length ? sez : SEZIONI), 1750, 1050)].filter(Boolean);
     const st = document.getElementById("status"); if (st) st.textContent = "Scrivo i titoli…";
-    const rs = libroRicette(S); await manoPrepara([titoloLibro(rs), "Indice", ...rs.map(r => r.titolo.split(" (")[0])]);
+    const rs = libroRicette(S); await manoPrepara([(rs.length && rs.length === VIS().length ? "✶" : "") + titoloLibro(rs), "Indice", ...rs.map(r => r.titolo.split(" (")[0])]);
     conDotazione(v => buildBookPdf(S, v));
   };
 }
@@ -3128,8 +3131,9 @@ const SEZ_ART = { Antipasti: "toastcipolle", Primi: "carbonara", Secondi: "biste
 function piatto(key, x, y, w){ return ART[key].replace('<svg viewBox="0 0 160 120" aria-hidden="true">', `<svg x="${x}" y="${y}" width="${w}" height="${w * 0.75}" viewBox="0 0 160 120">`); }
 function tovaglia(W, H){
   const q = 35; let r = `<rect width="${W}" height="${H}" fill="#fbfaf6"/>`;
-  for (let x = 0; x < W; x += q * 2) r += `<rect x="${x}" y="0" width="${q}" height="${H}" fill="#2f6b4f" opacity=".38"/>`;
-  for (let y = 0; y < H; y += q * 2) r += `<rect x="0" y="${y}" width="${W}" height="${q}" fill="#2f6b4f" opacity=".38"/>`;
+  // bande centrate: ai bordi opposti la tovaglia finisce allo stesso modo
+  for (let x = -q / 2; x < W; x += q * 2) r += `<rect x="${x}" y="0" width="${q}" height="${H}" fill="#2f6b4f" opacity=".38"/>`;
+  for (let y = -q / 2; y < H; y += q * 2) r += `<rect x="0" y="${y}" width="${W}" height="${q}" fill="#2f6b4f" opacity=".38"/>`;
   return r;
 }
 // posate disegnate in orizzontale, manico a sinistra e punta a destra (poi si ruotano)
@@ -3185,22 +3189,37 @@ function manoNoise(seed){
     const a = h(xi, yi), b = h(xi + 1, yi), c = h(xi, yi + 1), d = h(xi + 1, yi + 1), t = a + (b - a) * xf;
     return t + ((c + (d - c) * xf) - t) * yf - 0.5; };
 }
-async function manoRiga(testo, colore = "#2f6b4f", fs = 140){
+async function manoRiga(testo, colore = "#2f6b4f", fs = 140, deco = false){
   if (!(await manoFont())) return null;
   const font = `${fs}px ManoCorsivo`, m = document.createElement("canvas").getContext("2d"); m.font = font;
   const parole = testo.split(" "), sp = m.measureText(" ").width * 1.7;
   const tw = Math.ceil(parole.reduce((a, w) => a + m.measureText(w).width, 0) + sp * (parole.length - 1)), pad = Math.round(fs * 0.3);
-  const W = tw + pad * 2, H = Math.round(fs * 1.75);
+  // con gli scarabocchi: spirale a sinistra, due stelline in alto a destra, festone sotto la seconda metà
+  const L = deco ? Math.round(fs * 0.8) : 0, Rr = deco ? Math.round(fs * 0.65) : 0;
+  const W = tw + pad * 2 + L + Rr, H = Math.round(fs * (deco ? 2.35 : 1.75));
   const src = document.createElement("canvas"); src.width = W; src.height = H;
   const g = src.getContext("2d");
-  g.font = font; g.fillStyle = "#000"; g.strokeStyle = "#000"; g.lineJoin = "round"; g.lineCap = "round"; g.lineWidth = fs * 0.022;
-  const base = Math.round(H * 0.62); let x = pad;
+  g.font = font; g.fillStyle = "#000"; g.strokeStyle = "#000"; g.lineJoin = "round"; g.lineCap = "round"; g.lineWidth = fs * 0.03;
+  const base = Math.round(deco ? fs * 1.5 : H * 0.62); let x = pad + L;
   parole.forEach(w => { g.fillText(w, x, base); g.strokeText(w, x, base); x += m.measureText(w).width + sp; });
+  if (deco){
+    g.lineWidth = fs * 0.04;
+    const cx = pad + L * 0.45, cy = base - fs * 0.33; g.beginPath();
+    for (let t = 0; t <= Math.PI * 3.6; t += 0.05){ const rr = fs * 0.03 + t * fs * 0.03; g.lineTo(cx + Math.cos(t) * rr, cy + Math.sin(t) * rr); }
+    g.stroke();
+    const stella = (sx, sy, rr, rot) => { g.beginPath(); for (let k = 0; k <= 5; k++){ const a = rot - Math.PI / 2 + k * Math.PI * 4 / 5; g.lineTo(sx + Math.cos(a) * rr, sy + Math.sin(a) * rr); } g.closePath(); g.stroke(); };
+    stella(W - pad - Rr * 0.62, base - fs * 1.02, fs * 0.27, 0.12); stella(W - pad - Rr * 0.12, base - fs * 0.5, fs * 0.15, -0.2);
+    const x0 = pad + L + tw * 0.42, x1 = pad + L + tw, yy = base + fs * 0.45, n = Math.max(3, Math.round((x1 - x0) / (fs * 0.62))), st = (x1 - x0) / n;
+    g.beginPath(); g.moveTo(x0, yy);
+    for (let k = 0; k < n; k++) g.quadraticCurveTo(x0 + st * (k + 0.5), yy - fs * 0.16, x0 + st * (k + 1), yy);
+    g.stroke();
+    for (let k = 0; k <= n; k++){ g.beginPath(); g.arc(x0 + st * k, yy + fs * 0.03, fs * 0.028, 0, Math.PI * 2); g.fill(); }
+  }
   const S = g.getImageData(0, 0, W, H).data;
   const out = document.createElement("canvas"); out.width = W; out.height = H;
   const o = out.getContext("2d"), D = o.createImageData(W, H), d = D.data;
   const wave = manoNoise(5), nx = manoNoise(11), ny = manoNoise(23), nx2 = manoNoise(31), ny2 = manoNoise(43), ink = manoNoise(57);
-  const A = fs * 0.018, B = fs * 0.009, s1 = fs * 0.06, s2 = fs * 0.012;
+  const A = fs * 0.018, B = fs * 0.016, s1 = fs * 0.06, s2 = fs * 0.008;
   const r = parseInt(colore.slice(1, 3), 16), gg = parseInt(colore.slice(3, 5), 16), b = parseInt(colore.slice(5, 7), 16);
   for (let y = 0; y < H; y++) for (let xx = 0; xx < W; xx++){
     const sx = Math.round(xx + nx(xx / s1, y / s1) * A + nx2(xx / s2, y / s2) * B);
@@ -3214,11 +3233,12 @@ async function manoRiga(testo, colore = "#2f6b4f", fs = 140){
   o.putImageData(D, 0, 0);
   return { url: out.toDataURL("image/png"), ratio: W / H, pad: pad / H, base: base / H };
 }
-async function manoPrepara(testi){ for (const t of new Set(testi)) if (t && !MANO.has(t)){ try { const r = await manoRiga(t); if (r) MANO.set(t, r); } catch (e){} } }
+// un testo che inizia con "✶" viene scritto con gli scarabocchi attorno
+async function manoPrepara(testi){ for (const t of new Set(testi)) if (t && !MANO.has(t)){ try { const r = t[0] === "✶" ? await manoRiga(t.slice(1), "#2f6b4f", 140, true) : await manoRiga(t); if (r) MANO.set(t, r); } catch (e){} } }
 // scrive nel PDF un titolo a mano già preparato; box = altezza del riquadro in mm; restituisce la larghezza usata
 function manoPdf(doc, testo, x, yTop, box, maxW, align = "left"){
   const M = MANO.get(testo);
-  if (!M){ doc.setFont("times", "bolditalic"); doc.setFontSize(box * 1.6); doc.setTextColor(...C.green); doc.text(pdfText(testo), x, yTop + box * 0.62, { align }); return box; }
+  if (!M){ doc.setFont("times", "bolditalic"); doc.setFontSize(Math.min(box, 22) * 1.6); doc.setTextColor(...C.green); doc.text(pdfText(testo.replace(/^✶/, "")), x, yTop + box * 0.62, { align }); return box; }
   if (box * M.ratio > maxW) box = maxW / M.ratio;
   const w = box * M.ratio, x0 = align === "center" ? x - w / 2 : x - M.pad * box;
   doc.addImage(M.url, "PNG", x0, yTop, w, box);
@@ -3258,10 +3278,10 @@ function buildBookPdf(S, v){
   if (!ricTutte){ const L = "DE (NOVA) MENSA POPULARI", cs = 1.8; doc.setFont("times", "bold"); doc.setFontSize(11); doc.setTextColor(...C.gold); const w = doc.getTextWidth(L) + cs * (L.length - 1); doc.text(L, 105 - w / 2, 40, { charSpace: cs }); }
   orn(48);
   const img = (S.cover || [])[0];
-  const IW = 160, IH = 96, TB = 30, H = (img ? IH + 16 : 0) + TB + 6;
+  const deco = ricTutte, TB = deco ? 34 : 25, IW = 160, IH = 96, H = (img ? IH + 22 : 0) + TB + 6;
   let cy = 58 + Math.max(0, (228 - 58 - H) / 2);
-  if (img){ doc.addImage(img, "PNG", 105 - IW / 2, cy, IW, IH); doc.setDrawColor(...C.gold); doc.setLineWidth(0.5); doc.rect(105 - IW / 2 - 2.5, cy - 2.5, IW + 5, IH + 5, "S"); cy += IH + 8; }
-  const tb = manoPdf(doc, titolo, 105, cy, TB, 168, "center"); cy += tb * 0.95 + 6;
+  if (img){ doc.addImage(img, "PNG", 105 - IW / 2, cy, IW, IH); doc.setDrawColor(...C.gold); doc.setLineWidth(0.5); doc.rect(105 - IW / 2 - 2.5, cy - 2.5, IW + 5, IH + 5, "S"); cy += IH + (deco ? 12 : 16); }
+  const tb = manoPdf(doc, (deco ? "✶" : "") + titolo, 105, cy, TB, deco ? 180 : 160, "center"); cy += tb * 0.95 + 6;
   const parti = [recipes.length > 1 ? `${recipes.length} ricette` : "", voci.length > recipes.length ? `${voci.length} versioni` : "", apps0.length ? (apps0.length === 1 ? "1 elettrodomestico" : `${apps0.length} elettrodomestici`) : ""].filter(Boolean).join("  ·  ");
   if (parti){ doc.setFont("times", "italic"); doc.setFontSize(13); doc.setTextColor(...C.grey); doc.text(pdfText(parti), 105, cy, { align: "center" }); cy += 8; }
   orn(Math.max(cy + 4, 240));
@@ -3872,6 +3892,7 @@ tmLoad(); setInterval(tmTick, 250);
 
 window.addEventListener("hashchange", () => { state.confirmDel = null; route(); window.scrollTo(0, 0); });
 route();
+manoFont();
 chiediProfilo();
 
 function useLocal(){
