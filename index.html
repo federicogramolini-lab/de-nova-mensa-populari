@@ -36,25 +36,33 @@
 .spesa-form{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
 .spesa-form input{flex:1 1 220px;min-width:0;font:inherit;padding:10px 12px;border:1.5px solid var(--line);border-radius:12px;background:var(--surface)}
 .spesa-form select{flex:1 1 220px}
+.spesa-menu{background:var(--surface);border:1.5px solid var(--line);border-radius:14px;padding:12px}
+.sp-pers{display:flex;align-items:center;gap:8px}
+.sp-pers .stepper input{width:48px}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
-.quaderno{--q:19px;--m:12%;position:relative;background:#fff;border-radius:6px;box-shadow:0 6px 22px rgba(60,45,20,.16);padding:calc(var(--q) * 3) var(--m) calc(var(--q) * 3);margin-top:8px;overflow:hidden;
-  background-image:repeating-linear-gradient(to bottom,transparent 0 calc(var(--q) - 1px),rgb(204,204,214) calc(var(--q) - 1px) var(--q));background-position:0 calc(var(--q) * 2)}
+.quaderno{--q:19px;--m:12%;--alto:calc(var(--q) * 4);position:relative;background:#fff;border-radius:6px;box-shadow:0 6px 22px rgba(60,45,20,.16);padding:var(--alto) var(--m);margin-top:8px;overflow:hidden}
+/* righe orizzontali solo tra la fascia bianca in alto e quella in basso; verticali tra i margini, per tutta l'altezza */
+.quaderno .q-righe{position:absolute;left:0;right:0;top:var(--alto);bottom:var(--alto);pointer-events:none;border-top:1px solid rgb(204,204,214);
+  background-image:repeating-linear-gradient(to bottom,transparent 0 calc(var(--q) - 1px),rgb(204,204,214) calc(var(--q) - 1px) var(--q))}
 .quaderno .q-fogli{position:absolute;top:0;bottom:0;left:var(--m);right:var(--m);pointer-events:none;border-left:1.5px solid #84b86e;border-right:1.5px solid #de7672;
   background-image:repeating-linear-gradient(to right,transparent 0 calc(var(--q) - 1px),rgb(204,204,214) calc(var(--q) - 1px) var(--q))}
 .q-titolo,.q-voci,.q-vuota{position:relative}
-.q-titolo{height:calc(var(--q) * 3);display:flex;justify-content:center;align-items:flex-end;margin-bottom:var(--q)}
-.q-scritta{display:block;position:relative}
-.q-scritta{max-width:100%}
-.q-scritta img{width:min(100%,calc(var(--q) * 1.7 * var(--r)));height:auto;display:block;margin-left:calc(var(--q) * -1.7 * var(--pad,0))}
-.q-big img{width:min(100%,calc(var(--q) * 3 * var(--r)));margin-left:0}
-.q-font{font-family:ManoCorsivo,cursive;color:#376c54;font-size:22px;line-height:1}
-.q-voci{list-style:none;margin:0;padding:0}
+/* titolo della lista centrato sul foglio */
+.q-titolo{height:calc(var(--q) * 3);display:flex;flex-direction:column;justify-content:flex-end;align-items:center;text-align:center;margin-bottom:var(--q)}
+.q-titolo .q-scritta{margin:0 auto calc(var(--q) * -0.75)}
+.q-titolo .q-font{font-size:28px}
+.q-scritta{display:block;position:relative;width:min(100%,calc(var(--q) * 1.7 * var(--r,8)))}
+.q-scritta img{width:100%;height:auto;display:block;margin-left:calc(var(--q) * -1.7 * var(--pad,0))}
+.q-scritta.q-big{width:min(100%,calc(var(--q) * 2.8 * var(--r,8)))}
+.q-big img{margin-left:0}
+.q-font{font-family:ManoCorsivo,cursive;color:#376c54;font-size:22px;line-height:1;width:auto}
+.q-voci{list-style:none;margin:0;padding:0 0 calc(var(--q) * 2)}
 .q-voce{display:grid;grid-template-columns:var(--q) minmax(0,1fr) auto;column-gap:10px;align-items:end;height:calc(var(--q) * 2)}
-.q-check{width:var(--q);height:var(--q);margin-bottom:0;border:2px solid #376c54;border-radius:3px;background:#fff;padding:0;cursor:pointer;transform:rotate(-2deg);display:grid;place-items:center}
+.q-check{width:var(--q);height:var(--q);border:2px solid #376c54;border-radius:3px;background:#fff;padding:0;cursor:pointer;transform:rotate(-2deg);display:grid;place-items:center}
 .q-check svg{width:18px;height:18px}
-.q-testo{position:relative;justify-self:start;margin-bottom:calc(var(--q) * -0.48);min-width:0;max-width:100%;overflow:visible}
-.q-voce.ok .q-scritta{opacity:.55}
-.q-barra{position:absolute;left:-4px;right:-4px;top:38%;height:12px;width:calc(100% + 8px);pointer-events:none}
+.q-testo{position:relative;width:100%;min-width:0;margin-bottom:calc(var(--q) * -0.48)}
+.q-voce.ok .q-scritta img{opacity:.55}
+.q-barra{position:absolute;left:-2%;top:42%;height:12px;width:96%;pointer-events:none}
 .q-via{background:none;border:0;color:var(--muted);font-size:13px;padding:0 0 4px;cursor:pointer;opacity:.6}
 .q-vuota{font-family:ManoCorsivo,cursive;color:#7a8f84;text-align:center;margin:var(--q) 0}
 @media (max-width:560px){.quaderno{--m:9%}}
@@ -3640,6 +3648,11 @@ function spesaNuova(nome, voci){
   const l = { id: "s" + Date.now().toString(36), nome, creata: Date.now(), voci: voci.map((t, i) => ({ id: "v" + i + Math.random().toString(36).slice(2, 6), t, ok: false })) };
   const liste = spesaListe(); liste.unshift(l); spesaSalva(liste); return l;
 }
+// voci della spesa di un menù; con "persone" ricalcola le dosi per quel numero di persone (teglie e quantità del menù restano)
+function spesaDaMenu(m, persone){
+  const mm = persone ? { ...m, persone, dish: Object.fromEntries(Object.entries(m.dish || {}).map(([k, c]) => { const { persone: _, ...resto } = c; return [k, resto]; })) } : m;
+  return shoppingList(mm).map(spesaVoce);
+}
 function spesaVoce(x){ return (x.nome + (x.qta ? " " + x.qta : "")).replace(/\s+/g, " ").trim(); }
 const SPESA_INK = t => "spesa:" + t;
 async function spesaScrivi(testi){
@@ -3649,7 +3662,7 @@ async function spesaScrivi(testi){
 }
 function spesaRiga(t, cls = ""){
   const M = MANO.get(SPESA_INK(t));
-  return M ? `<span class="q-scritta ${cls}" aria-hidden="true"><img src="${M.url}" alt="" style="aspect-ratio:${M.ratio};--pad:${M.pad};--r:${M.ratio}"></span>`
+  return M ? `<span class="q-scritta ${cls}" aria-hidden="true" style="--pad:${M.pad};--r:${M.ratio}"><img src="${M.url}" alt=""></span>`
            : `<span class="q-scritta q-font ${cls}" aria-hidden="true">${esc(t)}</span>`;
 }
 // dopo il disegno della pagina, sostituisce il corsivo provvisorio con la scrittura a mano vera
@@ -3657,7 +3670,7 @@ async function spesaManoDopo(testi){
   await spesaScrivi(testi);
   document.querySelectorAll(".q-scritta.q-font").forEach(el => {
     const t = el.closest("[data-t]")?.dataset.t; const M = t && MANO.get(SPESA_INK(t)); if (!M) return;
-    el.classList.remove("q-font"); el.innerHTML = `<img src="${M.url}" alt="" style="aspect-ratio:${M.ratio};--pad:${M.pad};--r:${M.ratio}">`;
+    const barra = el.querySelector(".q-barra"); el.classList.remove("q-font"); el.style.setProperty("--pad", M.pad); el.style.setProperty("--r", M.ratio); el.innerHTML = `<img src="${M.url}" alt="">` + (barra ? barra.outerHTML : "");
   });
 }
 const BARRA = `<svg class="q-barra" viewBox="0 0 100 10" preserveAspectRatio="none" aria-hidden="true"><path d="M1 6.2 C 18 4.6, 34 6.8, 52 5.1 S 84 4.2, 99 5.6" fill="none" stroke="#376c54" stroke-width="2.4" stroke-linecap="round" vector-effect="non-scaling-stroke"/></svg>`;
@@ -3668,7 +3681,10 @@ function renderSpese(){
   <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap"><h1>Lista della spesa</h1></div>
   <div class="spesa-new">
     <form id="sp-nuova" class="spesa-form"><input id="sp-nome" placeholder="Nome della nuova lista" aria-label="Nome della nuova lista" value="Spesa del ${new Date().toLocaleDateString("it-IT", { day: "numeric", month: "long" })}"><button class="btn" type="submit">Nuova lista</button></form>
-    ${menus.length ? `<form id="sp-menu" class="spesa-form"><select id="sp-msel" class="cond-sel" aria-label="Menù da cui prendere la spesa">${menus.map(m => `<option value="${m.id}">${esc(m.nome)}</option>`).join("")}</select><button class="btn ghost" type="submit">Prendi dal menù</button></form>` : `<p class="status">Quando avrai un menù salvato potrai prendere la spesa da lì.</p>`}
+    ${menus.length ? `<form id="sp-menu" class="spesa-form spesa-menu"><b style="flex-basis:100%">Nuova lista della spesa da menù</b>
+      <select id="sp-msel" class="cond-sel" aria-label="Menù da cui prendere ingredienti e quantità">${menus.map(m => `<option value="${m.id}" data-p="${menuPersone(m)}">${esc(m.nome)}</option>`).join("")}</select>
+      <label class="sp-pers">Persone <span class="stepper"><button type="button" id="sp-pm" aria-label="Meno">−</button><input id="sp-pers" inputmode="numeric" value="${menuPersone(menus[0])}" aria-label="Persone che mangiano"><button type="button" id="sp-pp" aria-label="Più">+</button></span></label>
+      <button class="btn ghost" type="submit">Crea dal menù</button></form>` : `<p class="status">Quando avrai un menù salvato potrai creare la spesa da lì, con le quantità per le persone che scegli.</p>`}
   </div>`;
   html += liste.length ? `<div class="menu-list">${liste.map(l => { const n = l.voci.length, k = l.voci.filter(v => v.ok).length;
     return `<a class="mcard spesa-card" href="#spesa-${l.id}"><h3>${esc(l.nome)}</h3><span class="status">${n ? `${k} di ${n} ${n === 1 ? "voce presa" : "voci prese"}` : "lista vuota"} · ${dataIt(l.creata)}</span></a>`; }).join("")}</div>`
@@ -3676,24 +3692,40 @@ function renderSpese(){
   app.innerHTML = html;
   document.getElementById("sp-nuova").onsubmit = e => { e.preventDefault(); const l = spesaNuova(document.getElementById("sp-nome").value.trim() || "Spesa", []); location.hash = "spesa-" + l.id; };
   const fm = document.getElementById("sp-menu");
-  if (fm) fm.onsubmit = e => { e.preventDefault(); const m = findMenu(document.getElementById("sp-msel").value); if (!m) return; const l = spesaNuova("Spesa per " + m.nome, shoppingList(m).map(spesaVoce)); location.hash = "spesa-" + l.id; };
+  if (fm){
+    const sel = document.getElementById("sp-msel"), pin = document.getElementById("sp-pers");
+    const val = () => Math.max(1, Math.min(60, parseInt(pin.value, 10) || 1));
+    sel.onchange = () => { pin.value = sel.selectedOptions[0].dataset.p; };
+    document.getElementById("sp-pm").onclick = () => { pin.value = Math.max(1, val() - 1); };
+    document.getElementById("sp-pp").onclick = () => { pin.value = val() + 1; };
+    fm.onsubmit = e => { e.preventDefault(); const m = findMenu(sel.value); if (!m) return; const n = val();
+      const l = spesaNuova(`Spesa per ${m.nome} (${n} ${n === 1 ? "persona" : "persone"})`, spesaDaMenu(m, n)); location.hash = "spesa-" + l.id; };
+  }
 }
 function renderSpesa(l){
   const fatte = l.voci.filter(v => v.ok).length;
   let html = masthead("spesa") + `<a class="back" href="#spesa"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>Le tue liste</a>
   <div class="quaderno" role="group" aria-label="${esc(l.nome)}">
-    <div class="q-fogli"></div>
+    <div class="q-righe"></div><div class="q-fogli"></div>
     <div class="q-titolo" data-t="${esc(l.nome)}"><h1 class="sr">${esc(l.nome)}</h1>${spesaRiga(l.nome, "q-big")}</div>
     <ul class="q-voci">${l.voci.map(v => `<li class="q-voce ${v.ok ? "ok" : ""}" data-t="${esc(v.t)}" data-id="${v.id}">
       <button type="button" class="q-check" role="checkbox" aria-checked="${v.ok}" aria-label="${esc(v.t)}" data-id="${v.id}">${v.ok ? `<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5 L8.5 15 L16.5 4.5" fill="none" stroke="#376c54" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>` : ""}</button>
-      <span class="q-testo">${spesaRiga(v.t)}${v.ok ? BARRA : ""}</span>
+      <span class="q-testo">${spesaRiga(v.t).replace("</span>", (v.ok ? BARRA : "") + "</span>")}</span>
       <button type="button" class="q-via" data-via="${v.id}" aria-label="Togli ${esc(v.t)}">✕</button></li>`).join("")}</ul>
     ${l.voci.length ? "" : `<p class="q-vuota">Scrivi qui sotto cosa comprare.</p>`}
   </div>
   <form id="sp-add" class="spesa-form" style="margin-top:14px"><input id="sp-voce" placeholder="Aggiungi un ingrediente, es. Farina 00 1 kg" aria-label="Aggiungi un ingrediente"><button class="btn" type="submit">Aggiungi</button></form>
   <p class="status" style="margin-top:10px">${l.voci.length ? `${fatte} di ${l.voci.length} prese.` : ""} Tocca la casella per sbarrare quello che hai preso.</p>
-  <button class="btn ghost" id="sp-del" style="margin-top:6px">${state.confirmSpesa === l.id ? "Tocca di nuovo per cancellare la lista" : "Cancella la lista"}</button>`;
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px"><button class="btn" id="sp-pdf">Scarica in PDF</button>
+  <button class="btn ghost" id="sp-del">${state.confirmSpesa === l.id ? "Tocca di nuovo per cancellare la lista" : "Cancella la lista"}</button></div>
+  <p class="status" id="status"></p>`;
   app.innerHTML = html;
+  document.getElementById("sp-pdf").onclick = async () => {
+    const st = document.getElementById("status");
+    if (!downloads || !window.jspdf){ st.textContent = "Il PDF non si può creare in questa vista."; return; }
+    st.textContent = "Scrivo la lista…"; await manoCop([l.nome, ...l.voci.map(v => v.t)]);
+    const P = newPdf(); writeSpesa(P, l); st.textContent = ""; offer(P.doc, l.nome, st);
+  };
   const salva = () => { const liste = spesaListe().map(x => x.id === l.id ? l : x); spesaSalva(liste); };
   app.querySelectorAll(".q-check").forEach(b => b.onclick = () => {
     const v = l.voci.find(x => x.id === b.dataset.id); if (!v) return; v.ok = !v.ok; salva(); renderSpesa(l);
@@ -3703,6 +3735,29 @@ function renderSpesa(l){
   document.getElementById("sp-add").onsubmit = e => { e.preventDefault(); const t = document.getElementById("sp-voce").value.trim(); if (!t) return; l.voci.push({ id: "v" + Date.now().toString(36), t, ok: false }); salva(); renderSpesa(l); document.getElementById("sp-voce").focus(); };
   document.getElementById("sp-del").onclick = () => { if (state.confirmSpesa !== l.id){ state.confirmSpesa = l.id; renderSpesa(l); return; } state.confirmSpesa = null; spesaSalva(spesaListe().filter(x => x.id !== l.id)); location.hash = "spesa"; };
   spesaManoDopo([l.nome, ...l.voci.map(v => v.t)]);
+}
+// lista della spesa in PDF: stesso foglio del menù per gli ospiti, con caselle e voci sbarrate
+function foglioQuaderno(doc){
+  const X0 = 22.5, X1 = 187.5, Y0 = 35, Y1 = 270;
+  doc.setFillColor(255, 255, 255); doc.rect(0, 0, 210, 297, "F");
+  doc.setDrawColor(204, 204, 214); doc.setLineWidth(0.12);
+  for (let y = Y0; y <= Y1 + 0.01; y += 5) doc.line(0, y, 210, y);
+  for (let x = X0 + 5; x < X1 - 0.01; x += 5) doc.line(x, 0, x, 297);
+  doc.setLineWidth(0.3); doc.setDrawColor(132, 184, 110); doc.line(X0, 0, X0, 297); doc.setDrawColor(222, 118, 114); doc.line(X1, 0, X1, 297);
+}
+function writeSpesa(P, l){
+  const { doc } = P; foglioQuaderno(doc);
+  let y = 50; manoCopPdf(doc, l.nome, 105, y, 20, 150); y += 15;
+  l.voci.forEach(v => {
+    if (y > 265){ doc.addPage(); foglioQuaderno(doc); y = 45; }
+    doc.setDrawColor(55, 108, 84); doc.setLineWidth(0.45); doc.rect(32.6, y - 4.6, 4.2, 4.2, "S");
+    if (v.ok){ doc.setLineWidth(0.6); doc.lines([[1.2, 1.5], [2.6, -3.6]], 33.3, y - 2.6, [1, 1], "S", false); }
+    const M = MANO.get("cop:" + v.t), x0 = 42.5;
+    if (M){ const h = Math.min(11, 135 / M.tw), w = M.ratio * h; doc.addImage(M.url, "PNG", x0 - M.tx * h, y - M.base * h, w, h, "cop:" + v.t, "FAST");
+      if (v.ok){ doc.setDrawColor(55, 108, 84); doc.setLineWidth(0.5); doc.line(x0 - 1, y - 2.2, x0 + M.tw * h + 1, y - 2.6); } }
+    else { doc.setFont("times", "italic"); doc.setFontSize(14); doc.setTextColor(55, 108, 84); doc.text(pdfText(v.t), x0, y); }
+    y += 10;
+  });
 }
 function chiediFineSpesa(l){
   const d = document.createElement("div"); d.className = "dot-modal";
@@ -3987,6 +4042,7 @@ function renderMenu(m){
   </section>
   <div class="actions" style="margin-top:22px">
     <button class="btn" id="mpdf" ${downloads ? "" : "disabled"}><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M12 4v11m0 0-4-4m4 4 4-4M5 20h14"/></svg>Scarica menù in PDF</button>
+    ${federico() && shop.length ? `<button class="btn ghost" id="mspesa">Crea la lista della spesa</button>` : ""}
     <button class="btn danger" id="del">${state.confirmDel === m.id ? "Tocca di nuovo per eliminare" : "Elimina menù"}</button>
     <span class="status" id="status">${downloads ? "" : "Il download non è disponibile in questa vista."}</span>
   </div>`;
@@ -4007,6 +4063,8 @@ function renderMenu(m){
     if (state.confirmDel !== m.id){ state.confirmDel = m.id; renderMenu(m); return; }
     state.confirmDel = null; store.menus = store.menus.filter(x => x.id !== m.id); persist(); location.hash = "menu";
   };
+  const ms = document.getElementById("mspesa");
+  if (ms) ms.onclick = () => { const l = spesaNuova("Spesa per " + m.nome, spesaDaMenu(m)); location.hash = "spesa-" + l.id; };
   document.getElementById("mpdf").onclick = async () => {
     const status = document.getElementById("status");
     if (!downloads || !window.jspdf){ status.textContent = "Il PDF non si può creare in questa vista."; return; }
