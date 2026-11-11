@@ -279,6 +279,9 @@ a{color:inherit}
 .fasi li{display:flex;justify-content:space-between;gap:10px;padding:3px 0;border-bottom:1px dashed var(--line)}
 .fasi li:last-child{border-bottom:none}
 .fasi li b{white-space:nowrap;font-variant-numeric:tabular-nums}
+.fasi li.lungo{display:grid;grid-template-columns:minmax(84px,34%) 1fr;gap:12px}
+.fasi li.lungo span{font-weight:700}
+.fasi li.lungo b{white-space:normal;font-weight:400}
 .fasi li.par{color:var(--muted);font-style:italic}
 .prima-lab{margin:8px 0 2px;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--accent);column-span:all}
 .prima-lab span{font-weight:400;text-transform:none;letter-spacing:0;color:var(--muted)}
@@ -3001,7 +3004,35 @@ const VEGGIE = {
   nota: "Dati dalla scheda Ariete del modello 0650/00 e dal ricettario Ariete della macchina."
 };
 
-const ELETTRO = () => [fornoCasa() ? FORNO : fornoMa() ? FORNO_MA : null, induzioneCasa() ? PIASTRA : null, showNinja() ? NINJA : null, showNinja() ? GHISA : null, showNinja() ? VEGGIE : null].filter(Boolean);
+const PLANETARIA = {
+  id: "planetaria", nome: "Ariete Moderna, impastatrice planetaria", path: "Impastatrice · Ariete 1589",
+  intro: "Impastatrice planetaria Ariete Moderna bianca (modello 1589/01), corpo in alluminio pressofuso, ciotola in acciaio inox da 5,5 litri con manico e coperchio paraschizzi. Impasta, amalgama e monta con tre accessori. Per i lievitati del ricettario.",
+  dati: [["Potenza", "1600 W", "Velocità regolabile"], ["Ciotola", "5,5 litri", "Acciaio inox, con manico"], ["Velocità", "11", "Manopola sul corpo"], ["Impasto max", "900 g di farina", "1,3 kg in tutto (dal manuale)"]],
+  liste: [
+    { titolo: "Accessori e velocità massime", nota: "Dal manuale Ariete del modello 1589: non superare queste velocità con ogni accessorio.", righe: [["Gancio", "impasti duri: pane, pizza, focaccia, pan brioche · fino a velocità 3"], ["Frusta a foglia (impasti morbidi)", "frolla, plumcake, impasti di torte · fino a velocità 7"], ["Frusta per montare", "albumi, panna · fino a velocità 11"], ["Spatola", "per staccare l'impasto dalle pareti, a macchina ferma"], ["Coperchio paraschizzi", "quando aggiungi liquidi o farina"]] },
+    { titolo: "Quantità", righe: [["Farina", "al massimo 900 g per volta"], ["Impasto in tutto", "al massimo 1,3 kg (farina, acqua e il resto)"], ["Di più", "dividi l'impasto in due e impastali uno dopo l'altro"], ["Se rallenta", "spegni e togli un po' d'impasto"]] },
+    { titolo: "Con il contatore da 3 kW", righe: [["Assorbe", "fino a 1,6 kW (con il gancio sugli impasti duri)"], ["Insieme", "niente forno in preriscaldamento né Boost mentre impasta"]] }
+  ],
+  pregi: [["Ciotola grande", "5,5 litri: impasta fino a 900 g di farina."], ["Tre accessori", "gancio, foglia e frusta: dal pane alla panna."], ["Robusta", "corpo in alluminio pressofuso, quasi 7 kg: sta ferma sul piano."]],
+  difetti: [["Impasti grandi", "oltre 900 g di farina vanno fatti in due volte."], ["Gancio piano", "con il gancio non superare la velocità 3."], ["Pesante", "circa 7 kg: meglio tenerla sempre sul piano."]],
+  nota: "Dati dalla scheda Ariete del modello 1589/01 e dal manuale d'uso Ariete 1589 (quantità e velocità massime)."
+};
+
+const PADELLE = {
+  id: "padelle", nome: "Padelle Aluinox 3ply", path: "Padelle · Pentole Agnelli",
+  intro: "Cinque padelle Pentole Agnelli della linea Aluinox 3ply: tre strati, acciaio inox dentro e fuori e alluminio in mezzo, fondo per induzione, un manico in acciaio inox. Sono le padelle in acciaio delle ricette: per rosolare, saltare e mantecare.",
+  dati: [["Padelle a mantecare", "Ø 20, 24, 28 cm", "Lucide, bordo alto e dritto"], ["Padelle", "Ø 24 e Ø 20 cm", "24 lucida, 20 satinata"], ["Materiale", "Aluinox 3ply", "Inox + alluminio + inox"], ["Va su", "induzione, gas, forno", "Manico in acciaio inox"]],
+  liste: [
+    { titolo: "Le tue padelle", righe: [["A mantecare Ø 20 cm", "lucida (ALUM111BM20): risotto o pasta per 1–2 persone, salse"], ["A mantecare Ø 24 cm", "lucida (ALUM111BM24), alta 8,7 cm: pasta e risotto per 2–3"], ["A mantecare Ø 28 cm", "lucida (ALUM111BM28): pasta e risotto per 4–6"], ["Padella Ø 24 cm", "lucida, svasata: bistecca, scaloppine, verdure saltate"], ["Padella Ø 20 cm", "satinata: uova, una bistecca, piccole quantità"]] },
+    { titolo: "Sul piano a induzione", nota: "Zone del tuo MATMÄSSIG: il fondo deve coprire bene la croce della zona.", righe: [["Ø 20 cm", "destra dietro o sinistra dietro (Ø 18)"], ["Ø 24 cm", "sinistra davanti (Ø 21)"], ["Ø 28 cm", "sinistra davanti (Ø 21): i bordi scaldano meno, mescola"], ["Preriscaldo", "a secco a livello 6–7 per 2–3 minuti, poi il grasso (prova della goccia d'acqua)"], ["Boost", "no a padella vuota: l'acciaio si macchia"]] },
+    { titolo: "Cura", righe: [["Prima di cucinare", "padella ben calda prima del cibo: così non attacca"], ["Aloni o macchie", "aceto o bicarbonato con un panno morbido"], ["Lavaggio", "acqua calda e spugna non abrasiva"], ["Sale", "solo quando l'acqua bolle o sul cibo, non sul fondo vuoto"]] }
+  ],
+  pregi: [["Calore uniforme", "l'alluminio in mezzo scalda tutto il fondo, anche le pareti."], ["Per sempre", "niente rivestimento da rovinare: si usano anche utensili in metallo."], ["Mantecatura", "le padelle a mantecare hanno i bordi alti: si salta la pasta senza sporcare."]],
+  difetti: [["Attacca se fredda", "va scaldata bene prima del cibo; per uova e pesce delicato serve più grasso."], ["Manico caldo", "è in acciaio: presina dopo qualche minuto e in forno."], ["Ø 28 cm", "più larga della zona più grande del piano: cuoce meno sui bordi."]],
+  nota: "Dati dalle schede Pentole Agnelli della linea Aluinox 3ply 1907 (codici ALUM111BM20/24/28); altezze e capacità esatte delle altre misure da controllare sulla padella."
+};
+
+const ELETTRO = () => [fornoCasa() ? FORNO : fornoMa() ? FORNO_MA : null, induzioneCasa() ? PIASTRA : null, showNinja() ? NINJA : null, showNinja() ? GHISA : null, showNinja() ? VEGGIE : null, showNinja() ? PLANETARIA : null, showNinja() ? PADELLE : null].filter(Boolean);
 
 function listeOf(E){ return E.liste || [E.consumi, E.tabella ? { titolo: "Indicazioni del manuale (con preriscaldamento)", righe: E.tabella } : null].filter(Boolean); }
 
@@ -3022,12 +3053,12 @@ function savePrezzo(v){
 try { const p = parseFloat(localStorage.getItem("ricettario-prezzo")); if (p > 0) state.prezzo = p; } catch (e) {}
 
 function schedaHTML(E){
-  const row = (a, b) => `<li><span>${a}</span><b>${b}</b></li>`;
+  const row = (a, b, l) => `<li${l ? ' class="lungo"' : ""}><span>${a}</span><b>${b}</b></li>`;
   const tiles = `<div class="recap">${E.dati.map(([l, v, sub]) => `<div class="rc"><span class="lab">${esc(l)}</span><span class="big"${v.length > 8 ? ' style="font-size:18px"' : ""}>${esc(v)}</span>${sub ? `<span class="sub">${esc(sub)}</span>` : ""}</div>`).join("")}</div>`;
   const knob = E.funzioni && E.id === "forno" ? `<div class="panel">
       <h3 class="ph">La manopola delle funzioni</h3>${E === FORNO ? `<p class="tip" style="margin-bottom:8px">Il numero è quante volte scatta la manopola partendo da 0 (spento), girando in senso orario.</p>` : ""}
       <ul class="fasi knob" style="columns:1">${E.funzioni.map(([k, n, en, d, t]) => `<li>${k !== "" ? `<span class="scatti">${k}</span>` : ""}<span><b>${esc(n)}</b> <small class="en">${esc(en)}</small><br>${esc(d)}</span><b>${esc(t)}</b></li>`).join("")}</ul></div>` : "";
-  const liste = listeOf(E).map(L => `<div class="panel"><h3 class="ph">${esc(L.titolo)}</h3>${L.nota ? `<p class="tip" style="margin-bottom:8px">${esc(L.nota)}</p>` : ""}<ul class="fasi" style="columns:1">${L.righe.map(([a, b]) => row(esc(a), esc(b))).join("")}</ul></div>`).join("");
+  const liste = listeOf(E).map(L => `<div class="panel"><h3 class="ph">${esc(L.titolo)}</h3>${L.nota ? `<p class="tip" style="margin-bottom:8px">${esc(L.nota)}</p>` : ""}<ul class="fasi" style="columns:1">${(lg => L.righe.map(([a, b]) => row(esc(a), esc(b), lg)).join(""))(L.righe.some(([, b]) => b.length > 24))}</ul></div>`).join("");
   return `<section class="scheda" id="scheda-${E.id}">
     <span class="path">${esc(E.path)}</span>
     <h2 class="sh">${esc(E.nome)}</h2>
