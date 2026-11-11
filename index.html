@@ -32,15 +32,15 @@
 [hidden]{display:none !important}
 /* ---------- Copertina all'apertura ---------- */
 body.intro-on{overflow:hidden}
-.intro{position:fixed;inset:0;z-index:200;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:12px;perspective:1800px}
+.intro{position:fixed;inset:0;z-index:200;background:var(--carta);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:12px;perspective:1800px}
 .intro-libro{height:min(78vh,calc((100vw - 24px) * 1.414));aspect-ratio:210/297;transform-origin:left center;transform-style:preserve-3d;box-shadow:0 18px 50px rgba(60,45,20,.28);border-radius:4px;background:#faf6ec}
-.intro-carta{width:100%;height:100%;cursor:pointer;display:grid;place-items:center;border-radius:4px;overflow:hidden;outline-offset:4px}
+.intro-carta{width:100%;height:100%;cursor:pointer;display:grid;place-items:center;border-radius:4px;overflow:hidden;outline-offset:4px;background:linear-gradient(rgba(96,132,178,.18) 1px,transparent 1px) 0 0/2.38% 1.684%,linear-gradient(90deg,rgba(96,132,178,.18) 1px,transparent 1px) 0 0/2.38% 1.684%,#faf6ec;box-shadow:inset 0 0 0 calc(4.76%) transparent}
 .intro-carta img{width:100%;height:100%;display:block}
-.intro-attesa{font-family:ManoCorsivo,cursive;color:var(--accent);font-size:26px;animation:respira 1.4s ease-in-out infinite alternate}
+.intro-attesa{width:90.5%;height:93.3%;border:2px solid var(--accent);outline:1px solid var(--gold);outline-offset:-6px;animation:respira 1.2s ease-in-out infinite alternate}
 @keyframes respira{from{opacity:.35}to{opacity:1}}
-.intro-chi{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;opacity:0;transform:translateY(10px);transition:opacity .35s,transform .35s}
+.intro-chi{display:flex;flex-direction:column;align-items:center;gap:10px;opacity:0;transform:translateY(10px);transition:opacity .35s,transform .35s}
 .intro-chi.su{opacity:1;transform:none}
-.intro-chi button{font-family:ManoCorsivo,cursive;font-size:22px;color:var(--accent);background:var(--surface);border:2px solid var(--accent);border-radius:999px;padding:8px 18px 12px;cursor:pointer}
+.intro-chi button{font-family:var(--body);font-weight:700;font-size:18px;color:var(--accent);background:var(--surface);border:2px solid var(--accent);border-radius:999px;padding:10px 0;width:min(260px,80vw);cursor:pointer}
 .intro-chi button:hover{background:var(--accent-soft)}
 .intro.apri .intro-libro{animation:apriLibro 1.1s cubic-bezier(.6,.05,.4,1) forwards}
 .intro.apri .intro-chi{opacity:0;transition:opacity .2s}
@@ -105,20 +105,24 @@ body.intro-on{overflow:hidden}
 .dot-box .btn small{font-weight:400;font-size:13px;opacity:.85}
 .dot-box .link{background:none;border:0;color:var(--muted);text-decoration:underline;cursor:pointer;font:inherit;align-self:center;padding:6px}
 html,body{margin:0}
-body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.5}
+/* carta a quadretti (5 mm circa) su tutta l'app; riquadri, schede e campi restano pieni */
+:root{--carta:linear-gradient(rgba(96,132,178,.13) 1px,transparent 1px) 0 0/19px 19px,linear-gradient(90deg,rgba(96,132,178,.13) 1px,transparent 1px) 0 0/19px 19px,var(--bg)}
+body{background:var(--carta);background-attachment:fixed;color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.5}
 button,input{font:inherit;color:inherit}
 :focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:6px}
 .wrap{max-width:1060px;margin:0 auto;padding:0 16px 56px}
 h1,h2,h3{font-family:var(--display);text-wrap:balance;line-height:1.15;margin:0}
 h1{font-size:30px;font-weight:800;letter-spacing:-.01em}
 /* titolo della ricetta scritto a mano: corsivo legato, tratto ingrossato e bordi mossi dal filtro SVG #ruvido */
+h1 .mano-img{display:flex !important;flex-wrap:wrap;filter:none !important;-webkit-text-stroke:0 !important;padding-left:0 !important;font-size:30px}
+h1 .mano-img img{height:1.75em;display:block;margin-top:-.25em;margin-bottom:-.35em}
 h1 .mano{font-family:ManoCorsivo,"Snell Roundhand","Segoe Script",cursive;font-weight:400;font-size:1.12em;letter-spacing:0;word-spacing:.22em;color:var(--accent);-webkit-text-stroke:.5px currentColor;filter:url(#ruvido);line-height:1.35;display:inline-block;padding:.05em .1em .12em 0}
 h2{font-size:24px;font-weight:800}
 h3{font-size:18px;font-weight:600}
 a{color:inherit}
 
 /* Testata */
-.masthead{position:sticky;top:0;z-index:20;background:var(--bg);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:18px 0 14px;border-bottom:3px double var(--line);margin-bottom:16px}
+.masthead{position:sticky;top:0;z-index:20;background:var(--carta);background-attachment:fixed;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:18px 0 14px;border-bottom:3px double var(--line);margin-bottom:16px}
 .logo{display:flex;align-items:center;gap:10px;text-decoration:none}
 .logo svg{flex:0 0 auto}
 .logo b{font-family:var(--display);font-weight:800;font-size:23px;letter-spacing:-.01em;line-height:1.05}
@@ -240,7 +244,7 @@ a{color:inherit}
 .induzione{background:var(--surface);border:1.5px solid var(--accent);border-radius:14px;padding:12px 16px;margin-bottom:18px;font-size:15px}
 .induzione summary{cursor:pointer;font-weight:700;display:flex;align-items:center;gap:8px}
 .induzione[open] summary{margin-bottom:8px}
-.sticky-chips{position:sticky;top:var(--mh,0px);z-index:5;background:var(--bg);padding:8px 0;margin:0 -2px 6px;border-bottom:1.5px solid var(--line)}
+.sticky-chips{position:sticky;top:var(--mh,0px);z-index:5;background:var(--carta);background-attachment:fixed;padding:8px 0;margin:0 -2px 6px;border-bottom:1.5px solid var(--line)}
 .prezzo-box{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin-bottom:6px}
 .prezzo-box .tip{flex:1 1 100%}
 .chiuso-tip{color:var(--tomato)}
@@ -356,7 +360,7 @@ a{color:inherit}
 @media (max-width:560px){.dish{grid-template-columns:1fr}.dish .th{width:100%;height:84px;overflow:hidden}.dish .th svg{width:auto;height:92%}.dish-ctl .dc{flex:1 1 100%;justify-content:space-between}.dish-ctl .dc .cond-sel{min-width:0;width:auto}}
 .shop li{break-inside:avoid;margin-bottom:4px}
 .shop small{color:var(--muted)}
-.sticky-bar{position:sticky;bottom:0;background:var(--bg);padding:12px 0;border-top:1.5px solid var(--line);display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:18px}
+.sticky-bar{position:sticky;bottom:0;background:var(--carta);background-attachment:fixed;padding:12px 0;border-top:1.5px solid var(--line);display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:18px}
 @media (max-width:560px){.grid{grid-template-columns:1fr;gap:10px}.card .art{flex-basis:80px}}
 @media (prefers-reduced-motion:no-preference){.card,.mcard,.pick{transition:border-color .15s}}
 </style>
@@ -2192,14 +2196,17 @@ function impostaProfilo(p){ try {
 async function aperturaCopertina(){
   try { if (sessionStorage.getItem("ricettario-chiesto")) return; } catch (e) {}
   const d = document.createElement("div"); d.className = "intro"; d.setAttribute("role", "dialog"); d.setAttribute("aria-label", "De (Nova) Mensa Populari");
-  d.innerHTML = `<div class="intro-libro"><div class="intro-carta"><span class="intro-attesa">De (Nova) Mensa Populari</span></div></div>
+  d.innerHTML = `<div class="intro-libro"><div class="intro-carta"><span class="intro-attesa" aria-hidden="true"></span></div></div>
     <div class="intro-chi" hidden><button data-pf="federico">Federico</button><button data-pf="andreina">Andreina Roma</button><button data-pf="altro">Altri</button></div>`;
   document.body.appendChild(d); document.body.classList.add("intro-on");
   const carta = d.querySelector(".intro-carta"), chi = d.querySelector(".intro-chi");
   try {
     const rs = VIS(), nv = rs.reduce((a, r) => a + (hasDims(r) ? combos(r, Object.fromEntries(DIMS(r).map(dm => [dm.key, dm.items.map(i => i.id)]))).length : 1), 0);
-    const c = await copertinaCanvas({ titolo: "De (Nova) Mensa Populari", conteggi: `${rs.length} ricette · ${nv} versioni`, sezioni: SEZIONI, deco: true });
-    carta.innerHTML = `<img src="${c.toDataURL("image/jpeg", 0.9)}" alt="Copertina del ricettario De (Nova) Mensa Populari. Tocca per aprire.">`;
+    // la copertina disegnata viene salvata sul dispositivo: dalla seconda apertura compare subito
+    const conteggi = `${rs.length} ricette · ${nv} versioni`, chiave = "ricettario-copertina", ver = COPERTINA_VER + "|" + conteggi;
+    let url = null; try { const c0 = JSON.parse(localStorage.getItem(chiave) || "null"); if (c0 && c0.v === ver) url = c0.url; } catch (e) {}
+    if (!url){ const c = await copertinaCanvas({ titolo: "De (Nova) Mensa Populari", conteggi, sezioni: SEZIONI, deco: true }); url = c.toDataURL("image/jpeg", 0.85); try { localStorage.setItem(chiave, JSON.stringify({ v: ver, url })); } catch (e) {} }
+    carta.innerHTML = `<img src="${url}" alt="Copertina del ricettario De (Nova) Mensa Populari. Tocca per aprire.">`;
   } catch (e) {}
   const mostra = () => { if (!chi.hidden) return; chi.hidden = false; requestAnimationFrame(() => chi.classList.add("su")); chi.querySelector("button").focus(); };
   carta.addEventListener("click", mostra); d.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") mostra(); });
@@ -3367,7 +3374,7 @@ async function manoDisegno(nome, n = 520){
 
 /* ---------- Copertina: quaderno a quadretti, cornici, tovaglia, titolo e scarabocchi a mano ----------
    Disegnata su canvas in mm (A4) e usata uguale nel PDF e all'apertura dell'app. Le scritte stanno sulle righe dei quadretti. */
-const COPERTINA = new Map();
+const COPERTINA = new Map(), COPERTINA_VER = "2026-11-11b";
 // le quantità della macchina (dimensione "q") non fanno pagine a parte: una pagina per gusto, con la tabella delle dosi per le quantità scelte
 function vociLibro(S, recipes){ return recipes.flatMap(r => { if (!hasDims(r)) return [{ r, cid: null, label: r.titolo }];
   const sets = Object.fromEntries(Object.entries(S.cond[r.id] || {}).map(([k, v]) => [k, [...v]])), qs = sets.q;
@@ -3400,11 +3407,20 @@ async function copertinaCanvas({ titolo, conteggi = "", sezioni, deco = false, d
   };
   if (!deco) await scrivi("De (Nova) Mensa Populari", 43.5, 16, 68);
   await scrivi(titolo, 188.5, deco ? 34 : 28, 160, true); // scarabocchi sul titolo in tutte le copertine
-  if (conteggi) await scrivi(conteggi, 203.5, 12, 120);
+  if (conteggi) await scrivi(conteggi, 203.5, 8.5, 90);
   const dis = async (n, x, y, w) => { const d = await manoDisegno(n); g.drawImage(d, x, y, w, w); };
   await dis("pentola", 17, 15, 42); await dis("fumetto", 146, 13, 48);
   await dis("posate", 19, 230, 46); await dis("pizza", 146, 232, 46);
   COPERTINA.set(key, c); return c;
+}
+// titolo della ricetta nell'app: le parole sono immagini scritte "a mano" (come nei PDF), così vanno a capo da sole
+async function manoTitoloApp(){
+  const h = app.querySelector("h1 .mano"); if (!h) return;
+  const t = h.textContent, parole = t.split(/\s+/).filter(Boolean);
+  try { await manoPrepara(parole); } catch (e) { return; }
+  if (!h.isConnected || h.textContent !== t || !parole.every(w => MANO.has(w))) return;
+  h.classList.add("mano-img"); h.setAttribute("aria-label", t);
+  h.innerHTML = parole.map(w => { const M = MANO.get(w); return `<img src="${M.url}" alt="" style="aspect-ratio:${M.ratio};margin-left:${-M.pad * 1.75}em;margin-right:${-M.pad * 1.75 + 0.18}em">`; }).join("");
 }
 // un testo che inizia con "✶" viene scritto con gli scarabocchi attorno
 async function manoPrepara(testi){ for (const t of new Set(testi)) if (t && !MANO.has(t)){ try { const r = t[0] === "✶" ? await manoRiga(t.slice(1), "#2f6b4f", 140, true) : await manoRiga(t); if (r) MANO.set(t, r); } catch (e){} } }
@@ -3562,6 +3578,7 @@ function renderWizard(){
       ${d.frigo.size ? `<button class="btn ghost" id="clear">Deseleziona tutto</button>` : ""}
     </div>`;
     app.innerHTML = html;
+   manoTitoloApp();
     app.querySelectorAll("[data-k]").forEach(b => b.onclick = () => { const k = b.dataset.k; d.frigo.has(k) ? d.frigo.delete(k) : d.frigo.add(k); renderWizard(); });
     document.getElementById("next").onclick = () => { d.step = 2; renderWizard(); window.scrollTo(0, 0); };
     const cl = document.getElementById("clear"); if (cl) cl.onclick = () => { d.frigo.clear(); renderWizard(); };
