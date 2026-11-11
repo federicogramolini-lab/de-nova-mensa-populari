@@ -328,6 +328,10 @@ a{color:inherit}
 .piano .ora{font-weight:700;color:var(--accent);font-variant-numeric:tabular-nums}
 .piano .dd{color:var(--muted);font-size:13px;white-space:nowrap}
 .tip-box{background:var(--accent-soft);border-radius:10px;padding:10px 12px;margin:8px 0;font-size:14px}
+.more-filters{display:flex;flex-wrap:wrap;align-items:center;gap:8px 18px;margin:10px 0 2px}
+.more-filters .dc{display:flex;align-items:center;gap:8px;font-size:14px}
+.more-filters .dc > span{color:var(--muted);font-weight:600}
+.more-filters .cond-sel{min-width:0;padding:6px 30px 6px 10px}
 .voto .prova{display:inline-flex;align-items:center;gap:6px}
 .voto .pv{border:1.5px solid var(--line);background:var(--surface);border-radius:999px;padding:3px 12px;font:inherit;font-size:13px;font-weight:600;cursor:pointer;color:var(--ink)}
 .voto .pv[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
@@ -2226,14 +2230,19 @@ function masthead(active){
 }
 
 function filtered(){
-  const q = norm(state.q.trim());
+  const q = norm(state.q.trim()), fv = state.fVoto || "", fp = state.fProv || "";
   return VIS().filter(r => {
     if (state.sezione !== "Tutte" && r.sezione !== state.sezione) return false;
     if (state.sotto && r.sottosezione !== state.sotto) return false;
+    if (fv === "0" && voto(r)) return false;
+    if (fv && fv !== "0" && voto(r) < +fv) return false;
+    if (fp === "si" && provata(r) !== true) return false;
+    if (fp === "no" && provata(r) === true) return false;
     if (!q) return true;
-    const hay = norm([r.titolo, r.sezione, r.sottosezione || "", ...allIng(r).map(i => i.nome)].join(" "));
+    const varianti = DIMS(r).flatMap(d => d.items.flatMap(it => [it.nome, it.titolo || "", ...(it.ingredienti || []).map(i => i.nome)]));
+    const hay = norm([r.titolo, r.sezione, r.sottosezione || "", ...allIng(r).map(i => i.nome), ...varianti].join(" "));
     return q.split(/\s+/).every(w => hay.includes(w));
-  }).sort((a, b) => a.titolo.localeCompare(b.titolo, "it"));
+  }).sort((a, b) => (fv && fv !== "0" ? voto(b) - voto(a) : 0) || a.titolo.localeCompare(b.titolo, "it"));
 }
 
 /* ---------- Valutazioni (da 1 a 5 stelle, una per profilo) e ricette nuove ---------- */
@@ -2271,7 +2280,7 @@ function cardHTML(r){
     <div class="art">${art(r)}</div>
     <div class="txt">
       <span class="path">${pathOf(r)}</span>
-      <h3>${isNew(r) ? `<span class="new-chip">NEW</span> ` : ""}${provata(r) === true ? `<span class="prov-chip" title="L'hai provata" aria-label="Provata">${THUMB}</span> ` : ""}${esc(r.titolo)}</h3>
+      <h3>${isNew(r) ? `<span class="new-chip">NEW</span> ` : ""}${esc(r.titolo)}</h3>
       <span class="meta"><span>${ICON.clock}${durR(r)}</span><span>${cookIcon(r.cottura.tipo)}${esc(cot(r).dettaglio)}</span>${showPiastra(r) ? `<span class="ninja-chip ind-chip">Induzione</span>` : ""}${r.ninja && r.ninja.ok && showNinja() ? `<span class="ninja-chip">Ninja</span>` : ""}</span>
     </div>
   </a>`;
@@ -2289,8 +2298,15 @@ function renderList(){
   <div class="filters">
     <label class="search" for="q">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-      <input id="q" type="search" placeholder="Cerca per titolo o ingrediente" value="${esc(state.q)}" autocomplete="off" aria-label="Cerca ricette">
+      <input id="q" type="search" placeholder="Cerca per titolo o ingredienti (anche più di uno)" value="${esc(state.q)}" autocomplete="off" aria-label="Cerca ricette per titolo o ingredienti">
     </label>
+    <div class="more-filters">
+      <label class="dc"><span>Valutazione${persona() !== "altro" ? ` (${PROFILI[persona()]})` : ""}</span><select class="cond-sel" id="fvoto">
+        ${[["", "Tutte"], ["5", "★★★★★"], ["4", "★★★★ e più"], ["3", "★★★ e più"], ["2", "★★ e più"], ["1", "★ e più"], ["0", "Senza voto"]].map(([v, l]) => `<option value="${v}" ${(state.fVoto || "") === v ? "selected" : ""}>${l}</option>`).join("")}</select></label>
+      <label class="dc"><span>Provata</span><select class="cond-sel" id="fprov">
+        ${[["", "Tutte"], ["si", "Già provate"], ["no", "Da provare"]].map(([v, l]) => `<option value="${v}" ${(state.fProv || "") === v ? "selected" : ""}>${l}</option>`).join("")}</select></label>
+      ${state.fVoto || state.fProv || state.q ? `<button type="button" class="tv" id="freset">Togli i filtri</button>` : ""}
+    </div>
     <div class="chips" role="group" aria-label="Sezioni">
       <button class="chip" data-sez="Tutte" aria-pressed="${state.sezione === "Tutte"}">Tutte<span class="n">${VIS().length}</span></button>
       ${SEZIONI.map(s => `<button class="chip" data-sez="${s}" aria-pressed="${state.sezione === s}">${s}<span class="n">${counts[s]}</span></button>`).join("")}
@@ -2303,12 +2319,12 @@ function renderList(){
 
   for (const s of sez){
     const items = list.filter(r => r.sezione === s);
-    if ((state.q || state.sezione === "Tutte") && !items.length) continue;
+    if ((state.q || state.fVoto || state.fProv || state.sezione === "Tutte") && !items.length) continue;
     html += `<section class="section-block"><div class="section-title"><h2>${s}</h2><span>${items.length}</span></div>`;
     html += items.length ? `<div class="grid">${items.map(cardHTML).join("")}</div>` : `<p class="empty">Nessuna ricetta in questa sezione, per ora.</p>`;
     html += `</section>`;
   }
-  if (state.q && !list.length) html += `<p class="empty" style="margin-top:20px">Nessuna ricetta trovata per “${esc(state.q)}”.</p>`;
+  if ((state.q || state.fVoto || state.fProv) && !list.length) html += `<p class="empty" style="margin-top:20px">Nessuna ricetta trovata${state.q ? ` per “${esc(state.q)}”` : ""} con questi filtri.</p>`;
   const tr = isOwner ? RICETTE.filter(r => cestino.has(r.id)) : [];
   if (tr.length) html += `<details class="trash"><summary>Ricette eliminate (${tr.length})</summary><ul>${tr.map(r => `<li><span>${esc(r.titolo)}</span>${isOwner ? `<button class="btn ghost small" data-restore="${r.id}">Ripristina</button>` : ""}</li>`).join("")}</ul><p class="status">Le tolgo definitivamente dal ricettario al prossimo aggiornamento, salvo che tu le ripristini prima.</p></details>`;
   html += `<p class="hint">Per aggiungere una ricetta mandala a Claude nel progetto CUCINA: testo, foto o video. Anche le foto dei tuoi piatti, per sostituire le illustrazioni.</p>`;
@@ -2318,6 +2334,9 @@ function renderList(){
     state.q = e.target.value; const pos = e.target.selectionStart; renderList();
     const n = document.getElementById("q"); n.focus(); n.setSelectionRange(pos, pos);
   });
+  document.getElementById("fvoto").onchange = e => { state.fVoto = e.target.value; renderList(); };
+  document.getElementById("fprov").onchange = e => { state.fProv = e.target.value; renderList(); };
+  const fr = document.getElementById("freset"); if (fr) fr.onclick = () => { state.fVoto = ""; state.fProv = ""; state.q = ""; renderList(); };
   app.querySelectorAll("[data-sez]").forEach(b => b.onclick = () => { state.sezione = b.dataset.sez; state.sotto = null; renderList(); });
   app.querySelectorAll("[data-sub]").forEach(b => b.onclick = () => { state.sotto = b.dataset.sub || null; renderList(); });
   app.querySelectorAll("[data-restore]").forEach(b => b.onclick = () => { cestino.delete(b.dataset.restore); saveCestino(); renderList(); });
@@ -2877,13 +2896,18 @@ function writeScheda(P, E){
 
 function senzaFonte(t){ return t.replace(/\s*\([^)]*\)\s*$/, ""); }
 /* menù per la cucina: piatti con dosi e tempi, lista della spesa con le quantità */
-function writeMenu(P, m){
+function writeMenu(P, m, opt = { modo: "tutto" }){
   const { doc } = P, rs = menuRecipes(m), shop = shoppingList(m), n = menuPersone(m);
   P.h1(`Menù per la cucina - ${n} ${n === 1 ? "persona" : "persone"}`, m.nome);
   const tA = rs.reduce((s, r) => s + conDish(m, r, () => tRange(r)[0]), 0), tB = rs.reduce((s, r) => s + conDish(m, r, () => tRange(r)[1]), 0);
   const en = mostraConsumi() ? (() => { const a = rs.reduce((s, r) => s + conDish(m, r, () => energiaMain(r)[0]), 0), b = rs.reduce((s, r) => s + conDish(m, r, () => energiaMain(r)[1]), 0); return b > 0 ? `${kwhTxt(a, b)} kWh, ${costoTxt(a, b)}` : null; })() : null;
-  const PL = pianoMenu(m);
-  P.box([["Piatti", String(rs.length)], ["Persone", String(n)], ["Tempo, organizzandoti", `${dur(PL.totale)} (uno dopo l'altro ${durAB(tA, tB)})`], en ? ["Energia stimata", en] : ["Da comprare", `${shop.length} ingredienti`]]);
+  const modo = opt.modo, insieme = modo === "alcune" ? opt.ids : null;
+  const PL = modo === "separati" ? { righe: [], consigli: [], totale: 0 } : pianoMenu(m, insieme);
+  const aParte = modo === "separati" ? rs : modo === "alcune" ? rs.filter(r => !insieme.has(r.id)) : [];
+  const tempo = modo === "tutto" ? ["Tempo, organizzandoti", `${dur(PL.totale)} (uno dopo l'altro ${durAB(tA, tB)})`]
+    : modo === "alcune" ? ["Tempo", `${dur(PL.totale)} per i piatti insieme${aParte.length ? `, gli altri a parte` : ""}`]
+    : ["Tempo, piatto per piatto", `${durAB(tA, tB)} in tutto, in momenti diversi`];
+  P.box([["Piatti", String(rs.length)], ["Persone", String(n)], tempo, en ? ["Energia stimata", en] : ["Da comprare", `${shop.length} ingredienti`]]);
   for (const sz of SEZIONI){
     const items = rs.filter(r => r.sezione === sz); if (!items.length) continue;
     P.need(14); doc.setFont("helvetica", "bold"); doc.setFontSize(8); doc.setTextColor(...C.gold); doc.text(sz.toUpperCase(), P.M, P.y, { charSpace: 0.6 }); P.y += 5.5;
@@ -2893,8 +2917,8 @@ function writeMenu(P, m){
     }));
   }
   if (PL.righe.length){
-    P.h2("Piano di lavoro");
-    P.para("Una persona in cucina: mentre qualcosa lievita, riposa o cuoce da solo, lavori sugli altri piatti. Orari da quando inizi.", 8.5, "italic", C.grey);
+    P.h2(modo === "alcune" ? "Piano di lavoro dei piatti insieme" : "Piano di lavoro");
+    P.para(`Una persona in cucina: mentre qualcosa lievita, riposa o cuoce da solo, lavori sugli altri piatti. Orari da quando inizi.${modo === "alcune" ? " Insieme: " + menuRecipes(m).filter(r => insieme.has(r.id)).map(r => conDish(m, r, () => piattoNome(r).titolo)).join(", ") + "." : ""}`, 8.5, "italic", C.grey);
     PL.consigli.forEach(c => P.para(c, 9.5, "normal", C.green, 0, 1.35));
     P.y += 1;
     PL.righe.forEach((x, k) => {
@@ -2908,6 +2932,14 @@ function writeMenu(P, m){
       P.y += h;
     });
     P.y += 3;
+  }
+  if (aParte.length){
+    P.h2(modo === "separati" ? "Ogni piatto per conto suo" : "Da preparare in un altro momento");
+    aParte.forEach(r => conDish(m, r, () => {
+      P.para(`${piattoNome(r).titolo}: ${durR(r)}`, 10.5, "bold", C.ink, 0, 1.3);
+      P.para((r.fasi || []).filter(f => !f.prima).map(f => `${V(f.nome)}${f.parallelo ? " (in contemporanea)" : ""} ${faseDur(f)}`).join(" · "), 8.5, "normal", C.grey, 2, 1.35); P.y += 1.5;
+    }));
+    P.y += 2;
   }
   if (shop.length){
     P.h2("Lista della spesa");
@@ -2963,6 +2995,37 @@ function writeMenuOspite(P, m){
   orn(Math.max(y, 250)); 
   doc.setFont("times", "italic"); doc.setFontSize(10); doc.setTextColor(...C.grey);
   doc.text(new Date().toLocaleDateString("it-IT", { day: "numeric", month: "long", year: "numeric" }), 105, 272, { align: "center" });
+}
+function chiediPiano(m){
+  const rs = menuRecipes(m);
+  return new Promise(res => {
+    const d = document.createElement("div"); d.className = "dot-modal";
+    d.innerHTML = `<div class="dot-box" role="dialog" aria-modal="true" aria-labelledby="cp-t">
+      <h2 id="cp-t">Come vuoi cucinare?</h2>
+      <p>Il piano di lavoro nel PDF cambia secondo come ti organizzi.</p>
+      <button class="btn" data-m="tutto"><b>Tutte le portate insieme</b><small>un solo piano: mentre qualcosa cuoce da solo lavori sugli altri piatti, e tutto è pronto per servire</small></button>
+      <button class="btn" data-m="alcune"><b>Solo alcune insieme</b><small>scegli quali portate fare nello stesso momento; le altre a parte</small></button>
+      <div class="cv-list cp-list" hidden>${rs.map(r => `<label class="ck"><input type="checkbox" value="${r.id}" checked><span>${esc(conDish(m, r, () => piattoNome(r).titolo))}</span></label>`).join("")}
+        <p class="cv-err status" style="color:#b3261e;min-height:1em"></p><button class="btn small" data-ok="1"><b>Continua</b></button></div>
+      <button class="btn" data-m="separati"><b>In momenti diversi</b><small>ogni piatto per conto suo, con i suoi tempi</small></button>
+      <button class="link" data-m="">Annulla</button></div>`;
+    document.body.appendChild(d);
+    const done = v => { d.remove(); document.removeEventListener("keydown", esc1); res(v); };
+    const esc1 = e => { if (e.key === "Escape") done(null); };
+    document.addEventListener("keydown", esc1);
+    d.addEventListener("click", e => {
+      if (e.target === d) return done(null);
+      if (e.target.closest("[data-ok]")){
+        const ids = [...d.querySelectorAll(".cp-list input:checked")].map(i => i.value);
+        if (ids.length < 2){ d.querySelector(".cv-err").textContent = "Scegli almeno due portate da fare insieme."; return; }
+        return done({ modo: ids.length === rs.length ? "tutto" : "alcune", ids: new Set(ids) });
+      }
+      const b = e.target.closest("[data-m]"); if (!b) return;
+      if (b.dataset.m === "alcune"){ const l = d.querySelector(".cp-list"); l.hidden = !l.hidden; return; }
+      done(b.dataset.m ? { modo: b.dataset.m } : null);
+    });
+    d.querySelector("[data-m=tutto]").focus();
+  });
 }
 function chiediTipoMenu(){
   return new Promise(res => {
@@ -3257,8 +3320,8 @@ function fasePassiva(f, d){
   if (d < 10) return false;
   return /lievit|riposo|marin|frigo|stracott|brasatura|sobboll|cottura lenta|raffredd|ammollo|preriscald|coperchio|a bollore|lessare|lessate|stufate|in forno|^cottura|fino al bollore|appretto|fuori dal frigo|bollito/i.test(V(f.nome));
 }
-function pianoMenu(m){
-  const rs = menuRecipes(m), dishes = [];
+function pianoMenu(m, solo){
+  const rs = menuRecipes(m).filter(r => !solo || solo.has(r.id)), dishes = [];
   rs.forEach(r => conDish(m, r, () => {
     const ph = (r.fasi || []).filter(f => !f.prima && !f.parallelo).map(f => { const d = Math.round((f.min + (f.max ?? f.min)) / 2); return { nome: V(f.nome), d, pas: fasePassiva(f, d), tag: f.tag || null }; });
     dishes.push({ r, titolo: piattoNome(r).titolo, ph });
@@ -3388,9 +3451,10 @@ function renderMenu(m){
     if (!downloads || !window.jspdf){ status.textContent = "Il PDF non si può creare in questa vista."; return; }
     const tipo = await chiediTipoMenu(); if (!tipo) return;
     if (tipo === "ospite"){ const P = newPdf(); writeMenuOspite(P, m); offer(P.doc, m.nome + " - per gli ospiti", status); return; }
+    const opt = rs.length > 1 ? await chiediPiano(m) : { modo: "tutto" }; if (!opt) return;
     conDotazione(() => {
       const P = newPdf();
-      writeMenu(P, m);
+      writeMenu(P, m, opt);
       rs.forEach(r => conDish(m, r, f => { P.doc.addPage(); P.y = 20; writeRecipe(P, r, f); }, true));
       P.footer();
       offer(P.doc, m.nome + " - per la cucina", status);
