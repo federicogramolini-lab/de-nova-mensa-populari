@@ -3074,18 +3074,22 @@ function writeMenu(P, m, opt = { modo: "tutto" }){
 function menuOspiteTesti(m){ const t = [m.nome]; menuRecipes(m).forEach(r => conDish(m, r, () => t.push(piattoNome(r).titolo))); return t; }
 function writeMenuOspite(P, m){
   const { doc } = P, rs = menuRecipes(m);
+  // quaderno a quadretti da 5 mm delle elementari (Quaderni Speciali "Classic"): carta bianca, righe grigio-lilla,
+  // una riga ogni tre evidenziata in azzurro, margine verde a sinistra e rosso a destra (22,5 mm), fascia bianca in alto e in basso
+  const X0 = 22.5, X1 = 187.5, Y0 = 35, Y1 = 270;
   doc.setFillColor(255, 255, 255); doc.rect(0, 0, 210, 297, "F");
-  doc.setDrawColor(178, 204, 230); doc.setLineWidth(0.12);
-  for (let x = 3.5; x <= 210; x += 5) doc.line(x, 0, x, 297);
-  for (let y = 3.5; y <= 297; y += 5) doc.line(0, y, 210, y);
-  doc.setDrawColor(226, 110, 116); doc.setLineWidth(0.3); doc.rect(18.5, 18.5, 173, 260, "S");
-  const riga = y => 3.5 + 5 * Math.ceil((y - 3.5) / 5 - 1e-9);
+  doc.setFillColor(222, 236, 248); for (let y = Y0 + 5, k = 0; y < Y1; y += 15, k++) doc.rect(X0, y, X1 - X0, 5, "F");
+  doc.setDrawColor(186, 186, 206); doc.setLineWidth(0.12);
+  for (let y = Y0; y <= Y1 + 0.01; y += 5) doc.line(0, y, 210, y);
+  for (let x = X0 + 5; x < X1 - 0.01; x += 5) doc.line(x, 0, x, 297);
+  doc.setLineWidth(0.35); doc.setDrawColor(98, 170, 72); doc.line(X0, 0, X0, 297); doc.setDrawColor(214, 74, 70); doc.line(X1, 0, X1, 297);
+  const riga = y => Y0 + 5 * Math.ceil((y - Y0) / 5 - 1e-9);
   const ORD = [["Antipasti", "Antipasti"], ["Lievitati", "Dal forno"], ["Primi", "Primi"], ["Secondi", "Secondi"], ["Contorni", "Contorni"], ["Dolci", "Dolci"], ["Bevande", "Da bere"]];
   const blocks = ORD.map(([sz, lab]) => ({ lab, items: rs.filter(r => r.sezione === sz) })).filter(b => b.items.length);
   const alto = blocks.reduce((s, b) => s + 15 + b.items.reduce((t, r) => t + (piattoNome(r).sotto ? 20 : 15), 0) + 5, 0);
-  let y = 43.5;
+  let y = 50;
   manoCopPdf(doc, m.nome, 105, y, 24, 150); y += 15;
-  const libero = 268 - y; if (alto < libero) y += Math.floor((libero - alto) / 2 / 5) * 5;
+  const libero = 265 - y; if (alto < libero) y += Math.floor((libero - alto) / 2 / 5) * 5;
   blocks.forEach(b => {
     y = riga(y);
     doc.setFont("times", "bold"); doc.setFontSize(10); doc.setTextColor(...C.gold); { const L = b.lab.toUpperCase(), cs = 1.6, w = doc.getTextWidth(L) + cs * (L.length - 1); doc.text(L, 105 - w / 2, y, { charSpace: cs }); } y += 15;
