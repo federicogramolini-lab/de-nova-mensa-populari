@@ -326,6 +326,7 @@ a{color:inherit}
 .piano li{display:grid;grid-template-columns:52px 1fr auto;gap:10px;padding:6px 10px;border-radius:8px;background:var(--surface)}
 .piano li.pas{background:transparent;color:var(--muted)}
 .piano .ora{font-weight:700;color:var(--accent);font-variant-numeric:tabular-nums}
+.piano .kw{color:var(--accent);font-weight:600}
 .piano .dd{color:var(--muted);font-size:13px;white-space:nowrap}
 .tip-box{background:var(--accent-soft);border-radius:10px;padding:10px 12px;margin:8px 0;font-size:14px}
 .more-filters{display:flex;flex-wrap:wrap;align-items:center;gap:8px 18px;margin:10px 0 2px}
@@ -2919,11 +2920,12 @@ function writeMenu(P, m, opt = { modo: "tutto" }){
   if (PL.righe.length){
     P.h2(modo === "alcune" ? "Piano di lavoro dei piatti insieme" : "Piano di lavoro");
     P.para(`Una persona in cucina: mentre qualcosa lievita, riposa o cuoce da solo, lavori sugli altri piatti. Orari da quando inizi.${modo === "alcune" ? " Insieme: " + menuRecipes(m).filter(r => insieme.has(r.id)).map(r => conDish(m, r, () => piattoNome(r).titolo)).join(", ") + "." : ""}`, 8.5, "italic", C.grey);
+    if (PL.nota) P.para(PL.nota, 9, "normal", C.red, 0, 1.35);
     PL.consigli.forEach(c => P.para(c, 9.5, "normal", C.green, 0, 1.35));
     P.y += 1;
     PL.righe.forEach((x, k) => {
       doc.setFont("helvetica", "normal"); doc.setFontSize(9.5);
-      const L = doc.splitTextToSize(pdfText(`${x.piatto}: ${x.nome}${x.pas ? ` (da solo${x.insieme ? ", insieme a " + x.insieme : ""})` : ""}`), P.CW - 40);
+      const L = doc.splitTextToSize(pdfText(`${x.piatto}: ${x.nome}${x.pas ? ` (da solo${x.insieme ? ", insieme a " + x.insieme : ""})` : ""}${PL.limite && kwTxt(x.kw) ? " - " + kwTxt(x.kw, true) : ""}`), P.CW - 40);
       const h = L.length * 4.2 + 2; P.need(h + 1);
       if (k % 2 === 0){ doc.setFillColor(...C.band); doc.rect(P.M, P.y - 3.8, P.CW, h, "F"); }
       doc.setFont("helvetica", "bold"); doc.setTextColor(...C.green); doc.text(hm(x.inizio), P.M + 2, P.y);
@@ -3101,9 +3103,25 @@ function renderScarica(){
     else if (k.startsWith("a:")) setAll(S.app, [k.slice(2)]);
     const y = window.scrollY; renderScarica(); window.scrollTo(0, y);
   }));
-  document.getElementById("mkpdf").onclick = () => conDotazione(v => buildBookPdf(S, v));
+  document.getElementById("mkpdf").onclick = async () => {
+    const ids = SEZIONI.flatMap(sez => VIS().filter(r => r.sezione === sez && S.ricette.has(r.id))).slice(0, 3);
+    S.cover = (await Promise.all(ids.map(r => svgPng(art(r))))).filter(Boolean);
+    conDotazione(v => buildBookPdf(S, v));
+  };
 }
 
+// disegno della ricetta (SVG) in PNG per il PDF
+function svgPng(svg, w = 640, h = 480){
+  return new Promise(res => {
+    try {
+      const src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg.replace("<svg ", '<svg xmlns="http://www.w3.org/2000/svg" width="' + w + '" height="' + h + '" '));
+      const im = new Image(); const t = setTimeout(() => res(null), 3000);
+      im.onload = () => { try { const c = document.createElement("canvas"); c.width = w; c.height = h; c.getContext("2d").drawImage(im, 0, 0, w, h); clearTimeout(t); res(c.toDataURL("image/png")); } catch (e){ clearTimeout(t); res(null); } };
+      im.onerror = () => { clearTimeout(t); res(null); };
+      im.src = src;
+    } catch (e){ res(null); }
+  });
+}
 function buildBookPdf(S, v){
   const status = document.getElementById("status");
   if (!downloads || !window.jspdf){ status.textContent = "Il PDF non si può creare in questa vista."; return; }
@@ -3113,18 +3131,33 @@ function buildBookPdf(S, v){
   if (!recipes.length && !menus.length && !S.app.size){ status.textContent = "Scegli almeno una cosa da mettere nel PDF."; return; }
   const apps0 = v === "gen" ? [] : ELETTRO().filter(E => S.app.has(E.id));
   const P = newPdf(), doc = P.doc;
-  // copertina
-  doc.setFillColor(47, 107, 79); doc.rect(0, 0, 210, 297, "F");
-  doc.setFillColor(58, 122, 92); doc.circle(182, 52, 70, "F"); doc.setFillColor(68, 134, 103); doc.circle(196, 30, 38, "F");
-  doc.setFillColor(40, 94, 69); doc.circle(-12, 292, 60, "F");
-  doc.setDrawColor(...C.gold); doc.setLineWidth(1.2); doc.line(20, 100, 52, 100);
-  doc.setTextColor(232, 214, 166); doc.setFont("times", "italic"); doc.setFontSize(14); doc.text("Ricettario di casa", 20, 112);
-  doc.setTextColor(255, 255, 255); doc.setFont("helvetica", "bold"); doc.setFontSize(36);
-  doc.text("De (Nova) Mensa", 20, 128); doc.text("Populari", 20, 144);
-  doc.setFont("helvetica", "normal"); doc.setFontSize(12); doc.setTextColor(222, 236, 228);
-  const parti = [recipes.length ? `${recipes.length} ${recipes.length === 1 ? "ricetta" : "ricette"}` : "", menus.length ? `${menus.length} ${menus.length === 1 ? "menù" : "menù"}` : "", apps0.length ? (apps0.length === 1 ? "1 elettrodomestico" : `${apps0.length} elettrodomestici`) : "", v === "gen" ? "per una cucina generica" : v === "andreina" ? "per la cucina di Casa di Andreina" : "per la cucina di Casa di Federico"].filter(Boolean).join(" · ");
-  doc.text(doc.splitTextToSize(pdfText(parti), 170), 20, 160);
-  doc.setFont("times", "italic"); doc.text(new Date().toLocaleDateString("it-IT", { day: "numeric", month: "long", year: "numeric" }), 20, 176);
+  // copertina: carta crema e cornice, come il menù per gli ospiti
+  const pagine = voci.length + menus.length + apps0.length;
+  doc.setFillColor(...C.cream); doc.rect(0, 0, 210, 297, "F");
+  doc.setDrawColor(...C.green); doc.setLineWidth(0.9); doc.rect(10, 10, 190, 277, "S");
+  doc.setDrawColor(...C.gold); doc.setLineWidth(0.3); doc.rect(13.5, 13.5, 183, 270, "S");
+  const orn = y => { doc.setDrawColor(...C.gold); doc.setLineWidth(0.4); doc.line(78, y, 99, y); doc.line(111, y, 132, y); doc.setFillColor(...C.gold); doc.lines([[2.2, 2.2], [2.2, -2.2], [-2.2, -2.2], [-2.2, 2.2]], 102.8, y, [1, 1], "F", true); };
+  { const L = "DE (NOVA) MENSA POPULARI", cs = 1.8; doc.setFont("times", "bold"); doc.setFontSize(11); doc.setTextColor(...C.gold); const w = doc.getTextWidth(L) + cs * (L.length - 1); doc.text(L, 105 - w / 2, 40, { charSpace: cs }); }
+  orn(48);
+  const imgs = (S.cover || []).slice(0, recipes.length === 1 ? 1 : 3);
+  const titolo = recipes.length === 1 && !menus.length && !apps0.length ? (voci.length === 1 ? voci[0].label : recipes[0].titolo)
+    : !recipes.length && menus.length === 1 && !apps0.length ? menus[0].nome
+    : recipes.length && !menus.length && !apps0.length ? [...new Set(recipes.map(r => r.sezione))].join(", ").replace(/, ([^,]*)$/, " e $1")
+    : "Ricette e menù";
+  doc.setFont("times", "bolditalic"); doc.setFontSize(titolo.length > 34 ? 28 : 34);
+  const tl = doc.splitTextToSize(pdfText(titolo), 160);
+  const imgH = imgs.length === 1 ? 112 : imgs.length ? 58 : 0, H = imgH + tl.length * 13 + 8;
+  let cy = 56 + Math.max(0, (226 - 56 - H) / 2);
+  if (imgs.length === 1){ doc.setFillColor(255, 255, 255); doc.circle(105, cy + 50, 50, "F"); doc.setDrawColor(...C.gold); doc.setLineWidth(0.4); doc.circle(105, cy + 50, 50, "S"); doc.addImage(imgs[0], "PNG", 105 - 40, cy + 50 - 30, 80, 60); }
+  else if (imgs.length > 1){ const w = 52, gap = 6, x0 = 105 - (imgs.length * w + (imgs.length - 1) * gap) / 2; imgs.forEach((im, i) => { const x = x0 + i * (w + gap); doc.setFillColor(255, 255, 255); doc.roundedRect(x, cy, w, 42, 4, 4, "F"); doc.addImage(im, "PNG", x + 4, cy + 3, w - 8, (w - 8) * 0.75); }); }
+  cy += imgH + 10;
+  doc.setFont("times", "bolditalic"); doc.setFontSize(titolo.length > 34 ? 28 : 34); doc.setTextColor(...C.green);
+  tl.forEach(l => { doc.text(l, 105, cy, { align: "center" }); cy += 13; });
+  const parti = [recipes.length > 1 ? `${recipes.length} ricette` : "", voci.length > recipes.length ? `${voci.length} versioni` : "", menus.length && (recipes.length || menus.length > 1) ? `${menus.length} menù` : "", apps0.length ? (apps0.length === 1 ? "1 elettrodomestico" : `${apps0.length} elettrodomestici`) : ""].filter(Boolean).join("  ·  ");
+  if (parti){ doc.setFont("times", "italic"); doc.setFontSize(13); doc.setTextColor(...C.grey); doc.text(pdfText(parti), 105, cy, { align: "center" }); cy += 8; }
+  orn(Math.max(cy + 4, 236));
+  doc.setFont("times", "italic"); doc.setFontSize(11.5); doc.setTextColor(...C.grey);
+  doc.text(v === "gen" ? "Per una cucina qualsiasi" : v === "andreina" ? "Per la cucina di Andreina, a Roma" : "Per la cucina di Federico", 105, 262, { align: "center" });
   // righe dell'indice
   const entries = [];
   let lastSez = null, lastSub = null;
@@ -3136,7 +3169,7 @@ function buildBookPdf(S, v){
   if (menus.length){ entries.push({ lvl: 0, label: "Menù", key: "menus" }); menus.forEach(m => entries.push({ lvl: 2, label: m.nome, key: "m:" + m.id })); }
   const apps = v === "gen" ? [] : ELETTRO().filter(E => S.app.has(E.id));
   if (apps.length){ entries.push({ lvl: 0, label: "Elettrodomestici in dotazione", key: "apps" }); apps.forEach(E => entries.push({ lvl: 2, label: E.nome, key: "a:" + E.id })); }
-  const PER = 34, idxPages = Math.max(1, Math.ceil((entries.length + 2) / PER));
+  const conIndice = pagine > 1, PER = 34, idxPages = conIndice ? Math.max(1, Math.ceil((entries.length + 2) / PER)) : 0;
   for (let i = 0; i < idxPages; i++) doc.addPage();
   const page = {};
   const mark = k => { if (!(k in page)) page[k] = doc.getNumberOfPages(); };
@@ -3153,6 +3186,7 @@ function buildBookPdf(S, v){
   apps.forEach((E, k) => { doc.addPage(); P.y = 20; if (!k) mark("apps"); mark("a:" + E.id); writeScheda(P, E); });
   // indice
   let ip = 2, y = 26;
+  if (conIndice){
   doc.setPage(ip); doc.setFillColor(...C.green); doc.rect(0, 0, 210, 5, "F"); doc.setFont("times", "bolditalic"); doc.setFontSize(28); doc.setTextColor(...C.green); doc.text("Indice", 18, y + 2); y += 6; doc.setDrawColor(...C.gold); doc.setLineWidth(0.6); doc.line(18, y, 46, y); y += 10;
   entries.forEach(e => {
     if (y > 280){ ip++; doc.setPage(ip); y = 24; }
@@ -3171,6 +3205,7 @@ function buildBookPdf(S, v){
     }
     y += e.lvl === 0 ? 8 : 7;
   });
+  }
   // numeri di pagina (non sulla copertina)
   P.noFooter = new Set([1]); P.footer();
   const tutto = recipes.length === VIS().length && menus.length === store.menus.length && S.app.size === ELETTRO().length;
@@ -3320,10 +3355,34 @@ function fasePassiva(f, d){
   if (d < 10) return false;
   return /lievit|riposo|marin|frigo|stracott|brasatura|sobboll|cottura lenta|raffredd|ammollo|preriscald|coperchio|a bollore|lessare|lessate|stufate|in forno|^cottura|fino al bollore|appretto|fuori dal frigo|bollito/i.test(V(f.nome));
 }
-function pianoMenu(m, solo){
+/* Contatore: potenza massima che forno e piano possono usare insieme, per cucina (kW) */
+const CONTATORE = { federico: 3, andreina: 3 };
+function limiteKw(){ const c = cucina(); return c && CONTATORE[c] ? CONTATORE[c] : null; }
+// potenza media stimata di una fase (kW) e se occupa il forno
+function caricoFase(r, nome, insieme){
+  if (insieme) return { kw: 0, forno: false };
+  const n = String(nome).toLowerCase(), tipo = r.cottura && r.cottura.tipo;
+  if (/preriscald/.test(n)) return { kw: /rapido/.test(n) ? 3 : 2.4, forno: true, pre: true };
+  if (/raffredd|fuori dal frigo|in frigo|riposo|marinatura|lievitaz|puntata|appretto|ammollo/.test(n)) return { kw: 0, forno: false };
+  if (tipo === "forno" && /cottura|in forno|forno/.test(n)) return { kw: 1.2, forno: true };
+  if (tipo !== "fornelli") return { kw: 0, forno: false };
+  if (/stracott|cottura lenta|brasatura|sobboll|bollore leggero|stufat|caramell/.test(n)) return { kw: 0.4, forno: false };
+  if (/bollore/.test(n)) return { kw: 2, forno: false };
+  if (/rosol|sigillatura|scaldare|padella|frittura|scottat|carne|toast|^cottura$|scaloppine/.test(n)) return { kw: 1.5, forno: false };
+  if (/cottura|lessare|sbollent/.test(n)) return { kw: 1, forno: false };
+  if (/soffritt|fondo|sfumatura|vino|salsa|sugo|mantec|bagnomaria|insaporire|piselli|funghi|water roux|saltare|farina tostata|burro/.test(n)) return { kw: 0.8, forno: false };
+  return { kw: 0, forno: false };
+}
+function pianoMenu(m, solo, senzaLimite){
+  const LIM = senzaLimite ? null : limiteKw();
   const rs = menuRecipes(m).filter(r => !solo || solo.has(r.id)), dishes = [];
   rs.forEach(r => conDish(m, r, () => {
-    const ph = (r.fasi || []).filter(f => !f.prima && !f.parallelo).map(f => { const d = Math.round((f.min + (f.max ?? f.min)) / 2); return { nome: V(f.nome), d, pas: fasePassiva(f, d), tag: f.tag || null }; });
+    const ph = []; let pre = null;
+    (r.fasi || []).filter(f => !f.prima).forEach(f => {
+      const d = Math.round((f.min + (f.max ?? f.min)) / 2), nome = V(f.nome);
+      if (f.parallelo){ const c = caricoFase(r, nome); if (c.pre) pre = LIM && rs.length > 1 && c.kw > 2.4 ? { nome: nome.replace(/ rapido/i, "") + " (non rapido, per il contatore)", d: d + 5, kw: 2.4 } : { nome, d, kw: c.kw }; return; }
+      ph.push({ nome, d, pas: fasePassiva(f, d), tag: f.tag || null, r, pre }); pre = null;
+    });
     dishes.push({ r, titolo: piattoNome(r).titolo, ph });
   }));
   // preparazioni condivise: nei piatti dopo il primo le fasi attive in comune si fanno insieme, le attese restano
@@ -3335,31 +3394,74 @@ function pianoMenu(m, solo){
     altri.forEach(D => D.ph.forEach(f => { if (f.tag === tag){ f.insieme = primo.titolo; if (!f.pas) f.d = 0; f.pas = true; } }));
     if (CONDIVISI[tag]) consigli.push(CONDIVISI[tag]);
   });
-  // pianificazione a ritroso dal momento di servire: tutti i piatti pronti insieme
-  const rem = D => D.ph.slice(0, D.i).reduce((s, f) => s + f.d, 0);
-  dishes.forEach(D => { D.i = D.ph.length; D.t = 0; });
-  let cuoco = 0; const out = [];
-  while (dishes.some(D => D.i > 0)){
-    let best = null;
-    dishes.forEach(D => { if (!D.i) return; const f = D.ph[D.i - 1]; const st = f.pas ? D.t : Math.max(D.t, cuoco); const k = [st, -rem(D)]; if (!best || k[0] < best.k[0] || (k[0] === best.k[0] && k[1] < best.k[1])) best = { D, f, st, k }; });
-    const { D, f, st } = best, en = st + f.d;
-    D.t = en; D.i--; if (!f.pas) cuoco = en;
-    if (f.d > 0) out.push({ piatto: D.titolo, nome: f.nome, d: f.d, pas: f.pas, insieme: f.insieme, tag: f.tag, a: st, b: en });
-  }
+  dishes.forEach(D => D.ph.forEach(f => { const c = caricoFase(f.r, f.nome, f.insieme); f.kw = c.kw; f.forno = c.forno; if (f.pre) f.pre.forno = true; }));
+  // pianificazione a ritroso dal momento di servire, rispettando contatore e forno unico.
+  // Si provano più ordini di priorità tra i piatti e si tiene quello più corto e con meno attese "a caldo".
+  // le fasi a caldo consecutive di un piatto (acqua che bolle e poi pasta, forno a 170 e poi a 150) restano attaccate
+  dishes.forEach(D => {
+    const G = [];
+    D.ph.forEach(f => { const hot = f.kw > 0 || f.forno, g = G[G.length - 1]; if (hot && g && g.hot && !f.pre) g.parts.push(f); else G.push({ hot, parts: [f] }); });
+    G.forEach(g => { g.d = g.parts.reduce((s, f) => s + f.d, 0); let o = g.d; g.parts.forEach(f => { o -= f.d; f.off = o; }); g.pas = g.parts.every(f => f.pas); const att = g.parts.filter(f => !f.pas); g.attA = att.length ? Math.min(...att.map(f => f.off)) : 0; g.attB = att.length ? Math.max(...att.map(f => f.off + f.d)) : 0; g.pre = g.parts[0].pre; });
+    D.G = G;
+  });
+  const sched = rank => {
+    const carichi = [], mani = [];
+    const picco = (a, b) => { let mx = 0; const pts = [a, ...carichi.filter(c => c.a > a && c.a < b).map(c => c.a)]; pts.forEach(t => { const s = carichi.reduce((s, c) => s + (c.a <= t && c.b > t ? c.kw : 0), 0); if (s > mx) mx = s; }); return mx; };
+    const forno = (a, b) => carichi.some(c => c.forno && c.a < b && c.b > a);
+    const ok = (a, b, kw, fo) => b <= a || ((!fo || !forno(a, b)) && (!LIM || !kw || picco(a, b) + kw <= LIM + 1e-9));
+    const libere = (a, b) => b <= a || !mani.some(c => c.a < b && c.b > a);
+    const entra = (t, g) => g.parts.every(f => ok(t + f.off, t + f.off + f.d, f.kw, f.forno) && (f.pas || libere(t + f.off, t + f.off + f.d))) && (!g.pre || ok(t + g.d, t + g.d + g.pre.d, g.pre.kw, true));
+    const posto = (st, g) => {
+      if (entra(st, g)) return st;
+      const cand = [...new Set([...carichi, ...mani].flatMap(c => [c.b, ...g.parts.map(f => c.b - f.off), c.b - g.d]).filter(t => t > st))].sort((a, b) => a - b);
+      for (const t of cand) if (entra(t, g)) return t;
+      return Math.max(st, ...carichi.map(c => c.b), ...mani.map(c => c.b));
+    };
+    dishes.forEach(D => { D.i = D.G.length; D.t = 0; });
+    let attese = 0; const out = [];
+    while (dishes.some(D => D.i > 0)){
+      let best = null;
+      dishes.forEach(D => { if (!D.i) return; const g = D.G[D.i - 1]; const st = posto(D.t, g); const k = [st, rank.get(D)]; if (!best || k[0] < best.k[0] || (k[0] === best.k[0] && k[1] < best.k[1])) best = { D, g, st, k }; });
+      const { D, g, st } = best, en = st + g.d;
+      const last = g.parts[g.parts.length - 1];
+      attese += (st - D.t) * (g.hot && (D.i < D.G.length || !last.forno) ? 2 : 0.1);
+      D.t = en; D.i--;
+      g.parts.forEach(f => { const a = st + f.off, b = a + f.d; if (f.d > 0 && (f.kw || f.forno)) carichi.push({ a, b, kw: f.kw, forno: f.forno }); if (!f.pas && f.d > 0) mani.push({ a, b }); if (f.d > 0) out.push({ piatto: D.titolo, nome: f.nome, d: f.d, pas: f.pas, insieme: f.insieme, tag: f.tag, kw: f.kw, a, b }); });
+      if (g.pre){ carichi.push({ a: en, b: en + g.pre.d, kw: g.pre.kw, forno: true }); out.push({ piatto: D.titolo, nome: g.pre.nome, d: g.pre.d, pas: true, kw: g.pre.kw, a: en, b: en + g.pre.d }); }
+    }
+    const T = Math.max(0, ...out.map(x => x.b));
+    return { out, T, costo: T + attese };
+  };
+  const rem = D => D.ph.reduce((s, f) => s + f.d, 0);
+  const base = [...dishes].sort((a, b) => rem(b) - rem(a));
+  const perm = arr => arr.length <= 1 ? [arr] : arr.flatMap((x, i) => perm([...arr.slice(0, i), ...arr.slice(i + 1)]).map(p => [x, ...p]));
+  const ordini = dishes.length <= 5 ? perm(base) : [base, ...base.map(D => [D, ...base.filter(x => x !== D)]), [...base].reverse()];
+  let migliore = null;
+  ordini.forEach(o => { const r = sched(new Map(o.map((D, i) => [D, i]))); if (!migliore || r.costo < migliore.costo - 1e-9) migliore = r; });
+  const out = migliore.out;
   const T = Math.max(0, ...out.map(x => x.b));
   const righe = out.map(x => ({ ...x, inizio: T - x.b, fine: T - x.a }));
   // le preparazioni condivise partono insieme a quella del piatto principale
   righe.forEach(x => { if (!x.insieme) return; const p = righe.filter(y => y.tag === x.tag && !y.insieme && y.piatto === x.insieme).sort((a, b) => a.inizio - b.inizio)[0]; if (p && p.inizio < x.inizio){ x.inizio = p.inizio; x.d = x.fine - x.inizio; } });
   righe.sort((a, b) => a.inizio - b.inizio || a.fine - b.fine);
   const somma = dishes.reduce((s, D) => s + D.ph.reduce((t, f) => t + f.d, 0), 0);
-  return { totale: T, somma, righe, consigli };
+  const res = { totale: T, somma, righe, consigli, limite: LIM };
+  if (LIM){
+    const libero = pianoMenu(m, solo, true);
+    res.extra = Math.max(0, T - libero.totale);
+    res.piccoMax = Math.max(0, ...righe.map(x => x.inizio).map(t => righe.reduce((s, y) => s + (y.inizio <= t && y.fine > t ? (y.kw || 0) : 0), 0)));
+    res.nota = `Contatore da ${String(LIM).replace(".", ",")} kW: il piano non fa mai lavorare insieme forno e piastre oltre questo limite (picco stimato ${res.piccoMax.toLocaleString("it-IT", { maximumFractionDigits: 1 })} kW)${res.extra ? `, e per questo dura ${dur(res.extra)} in più` : ""}. Niente Boost, e tieni spenti lavastoviglie, lavatrice${cucina() === "federico" ? ", Ninja" : ""} e bollitore mentre cucini.`;
+  }
+  return res;
 }
+const kwTxt = (kw, pdf) => kw >= 1.5 ? `${pdf ? "circa " : "≈"}${kw.toLocaleString("it-IT", { maximumFractionDigits: 1 })} kW` : "";
 function hm(min){ const h = Math.floor(min / 60), m = Math.round(min % 60); return `${h}:${String(m).padStart(2, "0")}`; }
 function pianoHTML(P){
   return `<section class="section-block"><div class="section-title"><h2>Piano di lavoro</h2><span>${dur(P.totale)}</span></div>
     <p class="status">Una persona in cucina: mentre qualcosa lievita, riposa o cuoce da solo, lavori sugli altri piatti, e tutto è pronto insieme. Gli orari partono da quando inizi.</p>
+    ${P.nota ? `<p class="tip-box">${ICON.bolt} ${esc(P.nota)}</p>` : ""}
     ${P.consigli.map(c => `<p class="tip-box">${esc(c)}</p>`).join("")}
-    <ol class="piano">${P.righe.map(x => `<li class="${x.pas ? "pas" : ""}"><span class="ora">${hm(x.inizio)}</span><span><b>${esc(x.piatto)}</b>: ${esc(x.nome)}${x.pas ? ` <small>· da solo${x.insieme ? `, insieme a ${esc(x.insieme)}` : ""}</small>` : ""}</span><span class="dd">${dur(x.d)}</span></li>`).join("")}</ol></section>`;
+    <ol class="piano">${P.righe.map(x => `<li class="${x.pas ? "pas" : ""}"><span class="ora">${hm(x.inizio)}</span><span><b>${esc(x.piatto)}</b>: ${esc(x.nome)}${x.pas ? ` <small>· da solo${x.insieme ? `, insieme a ${esc(x.insieme)}` : ""}</small>` : ""}${P.limite && kwTxt(x.kw) ? ` <small class="kw">${kwTxt(x.kw)}</small>` : ""}</span><span class="dd">${dur(x.d)}</span></li>`).join("")}</ol></section>`;
 }
 
 function shoppingList(m){
