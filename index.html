@@ -322,6 +322,16 @@ a{color:inherit}
 .voto .stars button.on{color:#d4a017}
 .voto .stars button:hover,.voto .stars button:focus-visible{transform:scale(1.15)}
 .voto .altri{font-size:13px;color:var(--muted)}
+.piano{list-style:none;margin:6px 0 0;padding:0;display:flex;flex-direction:column;gap:2px}
+.piano li{display:grid;grid-template-columns:52px 1fr auto;gap:10px;padding:6px 10px;border-radius:8px;background:var(--surface)}
+.piano li.pas{background:transparent;color:var(--muted)}
+.piano .ora{font-weight:700;color:var(--accent);font-variant-numeric:tabular-nums}
+.piano .dd{color:var(--muted);font-size:13px;white-space:nowrap}
+.tip-box{background:var(--accent-soft);border-radius:10px;padding:10px 12px;margin:8px 0;font-size:14px}
+.voto .prova{display:inline-flex;align-items:center;gap:6px}
+.voto .pv{border:1.5px solid var(--line);background:var(--surface);border-radius:999px;padding:3px 12px;font:inherit;font-size:13px;font-weight:600;cursor:pointer;color:var(--ink)}
+.voto .pv[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
+.prov-chip{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;background:var(--accent);color:#fff;vertical-align:middle}
 .voto .tv{border:none;background:none;padding:0;font:inherit;font-size:13px;color:var(--accent);text-decoration:underline;cursor:pointer}
 .voto .altri b{color:#d4a017;font-weight:400;letter-spacing:1px}
 .new-chip{display:inline-block;background:#d4462e;color:#fff;font-size:10.5px;font-weight:800;letter-spacing:.06em;padding:2px 6px;border-radius:6px;vertical-align:middle}
@@ -345,7 +355,7 @@ a{color:inherit}
    Le quantità sono quelle del primo inserimento: tutte le proporzioni partono da qui.
    k = nome "da frigo" dell'ingrediente (uno o più, basta averne uno); base = sempre in casa (acqua, sale).
    ===================================================================== */
-const SEZIONI = ["Antipasti","Primi","Secondi","Dolci","Lievitati"];
+const SEZIONI = ["Antipasti","Primi","Secondi","Contorni","Dolci","Lievitati"];
 
 const IND = (si, no) => ({ casa: "induzione", si, no });
 const PAD = (acciaio, antiaderente) => ({ padella: true, acciaio, antiaderente });
@@ -838,8 +848,8 @@ const RICETTE = [
           { casa: "induzione", si: "Scola gli gnocchi con la schiumarola direttamente nella pentola del ragù e saltali delicatamente a livello 3 per 1 minuto. Servili subito, se vuoi con il parmigiano.", no: "Scola gli gnocchi con la schiumarola direttamente nella pentola del ragù e saltali delicatamente a fuoco basso per 1 minuto. Servili subito, se vuoi con il parmigiano." }
         ],
         fasiPrima: [
-          { nome: "Rosolatura, soffritto e vino del ragù", min: 25, max: 30 },
-          { nome: "Stracotto del ragù fino all'ultima ora", min: 105, max: 120 }
+          { nome: "Rosolatura, soffritto e vino del ragù", min: 25, max: 30, tag: "stracotto-scottona" },
+          { nome: "Stracotto del ragù fino all'ultima ora", min: 105, max: 120, tag: "stracotto-scottona" }
         ],
         fasi: [{ nome: "Saltare gli gnocchi nel ragù", min: 2 }],
         passiPrima: [
@@ -851,7 +861,8 @@ const RICETTE = [
         passi: [{ fase: "Gnocchi saltati nel ragù", livello: "3", tempo: "1 min" }],
         attenzioni: ["La ghisa trattiene molto il calore: dopo la rosolatura aspetta un minuto a livello 4 prima di mettere il trito, così non brucia."],
         strumenti: ["Pentola di ghisa con coperchio", "Due forchette"],
-        energia: [{ app: "piastra", kwh: [1.0, 1.3], come: "ragù stracotto per 3 ore" }] },
+        energia: [{ app: "piastra", kwh: [1.0, 1.3], come: "ragù stracotto per 3 ore" }],
+        note: ["Il ragù si prepara come lo stracotto di scottona del ricettario: se nel menù ci sono tutti e due, cuocili insieme (vedi il piano di lavoro del menù)."] },
       { id: "pomodoro-basilico", nome: "Pomodoro e basilico",
         ingredienti: [
           { nome: "Passata di pomodoro", qta: 600, u: "g", k: ["Passata di pomodoro"] },
@@ -947,68 +958,6 @@ const RICETTE = [
     ]
   },
   {
-    id: "scaloppine-marsala", img: "scaloppine", aggiunta: "2026-11-11T14:40:00+01:00",
-    titolo: "Scaloppine al Marsala",
-    sezione: "Secondi", sottosezione: "Carne",
-    fonte: BATTISTI("https://www.instagram.com/p/DVbl_-QNlHt/"),
-    porzioni: 4, unitaPorzioni: ["persona","persone"],
-    fasi: [
-      { nome: "Battere le fettine", min: 5 },
-      { nome: "Infarinare", min: 3 },
-      { nome: "Scaldare la padella", min: 2, max: 4 },
-      { nome: "Scaloppine in padella, a gruppi", min: 2, max: 4 },
-      { nome: "Marsala e brodo, salsina", min: 3, max: 4 }
-    ],
-    cottura: { tipo: "fornelli", gen: { dettaglio: "Fornelli, padella", extra: "" }, dettaglio: "Piano a induzione, padella", extra: "Scaloppine 1 minuto, devono restare bianche" },
-    piastra: {
-      zona: "Zona grande, con una padella larga",
-      passi: PAD([
-        { fase: "Scaldare la padella d'acciaio vuota", livello: "4–5", tempo: "3–4 min" },
-        { fase: "Olio, burro, aglio e rosmarino", livello: "4", tempo: "30 s" },
-        { fase: "Scaloppine, a gruppi", livello: "4", tempo: "1 min" },
-        { fase: "Marsala e brodo", livello: "5", tempo: "2–3 min" },
-        { fase: "Scaloppine nella salsina", livello: "3", tempo: "1 min" }
-      ], [
-        { fase: "Olio, burro, aglio e rosmarino", livello: "4", tempo: "1 min" },
-        { fase: "Scaloppine, a gruppi", livello: "4", tempo: "1 min" },
-        { fase: "Marsala e brodo", livello: "5", tempo: "2–3 min" },
-        { fase: "Scaloppine nella salsina", livello: "3", tempo: "1 min" }
-      ]),
-      attenzioni: ["Le scaloppine non devono colorire: con la padella troppo calda diventano dure."],
-      differenza: "Il «fuoco medio» del gas sull'induzione è il livello 4, e la padella risponde subito quando abbassi."
-    },
-    strumenti: [PAD("Padella in acciaio inox", "Padella antiaderente"), "Batticarne", "Pellicola alimentare", "Piatto fondo per la farina", "Pinze"],
-    energia: [{ app: "piastra", kwh: [0.1, 0.15], come: "circa 10 minuti di padella" }],
-    gruppi: [
-      { nome: "Ingredienti", ingredienti: [
-        { nome: "Lonza di maiale a fettine", nota: "carne molto magra", qta: 500, u: "g", k: ["Lonza di maiale"] },
-        { nome: "Farina 00", nota: "o farina di riso", qta: 40, u: "g", k: ["Farina 00"] },
-        { nome: "Olio extravergine d'oliva", qta: 20, u: "g", k: ["Olio extravergine"] },
-        { nome: "Burro", qta: 20, u: "g", k: ["Burro"] },
-        { nome: "Aglio", nota: "schiacciato con la buccia", qta: 1, u: "spicchi", k: ["Aglio"] },
-        { nome: "Rosmarino", nota: "rametto", qta: 1, u: "", k: ["Rosmarino"] },
-        { nome: "Marsala", qta: 80, u: "g", k: ["Marsala"] },
-        { nome: "Brodo di carne o vegetale", qta: 60, u: "g", k: ["Brodo"] },
-        { nome: "Sale fino", qta: 4, u: "g", base: true },
-        { nome: "Pepe nero macinato", qta: 1, u: "g", k: ["Pepe nero"] }
-      ]}
-    ],
-    procedimento: [
-      "Metti le fettine tra due fogli di pellicola e battile finché sono sottili.",
-      "Passale nella farina con un pizzico del sale e un po' di pepe, poi scuotile bene per togliere la farina in eccesso.",
-      IND(PAD("Scalda la padella d'acciaio vuota sulla zona grande a livello 4–5 per 3–4 minuti, poi scendi a livello 4 e metti l'olio, il burro, l'aglio e il rosmarino.", "Metti nella padella antiaderente l'olio, il burro, l'aglio e il rosmarino e scaldali sulla zona grande a livello 4 per 1 minuto."),
-          PAD("Scalda la padella d'acciaio vuota a fuoco medio per 3–4 minuti, poi abbassa un poco e metti l'olio, il burro, l'aglio e il rosmarino.", "Metti nella padella antiaderente l'olio, il burro, l'aglio e il rosmarino e scaldali a fuoco medio per 1 minuto.")),
-      IND("Metti le scaloppine, poche per volta, e cuocile a livello 4 circa 1 minuto in tutto, girandole a metà: non devono rosolare, devono restare bianche. Toglile e tienile da parte.", "Metti le scaloppine, poche per volta, e cuocile a fuoco medio circa 1 minuto in tutto, girandole a metà: non devono rosolare, devono restare bianche. Toglile e tienile da parte."),
-      IND("Versa il Marsala nel fondo di cottura, sali a livello 5 e aggiungi il brodo: lascia ridurre 2–3 minuti, finché diventa una salsina.", "Versa il Marsala nel fondo di cottura, alza un poco il fuoco e aggiungi il brodo: lascia ridurre 2–3 minuti, finché diventa una salsina."),
-      IND("Togli aglio e rosmarino, rimetti le scaloppine, scendi a livello 3 e girale nella salsina per 1 minuto. Assaggia, regola di sale e pepe e servile subito.", "Togli aglio e rosmarino, rimetti le scaloppine, abbassa il fuoco e girale nella salsina per 1 minuto. Assaggia, regola di sale e pepe e servile subito.")
-    ],
-    note: [
-      "Al posto del Marsala vanno bene Porto, vino bianco o succo di limone: l'importante è ottenere una salsina.",
-      "Non cuocerle troppo: la carne magra stracotta diventa dura.",
-      "Si servono con il purè."
-    ]
-  },
-  {
     id: "insalata-fassona-balsamico", img: "insalatafassona", aggiunta: "2026-11-11T14:40:00+01:00",
     titolo: "Insalata di fassona all'aceto balsamico",
     sezione: "Secondi", sottosezione: "Carne",
@@ -1064,73 +1013,6 @@ const RICETTE = [
       "Metti la rucola nei piatti e aggiungi i cubotti con il loro fondo glassato, i pomodorini e le scaglie di formaggio: il fondo acido e caramellato fa da condimento."
     ],
     note: ["Pronta in pochi minuti: va bene per un pranzo o una cena veloce."]
-  },
-  {
-    id: "costoletta-vitello-aglio-orsino", img: "costoletta", aggiunta: "2026-11-11T14:40:00+01:00",
-    titolo: "Costoletta di vitello e maionese all'aglio orsino",
-    sezione: "Secondi", sottosezione: "Carne",
-    fonte: BATTISTI("https://www.instagram.com/p/DW1tMp2ikGp/"),
-    porzioni: 2, unitaPorzioni: ["persona","persone"],
-    fasi: [
-      { nome: "Maionese all'aglio orsino", min: 10 },
-      { nome: "Panatura", min: 10 },
-      { nome: "Riposo delle costolette panate", min: 15 },
-      { nome: "Scaldare olio e burro chiarificato", min: 3, max: 4, parallelo: true },
-      { nome: "Frittura", min: 9, max: 10 },
-      { nome: "Riposo", min: 3 }
-    ],
-    cottura: { tipo: "fornelli", gen: { dettaglio: "Fornelli, padella larga", extra: "" }, dettaglio: "Piano a induzione, padella larga", extra: "3 minuti per lato, poi 3–4 minuti con la salvia" },
-    piastra: {
-      zona: "Zona grande, con una padella larga",
-      passi: [
-        { fase: "Olio e burro chiarificato", livello: "6", tempo: "3–4 min" },
-        { fase: "Costolette", livello: "6", tempo: "3 min per lato" },
-        { fase: "Con la salvia fresca", livello: "6", tempo: "3–4 min" }
-      ],
-      attenzioni: ["Se il grasso fuma, scendi a livello 5: la panatura brucerebbe prima che la carne sia cotta."],
-      differenza: "Sull'induzione il grasso arriva in temperatura in pochi minuti e la tiene anche quando metti la carne fredda."
-    },
-    strumenti: [PAD("Padella in acciaio inox larga", "Padella antiaderente larga"), "Mixer", "Frullatore a immersione", "Colino", "Piatti per uova e panatura", "Paletta"],
-    energia: [{ app: "piastra", kwh: [0.15, 0.2], come: "grasso scaldato e 10 minuti di frittura" }],
-    gruppi: [
-      { nome: "Costolette", ingredienti: [
-        { nome: "Costolette di vitello con l'osso", nota: "2 costolette da circa 300 g", qta: 600, u: "g", k: ["Vitello"] },
-        { nome: "Uova", qta: 2, u: "", k: ["Uova"] },
-        { nome: "Sale fino", qta: 2, u: "g", base: true }
-      ]},
-      { nome: "Panatura", ingredienti: [
-        { nome: "Mollica di pane casereccio", nota: "fresca", qta: 120, u: "g", k: ["Pane"] },
-        { nome: "Grissini", qta: 40, u: "g", k: ["Grissini"] },
-        { nome: "Salvia", nota: "per la panatura", qta: 4, u: "g", k: ["Salvia"] }
-      ]},
-      { nome: "Per friggere", ingredienti: [
-        { nome: "Olio di semi di arachide", qta: 100, u: "g", k: ["Olio di semi"] },
-        { nome: "Burro chiarificato", qta: 100, u: "g", k: ["Burro chiarificato"] },
-        { nome: "Salvia", nota: "foglie", qta: 10, u: "", k: ["Salvia"] }
-      ]},
-      { nome: "Maionese all'aglio orsino", ingredienti: [
-        { nome: "Aglio orsino fresco", qta: 20, u: "g", k: ["Aglio orsino"] },
-        { nome: "Olio di semi", qta: 150, u: "g", k: ["Olio di semi"] },
-        { nome: "Tuorlo", qta: 1, u: "", k: ["Uova"] },
-        { nome: "Succo di limone", qta: 10, u: "g", k: ["Limone"] },
-        { nome: "Sale fino", qta: 1, u: "g", base: true }
-      ]}
-    ],
-    procedimento: [
-      "Per la maionese frulla l'aglio orsino con l'olio di semi e filtra l'olio verde con un colino. Monta il tuorlo con il succo di limone e il sale con il frullatore a immersione, versando l'olio a filo finché la maionese è densa. Tienila in frigo.",
-      "Per la panatura frulla la mollica fresca con i grissini spezzati e la salvia: deve restare leggermente umida, e se è troppo secca bagnala appena.",
-      "Schiaccia un po' le costolette con le mani, senza batterle. Passale nelle uova sbattute e poi nella panatura, premendo bene soprattutto vicino all'osso. Lasciale riposare un quarto d'ora: la panatura si attacca alla carne.",
-      IND(PAD("Intanto scalda nella padella d'acciaio l'olio e il burro chiarificato sulla zona grande a livello 6: l'olio dà continuità di cottura, il burro la doratura.", "Intanto scalda nella padella antiaderente l'olio e il burro chiarificato sulla zona grande a livello 6: l'olio dà continuità di cottura, il burro la doratura."),
-          PAD("Intanto scalda nella padella d'acciaio l'olio e il burro chiarificato a fuoco medio-alto: l'olio dà continuità di cottura, il burro la doratura.", "Intanto scalda nella padella antiaderente l'olio e il burro chiarificato a fuoco medio-alto: l'olio dà continuità di cottura, il burro la doratura.")),
-      IND("Friggi le costolette a livello 6 almeno 3 minuti per lato, schiacciando bene la parte vicino all'osso, che è più alta.", "Friggi le costolette a fuoco medio-alto almeno 3 minuti per lato, schiacciando bene la parte vicino all'osso, che è più alta."),
-      IND("Aggiungi le foglie di salvia e continua a livello 6 per altri 3–4 minuti, girandole, finché sono ben dorate: la salvia profuma il grasso e lo tiene pulito. Se friggi in più volte, cambia la salvia.", "Aggiungi le foglie di salvia e continua per altri 3–4 minuti, girandole, finché sono ben dorate: la salvia profuma il grasso e lo tiene pulito. Se friggi in più volte, cambia la salvia."),
-      "Toglile con la paletta, lasciale riposare qualche minuto e salale con il sale fino, non a scaglie. Servile con la maionese all'aglio orsino."
-    ],
-    note: [
-      "La stessa panatura va bene per altre carni e per le verdure.",
-      "Il pane fresco, leggermente umido, rende la frittura molto più croccante.",
-      "L'aglio orsino si trova in primavera."
-    ]
   },
   {
     id: "fassona-peperoni", img: "fassonapeperoni", aggiunta: "2026-11-11T14:40:00+01:00",
@@ -1250,8 +1132,8 @@ const RICETTE = [
     ]
   },
   {
-    id: "brasato-pure", img: "brasato", aggiunta: "2026-11-11T14:40:00+01:00",
-    titolo: "Brasato e purè",
+    id: "brasato", img: "brasato", aggiunta: "2026-11-11T14:40:00+01:00",
+    titolo: "Brasato",
     sezione: "Secondi", sottosezione: "Carne",
     fonte: BATTISTI("https://www.instagram.com/p/DUJMiPmCsRI/"),
     porzioni: 6, unitaPorzioni: ["persona","persone"],
@@ -1261,25 +1143,22 @@ const RICETTE = [
       { nome: "Marinatura in frigo (una notte)", min: 720 },
       { nome: "Rosolatura della carne", min: 10 },
       { nome: "Brasatura con il coperchio", min: 180 },
-      { nome: "Purè", min: 45, max: 55, parallelo: true },
       { nome: "Salsa e servizio", min: 10 }
     ],
     cottura: { tipo: "fornelli", gen: { dettaglio: "Fornelli, pentola di ghisa", extra: "" }, dettaglio: "Piano a induzione, pentola di ghisa", extra: "3 ore a fuoco minimo con il coperchio" },
     piastra: {
-      zona: "Zona grande per la pentola di ghisa, zona media per patate e latte",
+      zona: "Zona grande, per la pentola di ghisa",
       passi: [
         { fase: "Verdure rosolate (il giorno prima)", livello: "6", tempo: "8–10 min" },
         { fase: "Carne rosolata su tutti i lati", livello: "7", tempo: "8–10 min" },
         { fase: "Marinata fino al bollore", livello: "7", tempo: "5 min" },
-        { fase: "Brasatura con il coperchio", livello: "2", tempo: "3 h" },
-        { fase: "Patate per il purè", livello: "Boost, poi 6", tempo: "30–40 min" },
-        { fase: "Latte e burro", livello: "4", tempo: "2–3 min" }
+        { fase: "Brasatura con il coperchio", livello: "2", tempo: "3 h" }
       ],
       attenzioni: ["Se il liquido cala troppo, il livello è alto: scendi e aggiungi acqua calda, non brodo.", "La ghisa trattiene molto il calore: dopo la rosolatura aspetta qualche minuto prima di valutare il bollore."],
       differenza: "Sull'induzione il livello 2 con la ghisa tiene un sobbollire lentissimo e regolare per ore, come il fuoco minimo del gas."
     },
-    strumenti: ["Pentola di ghisa con coperchio", "Contenitore per la marinata", "Frullatore a immersione o passaverdure", "Pentola per le patate", "Schiacciapatate", "Pentolino", "Frusta"],
-    energia: [{ app: "piastra", kwh: [1.4, 1.9], come: "rosolature, 3 ore di brasatura e purè" }],
+    strumenti: ["Pentola di ghisa con coperchio", "Contenitore per la marinata", "Frullatore a immersione o passaverdure"],
+    energia: [{ app: "piastra", kwh: [1.1, 1.5], come: "rosolature e 3 ore di brasatura" }],
     gruppi: [
       { nome: "Brasato", ingredienti: [
         { nome: "Muscolo di manzo in un pezzo", qta: 1200, u: "g", k: ["Manzo"] },
@@ -1293,13 +1172,6 @@ const RICETTE = [
         { nome: "Sale fino", qta: 10, u: "g", base: true },
         { nome: "Pepe nero macinato", qta: 1, u: "g", k: ["Pepe nero"] },
         { nome: "Passata di pomodoro", nota: "facoltativo", qta: 50, u: "g", k: ["Passata di pomodoro"] }
-      ]},
-      { nome: "Purè", ingredienti: [
-        { nome: "Patate a pasta farinosa", qta: 1000, u: "g", k: ["Patate"] },
-        { nome: "Latte intero", qta: 250, u: "g", k: ["Latte"] },
-        { nome: "Burro", qta: 60, u: "g", k: ["Burro"] },
-        { nome: "Sale fino", qta: 6, u: "g", base: true },
-        { nome: "Noce moscata", nota: "facoltativo", qta: 0.5, u: "g", k: ["Noce moscata"] }
       ]}
     ],
     procedimento: [
@@ -1308,13 +1180,11 @@ const RICETTE = [
       "Il giorno dopo scola la carne e asciugala bene; tieni da parte vino e verdure.",
       IND("Scalda il resto dell'olio nella pentola di ghisa sulla zona grande a livello 7 e rosola la carne su tutti i lati, anche sotto, per 8–10 minuti, senza bucarla con il forchettone. Sala, pepa e aggiungi rosmarino e salvia.", "Scalda il resto dell'olio nella pentola di ghisa a fuoco medio-alto e rosola la carne su tutti i lati, anche sotto, per 8–10 minuti, senza bucarla con il forchettone. Sala, pepa e aggiungi rosmarino e salvia."),
       IND("Bagna con il vino e le verdure della marinata e, se vuoi, con la passata. Quando bolle copri, scendi a livello 2 e lascia cuocere 3 ore, girando la carne ogni tanto. Se il liquido cala troppo il fuoco è alto: aggiungi acqua calda, non brodo, perché il fondo è già saporito.", "Bagna con il vino e le verdure della marinata e, se vuoi, con la passata. Quando bolle copri, abbassa al minimo e lascia cuocere 3 ore, girando la carne ogni tanto. Se il liquido cala troppo il fuoco è alto: aggiungi acqua calda, non brodo, perché il fondo è già saporito."),
-      IND("Per il purè metti le patate intere con la buccia in una pentola d'acqua fredda, porta a bollore con il Boost, poi scendi a livello 6 e cuocile 30–40 minuti. Sbucciale e schiacciale ancora calde.", "Per il purè metti le patate intere con la buccia in una pentola d'acqua fredda, porta a bollore e cuocile 30–40 minuti. Sbucciale e schiacciale ancora calde."),
-      IND("Scalda il latte con il burro in un pentolino a livello 4, versalo sulle patate e mescola con la frusta insieme al sale e, se vuoi, alla noce moscata.", "Scalda il latte con il burro in un pentolino, versalo sulle patate e mescola con la frusta insieme al sale e, se vuoi, alla noce moscata."),
       "Quando il brasato è pronto toglilo dalla pentola, elimina rosmarino e salvia e frulla il fondo con le verdure fino a una salsa liscia, oppure passalo al passaverdure.",
-      "Taglia la carne a fette con delicatezza, perché dopo tre ore è tenerissima, e servila ben calda con la salsa e il purè: fai un incavo nel purè per tenere il sugo."
+      "Taglia la carne a fette con delicatezza, perché dopo tre ore è tenerissima, e servila ben calda con la salsa."
     ],
     note: [
-      "Al posto del purè va bene la polenta, morbida o abbrustolita.",
+      "Si serve con il purè di patate (la ricetta è tra i contorni) o con la polenta, morbida o abbrustolita.",
       "La marinatura si fa in un contenitore chiuso in frigo: il sottovuoto non serve."
     ]
   },
@@ -1425,122 +1295,6 @@ const RICETTE = [
     ]
   },
   {
-    id: "scaloppine-limone-patate", img: "scaloppinelimone", aggiunta: "2026-11-11T14:40:00+01:00",
-    titolo: "Scaloppine al limone e patate",
-    sezione: "Secondi", sottosezione: "Carne",
-    fonte: BATTISTI("https://www.instagram.com/p/DIYf2TzoDm0/"),
-    porzioni: 4, unitaPorzioni: ["persona","persone"],
-    fasi: [
-      { nome: "Patate lessate con la buccia", min: 30, max: 35 },
-      { nome: "Patate in padella", min: 10, max: 12 },
-      { nome: "Battere e infarinare le fettine", min: 5, parallelo: true },
-      { nome: "Scaloppine", min: 3, max: 4 },
-      { nome: "Vino, erbe e limone", min: 2 }
-    ],
-    cottura: { tipo: "fornelli", gen: { dettaglio: "Fornelli, pentola e due padelle", extra: "" }, dettaglio: "Piano a induzione, pentola e due padelle", extra: "Scaloppine cotte dolcemente, devono restare bianche" },
-    piastra: {
-      zona: "Zona grande per la pentola delle patate, poi due zone per le padelle",
-      passi: [
-        { fase: "Patate in acqua fredda fino al bollore", livello: "Boost", tempo: "8–10 min" },
-        { fase: "Patate a bollore leggero", livello: "6", tempo: "20–25 min" },
-        { fase: "Patate in padella con burro, olio ed erbe", livello: "5", tempo: "10–12 min" },
-        { fase: "Scaloppine", livello: "4", tempo: "2–3 min" },
-        { fase: "Vino, erbe e limone", livello: "4", tempo: "1–2 min" }
-      ],
-      attenzioni: ["La padella delle scaloppine non deve essere caldissima: a livello 4 restano bianche e morbide."],
-      differenza: "Sull'induzione le due padelle vanno su zone diverse: quella delle patate a 5, quella delle scaloppine a 4."
-    },
-    strumenti: ["Pentola per le patate", PAD("Due padelle in acciaio inox", "Due padelle antiaderenti"), "Batticarne", "Spremiagrumi"],
-    energia: [{ app: "piastra", kwh: [0.45, 0.6], come: "patate lesse, patate in padella e scaloppine" }],
-    gruppi: [
-      { nome: "Patate", ingredienti: [
-        { nome: "Patate", qta: 600, u: "g", k: ["Patate"] },
-        { nome: "Acqua per lessarle", qta: 2000, u: "g", base: true },
-        { nome: "Burro", qta: 15, u: "g", k: ["Burro"] },
-        { nome: "Olio extravergine d'oliva", qta: 20, u: "g", k: ["Olio extravergine"] },
-        { nome: "Salvia e rosmarino tritati", qta: 4, u: "g", k: ["Salvia","Rosmarino"] },
-        { nome: "Cipollotto di Tropea", nota: "facoltativo", qta: 60, u: "g", k: ["Cipollotto"] },
-        { nome: "Sale fino", qta: 4, u: "g", base: true },
-        { nome: "Pepe nero macinato", qta: 0.5, u: "g", k: ["Pepe nero"] }
-      ]},
-      { nome: "Scaloppine", ingredienti: [
-        { nome: "Fettine di vitello", nota: "posteriore, sottili", qta: 500, u: "g", k: ["Vitello"] },
-        { nome: "Farina 00", nota: "o farina di riso", qta: 30, u: "g", k: ["Farina 00"] },
-        { nome: "Olio extravergine d'oliva", qta: 15, u: "g", k: ["Olio extravergine"] },
-        { nome: "Burro", qta: 10, u: "g", k: ["Burro"] },
-        { nome: "Salvia", nota: "foglie", qta: 2, u: "", k: ["Salvia"] },
-        { nome: "Vino bianco", qta: 50, u: "g", k: ["Vino bianco"] },
-        { nome: "Cerfoglio o prezzemolo", qta: 5, u: "g", k: ["Prezzemolo"] },
-        { nome: "Timo", qta: 1, u: "g", k: ["Timo"] },
-        { nome: "Succo di limone", nota: "circa 1 limone", qta: 40, u: "g", k: ["Limone"] },
-        { nome: "Sale fino", qta: 3, u: "g", base: true },
-        { nome: "Pepe nero macinato", qta: 0.5, u: "g", k: ["Pepe nero"] }
-      ]}
-    ],
-    procedimento: [
-      IND("Metti le patate con la buccia in acqua fredda, porta a bollore con il Boost, poi scendi a livello 6 e cuocile 20–25 minuti, finché sono quasi cotte. Scolale e tagliale a spicchi con la buccia, come per le patate al forno.", "Metti le patate con la buccia in acqua fredda, porta a bollore e cuocile 20–25 minuti, finché sono quasi cotte. Scolale e tagliale a spicchi con la buccia, come per le patate al forno."),
-      IND(PAD("Scalda una padella d'acciaio vuota a livello 5 per 3 minuti, poi metti burro e olio e le patate con sale, pepe e il trito di salvia e rosmarino: rosolale 10–12 minuti, girandole. Se vuoi, quando sono quasi pronte aggiungi il cipollotto tagliato fine.", "Scalda burro e olio in una padella antiaderente a livello 5 e rosola le patate con sale, pepe e il trito di salvia e rosmarino per 10–12 minuti, girandole. Se vuoi, quando sono quasi pronte aggiungi il cipollotto tagliato fine."),
-          PAD("Scalda una padella d'acciaio vuota a fuoco medio per 3 minuti, poi metti burro e olio e le patate con sale, pepe e il trito di salvia e rosmarino: rosolale 10–12 minuti, girandole. Se vuoi, quando sono quasi pronte aggiungi il cipollotto tagliato fine.", "Scalda burro e olio in una padella antiaderente a fuoco medio e rosola le patate con sale, pepe e il trito di salvia e rosmarino per 10–12 minuti, girandole. Se vuoi, quando sono quasi pronte aggiungi il cipollotto tagliato fine.")),
-      "Batti un po' le fettine e infarinale leggermente, scuotendo via la farina in eccesso.",
-      IND(PAD("Scalda l'altra padella d'acciaio vuota a livello 4 per 3 minuti, metti l'olio, pochissimo burro e la salvia, poi le scaloppine: cuocile dolcemente, devono restare bianche.", "Nell'altra padella antiaderente scalda a livello 4 l'olio, pochissimo burro e la salvia, poi le scaloppine: cuocile dolcemente, devono restare bianche."),
-          PAD("Scalda l'altra padella d'acciaio vuota a fuoco medio-basso per 3 minuti, metti l'olio, pochissimo burro e la salvia, poi le scaloppine: cuocile dolcemente, devono restare bianche.", "Nell'altra padella antiaderente scalda a fuoco medio-basso l'olio, pochissimo burro e la salvia, poi le scaloppine: cuocile dolcemente, devono restare bianche.")),
-      IND("Girale, sfuma con il vino bianco, aggiungi il cerfoglio (o il prezzemolo) e il timo, poi sale, pepe e il succo di limone. Lascia a livello 4 finché il sughetto si addensa, 1–2 minuti, e servile subito con le patate.", "Girale, sfuma con il vino bianco, aggiungi il cerfoglio (o il prezzemolo) e il timo, poi sale, pepe e il succo di limone. Lascia sul fuoco finché il sughetto si addensa, 1–2 minuti, e servile subito con le patate.")
-    ],
-    note: [
-      "Va bene qualsiasi taglio del posteriore di vitello: fatti tagliare fettine sottili dal macellaio.",
-      "Le scaloppine non vanno rosolate: devono restare bianche."
-    ]
-  },
-  {
-    id: "costoletta-milanese", img: "costoletta", aggiunta: "2026-11-11T14:40:00+01:00",
-    titolo: "Costoletta alla milanese",
-    sezione: "Secondi", sottosezione: "Carne",
-    fonte: BATTISTI("https://www.instagram.com/p/DE5YY9TsYIA/"),
-    porzioni: 2, unitaPorzioni: ["persona","persone"],
-    fasi: [
-      { nome: "Panatura", min: 10 },
-      { nome: "In frigo, panata", min: 30 },
-      { nome: "Scaldare il burro chiarificato", min: 2, max: 4 },
-      { nome: "Cottura", min: 8 },
-      { nome: "Riposo", min: 3, max: 4 }
-    ],
-    cottura: { tipo: "fornelli", gen: { dettaglio: "Fornelli, padella larga", extra: "" }, dettaglio: "Piano a induzione, padella larga", extra: "Circa 4 minuti per lato nel burro chiarificato" },
-    piastra: {
-      zona: "Zona grande, con una padella larga",
-      passi: [
-        { fase: "Burro chiarificato e salvia", livello: "6", tempo: "2–4 min" },
-        { fase: "Costolette", livello: "6", tempo: "4 min per lato" }
-      ],
-      attenzioni: ["Se il burro fuma, scendi a livello 5: la panatura brucerebbe prima che la carne sia cotta."],
-      differenza: "Il burro chiarificato regge bene il livello 6 dell'induzione; il burro normale brucerebbe."
-    },
-    strumenti: [PAD("Padella in acciaio inox larga", "Padella antiaderente larga"), "Piatto per le uova", "Piatto per il pangrattato", "Paletta"],
-    energia: [{ app: "piastra", kwh: [0.12, 0.18], come: "burro scaldato e 8 minuti di cottura" }],
-    gruppi: [
-      { nome: "Ingredienti", ingredienti: [
-        { nome: "Costolette di vitello con l'osso", nota: "2 costolette da circa 300 g", qta: 600, u: "g", k: ["Vitello"] },
-        { nome: "Uova", qta: 2, u: "", k: ["Uova"] },
-        { nome: "Pangrattato", qta: 150, u: "g", k: ["Pangrattato"] },
-        { nome: "Burro chiarificato", qta: 200, u: "g", k: ["Burro chiarificato"] },
-        { nome: "Salvia", nota: "foglie", qta: 6, u: "", k: ["Salvia"] },
-        { nome: "Sale fino", qta: 2, u: "g", base: true }
-      ]}
-    ],
-    procedimento: [
-      "Schiaccia le costolette con le mani, senza batterle.",
-      "Passale nelle uova sbattute e poi nel pangrattato, senza farina, dando forma con le mani. Mettile in frigo su un piatto per mezz'ora: la panatura aderisce bene e non si stacca in cottura.",
-      IND(PAD("Scalda il burro chiarificato nella padella d'acciaio sulla zona grande a livello 6 per 3–4 minuti, con qualche foglia di salvia.", "Scalda il burro chiarificato nella padella antiaderente sulla zona grande a livello 6 per 2 minuti, con qualche foglia di salvia."),
-          PAD("Scalda il burro chiarificato nella padella d'acciaio a fuoco medio-alto per 3–4 minuti, con qualche foglia di salvia.", "Scalda il burro chiarificato nella padella antiaderente a fuoco medio-alto per 2 minuti, con qualche foglia di salvia.")),
-      IND("Cuoci le costolette a livello 6 circa 4 minuti per lato, finché la panatura è dorata e croccante, aggiungendo salvia fresca.", "Cuoci le costolette a fuoco medio-alto circa 4 minuti per lato, finché la panatura è dorata e croccante, aggiungendo salvia fresca."),
-      "Toglile con una paletta, senza bucare la carne, e lasciale riposare 3–4 minuti, così i succhi si ridistribuiscono. Sala con il sale fino e servi."
-    ],
-    note: [
-      "Si chiama costoletta perché ha l'osso della costola.",
-      "Il burro chiarificato regge temperature più alte del burro normale: si trova già pronto.",
-      "Niente limone, che ammorbidisce la panatura: va bene con patate, purè o insalata."
-    ]
-  },
-  {
     id: "pasta-pollo-funghi", img: "pastapollo", aggiunta: "2026-11-11T14:40:00+01:00",
     titolo: "Pasta con pollo ai funghi",
     sezione: "Primi", sottosezione: "Pasta",
@@ -1604,6 +1358,258 @@ const RICETTE = [
       IND("Scolala direttamente nel tegame del sugo a livello 3 e mantecala con il pecorino per 1 minuto.", "Scolala direttamente nel tegame del sugo a fuoco basso e mantecala con il pecorino per 1 minuto.")
     ],
     note: ["Non buttare l'acqua dei funghi: filtrata, dà molto sapore al sugo."]
+  },
+  {
+    id: "scaloppine", img: "scaloppine", aggiunta: "2026-11-11T14:40:00+01:00",
+    titolo: "Scaloppine",
+    sezione: "Secondi", sottosezione: "Carne",
+    fonte: BATTISTI("https://www.instagram.com/p/DVbl_-QNlHt/"),
+    porzioni: 4, unitaPorzioni: ["persona","persone"],
+    condLabel: "Versione",
+    fasi: [
+      { nome: "Battere le fettine", min: 5 },
+      { nome: "Infarinare", min: 3 }
+    ],
+    cottura: { tipo: "fornelli", gen: { dettaglio: "Fornelli, padella", extra: "" }, dettaglio: "Piano a induzione, padella", extra: "Scaloppine cotte dolcemente, devono restare bianche" },
+    piastra: {
+      zona: "Zona grande, con una padella larga",
+      passi: [],
+      attenzioni: ["Le scaloppine non devono colorire: con la padella troppo calda diventano dure."],
+      differenza: "Il «fuoco medio» del gas sull'induzione è il livello 4, e la padella risponde subito quando abbassi."
+    },
+    strumenti: [PAD("Padella in acciaio inox", "Padella antiaderente"), "Batticarne", "Pellicola alimentare", "Piatto fondo per la farina", "Pinze"],
+    energia: [{ app: "piastra", kwh: [0.1, 0.15], come: "circa 10 minuti di padella" }],
+    gruppi: [
+      { nome: "Per infarinare", ingredienti: [
+        { nome: "Farina 00", nota: "o farina di riso", qta: 40, u: "g", k: ["Farina 00"] },
+        { nome: "Sale fino", qta: 4, u: "g", base: true },
+        { nome: "Pepe nero macinato", qta: 1, u: "g", k: ["Pepe nero"] }
+      ]},
+      { nome: "Carne e sugo", cond: true, condNome: "Carne e sugo", ingredienti: [] }
+    ],
+    procedimento: [
+      "Metti le fettine tra due fogli di pellicola e battile finché sono sottili.",
+      "Passale nella farina con un pizzico di sale e un po' di pepe, poi scuotile bene per togliere la farina in eccesso."
+    ],
+    note: [],
+    condimenti: [
+      { id: "marsala", nome: "Al Marsala", titolo: "Scaloppine al Marsala", fonte: BATTISTI("https://www.instagram.com/p/DVbl_-QNlHt/"),
+        ingredienti: [
+          { nome: "Lonza di maiale a fettine", nota: "carne molto magra", qta: 500, u: "g", k: ["Lonza di maiale"] },
+          { nome: "Olio extravergine d'oliva", qta: 20, u: "g", k: ["Olio extravergine"] },
+          { nome: "Burro", qta: 20, u: "g", k: ["Burro"] },
+          { nome: "Aglio", nota: "schiacciato con la buccia", qta: 1, u: "spicchi", k: ["Aglio"] },
+          { nome: "Rosmarino", nota: "rametto", qta: 1, u: "", k: ["Rosmarino"] },
+          { nome: "Marsala", qta: 80, u: "g", k: ["Marsala"] },
+          { nome: "Brodo di carne o vegetale", qta: 60, u: "g", k: ["Brodo"] }
+        ],
+        procedimento: [
+          IND(PAD("Scalda la padella d'acciaio vuota sulla zona grande a livello 4–5 per 3–4 minuti, poi scendi a livello 4 e metti l'olio, il burro, l'aglio e il rosmarino.", "Metti nella padella antiaderente l'olio, il burro, l'aglio e il rosmarino e scaldali sulla zona grande a livello 4 per 1 minuto."),
+              PAD("Scalda la padella d'acciaio vuota a fuoco medio per 3–4 minuti, poi abbassa un poco e metti l'olio, il burro, l'aglio e il rosmarino.", "Metti nella padella antiaderente l'olio, il burro, l'aglio e il rosmarino e scaldali a fuoco medio per 1 minuto.")),
+          IND("Metti le scaloppine, poche per volta, e cuocile a livello 4 circa 1 minuto in tutto, girandole a metà: non devono rosolare, devono restare bianche. Toglile e tienile da parte.", "Metti le scaloppine, poche per volta, e cuocile a fuoco medio circa 1 minuto in tutto, girandole a metà: non devono rosolare, devono restare bianche. Toglile e tienile da parte."),
+          IND("Versa il Marsala nel fondo di cottura, sali a livello 5 e aggiungi il brodo: lascia ridurre 2–3 minuti, finché diventa una salsina.", "Versa il Marsala nel fondo di cottura, alza un poco il fuoco e aggiungi il brodo: lascia ridurre 2–3 minuti, finché diventa una salsina."),
+          IND("Togli aglio e rosmarino, rimetti le scaloppine, scendi a livello 3 e girale nella salsina per 1 minuto. Assaggia, regola di sale e pepe e servile subito.", "Togli aglio e rosmarino, rimetti le scaloppine, abbassa il fuoco e girale nella salsina per 1 minuto. Assaggia, regola di sale e pepe e servile subito.")
+        ],
+        fasi: [
+          { nome: "Scaldare la padella", min: 2, max: 4 },
+          { nome: "Scaloppine in padella, a gruppi", min: 2, max: 4 },
+          { nome: "Marsala e brodo, salsina", min: 3, max: 4 }
+        ],
+        passi: PAD([
+          { fase: "Scaldare la padella d'acciaio vuota", livello: "4–5", tempo: "3–4 min" },
+          { fase: "Olio, burro, aglio e rosmarino", livello: "4", tempo: "30 s" },
+          { fase: "Scaloppine, a gruppi", livello: "4", tempo: "1 min" },
+          { fase: "Marsala e brodo", livello: "5", tempo: "2–3 min" },
+          { fase: "Scaloppine nella salsina", livello: "3", tempo: "1 min" }
+        ], [
+          { fase: "Olio, burro, aglio e rosmarino", livello: "4", tempo: "1 min" },
+          { fase: "Scaloppine, a gruppi", livello: "4", tempo: "1 min" },
+          { fase: "Marsala e brodo", livello: "5", tempo: "2–3 min" },
+          { fase: "Scaloppine nella salsina", livello: "3", tempo: "1 min" }
+        ]),
+        note: ["Al posto del Marsala vanno bene Porto o vino bianco: l'importante è ottenere una salsina.", "Non cuocerle troppo: la carne magra stracotta diventa dura.", "Si servono con il purè."] },
+      { id: "limone", nome: "Al limone", titolo: "Scaloppine al limone", fonte: BATTISTI("https://www.instagram.com/p/DIYf2TzoDm0/"),
+        ingredienti: [
+          { nome: "Fettine di vitello", nota: "posteriore, sottili", qta: 500, u: "g", k: ["Vitello"] },
+          { nome: "Olio extravergine d'oliva", qta: 15, u: "g", k: ["Olio extravergine"] },
+          { nome: "Burro", qta: 10, u: "g", k: ["Burro"] },
+          { nome: "Salvia", nota: "foglie", qta: 2, u: "", k: ["Salvia"] },
+          { nome: "Vino bianco", qta: 50, u: "g", k: ["Vino bianco"] },
+          { nome: "Cerfoglio o prezzemolo", qta: 5, u: "g", k: ["Prezzemolo"] },
+          { nome: "Timo", qta: 1, u: "g", k: ["Timo"] },
+          { nome: "Succo di limone", nota: "circa 1 limone", qta: 40, u: "g", k: ["Limone"] }
+        ],
+        procedimento: [
+          IND(PAD("Scalda la padella d'acciaio vuota a livello 4 per 3 minuti, metti l'olio, pochissimo burro e la salvia, poi le scaloppine: cuocile dolcemente, devono restare bianche.", "Nella padella antiaderente scalda a livello 4 l'olio, pochissimo burro e la salvia, poi metti le scaloppine: cuocile dolcemente, devono restare bianche."),
+              PAD("Scalda la padella d'acciaio vuota a fuoco medio-basso per 3 minuti, metti l'olio, pochissimo burro e la salvia, poi le scaloppine: cuocile dolcemente, devono restare bianche.", "Nella padella antiaderente scalda a fuoco medio-basso l'olio, pochissimo burro e la salvia, poi metti le scaloppine: cuocile dolcemente, devono restare bianche.")),
+          IND("Girale, sfuma con il vino bianco, aggiungi il cerfoglio (o il prezzemolo) e il timo, poi il succo di limone. Lascia a livello 4 finché il sughetto si addensa, 1–2 minuti, e servile subito con il loro sughetto.", "Girale, sfuma con il vino bianco, aggiungi il cerfoglio (o il prezzemolo) e il timo, poi il succo di limone. Lascia sul fuoco finché il sughetto si addensa, 1–2 minuti, e servile subito con il loro sughetto.")
+        ],
+        fasi: [
+          { nome: "Scaldare la padella", min: 1, max: 3 },
+          { nome: "Scaloppine", min: 3, max: 4 },
+          { nome: "Vino, erbe e limone", min: 2 }
+        ],
+        passi: PAD([
+          { fase: "Scaldare la padella d'acciaio vuota", livello: "4", tempo: "3 min" },
+          { fase: "Scaloppine con olio, burro e salvia", livello: "4", tempo: "2–3 min" },
+          { fase: "Vino, erbe e limone", livello: "4", tempo: "1–2 min" }
+        ], [
+          { fase: "Olio, burro e salvia", livello: "4", tempo: "1 min" },
+          { fase: "Scaloppine", livello: "4", tempo: "2–3 min" },
+          { fase: "Vino, erbe e limone", livello: "4", tempo: "1–2 min" }
+        ]),
+        note: ["Va bene qualsiasi taglio del posteriore di vitello: fatti tagliare fettine sottili dal macellaio."] }
+    ]
+  },
+  {
+    id: "costoletta-di-vitello", img: "costoletta", aggiunta: "2026-11-11T14:40:00+01:00",
+    titolo: "Costoletta di vitello",
+    sezione: "Secondi", sottosezione: "Carne",
+    fonte: BATTISTI("https://www.instagram.com/p/DE5YY9TsYIA/"),
+    porzioni: 2, unitaPorzioni: ["persona","persone"],
+    condLabel: "Panatura",
+    fasi: [],
+    cottura: { tipo: "fornelli", gen: { dettaglio: "Fornelli, padella larga", extra: "" }, dettaglio: "Piano a induzione, padella larga", extra: "3–4 minuti per lato" },
+    piastra: {
+      zona: "Zona grande, con una padella larga",
+      passi: [],
+      attenzioni: ["Se il grasso fuma, scendi a livello 5: la panatura brucerebbe prima che la carne sia cotta."],
+      differenza: "Sull'induzione il grasso arriva in temperatura in pochi minuti e la tiene anche quando metti la carne fredda."
+    },
+    strumenti: [PAD("Padella in acciaio inox larga", "Padella antiaderente larga"), "Piatto per le uova", "Piatto per la panatura", "Paletta"],
+    energia: [{ app: "piastra", kwh: [0.12, 0.2], come: "grasso scaldato e 8–10 minuti di cottura" }],
+    gruppi: [
+      { nome: "Costolette", ingredienti: [
+        { nome: "Costolette di vitello con l'osso", nota: "2 costolette da circa 300 g", qta: 600, u: "g", k: ["Vitello"] },
+        { nome: "Uova", qta: 2, u: "", k: ["Uova"] },
+        { nome: "Sale fino", qta: 2, u: "g", base: true }
+      ]},
+      { nome: "Panatura e frittura", cond: true, condNome: "Panatura e frittura", ingredienti: [] },
+      { nome: "Salsa", cond: "salsa", condNome: "Salsa", ingredienti: [] }
+    ],
+    procedimento: [
+      "Schiaccia un po' le costolette con le mani, senza batterle."
+    ],
+    note: [
+      "Si chiama costoletta perché ha l'osso della costola.",
+      "Niente limone, che ammorbidisce la panatura: va bene con patate, purè o insalata."
+    ],
+    condimenti: [
+      { id: "milanese", nome: "Alla milanese (pangrattato)", titolo: "Costoletta alla milanese", fonte: BATTISTI("https://www.instagram.com/p/DE5YY9TsYIA/"),
+        ingredienti: [
+          { nome: "Pangrattato", qta: 150, u: "g", k: ["Pangrattato"] },
+          { nome: "Burro chiarificato", qta: 200, u: "g", k: ["Burro chiarificato"] },
+          { nome: "Salvia", nota: "foglie", qta: 6, u: "", k: ["Salvia"] }
+        ],
+        procedimento: [
+          "Passale nelle uova sbattute e poi nel pangrattato, senza farina, dando forma con le mani. Mettile in frigo su un piatto per mezz'ora: la panatura aderisce bene e non si stacca in cottura.",
+          IND(PAD("Scalda il burro chiarificato nella padella d'acciaio sulla zona grande a livello 6 per 3–4 minuti, con qualche foglia di salvia.", "Scalda il burro chiarificato nella padella antiaderente sulla zona grande a livello 6 per 2 minuti, con qualche foglia di salvia."),
+              PAD("Scalda il burro chiarificato nella padella d'acciaio a fuoco medio-alto per 3–4 minuti, con qualche foglia di salvia.", "Scalda il burro chiarificato nella padella antiaderente a fuoco medio-alto per 2 minuti, con qualche foglia di salvia.")),
+          IND("Cuoci le costolette a livello 6 circa 4 minuti per lato, finché la panatura è dorata e croccante, aggiungendo salvia fresca.", "Cuoci le costolette a fuoco medio-alto circa 4 minuti per lato, finché la panatura è dorata e croccante, aggiungendo salvia fresca."),
+          "Toglile con una paletta, senza bucare la carne, e lasciale riposare 3–4 minuti, così i succhi si ridistribuiscono. Sala con il sale fino, non a scaglie."
+        ],
+        fasi: [
+          { nome: "Panatura", min: 10 },
+          { nome: "In frigo, panata", min: 30 },
+          { nome: "Scaldare il burro chiarificato", min: 2, max: 4 },
+          { nome: "Cottura", min: 8 },
+          { nome: "Riposo", min: 3, max: 4 }
+        ],
+        passi: [
+          { fase: "Burro chiarificato e salvia", livello: "6", tempo: "2–4 min" },
+          { fase: "Costolette", livello: "6", tempo: "4 min per lato" }
+        ],
+        note: ["Il burro chiarificato regge temperature più alte del burro normale: si trova già pronto."] },
+      { id: "erbe", nome: "Mollica, grissini e salvia", titolo: "Costoletta di vitello alle erbe", fonte: BATTISTI("https://www.instagram.com/p/DW1tMp2ikGp/"),
+        ingredienti: [
+          { nome: "Mollica di pane casereccio", nota: "fresca", qta: 120, u: "g", k: ["Pane"] },
+          { nome: "Grissini", qta: 40, u: "g", k: ["Grissini"] },
+          { nome: "Salvia", nota: "per la panatura", qta: 4, u: "g", k: ["Salvia"] },
+          { nome: "Olio di semi di arachide", qta: 100, u: "g", k: ["Olio di semi"] },
+          { nome: "Burro chiarificato", qta: 100, u: "g", k: ["Burro chiarificato"] },
+          { nome: "Salvia", nota: "foglie", qta: 10, u: "", k: ["Salvia"] }
+        ],
+        procedimento: [
+          "Frulla la mollica fresca con i grissini spezzati e la salvia: deve restare leggermente umida, e se è troppo secca bagnala appena.",
+          "Passa le costolette nelle uova sbattute e poi nella panatura, premendo bene soprattutto vicino all'osso. Lasciale riposare un quarto d'ora: la panatura si attacca alla carne.",
+          IND(PAD("Intanto scalda nella padella d'acciaio l'olio e il burro chiarificato sulla zona grande a livello 6: l'olio dà continuità di cottura, il burro la doratura.", "Intanto scalda nella padella antiaderente l'olio e il burro chiarificato sulla zona grande a livello 6: l'olio dà continuità di cottura, il burro la doratura."),
+              PAD("Intanto scalda nella padella d'acciaio l'olio e il burro chiarificato a fuoco medio-alto: l'olio dà continuità di cottura, il burro la doratura.", "Intanto scalda nella padella antiaderente l'olio e il burro chiarificato a fuoco medio-alto: l'olio dà continuità di cottura, il burro la doratura.")),
+          IND("Friggi le costolette a livello 6 almeno 3 minuti per lato, schiacciando bene la parte vicino all'osso, che è più alta.", "Friggi le costolette a fuoco medio-alto almeno 3 minuti per lato, schiacciando bene la parte vicino all'osso, che è più alta."),
+          IND("Aggiungi le foglie di salvia e continua a livello 6 per altri 3–4 minuti, girandole, finché sono ben dorate: la salvia profuma il grasso e lo tiene pulito. Se friggi in più volte, cambia la salvia.", "Aggiungi le foglie di salvia e continua per altri 3–4 minuti, girandole, finché sono ben dorate: la salvia profuma il grasso e lo tiene pulito. Se friggi in più volte, cambia la salvia."),
+          "Toglile con la paletta, lasciale riposare qualche minuto e salale con il sale fino, non a scaglie."
+        ],
+        fasi: [
+          { nome: "Panatura", min: 10 },
+          { nome: "Riposo delle costolette panate", min: 15 },
+          { nome: "Scaldare olio e burro chiarificato", min: 3, max: 4, parallelo: true },
+          { nome: "Frittura", min: 9, max: 10 },
+          { nome: "Riposo", min: 3 }
+        ],
+        passi: [
+          { fase: "Olio e burro chiarificato", livello: "6", tempo: "3–4 min" },
+          { fase: "Costolette", livello: "6", tempo: "3 min per lato" },
+          { fase: "Con la salvia fresca", livello: "6", tempo: "3–4 min" }
+        ],
+        strumenti: ["Mixer"],
+        note: ["La stessa panatura va bene per altre carni e per le verdure; il pane fresco, leggermente umido, rende la frittura più croccante."] }
+    ],
+    altreScelte: [{ key: "salsa", label: "Salsa", items: [
+      { id: "nessuna", nome: "Senza salsa", nascondi: true, ingredienti: [] },
+      { id: "maionese-aglio-orsino", nome: "Maionese all'aglio orsino", fonte: BATTISTI("https://www.instagram.com/p/DW1tMp2ikGp/"),
+        ingredienti: [
+          { nome: "Aglio orsino fresco", qta: 20, u: "g", k: ["Aglio orsino"] },
+          { nome: "Olio di semi", qta: 150, u: "g", k: ["Olio di semi"] },
+          { nome: "Tuorlo", qta: 1, u: "", k: ["Uova"] },
+          { nome: "Succo di limone", qta: 10, u: "g", k: ["Limone"] },
+          { nome: "Sale fino", qta: 1, u: "g", base: true }
+        ],
+        prima: ["Per la maionese frulla l'aglio orsino con l'olio di semi e filtra l'olio verde con un colino. Monta il tuorlo con il succo di limone e il sale con il frullatore a immersione, versando l'olio a filo finché la maionese è densa. Tienila in frigo."],
+        dopo: ["Servi le costolette con la maionese all'aglio orsino."],
+        fasiPrima: [{ nome: "Maionese all'aglio orsino", min: 10 }],
+        strumenti: ["Frullatore a immersione", "Colino"],
+        note: ["L'aglio orsino si trova in primavera."] }
+    ] }]
+  },
+  {
+    id: "pure-di-patate", img: "pure", aggiunta: "2026-11-11T15:20:00+01:00",
+    titolo: "Purè di patate",
+    sezione: "Contorni", sottosezione: "Patate",
+    porzioni: 4, unitaPorzioni: ["persona","persone"],
+    fasi: [
+      { nome: "Patate in acqua fredda fino al bollore", min: 8, max: 10 },
+      { nome: "Patate a bollore leggero", min: 30, max: 40 },
+      { nome: "Sbucciare e schiacciare", min: 5 },
+      { nome: "Latte, burro e frusta", min: 3, max: 4 }
+    ],
+    cottura: { tipo: "fornelli", gen: { dettaglio: "Fornelli, pentola e pentolino", extra: "" }, dettaglio: "Piano a induzione, pentola e pentolino", extra: "Patate 30–40 minuti dal bollore" },
+    piastra: {
+      zona: "Zona grande per la pentola, zona piccola per il pentolino",
+      passi: [
+        { fase: "Patate in acqua fredda fino al bollore", livello: "Boost", tempo: "8–10 min" },
+        { fase: "Patate a bollore leggero", livello: "6", tempo: "30–40 min" },
+        { fase: "Latte e burro nel pentolino", livello: "4", tempo: "2–3 min" }
+      ],
+      attenzioni: ["Il latte non deve bollire: toglilo appena fuma."],
+      differenza: "Con il Boost l'acqua arriva in fretta al bollore; a livello 6 resta un bollore leggero che non sfalda le patate."
+    },
+    strumenti: ["Pentola", "Schiacciapatate", "Pentolino", "Frusta"],
+    energia: [{ app: "piastra", kwh: [0.35, 0.45], come: "patate lesse 40 minuti e latte scaldato" }],
+    gruppi: [
+      { nome: "Ingredienti", ingredienti: [
+        { nome: "Patate a pasta farinosa", qta: 800, u: "g", k: ["Patate"] },
+        { nome: "Acqua per lessarle", qta: 2000, u: "g", base: true },
+        { nome: "Latte intero", qta: 200, u: "g", k: ["Latte"] },
+        { nome: "Burro", qta: 50, u: "g", k: ["Burro"] },
+        { nome: "Sale fino", qta: 5, u: "g", base: true },
+        { nome: "Noce moscata", nota: "facoltativo", qta: 0.4, u: "g", k: ["Noce moscata"] }
+      ]}
+    ],
+    procedimento: [
+      IND("Metti le patate intere con la buccia in una pentola d'acqua fredda, porta a bollore sulla zona grande con il Boost, poi scendi a livello 6 e cuocile 30–40 minuti, finché la forchetta entra senza fatica.", "Metti le patate intere con la buccia in una pentola d'acqua fredda, porta a bollore e cuocile 30–40 minuti, finché la forchetta entra senza fatica."),
+      "Sbucciale e schiacciale con lo schiacciapatate finché sono ancora calde.",
+      IND("Scalda il latte con il burro in un pentolino a livello 4, senza farlo bollire, versalo sulle patate e mescola con la frusta insieme al sale e, se vuoi, alla noce moscata, finché il purè è liscio.", "Scalda il latte con il burro in un pentolino senza farlo bollire, versalo sulle patate e mescola con la frusta insieme al sale e, se vuoi, alla noce moscata, finché il purè è liscio.")
+    ],
+    note: ["Con il brasato, fai un incavo nel purè per tenere il sugo."]
   },
   {
     id: "minestrone-di-verdure", img: "minestrone",
@@ -1747,18 +1753,16 @@ const RICETTE = [
   },
   {
     id: "arrosto-scottona-vino-rosso", img: "arrosto",
-    titolo: "Arrosto di scottona al vino rosso in pentola di ghisa",
+    titolo: "Arrosto o stracotto di scottona al vino rosso",
     sezione: "Secondi", sottosezione: "Carne",
     porzioni: 4, unitaPorzioni: ["persona","persone"],
+    condLabel: "Versione",
     fasi: [
       { nome: "Carne fuori dal frigo", min: 60 },
       { nome: "Pulire le verdure", min: 5, parallelo: true },
       { nome: "Sigillatura su tutti i lati", min: 16, max: 20 },
       { nome: "Fondo aromatico", min: 5, max: 7 },
-      { nome: "Sfumatura con il vino", min: 3, max: 4 },
-      { nome: { casa: "induzione", si: "Cottura lenta a livello 2", no: "Cottura lenta a fuoco minimo" }, min: 120, max: 150 },
-      { nome: "Riposo a fuoco spento", min: 15, max: 20 },
-      { nome: "Salsa e servizio", min: 5 }
+      { nome: "Sfumatura con il vino", min: 3, max: 4 }
     ],
     cottura: { tipo: "fornelli", gen: { dettaglio: "Pentola di ghisa sul fuoco", extra: "Fuoco minimo con il coperchio, 2 h – 2 h 30 min" }, dettaglio: "Piano a induzione, pentola di ghisa", extra: "Livello 2 con il coperchio, 2 h – 2 h 30 min" },
     piastra: {
@@ -1767,9 +1771,7 @@ const RICETTE = [
         { fase: "Scaldare la ghisa vuota, piano piano", livello: "5", tempo: "3–4 min" },
         { fase: "Sigillatura con olio e burro", livello: "7–8", tempo: "16–20 min" },
         { fase: "Fondo aromatico", livello: "4–5", tempo: "5–7 min" },
-        { fase: "Sfumatura con il vino", livello: "8", tempo: "3–4 min" },
-        { fase: "Cottura lenta con il coperchio", livello: "2", tempo: "2 h – 2 h 30 min" },
-        { fase: "Riposo", livello: "spento", tempo: "15–20 min" }
+        { fase: "Sfumatura con il vino", livello: "8", tempo: "3–4 min" }
       ],
       attenzioni: [
         "Non usare il Boost con la ghisa: si scalda troppo in fretta e in modo non uniforme, e lo smalto o il fondo possono rovinarsi.",
@@ -1780,7 +1782,7 @@ const RICETTE = [
       differenza: "Rispetto a un fornello a gas l'induzione scalda prima e più forte: dove la ricetta dice «fuoco medio-alto» usa 7–8, non il massimo, e la «fiamma minima» corrisponde al livello 2. La ghisa però trattiene tanto calore e reagisce lentamente: quando abbassi, aspetta un paio di minuti prima di correggere ancora."
     },
     strumenti: ["Pentola di ghisa con coperchio pesante", "Spago da cucina", "Pinze", "Cucchiaio di legno", "Frullatore a immersione"],
-    energia: [{ app: "piastra", kwh: [0.95, 1.2], come: { casa: "induzione", si: "rosolatura forte e 2 ore e mezza a livello 2", no: "rosolatura forte e 2 ore e mezza a fuoco minimo" } }],
+    energia: [],
     gruppi: [
       { nome: "Carne", ingredienti: [
         { nome: "Scottona", nota: "un pezzo unico, legato con lo spago", qta: 930, u: "g", k: ["Scottona"] },
@@ -1797,24 +1799,59 @@ const RICETTE = [
         { nome: "Salvia", nota: "foglie", qta: 4, u: "", k: ["Salvia"] },
         { nome: "Alloro", nota: "foglie", qta: 2, u: "", k: ["Alloro"] },
         { nome: "Vino rosso fermo e corposo", nota: "un bicchiere abbondante: Barbera, Chianti o Valpolicella", qta: 190, u: "g", k: ["Vino rosso"] },
-        { nome: "Brodo di carne o vegetale ben caldo", nota: "da 500 a 700 g, poco alla volta", qta: 600, u: "g", k: ["Brodo"] },
         { nome: "Concentrato di pomodoro", nota: "facoltativo, sciolto nel brodo", qta: 20, u: "g", k: ["Concentrato di pomodoro"] }
-      ]}
+      ]},
+      { nome: "Cottura lenta", cond: true, condNome: "Cottura lenta", ingredienti: [] }
     ],
     procedimento: [
       "Togli la scottona dal frigo almeno 1 ora prima. Asciugala bene con carta da cucina e massaggiala su tutti i lati con un generoso pizzico di sale e pepe.",
       "Pulisci le verdure lasciandole intere: sbuccia la cipolla (se è molto grande tagliala a metà), pela la carota e togli i filamenti più duri al sedano. Lega insieme rosmarino, salvia e alloro.",
       { casa: "induzione", si: "Scalda la pentola di ghisa vuota sulla zona giusta, 3–4 minuti a livello 5, poi aggiungi olio e burro e porta a livello 7–8. Quando il burro schiuma metti la carne e sigillala 4 minuti per lato, compresi i lati corti, girandola con le pinze senza bucarla: deve formarsi una crosta scura. Togli la carne e tienila da parte su un piatto.", no: "Scalda la pentola di ghisa vuota a fuoco medio per 3–4 minuti, poi aggiungi olio e burro e alza a fuoco medio-alto. Quando il burro schiuma metti la carne e sigillala 4 minuti per lato, compresi i lati corti, girandola con le pinze senza bucarla: deve formarsi una crosta scura. Togli la carne e tienila da parte su un piatto." },
       { casa: "induzione", si: "Scendi a livello 4–5. Nella stessa pentola metti le verdure intere, l'aglio e il mazzetto di erbe e falle rosolare 5–7 minuti girandole, finché prendono colore su tutti i lati, grattando il fondo con il cucchiaio di legno per staccare i succhi della carne. Intere non si sfaldano e cedono il sapore piano piano durante la cottura lunga.", no: "Abbassa a fuoco medio-basso. Nella stessa pentola metti le verdure intere, l'aglio e il mazzetto di erbe e falle rosolare 5–7 minuti girandole, finché prendono colore su tutti i lati, grattando il fondo con il cucchiaio di legno per staccare i succhi della carne. Intere non si sfaldano e cedono il sapore piano piano durante la cottura lunga." },
-      { casa: "induzione", si: "Rimetti la carne nella pentola con i succhi rimasti nel piatto. Porta a livello 8, versa il vino rosso sopra la carne e lascialo evaporare 3–4 minuti, finché non senti più l'odore dell'alcol.", no: "Rimetti la carne nella pentola con i succhi rimasti nel piatto. Alza a fuoco vivo, versa il vino rosso sopra la carne e lascialo evaporare 3–4 minuti, finché non senti più l'odore dell'alcol." },
+      { casa: "induzione", si: "Rimetti la carne nella pentola con i succhi rimasti nel piatto. Porta a livello 8, versa il vino rosso sopra la carne e lascialo evaporare 3–4 minuti, finché non senti più l'odore dell'alcol.", no: "Rimetti la carne nella pentola con i succhi rimasti nel piatto. Alza a fuoco vivo, versa il vino rosso sopra la carne e lascialo evaporare 3–4 minuti, finché non senti più l'odore dell'alcol." }
+    ],
+    condimenti: [
+      { id: "arrosto", nome: "Arrosto", titolo: "Arrosto di scottona al vino rosso",
+        ingredienti: [{ nome: "Brodo di carne o vegetale ben caldo", nota: "da 500 a 700 g, poco alla volta", qta: 600, u: "g", k: ["Brodo"] }],
+        procedimento: [
       { casa: "induzione", si: "Scendi a livello 2 e aggiungi due mestoli di brodo bollente, in cui se vuoi hai sciolto il concentrato di pomodoro: il liquido deve arrivare a poco meno di metà della carne. Chiudi con il coperchio e cuoci 2 ore – 2 ore e mezza.", no: "Abbassa al minimo e aggiungi due mestoli di brodo bollente, in cui se vuoi hai sciolto il concentrato di pomodoro: il liquido deve arrivare a poco meno di metà della carne. Chiudi con il coperchio e cuoci 2 ore – 2 ore e mezza." },
       "Ogni 30–40 minuti gira la carne e controlla il liquido: se il fondo si asciuga, aggiungi un mestolo di brodo caldo.",
       "La carne è pronta quando la forchetta affonda senza resistenza e tende ad aprirsi. Spegni il fuoco e lascia riposare la carne nella pentola chiusa per 15–20 minuti.",
       "Togli lo spago e taglia fette spesse con un coltello molto affilato, oppure sfilaccia la carne con due forchette. Togli dal fondo le erbe e l'aglio; le verdure intere a questo punto sono morbidissime: frullale con il fondo con il frullatore a immersione e versa la salsa bollente sulla carne."
+        ],
+        fasi: [
+          { nome: { casa: "induzione", si: "Cottura lenta a livello 2", no: "Cottura lenta a fuoco minimo" }, min: 120, max: 150 },
+          { nome: "Riposo a fuoco spento", min: 15, max: 20 },
+          { nome: "Salsa e servizio", min: 5 }
+        ],
+        passi: [
+          { fase: "Cottura lenta con il coperchio", livello: "2", tempo: "2 h – 2 h 30 min" },
+          { fase: "Riposo", livello: "spento", tempo: "15–20 min" }
+        ],
+        energia: [{ app: "piastra", kwh: [0.95, 1.2], come: { casa: "induzione", si: "rosolatura forte e 2 ore e mezza a livello 2", no: "rosolatura forte e 2 ore e mezza a fuoco minimo" } }] },
+      { id: "stracotto", nome: "Stracotto", titolo: "Stracotto di scottona al vino rosso",
+        ingredienti: [{ nome: "Brodo di carne o vegetale ben caldo", nota: "da 800 a 1.000 g, poco alla volta", qta: 900, u: "g", k: ["Brodo"] }],
+        procedimento: [
+          { casa: "induzione", si: "Scendi a livello 2 e aggiungi brodo bollente, in cui se vuoi hai sciolto il concentrato di pomodoro, fino a metà della carne. Chiudi con il coperchio e, quando il liquido riprende a fremere, lascia a livello 1–2: cuoci 3 ore e mezza – 4 ore.", no: "Abbassa al minimo e aggiungi brodo bollente, in cui se vuoi hai sciolto il concentrato di pomodoro, fino a metà della carne. Chiudi con il coperchio e cuoci al minimo 3 ore e mezza – 4 ore: il liquido deve appena fremere." },
+          "Ogni 30–40 minuti gira la carne e controlla il liquido: deve arrivare sempre a metà della carne, se cala aggiungi un mestolo di brodo caldo.",
+          "Lo stracotto è pronto quando la carne si sfalda da sola toccandola con la forchetta. Spegni e lascia riposare nella pentola chiusa per 15–20 minuti.",
+          "Togli lo spago e servi la carne a pezzi grossi o sfilacciata con due forchette. Togli dal fondo le erbe e l'aglio, frulla le verdure con il fondo con il frullatore a immersione e versa la salsa bollente sulla carne."
+        ],
+        fasi: [
+          { nome: { casa: "induzione", si: "Stracotto a livello 1–2", no: "Stracotto a fuoco minimo" }, min: 210, max: 240, tag: "stracotto-scottona" },
+          { nome: "Riposo a fuoco spento", min: 15, max: 20 },
+          { nome: "Salsa e servizio", min: 5 }
+        ],
+        passi: [
+          { fase: "Stracotto con il coperchio", livello: "1–2", tempo: "3 h 30 min – 4 h" },
+          { fase: "Riposo", livello: "spento", tempo: "15–20 min" }
+        ],
+        energia: [{ app: "piastra", kwh: [1.3, 1.6], come: { casa: "induzione", si: "rosolatura forte e 4 ore a livello 1–2", no: "rosolatura forte e 4 ore a fuoco minimo" } }],
+        note: ["Per lo stracotto vanno bene i tagli ricchi di collagene: cappello del prete, reale, guancia."] }
     ],
     note: [
       "Tagli adatti da chiedere al macellaio: cappello del prete (copertina di spalla), che resta morbidissimo; scamone o sottofesa, più magri, per fette pulite; reale, saporito ed economico.",
-      "Il tempo di cottura dipende dal peso: per una cottura normale conta circa 45–50 minuti per chilo; per l'effetto sfaldato, come qui, circa 2 ore – 2 ore e mezza per un pezzo di circa 1 kg.",
+      "Il tempo di cottura dipende dal peso: per l'arrosto conta circa 2 ore – 2 ore e mezza per un pezzo di circa 1 kg, per lo stracotto 3 ore e mezza – 4 ore.",
       "Contorni che stanno bene con la salsa al vino: patate fondenti cotte nella stessa pentola, oppure purè."
     ]
   },
@@ -1987,6 +2024,7 @@ const ART = {
   toastcipolle: `<svg viewBox="0 0 160 120" aria-hidden="true"><ellipse cx="80" cy="108" rx="62" ry="6" fill="#000" opacity=".08"/><rect x="18" y="46" width="124" height="54" rx="10" fill="#c99a5c"/><rect x="22" y="50" width="116" height="46" rx="8" fill="#e2b778"/><path d="M36 70c0-14 12-22 30-22s30 8 30 22-12 20-30 20-30-6-30-20z" fill="#d79a3c"/><path d="M38 70h56" stroke="#7a4a1c" stroke-width="5"/><path d="M40 72c8 4 16 2 22 6s18 2 30-4" stroke="#f4dd8a" stroke-width="3" fill="none"/><g stroke="#b27a2a" stroke-width="1.6" opacity=".6"><path d="M48 58l10 8M60 54l12 10M74 54l10 8"/></g><path d="M86 66c4-14 20-22 34-14 10 6 10 22-2 30-12 8-30 4-32-6z" fill="#c78a34"/><path d="M90 70c6 2 18 2 26-4" stroke="#f4dd8a" stroke-width="3" fill="none"/><path d="M92 68c8-2 16-6 24-2" stroke="#6b3a14" stroke-width="3" fill="none"/></svg>`,
   sbrisolona: `<svg viewBox="0 0 160 120" aria-hidden="true"><ellipse cx="80" cy="108" rx="62" ry="6" fill="#000" opacity=".08"/><ellipse cx="80" cy="66" rx="64" ry="40" fill="#f3f1ec" stroke="#d7d2c8" stroke-width="2"/><g fill="#d9a441"><path d="M30 64l18-14 16 8-6 18-20 2z"/><path d="M62 52l22-8 14 12-12 14-20-4z"/><path d="M98 52l20 2 8 14-14 10-16-8z"/><path d="M50 78l18-4 12 12-12 10-16-6z"/><path d="M84 76l20 0 6 12-16 8-14-8z"/></g><g fill="#b98128" opacity=".7"><circle cx="46" cy="62" r="2"/><circle cx="74" cy="56" r="2"/><circle cx="108" cy="62" r="2"/><circle cx="62" cy="86" r="2"/><circle cx="96" cy="84" r="2"/></g><g fill="#8a5a2a"><ellipse cx="56" cy="68" rx="4" ry="3.3"/><ellipse cx="88" cy="64" rx="4" ry="3.3"/><ellipse cx="116" cy="72" rx="4" ry="3.3"/><ellipse cx="74" cy="86" rx="4" ry="3.3"/></g><g fill="#a4142a"><circle cx="128" cy="44" r="6"/><circle cx="138" cy="50" r="5"/></g><path d="M128 38c2-8 8-12 12-12M138 45c0-6 2-12 2-19" stroke="#3f6a2a" stroke-width="1.6" fill="none"/></svg>`,
   pastapollo: `<svg viewBox="0 0 160 120" aria-hidden="true"><ellipse cx="80" cy="108" rx="62" ry="6" fill="#000" opacity=".08"/><ellipse cx="80" cy="64" rx="64" ry="44" fill="#f3f1ec" stroke="#d7d2c8" stroke-width="2"/><g fill="none" stroke="#efd38a" stroke-width="7" stroke-linecap="round"><path d="M42 62c14-12 32-12 46-2s28 8 34-2"/><path d="M44 76c14-10 34-10 46-2s24 6 30-4"/></g><g fill="none" stroke="#e0bd6a" stroke-width="2"><path d="M42 62c14-12 32-12 46-2s28 8 34-2"/></g><g fill="#c99a68"><path d="M58 56l10-3 4 8-10 3z"/><path d="M92 62l12-2 2 8-12 2z"/><path d="M70 74l10 0 1 8-11 0z"/></g><g fill="#7a5232"><ellipse cx="80" cy="56" rx="6" ry="4"/><ellipse cx="104" cy="78" rx="5" ry="3.5"/><ellipse cx="56" cy="80" rx="5" ry="3.5"/></g><g fill="#f4f1e8"><circle cx="66" cy="66" r="1.6"/><circle cx="88" cy="70" r="1.6"/><circle cx="98" cy="58" r="1.4"/><circle cx="76" cy="82" r="1.4"/></g></svg>`,
+  pure: `<svg viewBox="0 0 160 120" aria-hidden="true"><ellipse cx="80" cy="108" rx="62" ry="6" fill="#000" opacity=".08"/><ellipse cx="80" cy="64" rx="64" ry="44" fill="#f3f1ec" stroke="#d7d2c8" stroke-width="2"/><path d="M40 70c-2-16 14-28 40-28s44 12 40 28c-4 14-22 20-40 20s-38-6-40-20z" fill="#f6e7b0"/><path d="M50 64c8-10 22-14 34-12M60 74c12 4 28 4 40-4M54 56c6-4 14-6 22-6" stroke="#e8d38a" stroke-width="3" fill="none" stroke-linecap="round"/><ellipse cx="82" cy="62" rx="9" ry="5" fill="#f7d36a"/><ellipse cx="80" cy="61" rx="4" ry="2" fill="#fbe7a0"/><g fill="#3f7a35"><circle cx="66" cy="60" r="1.4"/><circle cx="96" cy="68" r="1.4"/><circle cx="72" cy="72" r="1.2"/></g></svg>`,
   aglioolio: `<svg viewBox="0 0 160 120" aria-hidden="true"><ellipse cx="80" cy="66" rx="64" ry="44" fill="#f3f1ec" stroke="#d7d2c8" stroke-width="2"/><ellipse cx="80" cy="66" rx="44" ry="30" fill="#efe6cf"/><g fill="none" stroke="#e7c873" stroke-width="3" stroke-linecap="round"><path d="M50 64c10-14 26-14 34-2s22 12 30-2"/><path d="M48 72c12-12 28-10 36 0s22 10 30-4"/><path d="M54 80c10-8 24-8 32 0s20 6 26-4"/><path d="M58 56c8-8 20-8 28 0s18 6 22-2"/><path d="M60 86c8-4 18-4 26 0"/></g><g fill="#3f7a35"><circle cx="66" cy="60" r="1.6"/><circle cx="90" cy="70" r="1.6"/><circle cx="78" cy="78" r="1.6"/><circle cx="100" cy="62" r="1.6"/><circle cx="58" cy="74" r="1.6"/></g><g fill="#c8321e"><rect x="72" y="64" width="4" height="2" rx="1"/><rect x="94" y="78" width="4" height="2" rx="1"/><rect x="62" y="68" width="4" height="2" rx="1" transform="rotate(30 64 69)"/><rect x="86" y="58" width="4" height="2" rx="1"/></g></svg>`,
   frolla: `<svg viewBox="0 0 160 120" aria-hidden="true"><ellipse cx="80" cy="106" rx="62" ry="6" fill="#000" opacity=".08"/><ellipse cx="80" cy="68" rx="62" ry="34" fill="#c98a3c"/><ellipse cx="80" cy="64" rx="58" ry="30" fill="#e6b265"/><ellipse cx="80" cy="64" rx="48" ry="23" fill="#b8342a"/><g stroke="#e6b265" stroke-width="6" stroke-linecap="round"><path d="M50 50l40 30M70 44l40 30M42 64l34 24M90 42l30 22"/><path d="M110 50l-40 30M90 44l-40 30M118 64l-34 24M70 42l-30 22"/></g></svg>`,
   carbonara: `<svg viewBox="0 0 160 120" aria-hidden="true"><ellipse cx="80" cy="66" rx="64" ry="44" fill="#f3f1ec" stroke="#d7d2c8" stroke-width="2"/><ellipse cx="80" cy="66" rx="44" ry="30" fill="#efc65a"/><g fill="none" stroke="#e2b23e" stroke-width="3" stroke-linecap="round"><path d="M50 62 q15 -14 30 0 t30 0"/><path d="M48 72 q16 -12 32 0 t32 0"/><path d="M56 54 q12 -10 24 0 t24 0"/><path d="M58 82 q11 -8 22 0 t22 0"/></g><g fill="#a5462f"><rect x="62" y="58" width="7" height="6" rx="1.5"/><rect x="88" y="66" width="7" height="6" rx="1.5"/><rect x="76" y="76" width="7" height="6" rx="1.5"/><rect x="96" y="54" width="6" height="5" rx="1.5"/><rect x="56" y="70" width="6" height="5" rx="1.5"/></g><g fill="#f4e7d0"><rect x="64" y="58" width="3" height="2"/><rect x="90" y="66" width="3" height="2"/></g><g fill="#2b2b2b"><circle cx="70" cy="52" r="1"/><circle cx="84" cy="60" r="1"/><circle cx="100" cy="74" r="1"/><circle cx="62" cy="78" r="1"/><circle cx="92" cy="84" r="1"/></g><g fill="#fffaf0" opacity=".9"><circle cx="74" cy="66" r="1.4"/><circle cx="86" cy="76" r="1.4"/><circle cx="96" cy="62" r="1.4"/></g></svg>`,
@@ -2037,13 +2075,17 @@ function condSaved(){ try { return JSON.parse(localStorage.getItem("ricettario-c
 function sceltaValida(r, x){ const o = typeof x === "string" ? { c: x } : (x || {}); const out = {}; DIMS(r).forEach(d => { out[d.key] = d.items.some(i => i.id === o[d.key]) ? o[d.key] : d.items[0].id; }); return out; }
 function condSel(r){ return sceltaValida(r, condSaved()[r.id]); }
 function sceltaItems(r, sc){ return DIMS(r).map(d => d.items.find(i => i.id === sc[d.key]) || d.items[0]); }
+/* nome del piatto per i menù: il titolo della versione scelta, se c'è, e sotto le altre scelte */
+function piattoNome(r){ if (!hasDims(r)) return { titolo: senzaFonte(r.titolo), sotto: "" }; const its = sceltaItems(r, r.scelta), t = its.filter(i => i.titolo).pop(); return { titolo: t ? t.titolo : senzaFonte(r.titolo), sotto: its.filter(i => !i.titolo && !i.nascondi).map(i => i.nome.toLowerCase()).join(", ") }; }
 function sceltaNome(r, sc){ return sceltaItems(r, sc).map((it, k) => k ? it.nome.toLowerCase() : it.nome).join(", "); }
 function applyCond(r, sc){
   if (!hasDims(r)) return;
-  if (!r._base) r._base = { proc: r.procedimento.slice(), note: (r.noteFisse || r.note || []).slice(), fasi: r.fasi.map(f => ({ ...f })), strumenti: (r.strumenti || []).slice(), energia: (r.energia || []).slice(), passi: r.piastra ? r.piastra.passi.slice() : null, attenzioni: r.piastra ? (r.piastra.attenzioni || []).slice() : null };
+  if (!r._base) r._base = { gruppi: r.gruppi.slice(), fonte: r.fonte, proc: r.procedimento.slice(), note: (r.noteFisse || r.note || []).slice(), fasi: r.fasi.map(f => ({ ...f })), strumenti: (r.strumenti || []).slice(), energia: (r.energia || []).slice(), passi: r.piastra ? r.piastra.passi.slice() : null, attenzioni: r.piastra ? (r.piastra.attenzioni || []).slice() : null };
   sc = sceltaValida(r, sc || condSel(r)); r.scelta = sc; r.condScelto = sc.c;
   const its = sceltaItems(r, sc), B = r._base, cat = k => its.flatMap(i => i[k] || []);
-  DIMS(r).forEach((d, k) => { const g = r.gruppi.find(x => d.key === "c" ? x.cond === true : x.cond === d.key); if (g){ g.ingredienti = its[k].ingredienti; g.nome = (g.condNome || d.label) + ": " + its[k].nome.toLowerCase(); } });
+  DIMS(r).forEach((d, k) => { const g = B.gruppi.find(x => d.key === "c" ? x.cond === true : x.cond === d.key); if (g){ g.ingredienti = its[k].ingredienti; g.nome = (g.condNome || d.label) + ": " + its[k].nome.toLowerCase(); } });
+  r.gruppi = B.gruppi.filter(g => g.ingredienti.length);
+  const fi = its.find(i => i.fonte); r.fonte = fi ? fi.fonte : B.fonte;
   r.procedimento = cat("prima").concat(B.proc, cat("procedimento"), cat("dopo"));
   r.note = cat("note").concat(B.note);
   const cc = its.find(i => i.cottura);
@@ -2202,8 +2244,18 @@ function setVoto(r, n){
   const V = votiAll(), p = persona(); V[p] = { ...(V[p] || {}) };
   if (n) V[p][r.id] = n; else delete V[p][r.id];
   try { localStorage.setItem("ricettario-voti", JSON.stringify(V)); } catch (e) {}
-  if (store.votiRef) store.writing = store.writing.then(() => store.votiRef.set({ voti: JSON.stringify(V) })).catch(() => {});
+  salvaVotiDb();
 }
+function provAll(){ if (!state.provate){ try { state.provate = JSON.parse(localStorage.getItem("ricettario-provate") || "{}") || {}; } catch (e){ state.provate = {}; } } return state.provate; }
+function provata(r, p = persona()){ const v = provAll()[p]; return v && r.id in v ? v[r.id] : null; }
+function setProvata(r, v){
+  const P = provAll(), p = persona(); P[p] = { ...(P[p] || {}) };
+  if (v === null) delete P[p][r.id]; else P[p][r.id] = v;
+  try { localStorage.setItem("ricettario-provate", JSON.stringify(P)); } catch (e) {}
+  salvaVotiDb();
+}
+function salvaVotiDb(){ if (store.votiRef) store.writing = store.writing.then(() => store.votiRef.set({ voti: JSON.stringify(votiAll()), provate: JSON.stringify(provAll()) })).catch(() => {}); }
+const THUMB = `<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M2 10h4v11H2zM8 21h9.2a2 2 0 0 0 1.96-1.6l1.6-8A2 2 0 0 0 18.8 9H14l.9-4.3a1.6 1.6 0 0 0-1.57-1.93c-.47 0-.92.21-1.22.58L8 9v12z"/></svg>`;
 function stelle(n){ return "★".repeat(n) + "☆".repeat(5 - n); }
 function isNew(r){ return !!r.aggiunta && Date.now() - Date.parse(r.aggiunta) < 24 * 3600 * 1000; }
 function votoHTML(r){
@@ -2211,6 +2263,7 @@ function votoHTML(r){
   return `<div class="voto"><span class="lab">Il tuo voto${persona() !== "altro" ? ` (${PROFILI[persona()]})` : ""}</span>
     <span class="stars" role="radiogroup" aria-label="Valutazione da 1 a 5 stelle">${[1,2,3,4,5].map(k => `<button type="button" data-voto="${k}" role="radio" aria-checked="${mio === k}" aria-label="${k} ${k === 1 ? "stella" : "stelle"}" class="${k <= mio ? "on" : ""}">★</button>`).join("")}</span>
     ${mio ? `<button type="button" class="tv" data-voto="0">Togli voto</button>` : ""}
+    <span class="prova"><span class="lab">Hai provato questa ricetta?</span><button type="button" class="pv" data-prova="1" aria-pressed="${provata(r) === true}">Sì</button><button type="button" class="pv" data-prova="0" aria-pressed="${provata(r) === false}">No</button></span>
     ${altri.length ? `<span class="altri">${altri.map(p => `${PROFILI[p]} <b aria-label="${voto(r, p)} su 5">${stelle(voto(r, p))}</b>`).join(" · ")}</span>` : ""}</div>`;
 }
 function cardHTML(r){
@@ -2218,7 +2271,7 @@ function cardHTML(r){
     <div class="art">${art(r)}</div>
     <div class="txt">
       <span class="path">${pathOf(r)}</span>
-      <h3>${isNew(r) ? `<span class="new-chip">NEW</span> ` : ""}${esc(r.titolo)}</h3>
+      <h3>${isNew(r) ? `<span class="new-chip">NEW</span> ` : ""}${provata(r) === true ? `<span class="prov-chip" title="L'hai provata" aria-label="Provata">${THUMB}</span> ` : ""}${esc(r.titolo)}</h3>
       <span class="meta"><span>${ICON.clock}${durR(r)}</span><span>${cookIcon(r.cottura.tipo)}${esc(cot(r).dettaglio)}</span>${showPiastra(r) ? `<span class="ninja-chip ind-chip">Induzione</span>` : ""}${r.ninja && r.ninja.ok && showNinja() ? `<span class="ninja-chip">Ninja</span>` : ""}</span>
     </div>
   </a>`;
@@ -2283,7 +2336,10 @@ function tgText(r){ const t = tgState(r); return `${tgChiuso(r) ? "chiuso, " : "
 function uLab(u, q){ return u === "spicchi" && fmt(q) === "1" ? "spicchio" : u; }
 function groupTotal(g, f){ return g.ingredienti.reduce((s, i) => s + (i.qta && (i.u === "g" || i.u === "ml") ? i.qta * f : 0), 0); }
 
-function renderRecipeVotoBind(r){ app.querySelectorAll(".voto [data-voto]").forEach(b => b.onclick = () => { const n = +b.dataset.voto; setVoto(r, n === voto(r) ? 0 : n); app.querySelector(".voto").outerHTML = votoHTML(r); renderRecipeVotoBind(r); app.querySelector(".voto [data-voto]").focus(); }); }
+function renderRecipeVotoBind(r){
+  app.querySelectorAll(".voto [data-voto]").forEach(b => b.onclick = () => { const n = +b.dataset.voto; setVoto(r, n === voto(r) ? 0 : n); app.querySelector(".voto").outerHTML = votoHTML(r); renderRecipeVotoBind(r); app.querySelector(".voto [data-voto]").focus(); });
+  app.querySelectorAll(".voto [data-prova]").forEach(b => b.onclick = () => { const v = b.dataset.prova === "1"; setProvata(r, provata(r) === v ? null : v); app.querySelector(".voto").outerHTML = votoHTML(r); renderRecipeVotoBind(r); app.querySelector(`.voto [data-prova="${b.dataset.prova}"]`).focus(); });
+}
 function renderRecipe(r){
   const f = state.factor[r.id] || 1;
   const porz = r.porzioni * f;
@@ -2826,14 +2882,32 @@ function writeMenu(P, m){
   P.h1(`Menù per la cucina - ${n} ${n === 1 ? "persona" : "persone"}`, m.nome);
   const tA = rs.reduce((s, r) => s + conDish(m, r, () => tRange(r)[0]), 0), tB = rs.reduce((s, r) => s + conDish(m, r, () => tRange(r)[1]), 0);
   const en = mostraConsumi() ? (() => { const a = rs.reduce((s, r) => s + conDish(m, r, () => energiaMain(r)[0]), 0), b = rs.reduce((s, r) => s + conDish(m, r, () => energiaMain(r)[1]), 0); return b > 0 ? `${kwhTxt(a, b)} kWh, ${costoTxt(a, b)}` : null; })() : null;
-  P.box([["Piatti", String(rs.length)], ["Persone", String(n)], ["Tempo, piatto per piatto", durAB(tA, tB)], en ? ["Energia stimata", en] : ["Da comprare", `${shop.length} ingredienti`]]);
+  const PL = pianoMenu(m);
+  P.box([["Piatti", String(rs.length)], ["Persone", String(n)], ["Tempo, organizzandoti", `${dur(PL.totale)} (uno dopo l'altro ${durAB(tA, tB)})`], en ? ["Energia stimata", en] : ["Da comprare", `${shop.length} ingredienti`]]);
   for (const sz of SEZIONI){
     const items = rs.filter(r => r.sezione === sz); if (!items.length) continue;
     P.need(14); doc.setFont("helvetica", "bold"); doc.setFontSize(8); doc.setTextColor(...C.gold); doc.text(sz.toUpperCase(), P.M, P.y, { charSpace: 0.6 }); P.y += 5.5;
     items.forEach(r => conDish(m, r, () => {
-      P.para(r.titolo + (hasDims(r) ? ` - ${sceltaNome(r, r.scelta)}` : ""), 11.5, "bold", C.ink, 2, 1.3);
+      { const pn = piattoNome(r); P.para(pn.titolo + (pn.sotto ? ` - ${pn.sotto}` : ""), 11.5, "bold", C.ink, 2, 1.3); }
       P.para(`${dishDose(m, r)} · ${durR(r)} · ${cot(r).dettaglio}`, 9, "normal", C.grey, 2, 1.35); P.y += 2;
     }));
+  }
+  if (PL.righe.length){
+    P.h2("Piano di lavoro");
+    P.para("Una persona in cucina: mentre qualcosa lievita, riposa o cuoce da solo, lavori sugli altri piatti. Orari da quando inizi.", 8.5, "italic", C.grey);
+    PL.consigli.forEach(c => P.para(c, 9.5, "normal", C.green, 0, 1.35));
+    P.y += 1;
+    PL.righe.forEach((x, k) => {
+      doc.setFont("helvetica", "normal"); doc.setFontSize(9.5);
+      const L = doc.splitTextToSize(pdfText(`${x.piatto}: ${x.nome}${x.pas ? ` (da solo${x.insieme ? ", insieme a " + x.insieme : ""})` : ""}`), P.CW - 40);
+      const h = L.length * 4.2 + 2; P.need(h + 1);
+      if (k % 2 === 0){ doc.setFillColor(...C.band); doc.rect(P.M, P.y - 3.8, P.CW, h, "F"); }
+      doc.setFont("helvetica", "bold"); doc.setTextColor(...C.green); doc.text(hm(x.inizio), P.M + 2, P.y);
+      doc.setFont("helvetica", x.pas ? "italic" : "normal"); doc.setTextColor(...(x.pas ? C.grey : C.ink)); L.forEach((l, i) => doc.text(l, P.M + 16, P.y + i * 4.2));
+      doc.setFont("helvetica", "normal"); doc.setTextColor(...C.grey); doc.text(pdfText(dur(x.d)), P.M + P.CW - 2, P.y, { align: "right" });
+      P.y += h;
+    });
+    P.y += 3;
   }
   if (shop.length){
     P.h2("Lista della spesa");
@@ -2866,21 +2940,22 @@ function writeMenuOspite(P, m){
   doc.setDrawColor(...C.green); doc.setLineWidth(0.9); doc.rect(10, 10, 190, 277, "S");
   doc.setDrawColor(...C.gold); doc.setLineWidth(0.3); doc.rect(13.5, 13.5, 183, 270, "S");
   const orn = y => { doc.setDrawColor(...C.gold); doc.setLineWidth(0.4); doc.line(78, y, 99, y); doc.line(111, y, 132, y); doc.setFillColor(...C.gold); doc.lines([[2.2, 2.2], [2.2, -2.2], [-2.2, -2.2], [-2.2, 2.2]], 102.8, y, [1, 1], "F", true); };
-  const ORD = [["Antipasti", "Antipasti"], ["Lievitati", "Dal forno"], ["Primi", "Primi"], ["Secondi", "Secondi"], ["Dolci", "Dolci"]];
+  const ORD = [["Antipasti", "Antipasti"], ["Lievitati", "Dal forno"], ["Primi", "Primi"], ["Secondi", "Secondi"], ["Contorni", "Contorni"], ["Dolci", "Dolci"]];
   const blocks = ORD.map(([sz, lab]) => ({ lab, items: rs.filter(r => r.sezione === sz) })).filter(b => b.items.length);
   const lines = blocks.reduce((s, b) => s + 16 + b.items.reduce((t, r) => t + (hasDims(r) ? 15 : 10.5), 0), 0);
   let y = 46;
   doc.setFont("times", "italic"); doc.setFontSize(13); doc.setTextColor(...C.gold); doc.text("De (Nova) Mensa Populari", 105, y, { align: "center" }); y += 14;
-  doc.setFont("times", "bolditalic"); doc.setFontSize(30); doc.setTextColor(...C.green);
+  doc.setFont("times", "bolditalic"); doc.setFontSize(30); doc.setTextColor(...C.ink);
   doc.splitTextToSize(pdfText(m.nome), 160).forEach(l => { doc.text(l, 105, y, { align: "center" }); y += 12; });
   y += 2; orn(y); y += 12;
   const free = 262 - y; if (lines < free) y += Math.min(18, (free - lines) / 2);
   blocks.forEach(b => {
-    doc.setFont("times", "bold"); doc.setFontSize(10.5); doc.setTextColor(...C.gold); doc.text(b.lab.toUpperCase(), 105, y, { align: "center", charSpace: 1.6 }); y += 9;
+    doc.setFont("times", "bold"); doc.setFontSize(10.5); doc.setTextColor(...C.gold); { const L = b.lab.toUpperCase(), cs = 1.6, w = doc.getTextWidth(L) + cs * (L.length - 1); doc.text(L, 105 - w / 2, y, { charSpace: cs }); } y += 9;
     b.items.forEach(r => conDish(m, r, () => {
       doc.setFont("times", "normal"); doc.setFontSize(17); doc.setTextColor(...C.ink);
-      doc.splitTextToSize(pdfText(senzaFonte(r.titolo)), 150).forEach(l => { doc.text(l, 105, y, { align: "center" }); y += 7; });
-      if (hasDims(r)){ doc.setFont("times", "italic"); doc.setFontSize(11.5); doc.setTextColor(...C.grey); doc.text(pdfText(sceltaItems(r, r.scelta).map(i => i.nome.toLowerCase()).join(" · ")), 105, y - 1, { align: "center" }); y += 5.5; }
+      const pn = piattoNome(r);
+      doc.splitTextToSize(pdfText(pn.titolo), 150).forEach(l => { doc.text(l, 105, y, { align: "center" }); y += 7; });
+      if (pn.sotto){ doc.setFont("times", "italic"); doc.setFontSize(11.5); doc.setTextColor(...C.grey); doc.text(pdfText(pn.sotto), 105, y - 1, { align: "center" }); y += 5.5; }
       y += 3.5;
     }));
     y += 6;
@@ -3173,6 +3248,57 @@ function dishDose(m, r){ return conDish(m, r, f => r.cont ? tgText(r) : `${fmt(r
 function qtaTxt(q){ return [...q].map(([u, v]) => { if (u.startsWith("#") || u === "spicchi"){ const n = Math.max(1, Math.ceil(v - 0.05)), l = u === "spicchi" ? uLab(u, n) : contaNum(u.slice(1), n); return `${n}${l ? " " + l : ""}`; } return `${fmt(v)} ${u}`; }).join(" + "); }
 function contaNum(l, n){ const P = { rametto: "rametti", foglia: "foglie", gambo: "gambi", tuorlo: "tuorli" }, S = Object.fromEntries(Object.entries(P).map(([a, b]) => [b, a])); return n === 1 ? (S[l] || l) : (P[l] || l); }
 function contaLab(i){ if (/^tuorl/i.test(i.nome)) return "tuorli"; if (i.nota && /^[a-zà-ù]+$/i.test(i.nota.trim())) return i.nota.trim(); return ""; }
+/* ---------- Piano di lavoro del menù: una persona in cucina, le attese si sovrappongono ---------- */
+const CONDIVISI = {
+  "stracotto-scottona": "Ragù di stracotto e stracotto di scottona si fanno nello stesso modo: rosola tutta la carne e prepara il fondo una volta sola, poi falla stracuocere nella stessa pentola di ghisa (o in due pentole vicine). Un'ora prima della fine togli la parte per il ragù, sfilacciala nel suo sugo di pomodoro e prepara gli gnocchi."
+};
+function fasePassiva(f, d){
+  if (typeof f.attesa === "boolean") return f.attesa;
+  if (d < 10) return false;
+  return /lievit|riposo|marin|frigo|stracott|brasatura|sobboll|cottura lenta|raffredd|ammollo|preriscald|coperchio|a bollore|lessare|lessate|stufate|in forno|^cottura|fino al bollore|appretto|fuori dal frigo|bollito/i.test(V(f.nome));
+}
+function pianoMenu(m){
+  const rs = menuRecipes(m), dishes = [];
+  rs.forEach(r => conDish(m, r, () => {
+    const ph = (r.fasi || []).filter(f => !f.prima && !f.parallelo).map(f => { const d = Math.round((f.min + (f.max ?? f.min)) / 2); return { nome: V(f.nome), d, pas: fasePassiva(f, d), tag: f.tag || null }; });
+    dishes.push({ r, titolo: piattoNome(r).titolo, ph });
+  }));
+  // preparazioni condivise: nei piatti dopo il primo le fasi attive in comune si fanno insieme, le attese restano
+  const consigli = [], visti = {};
+  dishes.forEach(D => D.ph.forEach(f => { if (!f.tag) return; (visti[f.tag] = visti[f.tag] || new Set()).add(D); }));
+  Object.entries(visti).forEach(([tag, set]) => {
+    if (set.size < 2) return;
+    const [primo, ...altri] = [...set].sort((a, b) => b.ph.filter(f => f.tag === tag).reduce((s, f) => s + f.d, 0) - a.ph.filter(f => f.tag === tag).reduce((s, f) => s + f.d, 0));
+    altri.forEach(D => D.ph.forEach(f => { if (f.tag === tag){ f.insieme = primo.titolo; if (!f.pas) f.d = 0; f.pas = true; } }));
+    if (CONDIVISI[tag]) consigli.push(CONDIVISI[tag]);
+  });
+  // pianificazione a ritroso dal momento di servire: tutti i piatti pronti insieme
+  const rem = D => D.ph.slice(0, D.i).reduce((s, f) => s + f.d, 0);
+  dishes.forEach(D => { D.i = D.ph.length; D.t = 0; });
+  let cuoco = 0; const out = [];
+  while (dishes.some(D => D.i > 0)){
+    let best = null;
+    dishes.forEach(D => { if (!D.i) return; const f = D.ph[D.i - 1]; const st = f.pas ? D.t : Math.max(D.t, cuoco); const k = [st, -rem(D)]; if (!best || k[0] < best.k[0] || (k[0] === best.k[0] && k[1] < best.k[1])) best = { D, f, st, k }; });
+    const { D, f, st } = best, en = st + f.d;
+    D.t = en; D.i--; if (!f.pas) cuoco = en;
+    if (f.d > 0) out.push({ piatto: D.titolo, nome: f.nome, d: f.d, pas: f.pas, insieme: f.insieme, tag: f.tag, a: st, b: en });
+  }
+  const T = Math.max(0, ...out.map(x => x.b));
+  const righe = out.map(x => ({ ...x, inizio: T - x.b, fine: T - x.a }));
+  // le preparazioni condivise partono insieme a quella del piatto principale
+  righe.forEach(x => { if (!x.insieme) return; const p = righe.filter(y => y.tag === x.tag && !y.insieme && y.piatto === x.insieme).sort((a, b) => a.inizio - b.inizio)[0]; if (p && p.inizio < x.inizio){ x.inizio = p.inizio; x.d = x.fine - x.inizio; } });
+  righe.sort((a, b) => a.inizio - b.inizio || a.fine - b.fine);
+  const somma = dishes.reduce((s, D) => s + D.ph.reduce((t, f) => t + f.d, 0), 0);
+  return { totale: T, somma, righe, consigli };
+}
+function hm(min){ const h = Math.floor(min / 60), m = Math.round(min % 60); return `${h}:${String(m).padStart(2, "0")}`; }
+function pianoHTML(P){
+  return `<section class="section-block"><div class="section-title"><h2>Piano di lavoro</h2><span>${dur(P.totale)}</span></div>
+    <p class="status">Una persona in cucina: mentre qualcosa lievita, riposa o cuoce da solo, lavori sugli altri piatti, e tutto è pronto insieme. Gli orari partono da quando inizi.</p>
+    ${P.consigli.map(c => `<p class="tip-box">${esc(c)}</p>`).join("")}
+    <ol class="piano">${P.righe.map(x => `<li class="${x.pas ? "pas" : ""}"><span class="ora">${hm(x.inizio)}</span><span><b>${esc(x.piatto)}</b>: ${esc(x.nome)}${x.pas ? ` <small>· da solo${x.insieme ? `, insieme a ${esc(x.insieme)}` : ""}</small>` : ""}</span><span class="dd">${dur(x.d)}</span></li>`).join("")}</ol></section>`;
+}
+
 function shoppingList(m){
   const frigo = new Set(m.frigo || []);
   const out = new Map();
@@ -3205,6 +3331,7 @@ function dishCtl(m, r){
 function renderMenu(m){
   const rs = menuRecipes(m);
   const shop = shoppingList(m);
+  const piano = pianoMenu(m);
   const totA = rs.reduce((s, r) => s + conDish(m, r, () => tRange(r)[0]), 0), totB = rs.reduce((s, r) => s + conDish(m, r, () => tRange(r)[1]), 0);
   let html = masthead("menu") + `<a class="back" href="#menu"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>I tuoi menù</a>
   <span class="path">Menù per ${menuPersone(m)} ${menuPersone(m) === 1 ? "persona" : "persone"}</span>
@@ -3214,7 +3341,7 @@ function renderMenu(m){
     <span class="status">vale per tutti i piatti a persona; teglie e stampi li scegli piatto per piatto</span></div>
   <div class="recap">
     <div class="rc"><span class="lab">${ICON.basket}Piatti</span><span class="big">${rs.length}</span></div>
-    <div class="rc"><span class="lab">${ICON.clock}Tempo, piatto per piatto</span><span class="big" style="font-size:18px">${durAB(totA, totB)}</span><span class="sub">Somma dei tempi delle ricette</span></div>
+    <div class="rc"><span class="lab">${ICON.clock}Tempo, organizzandoti</span><span class="big" style="font-size:18px">${dur(piano.totale)}</span><span class="sub">Uno dopo l'altro sarebbero ${durAB(totA, totB)}. Vedi il piano di lavoro qui sotto.</span></div>
     <div class="rc"><span class="lab">${ICON.forno}Cotture</span><ul>${[...new Set(rs.map(r => cot(r).dettaglio))].map(c => `<li>${esc(c)}</li>`).join("")}</ul></div>
     ${mostraConsumi() ? `<div class="rc"><span class="lab">${ICON.bolt}Energia</span><span class="big" style="font-size:18px">${(() => { const a = rs.reduce((s, r) => s + energiaMain(r)[0], 0), b = rs.reduce((s, r) => s + energiaMain(r)[1], 0); return costoTxt(a, b); })()}</span><span class="sub">Stima del consumo di tutti i piatti</span></div>` : ""}
     <div class="rc"><span class="lab">${ICON.basket}Da comprare</span><span class="big">${shop.length}</span><span class="sub">${(m.frigo || []).length ? "rispetto a quello che avevi in frigo" : "nessun ingrediente indicato in frigo"}</span></div>
@@ -3224,12 +3351,13 @@ function renderMenu(m){
     if (!items.length) continue;
     html += `<section class="section-block"><div class="section-title"><h2>${s}</h2><span>${items.length}</span></div><div class="dishes">${items.map(r => `<div class="dish">
       <a class="th" href="#${r.id}">${art(r)}</a>
-      <div class="dish-main"><a href="#${r.id}"><b>${esc(r.titolo)}</b></a>
+      <div class="dish-main"><a href="#${r.id}"><b>${esc(conDish(m, r, () => piattoNome(r).titolo))}</b></a>
         <span class="mt">${conDish(m, r, () => `${durR(r)} · ${esc(cot(r).dettaglio)}`)}</span>
         <div class="dish-ctl">${dishCtl(m, r)}</div>
         <span class="mt dose">Dosi: ${esc(dishDose(m, r))}</span></div></div>`).join("")}</div></section>`;
   }
   if (!rs.length) html += `<p class="empty">Le ricette di questo menù non ci sono più nel ricettario.</p>`;
+  if (piano.righe.length) html += pianoHTML(piano);
   html += `<section class="section-block"><div class="section-title"><h2>Lista della spesa</h2><span>${shop.length}</span></div>
     ${shop.length ? `<ul class="shop">${shop.map(x => `<li>${esc(x.nome)}${x.qta ? `: <b>${esc(x.qta)}</b>` : ""}${x.fac ? " <small>(facoltativo)</small>" : ""} <small>· ${esc([...x.per].join(", "))}</small></li>`).join("")}</ul>` : `<p class="empty">Hai già tutto quello che serve.</p>`}
   </section>
@@ -3506,7 +3634,7 @@ function refreshMenuViews(){ const h = location.hash.slice(1); if (h === "scaric
     store.ref = db.doc("data/users/" + uid + "/menus");
     store.prefsRef = db.doc("data/users/" + uid + "/prefs");
     store.votiRef = db.doc("data/users/" + uid + "/voti");
-    store.votiRef.onSnapshot(s => { let v = null; try { v = s.exists ? JSON.parse(s.data().voti || "{}") : null; } catch (e) {} if (v && JSON.stringify(v) !== JSON.stringify(votiAll())){ state.voti = v; try { localStorage.setItem("ricettario-voti", JSON.stringify(v)); } catch (e) {} const h = location.hash.slice(1), r = RICETTE.find(x => x.id === h); if (r && app.querySelector(".voto") && !(document.activeElement && document.activeElement.tagName === "INPUT")){ app.querySelector(".voto").outerHTML = votoHTML(r); renderRecipeVotoBind(r); } } }, () => {});
+    store.votiRef.onSnapshot(s => { let v = null, pv = null; try { v = s.exists ? JSON.parse(s.data().voti || "{}") : null; pv = s.exists ? JSON.parse(s.data().provate || "{}") : null; } catch (e) {} if (pv && JSON.stringify(pv) !== JSON.stringify(provAll())){ state.provate = pv; try { localStorage.setItem("ricettario-provate", JSON.stringify(pv)); } catch (e) {} if (!location.hash || location.hash === "#") route(); } if (v && JSON.stringify(v) !== JSON.stringify(votiAll())){ state.voti = v; try { localStorage.setItem("ricettario-voti", JSON.stringify(v)); } catch (e) {} const h = location.hash.slice(1), r = RICETTE.find(x => x.id === h); if (r && app.querySelector(".voto") && !(document.activeElement && document.activeElement.tagName === "INPUT")){ app.querySelector(".voto").outerHTML = votoHTML(r); renderRecipeVotoBind(r); } } }, () => {});
     store.prefsRef.onSnapshot(s => { const p = s.exists ? s.data().prezzo : null; if (typeof p === "number" && p > 0 && p < 5 && p !== state.prezzo){ state.prezzo = p; try { localStorage.setItem("ricettario-prezzo", String(p)); } catch (e) {} if (!(document.activeElement && document.activeElement.tagName === "INPUT")) route(); } }, () => {});
     const timer = setTimeout(() => { store.note = "I menù non sono ancora raggiungibili: potrebbero non essere aggiornati."; refreshMenuViews(); }, 10000);
     store.ref.onSnapshot(s => {
