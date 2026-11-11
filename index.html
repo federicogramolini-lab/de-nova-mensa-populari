@@ -2233,6 +2233,8 @@ function condSel(r){ return sceltaValida(r, condSaved()[r.id]); }
 function sceltaItems(r, sc){ return DIMS(r).map(d => d.items.find(i => i.id === sc[d.key]) || d.items[0]); }
 /* nome del piatto per i menù: il titolo della versione scelta, se c'è, e sotto le altre scelte */
 function piattoNome(r){ if (!hasDims(r)) return { titolo: senzaFonte(r.titolo), sotto: "" }; const its = sceltaItems(r, r.scelta), t = its.filter(i => i.titolo).pop(); return { titolo: t ? t.titolo : senzaFonte(r.titolo), sotto: its.filter(i => !i.titolo && !i.nascondi).map(i => i.nome.toLowerCase()).join(", ") }; }
+// versione scelta come sottotitolo della copertina: "al limone", "alla milanese"… (prima lettera minuscola)
+function versioneSotto(r, sc){ const t = sceltaNome(r, sc); return t ? t[0].toLowerCase() + t.slice(1) : ""; }
 function sceltaNome(r, sc){ return sceltaItems(r, sc).map((it, k) => k ? it.nome.toLowerCase() : it.nome).join(", "); }
 function applyCond(r, sc){
   if (!hasDims(r)) return;
@@ -2722,7 +2724,7 @@ function renderRecipe(r){
     inp.addEventListener("keydown", e => { if (e.key === "Enter"){ e.preventDefault(); inp.blur(); } });
     inp.addEventListener("focus", () => inp.select());
   });
-  document.getElementById("pdf").onclick = async () => { let cids = null; if (hasDims(r)){ cids = await chiediCond(r); if (!cids) return; } await manoPrepara([r.titolo.split(" (")[0]]); const cop = await copertinaCanvas({ titolo: r.titolo, sezioni: [r.sezione], disegno: r.img }); conDotazione(() => saveRecipePdf(r, f, cids, cop)); };
+  document.getElementById("pdf").onclick = async () => { let cids = null; if (hasDims(r)){ cids = await chiediCond(r); if (!cids) return; } await manoPrepara([r.titolo.split(" (")[0]]); const sotto = cids && cids.length ? [...new Set(cids.map(c => versioneSotto(r, c)))].join(" · ") : ""; const cop = await copertinaCanvas({ titolo: r.titolo, sezioni: [r.sezione], disegno: r.img, sottotitolo: sotto }); conDotazione(() => saveRecipePdf(r, f, cids, cop)); };
   document.getElementById("delr").onclick = () => {
     if (state.confirmDel !== r.id){ state.confirmDel = r.id; renderRecipe(r); return; }
     state.confirmDel = null; cestino.add(r.id); saveCestino(); location.hash = "";
@@ -2905,7 +2907,7 @@ function saveRecipePdf(r, f, cids, cop){
     cids.forEach((cid, k) => { if (k){ P.doc.addPage(); P.y = 20; } conCond(r, cid, () => writeRecipe(P, r, f)); });
   } else writeRecipe(P, r, f);
   P.footer();
-  offer(P.doc, cids && cids.length === 1 ? r.titolo + " - " + sceltaNome(r, cids[0]) : r.titolo, status);
+  offer(P.doc, cids && cids.length === 1 ? r.titolo + " " + versioneSotto(r, cids[0]) : r.titolo, status);
 }
 
 /* =====================================================================
@@ -3584,7 +3586,8 @@ async function copertinaCanvas({ titolo, conteggi = "", sezioni, deco = false, d
   if (!deco || menu) await scrivi("De (Nova) Mensa Populari", 43.5, 16, 68);
   // menù: niente immagine, "Menù" al centro del foglio e sotto, se c'è, il nome scelto all'esportazione
   if (menu){ await scrivi(titolo, 153.5, 44, 110, true); if (sottotitolo) await scrivi(sottotitolo, 178.5, 13, 140); }
-  else await scrivi(titolo, 188.5, deco ? 34 : 28, 160, true); // scarabocchi sul titolo in tutte le copertine
+  else await scrivi(titolo, sottotitolo ? 184 : 188.5, deco ? 34 : 28, 160, true); // scarabocchi sul titolo in tutte le copertine
+  if (!menu && sottotitolo) await scrivi(sottotitolo, 203, 12, 150);
   if (conteggi) await scrivi(conteggi, 203.5, 8.5, 90);
   const dis = async (n, x, y, w) => { const d = await manoDisegno(n); g.drawImage(d, x, y, w, w); };
   await dis("pentola", 17, 15, 42); await dis("fumetto", 146, 13, 48);
