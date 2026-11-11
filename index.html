@@ -464,7 +464,7 @@ const RICETTE = [
       { fase: "Fondo", funzione: "Pizza", temp: "250 °C", ripiano: "1 (il più basso)", tempo: "10–14 min" },
       { fase: "Con il fior di latte", funzione: "Pizza", temp: "250 °C", ripiano: "4", tempo: "3–5 min" }
     ] },
-    strumenti: ["Planetaria (foglia o gancio)", "Contenitore oliato per la puntata", "Cassette o contenitori per i panetti", "Teglie 30 × 40, meglio in ferro blu", "Tarocco"],
+    strumenti: [{ casa: "fede", si: "Planetaria Ariete Moderna con il gancio", no: "Planetaria (foglia o gancio)" }, "Contenitore oliato per la puntata", "Cassette o contenitori per i panetti", "Teglie 30 × 40, meglio in ferro blu", "Tarocco"],
     energia: [{ app: "forno", kwh: [1.1, 1.4], come: "preriscaldamento rapido a 250 °C, 10 minuti di attesa e cottura di una teglia" }, { app: "ninja", kwh: [0.55, 0.7], come: "in alternativa, nel Ninja", alt: true }],
     gruppi: [
       { nome: "Impasto", totale: true, ingredienti: [
@@ -480,7 +480,7 @@ const RICETTE = [
       ]}
     ],
     procedimento: [
-      "Metti nella vasca della planetaria tutti gli ingredienti insieme: farina, acqua, sale e lievito. Mescola a bassa velocità per un paio di minuti, solo finché non ci sono più grumi. Non serve un impasto liscio: resta appiccicoso e si strappa facilmente, ed è normale.",
+      { casa: "fede", si: "Metti nella ciotola della planetaria tutti gli ingredienti insieme: farina, acqua, sale e lievito. Con il gancio a velocità 1 mescola per un paio di minuti, solo finché non ci sono più grumi. Non serve un impasto liscio: resta appiccicoso e si strappa facilmente, ed è normale. Oltre 900 g di farina (più di due teglie e mezza) fai due impasti: è il massimo della planetaria.", no: "Metti nella vasca della planetaria tutti gli ingredienti insieme: farina, acqua, sale e lievito. Mescola a bassa velocità per un paio di minuti, solo finché non ci sono più grumi. Non serve un impasto liscio: resta appiccicoso e si strappa facilmente, ed è normale." },
       "Lascia riposare 15 minuti a temperatura ambiente, coperto.",
       "Ungi le mani e il piano di lavoro con un po' d'olio, porta l'impasto sul piano e fai delle pieghe di rinforzo. Copri e lascia riposare altri 15–20 minuti.",
       "Fai un secondo giro di pieghe e lascia riposare altri 15 minuti. Poi un ultimo giro, leggero: bastano due pieghe. Non serve farne di più: la forza la dà il riposo in massa.",
@@ -653,7 +653,7 @@ const RICETTE = [
       differenza: "Sul gas il «fuoco medio» corrisponde qui al livello 4, non a 5–6: l'induzione scalda il fondo del pentolino subito e con poca acqua si rischia di cuocere troppo il roux."
     },
     ninja: { ok: false, motivo: "Il pan brioche lievita nello stampo da plumcake ben oltre i 7,5 cm di spazio tra la griglia e la resistenza del Ninja: brucerebbe sopra. Meglio il forno di casa." },
-    strumenti: ["Pentolino e frusta", "Planetaria con gancio (o a mano)", "Ciotola oliata e pellicola", "Tarocco e mattarello", "Stampo da plumcake", "Pennello da cucina"],
+    strumenti: ["Pentolino e frusta", { casa: "fede", si: "Planetaria Ariete Moderna con il gancio (o a mano)", no: "Planetaria con gancio (o a mano)" }, "Ciotola oliata e pellicola", "Tarocco e mattarello", "Stampo da plumcake", "Pennello da cucina"],
     energia: [{ app: "forno", kwh: [0.75, 0.85], come: "preriscaldamento e 25 minuti a 180 °C statico (il water roux sul piano consuma pochissimo)" }],
     gruppi: [
       { nome: "Water roux", ingredienti: [
@@ -676,9 +676,9 @@ const RICETTE = [
     ],
     procedimento: [
       { casa: "induzione", si: "Water roux: in un pentolino mescola con la frusta la farina e l'acqua finché non ci sono più grumi. Mettilo sulla zona più piccola a livello 4 e cuoci per circa un minuto mescolando, senza far bollire, finché diventa una crema liscia. Versalo in una ciotolina e lascialo raffreddare bene.", no: "Water roux: in un pentolino mescola con la frusta la farina e l'acqua finché non ci sono più grumi. Cuoci per circa un minuto mescolando, senza far bollire, finché diventa una crema liscia. Versalo in una ciotolina e lascialo raffreddare bene." },
-      "In una ciotola grande (o in planetaria con il gancio) metti farina, zucchero, lievito e latte a temperatura ambiente e impasta per 2 minuti, fino a un impasto grezzo.",
+      { casa: "fede", si: "Nella ciotola della planetaria metti farina, zucchero, lievito e latte a temperatura ambiente e impasta con il gancio a velocità 1 per 2 minuti, fino a un impasto grezzo.", no: "In una ciotola grande (o in planetaria con il gancio) metti farina, zucchero, lievito e latte a temperatura ambiente e impasta per 2 minuti, fino a un impasto grezzo." },
       "Unisci il water roux freddo e impasta altri 2 minuti.",
-      "Aggiungi il sale e l'uovo a temperatura ambiente e impasta circa 5 minuti, finché l'impasto si stacca dalle pareti.",
+      { casa: "fede", si: "Aggiungi il sale e l'uovo a temperatura ambiente e impasta circa 5 minuti a velocità 2–3 (con il gancio non andare oltre la 3), finché l'impasto si stacca dalle pareti.", no: "Aggiungi il sale e l'uovo a temperatura ambiente e impasta circa 5 minuti, finché l'impasto si stacca dalle pareti." },
       "Aggiungi il burro morbido in due volte, aspettando che il primo sia assorbito: l'impasto deve essere molto elastico e morbido. Lascialo riposare 15 minuti nella ciotola.",
       "Ungi le mani e la superficie dell'impasto, rovescialo e piegalo su se stesso un paio di volte, non di più. Forma una palla e lascia riposare altri 5 minuti. Nelle prime fasi lavora sempre con le mani unte, senza aggiungere farina.",
       "Con le mani di nuovo unte fai un altro giro di pieghe e impasta velocemente per un minuto: diventa liscio, elastico e non appiccicoso. Mettilo in una ciotola unta, copri con pellicola e lascia lievitare circa un'ora e mezza, fino al raddoppio.",
@@ -712,7 +712,7 @@ const RICETTE = [
       { fase: "Lievitazione", funzione: "Forno spento, luce accesa", temp: "circa 28–30 °C", ripiano: "", tempo: "circa 2 h" },
       { fase: "Cottura", funzione: "Statico", temp: "185 °C", ripiano: "2", tempo: "55–65 min" }
     ] },
-    strumenti: ["Impastatrice", "Stampo da cassetta 30 × 10 × 10 cm, oliato"],
+    strumenti: [{ casa: "fede", si: "Planetaria Ariete Moderna con il gancio", no: "Impastatrice" }, "Stampo da cassetta 30 × 10 × 10 cm, oliato"],
     energia: [{ app: "forno", kwh: [1.3, 1.5], come: "2 ore di luce per la lievitazione, preriscaldamento e un'ora a 185 °C" }],
     gruppi: [
       { nome: "Impasto", totale: true, ingredienti: [
@@ -725,7 +725,7 @@ const RICETTE = [
       ]}
     ],
     procedimento: [
-      "Inserisci nell'impastatrice la farina, l'acqua tiepida con il lievito sciolto, il miele e il sale. Fai amalgamare tutto, poi aggiungi l'olio.",
+      { casa: "fede", si: "Metti nella ciotola della planetaria la farina, l'acqua tiepida con il lievito sciolto, il miele e il sale. Con il gancio fai amalgamare a velocità 1, poi aggiungi l'olio e impasta a velocità 2–3 finché l'impasto è liscio e si stacca dalle pareti.", no: "Inserisci nell'impastatrice la farina, l'acqua tiepida con il lievito sciolto, il miele e il sale. Fai amalgamare tutto, poi aggiungi l'olio." },
       "Quando l'impasto è pronto, lascialo riposare per un'ora coperto con la ciotola.",
       "Fai delle pieghe all'impasto e stendilo a rettangolo: il lato lungo deve essere uguale a quello dello stampo.",
       "Arrotola l'impasto su se stesso, \"stirandolo\" mentre lo arrotoli.",
@@ -833,7 +833,7 @@ const RICETTE = [
       ],
       differenza: "Rispetto a un fornello a gas l'acqua arriva a bollore molto prima con il Boost. La cremina d'aglio non frigge, quindi anche se l'induzione scalda in fretta l'aglio non brucia: basta tenere la padella a livello 3."
     },
-    strumenti: ["Pentola capiente per la pasta", "Pentolino", "Frullatore a immersione con il suo bicchiere", { padella: true, acciaio: "Padella in acciaio", antiaderente: "Padella antiaderente" }, "Tagliere e coltello", "Pinze"],
+    strumenti: ["Pentola capiente per la pasta", "Pentolino", "Frullatore a immersione con il suo bicchiere", { padella: true, acciaio: { casa: "fede", si: "Padella a mantecare Agnelli Aluinox Ø 24 cm", no: "Padella in acciaio" }, antiaderente: "Padella antiaderente" }, "Tagliere e coltello", "Pinze"],
     energia: [{ app: "piastra", kwh: [0.45, 0.6], come: "bollitura di 2 kg d'acqua, aglio sbollentato e pasta" }],
     gruppi: [
       { nome: "Cremina d'aglio", ingredienti: [
@@ -908,7 +908,7 @@ const RICETTE = [
         acciaio: "Rispetto a un fornello a gas l'acqua arriva a bollore molto prima con il Boost, e l'acciaio si scalda in pochi secondi: per questo il guanciale parte a padella fredda e a livello 4, non al massimo. Con la partenza a freddo il guanciale non attacca e rosola in modo uniforme. Il bagnomaria funziona uguale, perché la crema prende calore dal vapore della pentola.",
         antiaderente: "Rispetto a un fornello a gas l'acqua arriva a bollore molto prima con il Boost, e la padella si scalda in pochi secondi: il guanciale va messo con il piano a livello 4–5, non al massimo. Il bagnomaria invece funziona uguale, perché la crema prende calore dal vapore della pentola e non dalla piastra." }
     },
-    strumenti: ["Pentola capiente per la pasta", { padella: true, acciaio: "Padella in acciaio", antiaderente: "Padella antiaderente" }, "Ciotola d'acciaio per il bagnomaria", "Frusta", "Pinze", "Coltello seghettato", "Carta assorbente", "Termometro da cucina (facoltativo)"],
+    strumenti: ["Pentola capiente per la pasta", { padella: true, acciaio: { casa: "fede", si: "Padella a mantecare Agnelli Aluinox Ø 28 cm", no: "Padella in acciaio" }, antiaderente: "Padella antiaderente" }, "Ciotola d'acciaio per il bagnomaria", "Frusta", "Pinze", "Coltello seghettato", "Carta assorbente", "Termometro da cucina (facoltativo)"],
     energia: [{ app: "piastra", kwh: [0.6, 0.8], come: "bollitura di 3 litri d'acqua, pasta e guanciale" }],
     gruppi: [
       { nome: "Pasta e guanciale", ingredienti: [
@@ -991,7 +991,7 @@ const RICETTE = [
         ],
         passi: [{ fase: "Gnocchi saltati nel ragù", livello: "3", tempo: "1 min" }],
         attenzioni: ["La ghisa trattiene molto il calore: dopo la rosolatura aspetta un minuto a livello 4 prima di mettere il trito, così non brucia."],
-        strumenti: ["Pentola di ghisa con coperchio", "Due forchette"],
+        strumenti: [{ casa: "fede", si: "Casseruola Slowcook ovale in ghisa 25 × 20 cm (3,3 l), con il coperchio", no: "Pentola di ghisa con coperchio" }, "Due forchette"],
         energia: [{ app: "piastra", kwh: [1.0, 1.3], come: "ragù stracotto per 3 ore" }],
         note: ["Il ragù si prepara come lo stracotto di scottona del ricettario: se nel menù ci sono tutti e due, cuocili insieme (vedi il piano di lavoro del menù)."] },
       { id: "pomodoro-basilico", nome: "Pomodoro e basilico",
@@ -1116,7 +1116,7 @@ const RICETTE = [
       attenzioni: ["La carne deve restare al sangue dentro: in tutto non più di 3 minuti.", "Se l'aceto si attacca e brucia, scendi a livello 4."],
       differenza: "Sull'induzione la padella torna subito in temperatura dopo l'aceto: per questo basta il livello 5."
     },
-    strumenti: [PAD("Padella in acciaio inox", "Padella antiaderente"), "Tagliere e coltello", "Ciotola per la rucola", "Pinze"],
+    strumenti: [PAD({ casa: "fede", si: "Padella Agnelli Aluinox lucida Ø 24 cm", no: "Padella in acciaio inox" }, "Padella antiaderente"), "Tagliere e coltello", "Ciotola per la rucola", "Pinze"],
     energia: [{ app: "piastra", kwh: [0.06, 0.1], come: "padella scaldata e 3 minuti di cottura" }],
     gruppi: [
       { nome: "Carne", ingredienti: [
@@ -1172,7 +1172,7 @@ const RICETTE = [
       attenzioni: ["I peperoni non devono rosolare, solo scottarsi: se scuriscono, scendi a livello 5."],
       differenza: "Sull'induzione il livello 3 mantiene un sobbollire leggero e costante: i peperoni si sfanno senza attaccarsi."
     },
-    strumenti: ["Tegame largo con coperchio", PAD("Padella in acciaio inox", "Padella antiaderente"), "Tagliere e coltello"],
+    strumenti: ["Tegame largo con coperchio", PAD({ casa: "fede", si: "Padella Agnelli Aluinox lucida Ø 24 cm", no: "Padella in acciaio inox" }, "Padella antiaderente"), "Tagliere e coltello"],
     energia: [{ app: "piastra", kwh: [0.35, 0.45], come: "peperoni stufati 25 minuti e carne in padella" }],
     gruppi: [
       { nome: "Peperoni", ingredienti: [
@@ -1288,7 +1288,7 @@ const RICETTE = [
       attenzioni: ["Se il liquido cala troppo, il livello è alto: scendi e aggiungi acqua calda, non brodo.", "La ghisa trattiene molto il calore: dopo la rosolatura aspetta qualche minuto prima di valutare il bollore."],
       differenza: "Sull'induzione il livello 2 con la ghisa tiene un sobbollire lentissimo e regolare per ore, come il fuoco minimo del gas."
     },
-    strumenti: ["Pentola di ghisa con coperchio", "Contenitore per la marinata", "Frullatore a immersione o passaverdure"],
+    strumenti: [{ casa: "fede", si: "Casseruola Slowcook ovale in ghisa 25 × 20 cm (3,3 l), con il coperchio", no: "Pentola di ghisa con coperchio" }, "Contenitore per la marinata", "Frullatore a immersione o passaverdure"],
     energia: [{ app: "piastra", kwh: [1.1, 1.5], come: "rosolature e 3 ore di brasatura" }],
     gruppi: [
       { nome: "Brasato", ingredienti: [
@@ -1346,7 +1346,7 @@ const RICETTE = [
       attenzioni: ["Le cipolle devono diventare molto scure ma non bruciare: mescola spesso a livello 4.", "Il toast con il formaggio brucia in fretta: non salire oltre il livello 4."],
       differenza: "Sull'induzione il livello 3 tiene la stufatura dolce e costante; la caramellatura va controllata perché il fondo scalda subito."
     },
-    strumenti: ["Tegame largo", "Pentolino", PAD("Padella in acciaio inox", "Padella antiaderente"), "Paletta da smash burger o un pentolino pesante per schiacciare", "Mandolina o coltello"],
+    strumenti: ["Tegame largo", "Pentolino", PAD({ casa: "fede", si: "Padella Agnelli Aluinox lucida Ø 24 cm", no: "Padella in acciaio inox" }, "Padella antiaderente"), "Paletta da smash burger o un pentolino pesante per schiacciare", "Mandolina o coltello"],
     energia: [{ app: "piastra", kwh: [0.4, 0.55], come: "cipolle per 50 minuti e toast in padella" }],
     gruppi: [
       { nome: "Cipolle", ingredienti: [
@@ -1508,7 +1508,7 @@ const RICETTE = [
       attenzioni: ["Le scaloppine non devono colorire: con la padella troppo calda diventano dure."],
       differenza: "Il «fuoco medio» del gas sull'induzione è il livello 4, e la padella risponde subito quando abbassi."
     },
-    strumenti: [PAD("Padella in acciaio inox", "Padella antiaderente"), "Batticarne", "Pellicola alimentare", "Piatto fondo per la farina", "Pinze"],
+    strumenti: [PAD({ casa: "fede", si: "Padella a mantecare Agnelli Aluinox Ø 28 cm", no: "Padella in acciaio inox" }, "Padella antiaderente"), "Batticarne", "Pellicola alimentare", "Piatto fondo per la farina", "Pinze"],
     energia: [{ app: "piastra", kwh: [0.1, 0.15], come: "circa 10 minuti di padella" }],
     gruppi: [
       { nome: "Per infarinare", ingredienti: [
@@ -1637,7 +1637,7 @@ const RICETTE = [
       attenzioni: ["Se il grasso fuma, scendi a livello 5: la panatura brucerebbe prima che la carne sia cotta."],
       differenza: "Sull'induzione il grasso arriva in temperatura in pochi minuti e la tiene anche quando metti la carne fredda."
     },
-    strumenti: [PAD("Padella in acciaio inox larga", "Padella antiaderente larga"), "Piatto per le uova", "Piatto per la panatura", "Paletta"],
+    strumenti: [PAD({ casa: "fede", si: "Padella a mantecare Agnelli Aluinox Ø 28 cm", no: "Padella in acciaio inox larga" }, "Padella antiaderente larga"), "Piatto per le uova", "Piatto per la panatura", "Paletta"],
     energia: [{ app: "piastra", kwh: [0.12, 0.2], come: "grasso scaldato e 8–10 minuti di cottura" }],
     gruppi: [
       { nome: "Costolette", ingredienti: [
@@ -1865,7 +1865,7 @@ const RICETTE = [
         acciaio: "Sul gas si consiglia «fuoco medio-basso per 4–5 minuti»: sull'induzione corrisponde al livello 4–5, e l'acciaio arriva comunque molto caldo perché il calore nasce direttamente nel fondo. Il centro della zona scalda più dei bordi: con padelle grandi metti le bistecche al centro.",
         antiaderente: "Sull'induzione l'antiaderente si scalda in un minuto: niente attesa lunga come sul gas, ma neanche livelli alti per non rovinare il rivestimento." }
     },
-    strumenti: [{ padella: true, acciaio: "Padella in acciaio inox", antiaderente: "Padella antiaderente" }, "Pinze", "Cucchiaio per arrosare", "Carta da cucina", "Termometro da cucina"],
+    strumenti: [{ padella: true, acciaio: { casa: "fede", si: "Padella Agnelli Aluinox lucida Ø 24 cm", no: "Padella in acciaio inox" }, antiaderente: "Padella antiaderente" }, "Pinze", "Cucchiaio per arrosare", "Carta da cucina", "Termometro da cucina"],
     energia: [{ app: "piastra", kwh: [0.12, 0.18], come: "padella scaldata e circa 8 minuti di cottura" }],
     gruppi: [
       { nome: "Ingredienti", ingredienti: [
@@ -1926,7 +1926,7 @@ const RICETTE = [
       ],
       differenza: "Rispetto a un fornello a gas l'induzione scalda prima e più forte: dove la ricetta dice «fuoco medio-alto» usa 7–8, non il massimo, e la «fiamma minima» corrisponde al livello 2. La ghisa però trattiene tanto calore e reagisce lentamente: quando abbassi, aspetta un paio di minuti prima di correggere ancora."
     },
-    strumenti: ["Pentola di ghisa con coperchio pesante", "Spago da cucina", "Pinze", "Cucchiaio di legno", "Frullatore a immersione"],
+    strumenti: [{ casa: "fede", si: "Casseruola Slowcook ovale in ghisa 25 × 20 cm (3,3 l), con il coperchio", no: "Pentola di ghisa con coperchio pesante" }, "Spago da cucina", "Pinze", "Cucchiaio di legno", "Frullatore a immersione"],
     energia: [],
     gruppi: [
       { nome: "Carne", ingredienti: [
@@ -2058,7 +2058,7 @@ const RICETTE = [
       { fase: "Prima cottura", funzione: "Termoventilato", temp: "170 °C", ripiano: "2", tempo: "15–18 min" },
       { fase: "Seconda cottura", funzione: "Termoventilato", temp: "150 °C", ripiano: "2", tempo: "35 min" }
     ] },
-    strumenti: ["Planetaria", "Setaccio", "Stampo da plumcake", "Termometro da cucina"],
+    strumenti: [{ casa: "fede", si: "Planetaria Ariete Moderna con la frusta per montare", no: "Planetaria" }, "Setaccio", "Stampo da plumcake", "Termometro da cucina"],
     energia: [{ app: "forno", kwh: [0.95, 1.05], come: "preriscaldamento e 50 minuti tra 170 e 150 °C" }],
     gruppi: [
       { nome: "Ingredienti", ingredienti: [
@@ -2075,9 +2075,9 @@ const RICETTE = [
     ],
     procedimento: [
       "Setaccia la farina e il lievito e mettili da parte in una ciotola.",
-      "In planetaria unisci uova, miele, sale, estratto di vaniglia e buccia grattugiata, e monta.",
+      { casa: "fede", si: "Nella ciotola della planetaria unisci uova, miele, sale, estratto di vaniglia e buccia grattugiata, e monta con la frusta a velocità 8–10 finché il composto è chiaro e spumoso.", no: "In planetaria unisci uova, miele, sale, estratto di vaniglia e buccia grattugiata, e monta." },
       "Aggiungi a filo il latte e l'olio continuando a montare.",
-      "Quando è tutto montato aggiungi la farina con il lievito: l'impasto risulterà abbastanza liquido. Versalo nello stampo.",
+      { casa: "fede", si: "Quando è tutto montato abbassa a velocità 1–2 e aggiungi la farina con il lievito, solo il tempo di amalgamarla: l'impasto risulterà abbastanza liquido. Versalo nello stampo.", no: "Quando è tutto montato aggiungi la farina con il lievito: l'impasto risulterà abbastanza liquido. Versalo nello stampo." },
       { casa: "forno", si: "Scalda il forno in Termoventilato a 170 °C e, al segnale, inforna sul ripiano 2 per una prima cottura di 15 minuti, finché non si forma una cupoletta (può volerci qualche minuto in più o in meno).", ma: "Scalda il forno in Termoventilato a 170 °C e, quando si spegne la spia del termostato, inforna sul ripiano 2 per una prima cottura di 15 minuti, finché non si forma una cupoletta (può volerci qualche minuto in più o in meno).", no: "Scalda il forno ventilato a 170 °C e inforna a metà altezza per una prima cottura di 15 minuti, finché non si forma una cupoletta (può volerci qualche minuto in più o in meno)." },
       "Senza aprire il forno, abbassa a 150 °C e cuoci per altri 35 minuti.",
       "Il plumcake è cotto quando la temperatura al cuore è intorno ai 98 °C."
@@ -2106,7 +2106,7 @@ const RICETTE = [
     cottura: { tipo: "forno", gen: { dettaglio: "Forno statico 180 °C", extra: "A metà altezza, 35 minuti" }, dettaglio: "Statico 180 °C", preriscaldo: "Aspetta il segnale acustico", forno: [
       { fase: "Cottura", funzione: "Statico", temp: "180 °C", ripiano: "2", tempo: "35 min" }
     ] },
-    strumenti: ["Ciotola o planetaria con la foglia", "Pellicola", "Mattarello", "Tortiera tonda Ø 26 cm"],
+    strumenti: [{ casa: "fede", si: "Planetaria Ariete Moderna con la frusta a foglia (o una ciotola)", no: "Ciotola o planetaria con la foglia" }, "Pellicola", "Mattarello", "Tortiera tonda Ø 26 cm"],
     energia: [{ app: "forno", kwh: [0.8, 1.0], come: "preriscaldamento e 35 minuti a 180 °C" }, { app: "ninja", kwh: [0.45, 0.6], come: "in alternativa, nel Ninja", alt: true }],
     gruppi: [
       { nome: "Pasta frolla", totale: true, ingredienti: [
@@ -2121,7 +2121,7 @@ const RICETTE = [
       ]}
     ],
     procedimento: [
-      "Mescola tutti gli ingredienti, aggiungendo il lievito per ultimo, fino a un impasto compatto.",
+      { casa: "fede", si: "Nella planetaria con la frusta a foglia mescola tutti gli ingredienti a velocità 1–2, aggiungendo il lievito per ultimo, solo finché l'impasto è compatto: non lavorarla troppo.", no: "Mescola tutti gli ingredienti, aggiungendo il lievito per ultimo, fino a un impasto compatto." },
       "Avvolgi l'impasto nella pellicola e lascialo riposare in frigorifero almeno 30 minuti.",
       "Stendi l'impasto e guarnisci (crostata, biscotti…).",
       { casa: "forno", si: "Preriscalda il forno in Statico (2 scatti) a 180 °C. Al segnale inforna sul ripiano 2 e cuoci 35 minuti.", ma: "Preriscalda il forno in Statico a 180 °C. Quando si spegne la spia del termostato inforna sul ripiano 2 e cuoci 35 minuti.", no: "Preriscalda il forno statico a 180 °C e cuoci a metà altezza per 35 minuti." }
@@ -2366,7 +2366,7 @@ function fornoCasa(){ return cucina() === "federico" && flagOn("ricettario-forno
 function fornoMa(){ return cucina() === "andreina" && flagOn("ricettario-fornocasa"); }
 function induzioneCasa(){ return !!cucina() && flagOn("ricettario-induzione"); }
 function setFlag(k, v){ try { localStorage.setItem(k, v ? "si" : "no"); } catch (e) {} }
-function V(x){ if (x && typeof x === "object" && x.casa){ if (x.casa === "forno" && fornoMa()) return V(x.ma ?? x.no); return V((x.casa === "forno" ? fornoCasa() : induzioneCasa()) ? x.si : x.no); } return x && typeof x === "object" && x.padella ? x[acciaio() ? "acciaio" : "antiaderente"] : x; }
+function V(x){ if (x && typeof x === "object" && x.casa){ if (x.casa === "fede") return V(showNinja() ? x.si : x.no); if (x.casa === "forno" && fornoMa()) return V(x.ma ?? x.no); return V((x.casa === "forno" ? fornoCasa() : induzioneCasa()) ? x.si : x.no); } return x && typeof x === "object" && x.padella ? V(x[acciaio() ? "acciaio" : "antiaderente"]) : x; }
 function cot(r){ const c = r.cottura;
   if (c.tipo === "forno" && fornoMa()){ const m = c.ma || {}; return { tipo: c.tipo, dettaglio: m.dettaglio || c.dettaglio, preriscaldo: m.preriscaldo || (c.preriscaldo || "").replace(/([Aa])spetta il segnale acustico/, "$1spetta che si spenga la spia del termostato"), forno: m.forno || c.forno, extra: c.gen && c.gen.extra }; }
   const casa = c.tipo === "forno" ? fornoCasa() : c.tipo === "fornelli" ? induzioneCasa() : true; return casa || !c.gen ? c : { tipo: c.tipo, dettaglio: c.gen.dettaglio, extra: c.gen.extra }; }
