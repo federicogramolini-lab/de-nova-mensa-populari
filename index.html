@@ -2217,7 +2217,7 @@ const cestino = new Set();
 let cestinoRef = null;
 let isOwner = false;
 let titoliRef = null;
-/*SYNC*/const SYNC_DATA = {"titoli":{"focaccia-barese":"Focaccia barese senza patata"},"cestino":["pan-brioche-giallozafferano","pan-brioche-giapponese","pizza-teglia-75"]};/*/SYNC*/
+/*SYNC*/const SYNC_DATA = {"titoli":{"focaccia-barese":"Focaccia barese senza patata","spaghetti-pomodoro-freddi":"Spaghetti alla crudiaiola","toast-zuppa-cipolle":"Toast di zuppa di cipolle"},"cestino":["pan-brioche-giallozafferano","pan-brioche-giapponese","pizza-teglia-75"]};/*/SYNC*/
 /* nomi cambiati ed eliminazioni fatti su claude.ai, copiati qui ogni notte: valgono anche nella copia su GitHub */
 RICETTE.forEach(r => { const t = SYNC_DATA.titoli[r.id]; if (typeof t === "string" && t.trim()) r.titolo = t.trim().slice(0, 120); r.titoloOrig = r.titolo; });
 /* Scelte alternative (versioni, condimenti…): uno o più menù a tendina per ricetta.
