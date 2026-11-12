@@ -1623,6 +1623,58 @@ const RICETTE = [
     note: ["L'aglio orsino si trova in primavera.", "È nata per la costoletta di vitello alle erbe, ma va bene anche con carni e verdure fritte."]
   },
   {
+    id: "maionese-senza-olio", img: "maionesesoda", aggiunta: "2026-11-12T15:45:00+01:00",
+    titolo: "Maionese all'acqua senza olio",
+    sezione: "Salse", sottosezione: "Maionesi",
+    fonte: { nome: "Le mille ricette", url: "https://www.lemillericette.it/maionese-senza-olio/" },
+    porzioni: 4, unitaPorzioni: ["persona","persone"],
+    fasi: [
+      { nome: "Uova in acqua fredda portata a bollore", min: 5, max: 7 },
+      { nome: "Cottura delle uova", min: 9 },
+      { nome: "Uova in acqua e ghiaccio", min: 10, attesa: true },
+      { nome: "Sgusciare le uova", min: 3 },
+      { nome: "Frullare la maionese", min: 2, max: 3 }
+    ],
+    cottura: { tipo: "fornelli", gen: { dettaglio: "Fornelli, pentolino", extra: "Uova sode 9 min" }, dettaglio: "Piano a induzione, pentolino", extra: "Uova sode 9 min" },
+    piastra: {
+      zona: "Pentolino su una zona media (destra dietro, Ø 18 cm)",
+      passi: [
+        { fase: "Uova in acqua fredda fino al bollore", livello: "8", tempo: "5–7 min" },
+        { fase: "Cottura delle uova", livello: "5", tempo: "9 min" }
+      ],
+      attenzioni: ["Niente Boost: le uova sbattono sul fondo e il guscio si crepa."],
+      differenza: "Sull'induzione l'acqua arriva a bollore in pochi minuti: i 9 minuti si contano da quando bolle."
+    },
+    strumenti: ["Pentolino", "Ciotola con acqua e ghiaccio", "Frullatore a immersione con il bicchiere alto", "Ciotolina per servire"],
+    energia: [{ app: "piastra", kwh: [0.1, 0.15], come: "pentolino d'acqua a bollore e 9 minuti di cottura; il frullatore è trascurabile" }],
+    gruppi: [
+      { nome: "Uova sode", ingredienti: [
+        { nome: "Uova medie", qta: 2, u: "", k: ["Uova"] },
+        { nome: "Aceto per l'acqua delle uova", nota: "un goccio", qta: 5, u: "g", base: true }
+      ]},
+      { nome: "Maionese", ingredienti: [
+        { nome: "Acqua naturale fredda", qta: 30, u: "g", base: true },
+        { nome: "Aceto di vino bianco", nota: "oppure succo di limone", qta: 10, u: "g", k: ["Aceto di vino","Limone"] },
+        { nome: "Sale fino", nota: "mezzo cucchiaino", qta: 3, u: "g", base: true },
+        { nome: "Capperi sotto sale", nota: "1 cucchiaio, ben dissalati", qta: 10, u: "g", k: ["Capperi"] }
+      ]}
+    ],
+    procedimento: [
+      { casa: "induzione", si: "Metti le uova nel pentolino coperte d'acqua fredda con un goccio di aceto, su una zona media a livello 8. Quando l'acqua bolle scendi a livello 5 e cuocile 9 minuti.", no: "Metti le uova nel pentolino coperte d'acqua fredda con un goccio di aceto. Porta a bollore, poi cuocile 9 minuti a fuoco medio." },
+      "Scolale subito, passale sotto l'acqua fredda e lasciale 10 minuti in acqua e ghiaccio: il tuorlo non fa l'alone verde e si sgusciano meglio.",
+      "Picchietta il guscio su tutta la superficie e toglilo partendo dalla camera d'aria.",
+      "Taglia le uova a metà e mettile nel bicchiere del frullatore con l'acqua, l'aceto (o il limone), il sale e i capperi.",
+      "Frulla tenendo il frullatore sul fondo per 30 secondi, poi sollevalo e abbassalo piano per incorporare aria. Continua per circa 2 minuti in tutto, finché è densa, liscia e lucida.",
+      "Se è troppo densa aggiungi un cucchiaino d'acqua fredda alla volta; se è troppo liquida aggiungi mezzo tuorlo sodo e frulla di nuovo.",
+      "Mettila in una ciotolina e tienila in frigo fino al momento di servirla."
+    ],
+    note: [
+      "Si conserva in frigo fino a 3 giorni in un barattolo di vetro chiuso. Non si congela: l'emulsione si separa.",
+      "Al posto dei capperi vanno bene le olive taggiasche; se vuoi aggiungi mezzo cucchiaino di senape in polvere o erba cipollina tritata.",
+      "Con l'acqua frizzante ghiacciata viene più spumosa."
+    ]
+  },
+  {
     id: "costoletta-di-vitello", img: "costoletta", aggiunta: "2026-11-11T14:40:00+01:00",
     titolo: "Costoletta di vitello",
     sezione: "Secondi", sottosezione: "Carne",
@@ -2189,6 +2241,7 @@ const ART = {
   succo: `<svg viewBox="0 0 160 120" aria-hidden="true"><ellipse cx="80" cy="108" rx="58" ry="6" fill="#000" opacity=".08"/><circle cx="118" cy="94" r="15" fill="#8fb34a"/><circle cx="118" cy="94" r="10" fill="#c7dc85"/><circle cx="118" cy="94" r="2.5" fill="#fff"/><path d="M28 94l18-8 4 6-18 10z" fill="#ef8a2e"/><path d="M58 22h40l-5 82H63z" fill="#eef5f7" stroke="#c9d8dd" stroke-width="2"/><path d="M60.5 42h35l-3.6 60H64.1z" fill="#f29a3a"/><path d="M64 26h4l-3 72h-3z" fill="#fff" opacity=".6"/></svg>`,
   frullato: `<svg viewBox="0 0 160 120" aria-hidden="true"><ellipse cx="80" cy="108" rx="58" ry="6" fill="#000" opacity=".08"/><path d="M110 92q8-14 18 0q-9 14-18 0z" fill="#d9374a"/><path d="M114 82l6 4 6-4" stroke="#3f8a3a" stroke-width="3" fill="none"/><path d="M28 96q6-12 16 0q-8 12-16 0z" fill="#d9374a"/><path d="M58 22h40l-5 82H63z" fill="#eef5f7" stroke="#c9d8dd" stroke-width="2"/><path d="M60.5 42h35l-3.6 60H64.1z" fill="#ef8fa2"/><path d="M64 26h4l-3 72h-3z" fill="#fff" opacity=".6"/></svg>`,
   bevande: `<svg viewBox="0 0 160 120" aria-hidden="true"><ellipse cx="80" cy="108" rx="58" ry="6" fill="#000" opacity=".08"/><rect x="104" y="40" width="30" height="64" rx="8" fill="#eef5f7" stroke="#c9d8dd" stroke-width="2"/><rect x="113" y="22" width="12" height="20" rx="3" fill="#eef5f7" stroke="#c9d8dd" stroke-width="2"/><rect x="112" y="16" width="14" height="8" rx="2" fill="#2f6b4f"/><rect x="106" y="56" width="26" height="46" rx="6" fill="#f3ead8"/><path d="M58 22h40l-5 82H63z" fill="#eef5f7" stroke="#c9d8dd" stroke-width="2"/><path d="M60.5 42h35l-3.6 60H64.1z" fill="#f3ead8"/><path d="M64 26h4l-3 72h-3z" fill="#fff" opacity=".6"/></svg>`,
+  maionesesoda: `<svg viewBox="0 0 160 120" aria-hidden="true"><ellipse cx="80" cy="104" rx="52" ry="7" fill="#000" opacity=".08"/><ellipse cx="70" cy="84" rx="42" ry="17" fill="#f1ece0"/><path d="M28 70h84v14a42 17 0 0 1-84 0z" fill="#e6dfcf"/><ellipse cx="70" cy="70" rx="42" ry="15" fill="#f7f3ea" stroke="#d8d0bd" stroke-width="2"/><ellipse cx="70" cy="70" rx="33" ry="10" fill="#f3e3a6"/><path d="M52 69q8-8 17-3t18-2" stroke="#ead48a" stroke-width="5" fill="none" stroke-linecap="round"/><circle cx="62" cy="66" r="2.6" fill="#6b7d3a"/><circle cx="78" cy="72" r="2.4" fill="#6b7d3a"/><circle cx="84" cy="65" r="2.2" fill="#5d6f31"/><ellipse cx="128" cy="92" rx="18" ry="13" fill="#fffdf6" stroke="#e2dccb" stroke-width="1.5"/><circle cx="128" cy="92" r="7.5" fill="#f2c13c"/><circle cx="125.5" cy="89.5" r="2" fill="#f8da7a"/></svg>`,
   maionese: `<svg viewBox="0 0 160 120" aria-hidden="true"><ellipse cx="80" cy="104" rx="52" ry="7" fill="#000" opacity=".08"/><ellipse cx="80" cy="84" rx="46" ry="18" fill="#f1ece0"/><path d="M34 70h92v14a46 18 0 0 1-92 0z" fill="#e6dfcf"/><ellipse cx="80" cy="70" rx="46" ry="16" fill="#f7f3ea" stroke="#d8d0bd" stroke-width="2"/><ellipse cx="80" cy="70" rx="36" ry="11" fill="#d9e3a3"/><path d="M60 68q8-9 18-3t20-2" stroke="#c8d68a" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M112 40q16-6 20 6q-10 8-20-6z" fill="#5f9a3e"/><path d="M114 42l14 3" stroke="#3f7a2a" stroke-width="1.5"/><path d="M98 34q14-12 24-2q-12 10-24 2z" fill="#6daa47"/></svg>`,
   generico: `<svg viewBox="0 0 160 120" aria-hidden="true"><ellipse cx="80" cy="66" rx="48" ry="40" fill="#fff" stroke="#cfd6cf" stroke-width="2"/><ellipse cx="80" cy="66" rx="32" ry="26" fill="none" stroke="#e1e6e0" stroke-width="2"/><rect x="20" y="30" width="5" height="72" rx="2.5" fill="#9aa39c"/><rect x="135" y="30" width="5" height="72" rx="2.5" fill="#9aa39c"/></svg>`
 };
