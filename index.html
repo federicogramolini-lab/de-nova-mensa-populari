@@ -3395,6 +3395,37 @@ function chiediSottotitolo(m){
     inp.focus(); inp.select();
   });
 }
+function chiediPiano(m){
+  const rs = menuRecipes(m);
+  return new Promise(res => {
+    const d = document.createElement("div"); d.className = "dot-modal";
+    d.innerHTML = `<div class="dot-box" role="dialog" aria-modal="true" aria-labelledby="cp-t">
+      <h2 id="cp-t">Come vuoi cucinare?</h2>
+      <p>Il piano di lavoro nel PDF cambia secondo come ti organizzi.</p>
+      <button class="btn" data-m="tutto"><b>Tutte le portate insieme</b><small>un solo piano: mentre qualcosa cuoce da solo lavori sugli altri piatti, e tutto è pronto per servire</small></button>
+      <button class="btn" data-m="alcune"><b>Solo alcune insieme</b><small>scegli quali portate fare nello stesso momento; le altre a parte</small></button>
+      <div class="cv-list cp-list" hidden>${rs.map(r => `<label class="ck"><input type="checkbox" value="${r.id}" checked><span>${esc(conDish(m, r, () => piattoNome(r).titolo))}</span></label>`).join("")}
+        <p class="cv-err status" style="color:#b3261e;min-height:1em"></p><button class="btn small" data-ok="1"><b>Continua</b></button></div>
+      <button class="btn" data-m="separati"><b>In momenti diversi</b><small>ogni piatto per conto suo, con i suoi tempi</small></button>
+      <button class="link" data-m="">Annulla</button></div>`;
+    document.body.appendChild(d);
+    const done = v => { d.remove(); document.removeEventListener("keydown", esc1); res(v); };
+    const esc1 = e => { if (e.key === "Escape") done(null); };
+    document.addEventListener("keydown", esc1);
+    d.addEventListener("click", e => {
+      if (e.target === d) return done(null);
+      if (e.target.closest("[data-ok]")){
+        const ids = [...d.querySelectorAll(".cp-list input:checked")].map(i => i.value);
+        if (ids.length < 2){ d.querySelector(".cv-err").textContent = "Scegli almeno due portate da fare insieme."; return; }
+        return done({ modo: ids.length === rs.length ? "tutto" : "alcune", ids: new Set(ids) });
+      }
+      const b = e.target.closest("[data-m]"); if (!b) return;
+      if (b.dataset.m === "alcune"){ const l = d.querySelector(".cp-list"); l.hidden = !l.hidden; return; }
+      done(b.dataset.m ? { modo: b.dataset.m } : null);
+    });
+    d.querySelector("[data-m=tutto]").focus();
+  });
+}
 function chiediTipoMenu(){
   return new Promise(res => {
     const d = document.createElement("div"); d.className = "dot-modal";
@@ -4291,6 +4322,9 @@ function renderMenu(m){
   if (ms) ms.onclick = () => { const l = spesaNuova("Spesa per " + m.nome, spesaDaMenu(m)); location.hash = "spesa-" + l.id; };
   document.getElementById("mpdf").onclick = async () => {
     const status = document.getElementById("status");
+    try { await pdfMenu(status); } catch (err){ console.error(err); status.textContent = "Non sono riuscito a creare il PDF: " + (err && err.message || err); }
+  };
+  const pdfMenu = async status => {
     if (!downloads || !window.jspdf){ status.textContent = "Il PDF non si può creare in questa vista."; return; }
     const tipo = await chiediTipoMenu(); if (!tipo) return;
     if (tipo === "ospite"){
