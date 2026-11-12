@@ -1675,6 +1675,58 @@ const RICETTE = [
     ]
   },
   {
+    id: "senape", img: "senape", aggiunta: "2026-11-12T17:30:00+01:00",
+    titolo: "Senape",
+    sezione: "Salse", sottosezione: "Senape",
+    fonte: { nome: "Fatto in casa da Benedetta", url: "https://www.fattoincasadabenedetta.it/ricetta/senape/" },
+    porzioni: 4, unitaPorzioni: ["persona","persone"],
+    condLabel: "Versione",
+    fasi: [
+      { nome: "Semi in ammollo nell'aceto", min: 720, attesa: true },
+      { nome: "Frullare la senape", min: 10 }
+    ],
+    cottura: { tipo: "mixer", dettaglio: "Nessuna cottura", extra: "Frullatore a immersione; semi in ammollo almeno 12 ore" },
+    strumenti: ["Ciotola con coperchio per l'ammollo", "Frullatore a immersione con il bicchiere alto", "Barattolo di vetro"],
+    energia: [{ app: "altro", kwh: [0.01, 0.01], come: "pochi minuti di frullatore: trascurabile" }],
+    gruppi: [
+      { nome: "Semi in ammollo", ingredienti: [
+        { nome: "Semi di senape gialli e scuri", nota: "misti", qta: 100, u: "g", k: ["Semi di senape"] },
+        { nome: "Aceto di mele", qta: 80, u: "g", k: ["Aceto di mele"] }
+      ]},
+      { nome: "Salsa", cond: true, condNome: "Salsa", ingredienti: [] }
+    ],
+    procedimento: [
+      "Metti i semi di senape in una ciotola con l'aceto di mele, copri e lasciali in ammollo almeno 12 ore."
+    ],
+    note: [
+      "Se vuoi puoi aggiungere curcuma, pepe, cumino o aglio in polvere.",
+      "Va bene con insalate, secondi di carne, panini, tramezzini e finger food."
+    ],
+    condimenti: [
+      { id: "classica", nome: "Senape", titolo: "Senape",
+        ingredienti: [
+          { nome: "Acqua", qta: 80, u: "g", base: true },
+          { nome: "Zucchero di canna", qta: 30, u: "g", k: ["Zucchero di canna"] },
+          { nome: "Sale fino", qta: 2, u: "g", base: true },
+          { nome: "Olio extravergine d'oliva", nota: "a filo, quanto basta per la consistenza", qta: 30, u: "g", k: ["Olio extravergine"] }
+        ],
+        procedimento: [
+          "Sciogli lo zucchero di canna e il sale nell'acqua e versala nel bicchiere del frullatore.",
+          "Aggiungi i semi con il loro aceto e frulla, unendo l'olio a filo, finché la salsa è omogenea e cremosa."
+        ] },
+      { id: "honey", nome: "Honey mustard (al miele)", titolo: "Honey mustard",
+        ingredienti: [
+          { nome: "Miele d'acacia", qta: 90, u: "g", k: ["Miele"] },
+          { nome: "Sale fino", qta: 2, u: "g", base: true },
+          { nome: "Olio extravergine d'oliva", nota: "a filo, quanto basta per la consistenza", qta: 30, u: "g", k: ["Olio extravergine"] }
+        ],
+        procedimento: [
+          "Metti nel bicchiere del frullatore il miele, il sale e i semi con il loro aceto.",
+          "Frulla unendo l'olio a filo, finché la salsa è omogenea e cremosa. Se la vuoi più dolce aggiungi un altro po' di miele e frulla ancora."
+        ] }
+    ]
+  },
+  {
     id: "costoletta-di-vitello", img: "costoletta", aggiunta: "2026-11-11T14:40:00+01:00",
     titolo: "Costoletta di vitello",
     sezione: "Secondi", sottosezione: "Carne",
@@ -2241,6 +2293,7 @@ const ART = {
   succo: `<svg viewBox="0 0 160 120" aria-hidden="true"><ellipse cx="80" cy="108" rx="58" ry="6" fill="#000" opacity=".08"/><circle cx="118" cy="94" r="15" fill="#8fb34a"/><circle cx="118" cy="94" r="10" fill="#c7dc85"/><circle cx="118" cy="94" r="2.5" fill="#fff"/><path d="M28 94l18-8 4 6-18 10z" fill="#ef8a2e"/><path d="M58 22h40l-5 82H63z" fill="#eef5f7" stroke="#c9d8dd" stroke-width="2"/><path d="M60.5 42h35l-3.6 60H64.1z" fill="#f29a3a"/><path d="M64 26h4l-3 72h-3z" fill="#fff" opacity=".6"/></svg>`,
   frullato: `<svg viewBox="0 0 160 120" aria-hidden="true"><ellipse cx="80" cy="108" rx="58" ry="6" fill="#000" opacity=".08"/><path d="M110 92q8-14 18 0q-9 14-18 0z" fill="#d9374a"/><path d="M114 82l6 4 6-4" stroke="#3f8a3a" stroke-width="3" fill="none"/><path d="M28 96q6-12 16 0q-8 12-16 0z" fill="#d9374a"/><path d="M58 22h40l-5 82H63z" fill="#eef5f7" stroke="#c9d8dd" stroke-width="2"/><path d="M60.5 42h35l-3.6 60H64.1z" fill="#ef8fa2"/><path d="M64 26h4l-3 72h-3z" fill="#fff" opacity=".6"/></svg>`,
   bevande: `<svg viewBox="0 0 160 120" aria-hidden="true"><ellipse cx="80" cy="108" rx="58" ry="6" fill="#000" opacity=".08"/><rect x="104" y="40" width="30" height="64" rx="8" fill="#eef5f7" stroke="#c9d8dd" stroke-width="2"/><rect x="113" y="22" width="12" height="20" rx="3" fill="#eef5f7" stroke="#c9d8dd" stroke-width="2"/><rect x="112" y="16" width="14" height="8" rx="2" fill="#2f6b4f"/><rect x="106" y="56" width="26" height="46" rx="6" fill="#f3ead8"/><path d="M58 22h40l-5 82H63z" fill="#eef5f7" stroke="#c9d8dd" stroke-width="2"/><path d="M60.5 42h35l-3.6 60H64.1z" fill="#f3ead8"/><path d="M64 26h4l-3 72h-3z" fill="#fff" opacity=".6"/></svg>`,
+  senape: `<svg viewBox="0 0 160 120" aria-hidden="true"><ellipse cx="80" cy="106" rx="54" ry="7" fill="#000" opacity=".08"/><path d="M46 46h44v52a6 6 0 0 1-6 6H52a6 6 0 0 1-6-6z" fill="#eef3f2" stroke="#c9d3d1" stroke-width="2"/><path d="M49 58h38v40a4 4 0 0 1-4 4H53a4 4 0 0 1-4-4z" fill="#d7a72a"/><circle cx="58" cy="72" r="1.6" fill="#8a5a1a"/><circle cx="70" cy="84" r="1.6" fill="#8a5a1a"/><circle cx="78" cy="68" r="1.6" fill="#f3d36a"/><circle cx="62" cy="92" r="1.6" fill="#f3d36a"/><circle cx="80" cy="94" r="1.6" fill="#8a5a1a"/><rect x="43" y="36" width="50" height="11" rx="3" fill="#b08d3e"/><rect x="58" y="70" width="20" height="14" rx="2" fill="#fffdf6" opacity=".9"/><ellipse cx="122" cy="94" rx="20" ry="9" fill="#f7f3ea" stroke="#d8d0bd" stroke-width="1.5"/><ellipse cx="122" cy="92" rx="14" ry="5" fill="#e0b13a"/><circle cx="117" cy="91" r="1.4" fill="#8a5a1a"/><circle cx="126" cy="93" r="1.4" fill="#f6dd84"/><path d="M104 60q4-10 12-4" stroke="#c9a032" stroke-width="5" fill="none" stroke-linecap="round"/><circle cx="104" cy="66" r="3.5" fill="#d9a630"/><circle cx="111" cy="70" r="3" fill="#6b4416"/><circle cx="99" cy="74" r="2.6" fill="#e8c35a"/></svg>`,
   maionesesoda: `<svg viewBox="0 0 160 120" aria-hidden="true"><ellipse cx="80" cy="104" rx="52" ry="7" fill="#000" opacity=".08"/><ellipse cx="70" cy="84" rx="42" ry="17" fill="#f1ece0"/><path d="M28 70h84v14a42 17 0 0 1-84 0z" fill="#e6dfcf"/><ellipse cx="70" cy="70" rx="42" ry="15" fill="#f7f3ea" stroke="#d8d0bd" stroke-width="2"/><ellipse cx="70" cy="70" rx="33" ry="10" fill="#f3e3a6"/><path d="M52 69q8-8 17-3t18-2" stroke="#ead48a" stroke-width="5" fill="none" stroke-linecap="round"/><circle cx="62" cy="66" r="2.6" fill="#6b7d3a"/><circle cx="78" cy="72" r="2.4" fill="#6b7d3a"/><circle cx="84" cy="65" r="2.2" fill="#5d6f31"/><ellipse cx="128" cy="92" rx="18" ry="13" fill="#fffdf6" stroke="#e2dccb" stroke-width="1.5"/><circle cx="128" cy="92" r="7.5" fill="#f2c13c"/><circle cx="125.5" cy="89.5" r="2" fill="#f8da7a"/></svg>`,
   maionese: `<svg viewBox="0 0 160 120" aria-hidden="true"><ellipse cx="80" cy="104" rx="52" ry="7" fill="#000" opacity=".08"/><ellipse cx="80" cy="84" rx="46" ry="18" fill="#f1ece0"/><path d="M34 70h92v14a46 18 0 0 1-92 0z" fill="#e6dfcf"/><ellipse cx="80" cy="70" rx="46" ry="16" fill="#f7f3ea" stroke="#d8d0bd" stroke-width="2"/><ellipse cx="80" cy="70" rx="36" ry="11" fill="#d9e3a3"/><path d="M60 68q8-9 18-3t20-2" stroke="#c8d68a" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M112 40q16-6 20 6q-10 8-20-6z" fill="#5f9a3e"/><path d="M114 42l14 3" stroke="#3f7a2a" stroke-width="1.5"/><path d="M98 34q14-12 24-2q-12 10-24 2z" fill="#6daa47"/></svg>`,
   generico: `<svg viewBox="0 0 160 120" aria-hidden="true"><ellipse cx="80" cy="66" rx="48" ry="40" fill="#fff" stroke="#cfd6cf" stroke-width="2"/><ellipse cx="80" cy="66" rx="32" ry="26" fill="none" stroke="#e1e6e0" stroke-width="2"/><rect x="20" y="30" width="5" height="72" rx="2.5" fill="#9aa39c"/><rect x="135" y="30" width="5" height="72" rx="2.5" fill="#9aa39c"/></svg>`
