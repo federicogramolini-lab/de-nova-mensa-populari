@@ -1990,17 +1990,17 @@ const RICETTE = [
     fasi: [
       { nome: "Bistecche fuori dal frigo", min: 30 },
       { nome: "Asciugare e condire", min: 3 },
-      { nome: "Scaldare la padella", min: 4, max: 5 },
+      { nome: "Scaldare la padella", min: 2, max: 5 },
       { nome: "Rosolatura, due lati", min: 4, max: 6 },
       { nome: "Burro, aglio e timo", min: 1, max: 2 },
       { nome: "Riposo", min: 5 }
     ],
-    cottura: { tipo: "fornelli", gen: { dettaglio: "Fornelli, padella d'acciaio", extra: "" }, dettaglio: "Piano a induzione, padella d'acciaio", extra: "Padella scaldata a fuoco medio-basso, poi 2 minuti per lato" },
+    cottura: { tipo: "fornelli", gen: { dettaglio: "Fornelli, padella d'acciaio", extra: "" }, dettaglio: "Piano a induzione, padella d'acciaio", extra: "Padella scaldata a livello 7 per 2–2 min 30, poi 2 minuti per lato a livello 6" },
     piastra: {
       zona: "La zona grande, con una padella che la copra tutta",
       passi: { padella: true, acciaio: [
-        { fase: "Scaldare la padella d'acciaio vuota", livello: "4–5", tempo: "4–5 min" },
-        { fase: "Rosolatura delle bistecche", livello: "5–6", tempo: "2 min per lato" },
+        { fase: "Scaldare la padella d'acciaio vuota", livello: "7", tempo: "2–2 min 30" },
+        { fase: "Rosolatura delle bistecche", livello: "6", tempo: "2 min per lato" },
         { fase: "Lasciar intiepidire un attimo la padella", livello: "3", tempo: "circa 1 min" },
         { fase: "Burro, aglio e timo, arrosando", livello: "3", tempo: "30 s per lato" },
         { fase: "Riposo", livello: "spento", tempo: "5 min" }
@@ -2011,8 +2011,8 @@ const RICETTE = [
         { fase: "Riposo", livello: "spento", tempo: "5 min" }
       ] },
       attenzioni: { padella: true, acciaio: [
-        "Non alzare al massimo per scaldare prima: l'acciaio sull'induzione arriva in pochi secondi a temperature altissime, l'olio brucia e la padella si macchia.",
-        "Prova dell'acqua: quando una goccia forma una o due perline che scivolano sul fondo, la padella è pronta. Se la goccia sfrigola e sparisce, non è ancora calda.",
+        "Livello 7 basta: non alzare al massimo e niente Boost. L'acciaio vuoto sull'induzione supera in fretta i 300 °C, l'olio brucia e la padella si macchia; a livello 9 non risparmi quasi energia.",
+        "Prova dell'acqua ogni 30 secondi: quando una goccia forma una o due perline che scivolano sul fondo (circa 190–200 °C) la padella è pronta: versa subito l'olio. Se la goccia sfrigola e sparisce, non è ancora calda; se si rompe in tante palline che spariscono subito, è troppo calda: scendi a 5–6 e aspetta un attimo.",
         "Se l'olio fuma forte appena lo versi, la padella è troppo calda: spostala per un attimo dalla zona.",
         "Non muovere le bistecche per i primi due minuti: si staccano da sole quando la crosta è formata."
       ], antiaderente: [
@@ -2020,7 +2020,7 @@ const RICETTE = [
         "La crosta viene meno marcata che nell'acciaio: asciuga molto bene la carne."
       ] },
       differenza: { padella: true,
-        acciaio: "Sul gas si consiglia «fuoco medio-basso per 4–5 minuti»: sull'induzione corrisponde al livello 4–5, e l'acciaio arriva comunque molto caldo perché il calore nasce direttamente nel fondo. Il centro della zona scalda più dei bordi: con padelle grandi metti le bistecche al centro.",
+        acciaio: "Sul gas si consiglia «fuoco medio-basso per 4–5 minuti»: sull'induzione il calore nasce direttamente nel fondo, così a livello 7 la padella è pronta in 2–2 min 30 con circa 1,5 kW, e resta posto sotto il limite del contatore per un contorno sull'altra zona (fino a livello 6). Il centro della zona scalda più dei bordi: con padelle grandi metti le bistecche al centro.",
         antiaderente: "Sull'induzione l'antiaderente si scalda in un minuto: niente attesa lunga come sul gas, ma neanche livelli alti per non rovinare il rivestimento." }
     },
     strumenti: [{ padella: true, acciaio: { casa: "fede", si: "Padella Agnelli Aluinox lucida Ø 24 cm", no: "Padella in acciaio inox" }, antiaderente: "Padella antiaderente" }, "Pinze", "Cucchiaio per arrosare", "Carta da cucina", "Termometro da cucina"],
@@ -2039,12 +2039,12 @@ const RICETTE = [
       "Togli le bistecche dal frigo 30 minuti prima di cuocerle.",
       "Asciugale bene su entrambi i lati con carta da cucina, per togliere l'umidità in superficie, e condiscile generosamente con sale e pepe.",
       { casa: "induzione", si: { padella: true,
-        acciaio: "Scalda la padella d'acciaio vuota sulla zona grande a livello 4–5 per 4–5 minuti, senza alzare al massimo: l'olio brucerebbe e la padella si rovinerebbe prima ancora di mettere la carne. Per capire se è pronta versa una goccia d'acqua: deve formare una o due perline che scivolano sul fondo.",
+        acciaio: "Scalda la padella d'acciaio vuota sulla zona grande a livello 7 per 2–2 min 30, senza alzare al massimo: l'olio brucerebbe e la padella si rovinerebbe prima ancora di mettere la carne. Ogni 30 secondi versa una goccia d'acqua: quando forma una o due perline che scivolano sul fondo è pronta.",
         antiaderente: "Scalda la padella antiaderente sulla zona grande a livello 5–6 per 1–2 minuti, senza esagerare con il calore." }, no: { padella: true,
         acciaio: "Scalda la padella d'acciaio vuota a fuoco medio-basso per 4–5 minuti, senza alzare al massimo: l'olio brucerebbe e la padella si rovinerebbe prima ancora di mettere la carne. Per capire se è pronta versa una goccia d'acqua: deve formare una o due perline che scivolano sul fondo.",
         antiaderente: "Scalda la padella antiaderente per 1–2 minuti a fuoco medio-alto, senza esagerare con il calore." } },
       "Versa un filo d'olio ad alto punto di fumo. Se fuma molto, la padella è già troppo calda.",
-      { casa: "induzione", si: "Alza a livello 5–6, metti le bistecche e premile leggermente, così la crosta si forma in modo uniforme. Lasciale senza toccarle per un paio di minuti, poi girale e cuoci l'altro lato.", no: "Metti le bistecche e premile leggermente, così la crosta si forma in modo uniforme. Lasciale senza toccarle per un paio di minuti, poi girale e cuoci l'altro lato." },
+      { casa: "induzione", si: "Scendi a livello 6, metti le bistecche e premile leggermente, così la crosta si forma in modo uniforme. Lasciale senza toccarle per un paio di minuti, poi girale e cuoci l'altro lato.", no: "Metti le bistecche e premile leggermente, così la crosta si forma in modo uniforme. Lasciale senza toccarle per un paio di minuti, poi girale e cuoci l'altro lato." },
       { casa: "induzione", si: "Scendi a livello 3 e lascia intiepidire un attimo la padella. Aggiungi il burro, l'aglio schiacciato e il timo.", no: "Abbassa il fuoco e lascia intiepidire un attimo la padella. Aggiungi il burro, l'aglio schiacciato e il timo." },
       { casa: "induzione", si: "Sempre a livello 3, perché il burro non bruci, inclina la padella e versa il burro sulle bistecche con un cucchiaio, circa 30 secondi per lato.", no: "Tenendo il fuoco basso, perché il burro non bruci, inclina la padella e versa il burro sulle bistecche con un cucchiaio, circa 30 secondi per lato." },
       "Per una cottura media al sangue la temperatura al cuore deve essere circa 49 °C. Lascia riposare le bistecche 5 minuti prima di tagliarle."
