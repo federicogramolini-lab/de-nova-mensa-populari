@@ -430,6 +430,29 @@ const SEZIONI = ["Antipasti","Primi","Secondi","Contorni","Salse","Dolci","Lievi
 const IND = (si, no) => ({ casa: "induzione", si, no });
 const PAD = (acciaio, antiaderente) => ({ padella: true, acciaio, antiaderente });
 const BATTISTI = url => ({ nome: "Cesare Battisti (Ratanà) su Instagram", url });
+
+/* Verdure saltate nel fondo della carne: dati condivisi fra la ricetta Contorni e il menù "Contorno" della bistecca */
+const VERD_FONDO = [
+  { id: "carote", nome: "Carote", ing: { nome: "Carote", qta: 300, u: "g", k: ["Carota"] }, taglio: "Pela le carote e tagliale a bastoncini o a rondelle spesse 4–5 mm.", cop: "5–6", sco: "2–3", c: [5, 6], s: [2, 3] },
+  { id: "fagiolini", nome: "Fagiolini", ing: { nome: "Fagiolini", qta: 300, u: "g", k: ["Fagiolini"] }, taglio: "Spunta i fagiolini e lavali.", cop: "5–6", sco: "2–3", c: [5, 6], s: [2, 3] },
+  { id: "asparagi", nome: "Asparagi", ing: { nome: "Asparagi", qta: 350, u: "g", k: ["Asparagi"] }, taglio: "Lava gli asparagi e togli la parte dura in fondo: piegandoli si spezzano da soli dove diventano teneri. Se sono grossi tagliali a metà per il lungo.", cop: "2–3", sco: "3–4", c: [0, 3], s: [3, 4], copNota: " Se sono sottili non coprirli: niente acqua e passa subito al passo dopo." },
+  { id: "broccoli", nome: "Cimette di broccolo", ing: { nome: "Broccolo", nota: "cimette e gambo", qta: 300, u: "g", k: ["Broccolo"] }, taglio: "Dividi il broccolo in cimette piccole e taglia il gambo, pelato, a fette sottili.", cop: "3–4", sco: "2", c: [3, 4], s: [2, 2] },
+  { id: "broccoletti", nome: "Broccoletti romani (cime di rapa)", ing: { nome: "Broccoletti romani o cime di rapa", nota: "già puliti", qta: 400, u: "g", k: ["Broccoletti"] }, taglio: "Pulisci i broccoletti tenendo le foglie tenere e le cimette, sciacquali e lasciali ancora umidi.", cop: "4–5", sco: "1–2", c: [4, 5], s: [1, 2] }
+];
+function verdFondo(v, inBistecca){
+  const passi = [
+    IND(`Metti la verdura nella padella in un solo strato, a livello 6, aggiungi l'acqua e copri: ${v.cop} minuti.${v.copNota || ""}`,
+        `Metti la verdura nella padella in un solo strato, a fuoco medio-alto, aggiungi l'acqua e copri: ${v.cop} minuti.${v.copNota || ""}`),
+    IND(`Scopri, lascia evaporare l'acqua e salta la verdura, sempre a livello 6, per altri ${v.sco} minuti, finché prende colore. Sala alla fine.`,
+        `Scopri, lascia evaporare l'acqua e salta la verdura per altri ${v.sco} minuti, finché prende colore. Sala alla fine.`)
+  ];
+  return {
+    taglio: v.taglio,
+    passi: inBistecca ? ["Mentre le bistecche riposano su un piatto, coperte appena (possono aspettare anche 10 minuti), lascia nella padella il burro e il timo; se l'aglio è diventato scuro toglilo."].concat(passi) : passi,
+    fasi: [{ nome: "Verdura coperta in padella", min: v.c[0], max: v.c[1] }, { nome: "Verdura saltata in padella", min: v.s[0], max: v.s[1] }].filter(f => f.max > 0),
+    piano: [{ fase: "Verdura con l'acqua, coperta", livello: "6", tempo: v.cop + " min" }, { fase: "Verdura scoperta, saltata", livello: "6", tempo: v.sco + " min" }]
+  };
+}
 const GNOCCHI_CODA = [
           "Preleva una parte di impasto e, sulla spianatoia spolverata di semola, stendila con la punta delle dita in filoncini spessi 2 cm. Intanto tieni il resto dell'impasto coperto con un canovaccio, perché non si secchi.",
           "Taglia i filoncini a tocchetti e trascina ogni pezzo sul rigagnocchi, o sui rebbi di una forchetta, premendo appena con il pollice; usa la semola perché non si attacchino. Man mano sistema gli gnocchi su un vassoio coperto da un canovaccio spolverato di semola, ben distanziati.",
@@ -1982,6 +2005,43 @@ const RICETTE = [
     ]
   },
   {
+    id: "verdure-fondo-carne", img: "verdure", aggiunta: "2026-11-14T17:50:00+01:00",
+    titolo: "Verdure saltate nel fondo della carne",
+    sezione: "Contorni", sottosezione: "Verdure",
+    porzioni: 2, unitaPorzioni: ["persona","persone"],
+    condLabel: "Verdura",
+    fasi: [{ nome: "Tagliare la verdura", min: 5 }],
+    cottura: { tipo: "fornelli", gen: { dettaglio: "Fornelli, padella", extra: "" }, dettaglio: "Piano a induzione, padella", extra: "Verdura coperta con un po' d'acqua, poi saltata a livello 6" },
+    piastra: {
+      zona: "Sinistra davanti (Ø 21 cm), la stessa della carne",
+      passi: [],
+      attenzioni: ["Resta a livello 6: se nella padella c'è il burro della carne, al 7 brucia.", "Un solo strato di verdura: se è troppa fa vapore e non prende colore."],
+      differenza: "Il «fuoco medio-alto» del gas sull'induzione è il livello 6; a livello 6 la zona usa circa 1,2 kW e resta posto sotto il limite del contatore per un'altra zona."
+    },
+    strumenti: [PAD({ casa: "fede", si: "Padella Agnelli Aluinox lucida Ø 24 cm", no: "Padella in acciaio inox" }, "Padella antiaderente"), "Coperchio della padella, se ce l'hai", "Pinze o cucchiaio di legno"],
+    energia: [{ app: "piastra", kwh: [0.1, 0.2], come: "circa 8 minuti a livello 6" }],
+    gruppi: [
+      { nome: "Verdura", cond: true, condNome: "Verdura", ingredienti: [] },
+      { nome: "Per saltare", ingredienti: [
+        { nome: "Acqua", qta: 40, u: "g", base: true },
+        { nome: "Burro", nota: "solo se la padella è pulita: nel fondo della carne non serve", qta: 15, u: "g", k: ["Burro"] },
+        { nome: "Aglio", nota: "facoltativo", qta: 1, u: "spicchi", k: ["Aglio"] },
+        { nome: "Timo", nota: "facoltativo", qta: 2, u: "rametti", k: ["Timo"] },
+        { nome: "Sale fino", qta: 2, u: "g", base: true }
+      ]}
+    ],
+    procedimento: [],
+    note: ["Va fatta nella padella dove hai appena cotto la carne, mentre la carne riposa: l'acqua stacca il fondo e la verdura prende il sapore. Funziona anche con la padella pulita, con il burro e, se vuoi, aglio e timo.", "Se non hai un coperchio adatto, aggiungi l'acqua un cucchiaio alla volta e mescola più spesso: ci mette un paio di minuti in più."],
+    condimenti: VERD_FONDO.map(v => { const x = verdFondo(v, false); return {
+      id: v.id, nome: v.nome, titolo: v.id === "broccoli" ? "Broccoli saltati nel fondo della carne" : v.id === "broccoletti" ? "Broccoletti saltati nel fondo della carne" : v.nome + " saltat" + (v.id === "carote" ? "e" : "i") + " nel fondo della carne",
+      ingredienti: [{ ...v.ing }],
+      procedimento: [v.taglio,
+        IND("Usa la padella dove hai cotto la carne, con il suo fondo; se è pulita, scalda il burro con l'aglio schiacciato e il timo, se li usi, a livello 6 per 1 minuto.",
+            "Usa la padella dove hai cotto la carne, con il suo fondo; se è pulita, scalda il burro con l'aglio schiacciato e il timo, se li usi, a fuoco medio-alto per 1 minuto.")].concat(x.passi),
+      fasi: x.fasi, passi: x.piano
+    }; })
+  },
+  {
     id: "bistecca-padella-acciaio", img: "bistecca",
     titolo: "Bistecca in padella d'acciaio",
     sezione: "Secondi", sottosezione: "Carne",
@@ -1998,7 +2058,7 @@ const RICETTE = [
     cottura: { tipo: "fornelli", gen: { dettaglio: "Fornelli, padella d'acciaio", extra: "" }, dettaglio: "Piano a induzione, padella d'acciaio", extra: "Padella scaldata a livello 7 per 2–2 min 30, poi 2 minuti per lato a livello 6" },
     piastra: {
       zona: "La zona grande, con una padella che la copra tutta",
-      passi: { padella: true, acciaio: [
+      passi: [{ padella: true, acciaio: [
         { fase: "Scaldare la padella d'acciaio vuota", livello: "7", tempo: "2–2 min 30" },
         { fase: "Rosolatura delle bistecche", livello: "6", tempo: "2 min per lato" },
         { fase: "Lasciar intiepidire un attimo la padella", livello: "3", tempo: "circa 1 min" },
@@ -2009,8 +2069,8 @@ const RICETTE = [
         { fase: "Rosolatura delle bistecche", livello: "6", tempo: "2–3 min per lato" },
         { fase: "Burro, aglio e timo, arrosando", livello: "3", tempo: "30 s per lato" },
         { fase: "Riposo", livello: "spento", tempo: "5 min" }
-      ] },
-      attenzioni: { padella: true, acciaio: [
+      ] }],
+      attenzioni: [{ padella: true, acciaio: [
         "Livello 7 basta: non alzare al massimo e niente Boost. L'acciaio vuoto sull'induzione supera in fretta i 300 °C, l'olio brucia e la padella si macchia; a livello 9 non risparmi quasi energia.",
         "Prova dell'acqua ogni 30 secondi: quando una goccia forma una o due perline che scivolano sul fondo (circa 190–200 °C) la padella è pronta: versa subito l'olio. Se la goccia sfrigola e sparisce, non è ancora calda; se si rompe in tante palline che spariscono subito, è troppo calda: scendi a 5–6 e aspetta un attimo.",
         "Se l'olio fuma forte appena lo versi, la padella è troppo calda: spostala per un attimo dalla zona.",
@@ -2018,7 +2078,7 @@ const RICETTE = [
       ], antiaderente: [
         "L'antiaderente non sopporta il calore alto a lungo: non andare oltre il livello 6 e non scaldarla vuota a lungo.",
         "La crosta viene meno marcata che nell'acciaio: asciuga molto bene la carne."
-      ] },
+      ] }],
       differenza: { padella: true,
         acciaio: "Sul gas si consiglia «fuoco medio-basso per 4–5 minuti»: sull'induzione il calore nasce direttamente nel fondo, così a livello 7 la padella è pronta in 2–2 min 30 con circa 1,5 kW, e resta posto sotto il limite del contatore per un contorno sull'altra zona (fino a livello 6). Il centro della zona scalda più dei bordi: con padelle grandi metti le bistecche al centro.",
         antiaderente: "Sull'induzione l'antiaderente si scalda in un minuto: niente attesa lunga come sul gas, ma neanche livelli alti per non rovinare il rivestimento." }
@@ -2033,8 +2093,22 @@ const RICETTE = [
         { nome: "Burro", qta: 30, u: "g", k: ["Burro"] },
         { nome: "Aglio", nota: "schiacciato", qta: 2, u: "spicchi", k: ["Aglio"] },
         { nome: "Timo", qta: 3, u: "rametti", k: ["Timo"] }
-      ]}
+      ]},
+      { nome: "Contorno", cond: "contorno", condNome: "Contorno", ingredienti: [] }
     ],
+    altreScelte: [{ key: "contorno", label: "Contorno", items: [
+      { id: "no", nome: "Senza contorno", nascondi: true, ingredienti: [] }
+    ].concat(VERD_FONDO.map(v => { const x = verdFondo(v, true); return {
+      id: v.id, nome: v.nome, titolo: "Bistecca in padella d'acciaio con " + (v.id === "broccoli" ? "broccoli" : v.id === "broccoletti" ? "broccoletti" : v.nome.toLowerCase()),
+      ingredienti: [{ ...v.ing }, { nome: "Acqua", nota: "per la verdura", qta: 40, u: "g", base: true }, { nome: "Sale fino", nota: "per la verdura", qta: 2, u: "g", base: true }],
+      fasiPrima: [{ nome: "Tagliare la verdura", min: 5 }], fasi: x.fasi,
+      prima: [x.taglio], dopo: x.passi,
+      passi: x.piano,
+      attenzioni: ["Contorno: resta a livello 6, non tornare al 7. Nella padella c'è il burro, che brucerebbe."],
+      strumenti: ["Coperchio della padella, se ce l'hai"],
+      energia: [{ app: "piastra", kwh: [0.1, 0.2], come: "contorno: circa 8 minuti a livello 6" }],
+      note: ["Contorno: se non hai un coperchio adatto, aggiungi l'acqua un cucchiaio alla volta e mescola più spesso: ci mette un paio di minuti in più."]
+    }; })) }],
     procedimento: [
       "Togli le bistecche dal frigo 30 minuti prima di cuocerle.",
       "Asciugale bene su entrambi i lati con carta da cucina, per togliere l'umidità in superficie, e condiscile generosamente con sale e pepe.",
@@ -2349,6 +2423,7 @@ const ART = {
   frullato: `<svg viewBox="0 0 160 120" aria-hidden="true"><ellipse cx="80" cy="108" rx="58" ry="6" fill="#000" opacity=".08"/><path d="M110 92q8-14 18 0q-9 14-18 0z" fill="#d9374a"/><path d="M114 82l6 4 6-4" stroke="#3f8a3a" stroke-width="3" fill="none"/><path d="M28 96q6-12 16 0q-8 12-16 0z" fill="#d9374a"/><path d="M58 22h40l-5 82H63z" fill="#eef5f7" stroke="#c9d8dd" stroke-width="2"/><path d="M60.5 42h35l-3.6 60H64.1z" fill="#ef8fa2"/><path d="M64 26h4l-3 72h-3z" fill="#fff" opacity=".6"/></svg>`,
   bevande: `<svg viewBox="0 0 160 120" aria-hidden="true"><ellipse cx="80" cy="108" rx="58" ry="6" fill="#000" opacity=".08"/><rect x="104" y="40" width="30" height="64" rx="8" fill="#eef5f7" stroke="#c9d8dd" stroke-width="2"/><rect x="113" y="22" width="12" height="20" rx="3" fill="#eef5f7" stroke="#c9d8dd" stroke-width="2"/><rect x="112" y="16" width="14" height="8" rx="2" fill="#2f6b4f"/><rect x="106" y="56" width="26" height="46" rx="6" fill="#f3ead8"/><path d="M58 22h40l-5 82H63z" fill="#eef5f7" stroke="#c9d8dd" stroke-width="2"/><path d="M60.5 42h35l-3.6 60H64.1z" fill="#f3ead8"/><path d="M64 26h4l-3 72h-3z" fill="#fff" opacity=".6"/></svg>`,
   senape: `<svg viewBox="0 0 160 120" aria-hidden="true"><ellipse cx="80" cy="106" rx="54" ry="7" fill="#000" opacity=".08"/><path d="M46 46h44v52a6 6 0 0 1-6 6H52a6 6 0 0 1-6-6z" fill="#eef3f2" stroke="#c9d3d1" stroke-width="2"/><path d="M49 58h38v40a4 4 0 0 1-4 4H53a4 4 0 0 1-4-4z" fill="#d7a72a"/><circle cx="58" cy="72" r="1.6" fill="#8a5a1a"/><circle cx="70" cy="84" r="1.6" fill="#8a5a1a"/><circle cx="78" cy="68" r="1.6" fill="#f3d36a"/><circle cx="62" cy="92" r="1.6" fill="#f3d36a"/><circle cx="80" cy="94" r="1.6" fill="#8a5a1a"/><rect x="43" y="36" width="50" height="11" rx="3" fill="#b08d3e"/><rect x="58" y="70" width="20" height="14" rx="2" fill="#fffdf6" opacity=".9"/><ellipse cx="122" cy="94" rx="20" ry="9" fill="#f7f3ea" stroke="#d8d0bd" stroke-width="1.5"/><ellipse cx="122" cy="92" rx="14" ry="5" fill="#e0b13a"/><circle cx="117" cy="91" r="1.4" fill="#8a5a1a"/><circle cx="126" cy="93" r="1.4" fill="#f6dd84"/><path d="M104 60q4-10 12-4" stroke="#c9a032" stroke-width="5" fill="none" stroke-linecap="round"/><circle cx="104" cy="66" r="3.5" fill="#d9a630"/><circle cx="111" cy="70" r="3" fill="#6b4416"/><circle cx="99" cy="74" r="2.6" fill="#e8c35a"/></svg>`,
+  verdure: `<svg viewBox="0 0 160 120" aria-hidden="true"><ellipse cx="80" cy="104" rx="56" ry="8" fill="#000" opacity=".08"/><ellipse cx="80" cy="74" rx="58" ry="30" fill="#fffdf6" stroke="#e2dccb" stroke-width="2"/><ellipse cx="80" cy="74" rx="46" ry="22" fill="#f7f3ea"/><g stroke-linecap="round"><path d="M46 70l26-10M50 80l24-8M58 88l22-9" stroke="#e8822c" stroke-width="6"/><path d="M84 62q14 4 26-2M86 72q12 3 24-3M88 82q11 2 22-4" stroke="#4f8a3a" stroke-width="3.5" fill="none"/></g><g fill="#3f7a35"><circle cx="104" cy="88" r="6"/><circle cx="111" cy="85" r="5.5"/><circle cx="107" cy="80" r="5"/><circle cx="68" cy="56" r="5"/><circle cx="74" cy="53" r="4.5"/></g><rect x="105" y="89" width="4" height="8" rx="2" fill="#8fbf6a"/><circle cx="62" cy="62" r="1.4" fill="#5c3b1c"/><circle cx="96" cy="66" r="1.4" fill="#5c3b1c"/></svg>`,
   maionesesoda: `<svg viewBox="0 0 160 120" aria-hidden="true"><ellipse cx="80" cy="104" rx="52" ry="7" fill="#000" opacity=".08"/><ellipse cx="70" cy="84" rx="42" ry="17" fill="#f1ece0"/><path d="M28 70h84v14a42 17 0 0 1-84 0z" fill="#e6dfcf"/><ellipse cx="70" cy="70" rx="42" ry="15" fill="#f7f3ea" stroke="#d8d0bd" stroke-width="2"/><ellipse cx="70" cy="70" rx="33" ry="10" fill="#f3e3a6"/><path d="M52 69q8-8 17-3t18-2" stroke="#ead48a" stroke-width="5" fill="none" stroke-linecap="round"/><circle cx="62" cy="66" r="2.6" fill="#6b7d3a"/><circle cx="78" cy="72" r="2.4" fill="#6b7d3a"/><circle cx="84" cy="65" r="2.2" fill="#5d6f31"/><ellipse cx="128" cy="92" rx="18" ry="13" fill="#fffdf6" stroke="#e2dccb" stroke-width="1.5"/><circle cx="128" cy="92" r="7.5" fill="#f2c13c"/><circle cx="125.5" cy="89.5" r="2" fill="#f8da7a"/></svg>`,
   maionese: `<svg viewBox="0 0 160 120" aria-hidden="true"><ellipse cx="80" cy="104" rx="52" ry="7" fill="#000" opacity=".08"/><ellipse cx="80" cy="84" rx="46" ry="18" fill="#f1ece0"/><path d="M34 70h92v14a46 18 0 0 1-92 0z" fill="#e6dfcf"/><ellipse cx="80" cy="70" rx="46" ry="16" fill="#f7f3ea" stroke="#d8d0bd" stroke-width="2"/><ellipse cx="80" cy="70" rx="36" ry="11" fill="#d9e3a3"/><path d="M60 68q8-9 18-3t20-2" stroke="#c8d68a" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M112 40q16-6 20 6q-10 8-20-6z" fill="#5f9a3e"/><path d="M114 42l14 3" stroke="#3f7a2a" stroke-width="1.5"/><path d="M98 34q14-12 24-2q-12 10-24 2z" fill="#6daa47"/></svg>`,
   generico: `<svg viewBox="0 0 160 120" aria-hidden="true"><ellipse cx="80" cy="66" rx="48" ry="40" fill="#fff" stroke="#cfd6cf" stroke-width="2"/><ellipse cx="80" cy="66" rx="32" ry="26" fill="none" stroke="#e1e6e0" stroke-width="2"/><rect x="20" y="30" width="5" height="72" rx="2.5" fill="#9aa39c"/><rect x="135" y="30" width="5" height="72" rx="2.5" fill="#9aa39c"/></svg>`
