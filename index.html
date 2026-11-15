@@ -431,6 +431,22 @@ const IND = (si, no) => ({ casa: "induzione", si, no });
 const PAD = (acciaio, antiaderente) => ({ padella: true, acciaio, antiaderente });
 const BATTISTI = url => ({ nome: "Cesare Battisti (Ratanà) su Instagram", url });
 
+/* Pancake: cottura comune alle versioni */
+const PANCAKE_COTTURA = [
+  IND(PAD("Scalda la padella d'acciaio VUOTA e asciutta, senza olio, sulla zona grande a livello 7 per circa 2 minuti, finché una goccia d'acqua forma una o due perline che scivolano sul fondo. Poi scendi a livello 4 e aspetta 30–40 secondi.",
+          "Scalda la padella antiaderente sulla zona grande a livello 4 per 1 minuto e passaci un velo d'olio di semi con la carta da cucina."),
+      PAD("Scalda la padella d'acciaio VUOTA e asciutta, senza olio, a fuoco medio-alto per 3–4 minuti, finché una goccia d'acqua forma una o due perline che scivolano sul fondo. Poi abbassa a fuoco medio-basso e aspetta 1 minuto.",
+          "Scalda la padella antiaderente a fuoco medio-basso per 1 minuto e passaci un velo d'olio di semi con la carta da cucina.")),
+  PAD("Versa un mestolino d'impasto (circa 60 g) per ogni pancake, due alla volta, ben distanti. Non toccarli: all'inizio si attaccano, poi si staccano da soli quando sotto si è formata la crosta.",
+      "Versa un mestolino d'impasto (circa 60 g) per ogni pancake, due o tre alla volta, ben distanti."),
+  IND("Cuoci circa 2 minuti, finché in superficie si aprono le bollicine e non se ne formano più e il bordo diventa opaco. Muovi la padella: quando il pancake scivola giralo con la spatola e cuoci l'altro lato circa 1 minuto.",
+      "Cuoci circa 2 minuti, finché in superficie si aprono le bollicine e non se ne formano più e il bordo diventa opaco. Solleva un angolo per vedere se sotto è dorato, poi giralo con la spatola e cuoci l'altro lato circa 1 minuto."),
+  IND(PAD("Continua con il resto dell'impasto senza ungere la padella. Dal secondo giro la padella è più calda: tienila a livello 3–4 e, se i pancake scuriscono troppo, scendi di un livello.",
+          "Continua con il resto dell'impasto, ungendo appena la padella ogni due giri, a livello 4."),
+      PAD("Continua con il resto dell'impasto senza ungere la padella. Dal secondo giro la padella è più calda: se i pancake scuriscono troppo, abbassa un poco.",
+          "Continua con il resto dell'impasto, ungendo appena la padella ogni due giri.")),
+  "Servili caldi, se vuoi con lo sciroppo d'acero."
+];
 /* Verdure saltate nel fondo della carne: dati condivisi fra la ricetta Contorni e il menù "Contorno" della bistecca */
 const VERD_FONDO = [
   { id: "carote", nome: "Carote", ing: { nome: "Carote", qta: 300, u: "g", k: ["Carota"] }, taglio: "Pela le carote e tagliale a bastoncini o a rondelle spesse 4–5 mm.", cop: "5–6", sco: "2–3", c: [5, 6], s: [2, 3] },
@@ -2005,6 +2021,104 @@ const RICETTE = [
     ]
   },
   {
+    id: "pancake", img: "pancake", aggiunta: "2026-11-15T01:35:00+01:00",
+    titolo: "Pancake",
+    sezione: "Dolci", sottosezione: "Colazione",
+    fonte: { nome: "Tony in the Kitch su YouTube", url: "https://youtube.com/shorts/z2G6p-CDOeQ" },
+    porzioni: 4, unitaPorzioni: ["persona","persone"],
+    condLabel: "Versione",
+    fasi: [
+      { nome: "Preparare l'impasto", min: 10 },
+      { nome: "Scaldare la padella", min: 2, max: 4 },
+      { nome: "Pancake in padella, a giri", min: 18, max: 25 }
+    ],
+    cottura: { tipo: "fornelli", gen: { dettaglio: "Fornelli, padella", extra: "Padella a fuoco medio-basso, circa 3 minuti per giro" }, dettaglio: "Piano a induzione, padella", extra: "Circa 3 minuti per giro di pancake" },
+    piastra: {
+      zona: "Sinistra davanti (Ø 21 cm), con una padella larga",
+      passi: [PAD([
+        { fase: "Scaldare la padella d'acciaio vuota, senza olio", livello: "7", tempo: "circa 2 min, fino alle perline" },
+        { fase: "Abbassare prima di versare", livello: "4", tempo: "30–40 s" },
+        { fase: "Primo lato", livello: "4", tempo: "circa 2 min" },
+        { fase: "Secondo lato", livello: "4", tempo: "circa 1 min" },
+        { fase: "Giri successivi", livello: "3–4", tempo: "circa 3 min per giro" }
+      ], [
+        { fase: "Scaldare la padella con un velo d'olio", livello: "4", tempo: "1 min" },
+        { fase: "Primo lato", livello: "4", tempo: "circa 2 min" },
+        { fase: "Secondo lato", livello: "4", tempo: "circa 1 min" }
+      ])],
+      attenzioni: [PAD([
+        "Non versare a livello 7: sopra la soglia delle perline il fondo scurisce prima che il pancake cuocia dentro.",
+        "Non muovere il pancake finché non si stacca da solo: se lo forzi si strappa.",
+        "Niente Boost."
+      ], [
+        "Fuoco medio-basso: con la padella troppo calda fuori bruciano e dentro restano crudi."
+      ])],
+      differenza: { padella: true, acciaio: "Sull'induzione l'acciaio vuoto arriva alle perline in circa 2 minuti a livello 7 (circa 1,5 kW): poi a livello 4 resta stabile e i pancake si staccano da soli.", antiaderente: "Il «fuoco medio-basso» del gas sull'induzione è il livello 4." }
+    },
+    strumenti: [PAD({ casa: "fede", si: "Padella Agnelli Aluinox lucida Ø 24 cm", no: "Padella in acciaio inox" }, "Padella antiaderente"), "Due ciotole", "Frusta a mano", "Mestolino", "Spatola"],
+    energia: [{ app: "piastra", kwh: [0.3, 0.45], come: "circa 25 minuti di padella a livello 4" }],
+    gruppi: [
+      { nome: "Ingredienti secchi", ingredienti: [
+        { nome: "Farina 00", qta: 250, u: "g", k: ["Farina 00"] },
+        { nome: "Zucchero", qta: 25, u: "g", k: ["Zucchero"] },
+        { nome: "Lievito per dolci", qta: 8, u: "g", k: ["Lievito per dolci"] },
+        { nome: "Bicarbonato", qta: 5, u: "g", k: ["Bicarbonato"] },
+        { nome: "Sale fino", qta: 6, u: "g", base: true }
+      ]},
+      { nome: "Liquidi e grassi", cond: true, condNome: "Liquidi e grassi", ingredienti: [] },
+      { nome: "Per servire", ingredienti: [
+        { nome: "Sciroppo d'acero", nota: "facoltativo", qta: 60, u: "g", k: ["Sciroppo d'acero"] }
+      ]}
+    ],
+    procedimento: [
+      "In una ciotola mescola la farina, lo zucchero, il lievito, il bicarbonato e il sale."
+    ],
+    note: [
+      "Non mescolare troppo: i grumi e le strisce di farina rimaste fanno venire i pancake alti e soffici. Per questo basta la frusta a mano.",
+      "Il latte vegetale migliore al posto del latte è quello di soia senza zucchero: ha quasi le stesse proteine del latte, con il limone si addensa come il latticello e i pancake si dorano bene. Va bene anche quello fatto in casa. In alternativa l'avena senza zucchero, ma non si addensa e i pancake vengono più bassi e scuriscono prima; mandorla e riso sono troppo leggeri."
+    ],
+    condimenti: [
+      { id: "classica", nome: "Classica", titolo: "Pancake",
+        ingredienti: [
+          { nome: "Yogurt bianco intero", nota: "con il latte fa il latticello", qta: 240, u: "g", k: ["Yogurt bianco"] },
+          { nome: "Latte intero", qta: 240, u: "g", k: ["Latte intero"] },
+          { nome: "Uova", qta: 2, u: "", k: ["Uova"] },
+          { nome: "Burro", nota: "fuso e intiepidito", qta: 30, u: "g", k: ["Burro"] }
+        ],
+        procedimento: [
+          "In un'altra ciotola mescola lo yogurt con il latte: è il tuo latticello. Aggiungi le uova e sbattile.",
+          "Versa i liquidi nella farina e mescola con la frusta solo pochi colpi: devono restare grumi e qualche striscia di farina. Alla fine incorpora il burro fuso con pochi giri."
+        ],
+        note: ["Se trovi il latticello, usane 480 g al posto di yogurt e latte."] },
+      { id: "senza-burro", nome: "Senza burro", titolo: "Pancake senza burro",
+        ingredienti: [
+          { nome: "Yogurt bianco intero", nota: "con il latte fa il latticello", qta: 240, u: "g", k: ["Yogurt bianco"] },
+          { nome: "Latte intero", qta: 240, u: "g", k: ["Latte intero"] },
+          { nome: "Uova", qta: 2, u: "", k: ["Uova"] },
+          { nome: "Olio di semi di girasole", nota: "al posto del burro", qta: 25, u: "g", k: ["Olio di semi"] }
+        ],
+        procedimento: [
+          "In un'altra ciotola mescola lo yogurt con il latte: è il tuo latticello. Aggiungi le uova e l'olio e sbatti.",
+          "Versa i liquidi nella farina e mescola con la frusta solo pochi colpi: devono restare grumi e qualche striscia di farina."
+        ],
+        note: ["L'olio nell'impasto serve anche a farli staccare dalla padella: non toglierlo."] },
+      { id: "vegetale", nome: "Senza burro, con latte vegetale", titolo: "Pancake con latte vegetale",
+        ingredienti: [
+          { nome: "Latte di soia", nota: "senza zucchero", qta: 450, u: "g", k: ["Latte vegetale"] },
+          { nome: "Succo di limone", nota: "o aceto di mele", qta: 30, u: "g", k: ["Limone"] },
+          { nome: "Uova", qta: 2, u: "", k: ["Uova"] },
+          { nome: "Olio di semi di girasole", nota: "al posto del burro", qta: 25, u: "g", k: ["Olio di semi"] }
+        ],
+        fasiPrima: [{ nome: "Latte di soia e limone a riposo", min: 10, attesa: true }],
+        prima: ["Mescola il latte di soia con il succo di limone e lascialo 10 minuti: si addensa come il latticello."],
+        procedimento: [
+          "In un'altra ciotola sbatti le uova con l'olio e aggiungi il latte di soia addensato.",
+          "Versa i liquidi nella farina e mescola con la frusta solo pochi colpi: devono restare grumi e qualche striscia di farina."
+        ],
+        note: ["Con l'avena al posto della soia non serve il limone: usa 480 g di latte d'avena e abbassa la padella di un livello, perché scuriscono prima."] }
+    ].map(c => ({ ...c, dopo: PANCAKE_COTTURA }))
+  },
+  {
     id: "verdure-fondo-carne", img: "verdure", aggiunta: "2026-11-14T17:50:00+01:00",
     titolo: "Verdure saltate nel fondo della carne",
     sezione: "Contorni", sottosezione: "Verdure",
@@ -2423,6 +2537,7 @@ const ART = {
   frullato: `<svg viewBox="0 0 160 120" aria-hidden="true"><ellipse cx="80" cy="108" rx="58" ry="6" fill="#000" opacity=".08"/><path d="M110 92q8-14 18 0q-9 14-18 0z" fill="#d9374a"/><path d="M114 82l6 4 6-4" stroke="#3f8a3a" stroke-width="3" fill="none"/><path d="M28 96q6-12 16 0q-8 12-16 0z" fill="#d9374a"/><path d="M58 22h40l-5 82H63z" fill="#eef5f7" stroke="#c9d8dd" stroke-width="2"/><path d="M60.5 42h35l-3.6 60H64.1z" fill="#ef8fa2"/><path d="M64 26h4l-3 72h-3z" fill="#fff" opacity=".6"/></svg>`,
   bevande: `<svg viewBox="0 0 160 120" aria-hidden="true"><ellipse cx="80" cy="108" rx="58" ry="6" fill="#000" opacity=".08"/><rect x="104" y="40" width="30" height="64" rx="8" fill="#eef5f7" stroke="#c9d8dd" stroke-width="2"/><rect x="113" y="22" width="12" height="20" rx="3" fill="#eef5f7" stroke="#c9d8dd" stroke-width="2"/><rect x="112" y="16" width="14" height="8" rx="2" fill="#2f6b4f"/><rect x="106" y="56" width="26" height="46" rx="6" fill="#f3ead8"/><path d="M58 22h40l-5 82H63z" fill="#eef5f7" stroke="#c9d8dd" stroke-width="2"/><path d="M60.5 42h35l-3.6 60H64.1z" fill="#f3ead8"/><path d="M64 26h4l-3 72h-3z" fill="#fff" opacity=".6"/></svg>`,
   senape: `<svg viewBox="0 0 160 120" aria-hidden="true"><ellipse cx="80" cy="106" rx="54" ry="7" fill="#000" opacity=".08"/><path d="M46 46h44v52a6 6 0 0 1-6 6H52a6 6 0 0 1-6-6z" fill="#eef3f2" stroke="#c9d3d1" stroke-width="2"/><path d="M49 58h38v40a4 4 0 0 1-4 4H53a4 4 0 0 1-4-4z" fill="#d7a72a"/><circle cx="58" cy="72" r="1.6" fill="#8a5a1a"/><circle cx="70" cy="84" r="1.6" fill="#8a5a1a"/><circle cx="78" cy="68" r="1.6" fill="#f3d36a"/><circle cx="62" cy="92" r="1.6" fill="#f3d36a"/><circle cx="80" cy="94" r="1.6" fill="#8a5a1a"/><rect x="43" y="36" width="50" height="11" rx="3" fill="#b08d3e"/><rect x="58" y="70" width="20" height="14" rx="2" fill="#fffdf6" opacity=".9"/><ellipse cx="122" cy="94" rx="20" ry="9" fill="#f7f3ea" stroke="#d8d0bd" stroke-width="1.5"/><ellipse cx="122" cy="92" rx="14" ry="5" fill="#e0b13a"/><circle cx="117" cy="91" r="1.4" fill="#8a5a1a"/><circle cx="126" cy="93" r="1.4" fill="#f6dd84"/><path d="M104 60q4-10 12-4" stroke="#c9a032" stroke-width="5" fill="none" stroke-linecap="round"/><circle cx="104" cy="66" r="3.5" fill="#d9a630"/><circle cx="111" cy="70" r="3" fill="#6b4416"/><circle cx="99" cy="74" r="2.6" fill="#e8c35a"/></svg>`,
+  pancake: `<svg viewBox="0 0 160 120" aria-hidden="true"><ellipse cx="80" cy="106" rx="56" ry="8" fill="#000" opacity=".08"/><ellipse cx="80" cy="96" rx="56" ry="13" fill="#fffdf6" stroke="#e2dccb" stroke-width="2"/><g><path d="M42 88q38 10 76 0v-8q-38 10-76 0z" fill="#d79a4a"/><ellipse cx="80" cy="80" rx="38" ry="8" fill="#e9b766"/><path d="M44 76q36 10 72 0v-8q-36 10-72 0z" fill="#d38f3e"/><ellipse cx="80" cy="68" rx="36" ry="8" fill="#ebbd6c"/><path d="M46 64q34 10 68 0v-8q-34 10-68 0z" fill="#d69544"/><ellipse cx="80" cy="56" rx="34" ry="8" fill="#eec474"/></g><path d="M62 54q18 8 34-2q8-4 6 6q-2 8-6 14q-2 4-4-2q-2-6-10-6q-10 0-14-4q-8-4-6-6z" fill="#a8581c" opacity=".85"/><rect x="72" y="47" width="14" height="9" rx="2" fill="#fbe9a8"/><rect x="72" y="47" width="14" height="3" rx="1.5" fill="#fff6cf"/></svg>`,
   verdure: `<svg viewBox="0 0 160 120" aria-hidden="true"><ellipse cx="80" cy="104" rx="56" ry="8" fill="#000" opacity=".08"/><ellipse cx="80" cy="74" rx="58" ry="30" fill="#fffdf6" stroke="#e2dccb" stroke-width="2"/><ellipse cx="80" cy="74" rx="46" ry="22" fill="#f7f3ea"/><g stroke-linecap="round"><path d="M46 70l26-10M50 80l24-8M58 88l22-9" stroke="#e8822c" stroke-width="6"/><path d="M84 62q14 4 26-2M86 72q12 3 24-3M88 82q11 2 22-4" stroke="#4f8a3a" stroke-width="3.5" fill="none"/></g><g fill="#3f7a35"><circle cx="104" cy="88" r="6"/><circle cx="111" cy="85" r="5.5"/><circle cx="107" cy="80" r="5"/><circle cx="68" cy="56" r="5"/><circle cx="74" cy="53" r="4.5"/></g><rect x="105" y="89" width="4" height="8" rx="2" fill="#8fbf6a"/><circle cx="62" cy="62" r="1.4" fill="#5c3b1c"/><circle cx="96" cy="66" r="1.4" fill="#5c3b1c"/></svg>`,
   maionesesoda: `<svg viewBox="0 0 160 120" aria-hidden="true"><ellipse cx="80" cy="104" rx="52" ry="7" fill="#000" opacity=".08"/><ellipse cx="70" cy="84" rx="42" ry="17" fill="#f1ece0"/><path d="M28 70h84v14a42 17 0 0 1-84 0z" fill="#e6dfcf"/><ellipse cx="70" cy="70" rx="42" ry="15" fill="#f7f3ea" stroke="#d8d0bd" stroke-width="2"/><ellipse cx="70" cy="70" rx="33" ry="10" fill="#f3e3a6"/><path d="M52 69q8-8 17-3t18-2" stroke="#ead48a" stroke-width="5" fill="none" stroke-linecap="round"/><circle cx="62" cy="66" r="2.6" fill="#6b7d3a"/><circle cx="78" cy="72" r="2.4" fill="#6b7d3a"/><circle cx="84" cy="65" r="2.2" fill="#5d6f31"/><ellipse cx="128" cy="92" rx="18" ry="13" fill="#fffdf6" stroke="#e2dccb" stroke-width="1.5"/><circle cx="128" cy="92" r="7.5" fill="#f2c13c"/><circle cx="125.5" cy="89.5" r="2" fill="#f8da7a"/></svg>`,
   maionese: `<svg viewBox="0 0 160 120" aria-hidden="true"><ellipse cx="80" cy="104" rx="52" ry="7" fill="#000" opacity=".08"/><ellipse cx="80" cy="84" rx="46" ry="18" fill="#f1ece0"/><path d="M34 70h92v14a46 18 0 0 1-92 0z" fill="#e6dfcf"/><ellipse cx="80" cy="70" rx="46" ry="16" fill="#f7f3ea" stroke="#d8d0bd" stroke-width="2"/><ellipse cx="80" cy="70" rx="36" ry="11" fill="#d9e3a3"/><path d="M60 68q8-9 18-3t20-2" stroke="#c8d68a" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M112 40q16-6 20 6q-10 8-20-6z" fill="#5f9a3e"/><path d="M114 42l14 3" stroke="#3f7a2a" stroke-width="1.5"/><path d="M98 34q14-12 24-2q-12 10-24 2z" fill="#6daa47"/></svg>`,
