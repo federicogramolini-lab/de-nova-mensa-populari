@@ -517,13 +517,23 @@ const RICETTE = [
     ] },
     strumenti: [{ casa: "fede", si: "Planetaria Ariete Moderna con il gancio", no: "Planetaria (foglia o gancio)" }, "Contenitore oliato per la puntata", "Cassette o contenitori per i panetti", "Teglie 30 × 40, meglio in ferro blu", "Tarocco"],
     energia: [{ app: "forno", kwh: [1.1, 1.4], come: "preriscaldamento rapido a 250 °C, 10 minuti di attesa e cottura di una teglia" }, { app: "ninja", kwh: [0.55, 0.7], come: "in alternativa, nel Ninja", alt: true }],
-    gruppi: [
-      { nome: "Impasto", totale: true, ingredienti: [
+    altreScelte: [{ key: "farina", label: "Farina", items: [
+      { id: "0", nome: "Farina 0 forte", nascondi: true, ingredienti: [
         { nome: "Farina 0 forte", nota: "serve una farina che assorba molta acqua", qta: 337.6477, u: "g", k: ["Farina 0"] },
         { nome: "Acqua", qta: 253.2358, u: "g", base: true },
         { nome: "Sale", qta: 6.7530, u: "g", base: true },
         { nome: "Lievito di birra fresco", qta: 2.3635, u: "g", k: ["Lievito di birra"] }
-      ]},
+      ] },
+      { id: "0-semola", nome: "Farina 0 forte e semola rimacinata", ingredienti: [
+        { nome: "Farina 0 forte", nota: "serve una farina che assorba molta acqua", qta: 270.1182, u: "g", k: ["Farina 0"] },
+        { nome: "Semola rimacinata di grano duro", qta: 67.5295, u: "g", k: ["Semola rimacinata"] },
+        { nome: "Acqua", qta: 253.2358, u: "g", base: true },
+        { nome: "Sale", qta: 6.7530, u: "g", base: true },
+        { nome: "Lievito di birra fresco", qta: 2.3635, u: "g", k: ["Lievito di birra"] }
+      ], note: ["Con un quinto di semola rimacinata il fondo viene più croccante e dorato e il sapore un po' più rustico; l'impasto resta facile da lavorare. Non andare oltre: con più semola la pizza diventa più dura e meno alveolata."] }
+    ] }],
+    gruppi: [
+      { nome: "Impasto", totale: true, cond: "farina", condNome: "Impasto", ingredienti: [] },
       { nome: "Condimento", cond: true, ingredienti: [] },
       { nome: "Per teglia e spolvero", ingredienti: [
         { nome: "Olio di semi", nota: "per ungere teglie, mani e contenitori", qta: null, u: "", k: ["Olio di semi"] },
@@ -632,14 +642,25 @@ const RICETTE = [
     ] },
     strumenti: ["Ciotola capiente", "Ciotolina e cucchiaino per sciogliere il lievito", "Canovaccio pulito", "Teglia tonda Ø 35 cm alta 5,5 cm, meglio in ferro blu", "Bilancia"],
     energia: [{ app: "forno", kwh: [0.9, 1.2], come: "preriscaldamento a 250 °C e 20 minuti di cottura in statico" }, { app: "ninja", kwh: [0.45, 0.6], come: "in alternativa, nel Ninja con una teglia da 32 cm", alt: true }],
-    gruppi: [
-      { nome: "Impasto", totale: true, ingredienti: [
+    altreScelte: [{ key: "farina", label: "Farina", items: [
+      { id: "00", nome: "Farina 00", nascondi: true, ingredienti: [
         { nome: "Farina 00 di grano tenero", qta: 500, u: "g", k: ["Farina 00"] },
         { nome: "Acqua", nota: "50 g per sciogliere il lievito, il resto dopo", qta: 300, u: "g", base: true },
         { nome: "Lievito di birra fresco", qta: 25, u: "g", k: ["Lievito di birra"] },
         { nome: "Sale fino", qta: 15, u: "g", base: true },
         { nome: "Zucchero", qta: 10, u: "g", k: ["Zucchero"] }
-      ]},
+      ] },
+      { id: "00-semola", nome: "Farina 00 e semola rimacinata", ingredienti: [
+        { nome: "Farina 00 di grano tenero", qta: 250, u: "g", k: ["Farina 00"] },
+        { nome: "Semola rimacinata di grano duro", qta: 250, u: "g", k: ["Semola rimacinata"] },
+        { nome: "Acqua", nota: "50 g per sciogliere il lievito, il resto dopo", qta: 325, u: "g", base: true },
+        { nome: "Lievito di birra fresco", qta: 25, u: "g", k: ["Lievito di birra"] },
+        { nome: "Sale fino", qta: 15, u: "g", base: true },
+        { nome: "Zucchero", qta: 10, u: "g", k: ["Zucchero"] }
+      ], note: ["Metà semola rimacinata è il mix più tipico della focaccia barese: crosta più croccante e dorata, colore più giallo, sapore più pieno. La semola beve più acqua, per questo 325 g."] }
+    ] }],
+    gruppi: [
+      { nome: "Impasto", totale: true, cond: "farina", condNome: "Impasto", ingredienti: [] },
       { nome: "Condimento", ingredienti: [
         { nome: "Pomodori perini (o San Marzano)", nota: "lavati e schiacciati con le mani", qta: 500, u: "g", k: ["Pomodori perini","Pomodori"] },
         { nome: "Pomodorini ciliegino", nota: "tagliati a metà", qta: 150, u: "g", k: ["Pomodorini"] },
@@ -765,15 +786,27 @@ const RICETTE = [
     ] },
     strumenti: [{ casa: "fede", si: "Planetaria Ariete Moderna con il gancio", no: "Impastatrice" }, "Stampo da cassetta 30 × 10 × 10 cm, oliato"],
     energia: [{ app: "forno", kwh: [1.3, 1.5], come: "2 ore di luce per la lievitazione, preriscaldamento e un'ora a 185 °C" }],
-    gruppi: [
-      { nome: "Impasto", totale: true, ingredienti: [
+    altreScelte: [{ key: "farina", label: "Farina", items: [
+      { id: "0", nome: "Farina 0 o Manitoba", nascondi: true, ingredienti: [
         { nome: "Farina tipo 0 o manitoba", qta: 494.325, u: "g", k: ["Farina 0","Manitoba"] },
         { nome: "Acqua, latte vegetale o vaccino", nota: "tiepida/o", qta: 296.595, u: "g", base: true },
         { nome: "Lievito di birra fresco", nota: "se secco, la metà", qta: 14.365, u: "g", k: ["Lievito di birra"] },
         { nome: "Olio", qta: 27.04, u: "g", k: ["Olio extravergine","Olio di semi"] },
         { nome: "Sale", qta: 9.295, u: "g", base: true },
         { nome: "Miele", qta: 3.38, u: "g", k: ["Miele"] }
-      ]}
+      ] },
+      { id: "0-integrale", nome: "Farina 0 e integrale", titolo: "Pane in cassetta semi-integrale", ingredienti: [
+        { nome: "Farina tipo 0 o manitoba", qta: 346.0275, u: "g", k: ["Farina 0","Manitoba"] },
+        { nome: "Farina integrale", qta: 148.2975, u: "g", k: ["Farina integrale"] },
+        { nome: "Acqua, latte vegetale o vaccino", nota: "tiepida/o", qta: 311.42475, u: "g", base: true },
+        { nome: "Lievito di birra fresco", nota: "se secco, la metà", qta: 14.365, u: "g", k: ["Lievito di birra"] },
+        { nome: "Olio", qta: 27.04, u: "g", k: ["Olio extravergine","Olio di semi"] },
+        { nome: "Sale", qta: 9.295, u: "g", base: true },
+        { nome: "Miele", qta: 3.38, u: "g", k: ["Miele"] }
+      ], note: ["Con il 30% di farina integrale il pane viene più saporito e un po' più scuro, la mollica resta morbida ma un po' meno alta. L'integrale beve più acqua: per questo il 5% in più. Meglio non superare il 30% in uno stampo, altrimenti il pane cresce poco."] }
+    ] }],
+    gruppi: [
+      { nome: "Impasto", totale: true, cond: "farina", condNome: "Impasto", ingredienti: [] }
     ],
     procedimento: [
       { casa: "fede", si: "Metti nella ciotola della planetaria la farina, l'acqua tiepida con il lievito sciolto, il miele e il sale. Con il gancio fai amalgamare a velocità 1, poi aggiungi l'olio e impasta a velocità 2–3 finché l'impasto è liscio e si stacca dalle pareti.", no: "Inserisci nell'impastatrice la farina, l'acqua tiepida con il lievito sciolto, il miele e il sale. Fai amalgamare tutto, poi aggiungi l'olio." },
@@ -2302,9 +2335,14 @@ const RICETTE = [
     },
     strumenti: [PAD({ casa: "fede", si: "Padella Agnelli Aluinox lucida Ø 24 cm", no: "Padella in acciaio inox" }, "Padella antiaderente"), "Due ciotole", "Frusta a mano", "Mestolino", "Spatola"],
     energia: [{ app: "piastra", kwh: [0.3, 0.45], come: "circa 25 minuti di padella a livello 4" }],
+    altreScelte: [{ key: "farina", label: "Farina", items: [
+      { id: "00", nome: "Farina 00", nascondi: true, ingredienti: [{ nome: "Farina 00", qta: 250, u: "g", k: ["Farina 00"] }] },
+      { id: "saraceno", nome: "Farina 00 e grano saraceno", ingredienti: [{ nome: "Farina 00", qta: 170, u: "g", k: ["Farina 00"] }, { nome: "Farina di grano saraceno", qta: 80, u: "g", k: ["Farina di grano saraceno"] }],
+        note: ["Con un terzo di grano saraceno i pancake vengono più scuri, con un sapore di nocciola, un po' meno alti. Si dorano prima: tieni la padella un livello più bassa."] }
+    ] }],
     gruppi: [
+      { nome: "Farina", cond: "farina", condNome: "Farina", ingredienti: [] },
       { nome: "Ingredienti secchi", ingredienti: [
-        { nome: "Farina 00", qta: 250, u: "g", k: ["Farina 00"] },
         { nome: "Zucchero", qta: 25, u: "g", k: ["Zucchero"] },
         { nome: "Lievito per dolci", qta: 8, u: "g", k: ["Lievito per dolci"] },
         { nome: "Bicarbonato", qta: 5, u: "g", k: ["Bicarbonato"] },
@@ -2316,7 +2354,7 @@ const RICETTE = [
       ]}
     ],
     procedimento: [
-      "In una ciotola mescola la farina, lo zucchero, il lievito, il bicarbonato e il sale."
+      "In una ciotola mescola la farina (o le farine), lo zucchero, il lievito, il bicarbonato e il sale."
     ],
     note: [
       "Non mescolare troppo: i grumi e le strisce di farina rimaste fanno venire i pancake alti e soffici. Per questo basta la frusta a mano.",
@@ -3299,7 +3337,7 @@ function renderRecipe(r){
               `<span class="qty"><input type="text" inputmode="decimal" id="q-${gi}-${ii}" data-base="${i.qta}" value="${qN(i.u, i.qta * f)}" aria-label="Quantità di ${esc(i.nome)}"><span class="u">${esc(uLab(i.u, i.qta * f))}</span></span>`}
             <span class="ing-name">${esc(i.nome)}${i.nota ? `<small>${esc(i.nota)}</small>` : ""}</span>
           </li>`).join("")}
-        </ul>${g.totale ? `<div class="total">Peso totale ${esc(g.nome.toLowerCase())}: <span class="qty"><input type="text" inputmode="decimal" id="tot-${gi}" data-base="${groupTotal(g, 1)}" value="${fmt(groupTotal(g, f))}" aria-label="Peso totale ${esc(g.nome)}"><span class="u">g</span></span></div>` : ""}</div>`).join("")}
+        </ul>${g.totale ? `<div class="total">Peso totale ${esc((g.condNome || g.nome).toLowerCase())}: <span class="qty"><input type="text" inputmode="decimal" id="tot-${gi}" data-base="${groupTotal(g, 1)}" value="${fmt(groupTotal(g, f))}" aria-label="Peso totale ${esc(g.nome)}"><span class="u">g</span></span></div>` : ""}</div>`).join("")}
     </div>
     ${showPiastra(r) ? `<details class="induzione ind-tel"><summary><span class="ninja-chip ind-chip">Induzione</span> Sul tuo piano a induzione</summary>
     <ul class="fasi" style="columns:1">${VL(r.piastra.passi).map(p => `<li><span>${esc(p.fase)}</span><b>${/^\d/.test(p.livello) ? "livello " : ""}${esc(p.livello)} · ${esc(p.tempo)}</b></li>`).join("")}</ul>
@@ -3480,7 +3518,7 @@ function writeRecipe(P, r, f){
       lines.forEach((l, j) => doc.text(l, P.M + 33, P.y + j * 4.6));
       P.y += h;
     });
-    if (g.totale) P.para(`Peso totale ${g.nome.toLowerCase()}: ${fmt(groupTotal(g, f))} g`, 8.5, "italic", C.grey, 33);
+    if (g.totale) P.para(`Peso totale ${(g.condNome || g.nome).toLowerCase()}: ${fmt(groupTotal(g, f))} g`, 8.5, "italic", C.grey, 33);
   }
   P.y += 3;
   P.h2("Procedimento");
