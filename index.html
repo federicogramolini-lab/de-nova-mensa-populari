@@ -985,6 +985,101 @@ const RICETTE = [
     ]
   },
   {
+    id: "ragu-bolognese", img: "ragu", aggiunta: "2026-11-21T12:50:00+01:00",
+    titolo: "Ragù alla bolognese",
+    sezione: "Primi", sottosezione: "Sughi",
+    fonte: { nome: "GialloZafferano", url: "https://ricette.giallozafferano.it/Ragu-alla-bolognese.html" },
+    porzioni: 4, unitaPorzioni: ["persona","persone"],
+    condLabel: "Maiale",
+    fasi: [
+      { nome: "Tritare le verdure", min: 15 },
+      { nome: "Soffritto a fuoco dolce", min: 10, max: 12 },
+      { nome: "Rosolare la carne", min: 10 },
+      { nome: "Sfumare col vino", min: 3, max: 5 },
+      { nome: "Cottura lenta col coperchio", min: 120 }
+    ],
+    cottura: { tipo: "fornelli", gen: { dettaglio: "Fornelli, casseruola con coperchio", extra: "Soffritto, carne a fuoco vivace, poi 2 ore col coperchio a fuoco medio-basso" }, dettaglio: "Piano a induzione, casseruola con coperchio", extra: "Soffritto a livello 4, carne a livello 7, poi 2 ore col coperchio a sobbollire" },
+    piastra: {
+      zona: "Sinistra davanti (Ø 21 cm)",
+      passi: [{ casa: "fede", si: [
+        { fase: "Ghisa vuota con l'olio (un terzo della potenza)", livello: "3", tempo: "5 min" },
+        { fase: "Pancetta (versione con la pancetta)", livello: "5", tempo: "4–5 min" },
+        { fase: "Soffritto", livello: "4", tempo: "10–12 min" },
+        { fase: "Rosolare la carne", livello: "7", tempo: "10 min" },
+        { fase: "Sfumare col vino", livello: "7", tempo: "3–5 min" },
+        { fase: "Cottura lenta col coperchio", livello: "2", tempo: "2 h" }
+      ], no: [
+        { fase: "Olio (e pancetta)", livello: "5", tempo: "4–5 min" },
+        { fase: "Soffritto", livello: "4", tempo: "10–12 min" },
+        { fase: "Rosolare la carne", livello: "7", tempo: "10 min" },
+        { fase: "Sfumare col vino", livello: "7", tempo: "3–5 min" },
+        { fase: "Cottura lenta col coperchio", livello: "3", tempo: "2 h" }
+      ] }],
+      attenzioni: [{ casa: "fede", si: [
+        "Ghisa: i primi 5 minuti a livello 3, niente Boost.",
+        "Nella ghisa col coperchio il livello 2 basta per 2 ore: deve solo sobbollire, con qualche bollicina ogni tanto."
+      ], no: [
+        "Col coperchio deve solo sobbollire: se bolle forte scendi a livello 2."
+      ] }, "La cipolla del soffritto non deve scurire: se colorisce, abbassa di un livello."],
+      differenza: { casa: "fede", si: "La ghisa trattiene il calore: per le 2 ore di cottura lenta basta un livello in meno rispetto a una casseruola normale. A livello 2 la zona usa circa 0,4 kW, quindi resta posto per il resto della cucina.", no: "Il «fuoco medio-basso» del gas, col coperchio e per 2 ore, sull'induzione è il livello 3: il calore è più costante e il ragù sobbolle senza attaccarsi." }
+    },
+    strumenti: [{ casa: "fede", si: "Casseruola Slowcook in ghisa Agnelli 25 × 20 cm con il coperchio", no: "Casseruola antiaderente con il coperchio" }, "Tagliere e coltello", "Mestolo di legno", "Pentolino per il brodo"],
+    energia: [{ app: "piastra", kwh: [0.8, 1.1], come: "circa 30 minuti tra soffritto e rosolatura, poi 2 ore a sobbollire (circa 0,4 kW)" }],
+    gruppi: [
+      { nome: "Soffritto", ingredienti: [
+        { nome: "Carote", qta: 60, u: "g", k: ["Carota"] },
+        { nome: "Sedano", qta: 60, u: "g", k: ["Sedano"] },
+        { nome: "Cipolle dorate", qta: 60, u: "g", k: ["Cipolla"] },
+        { nome: "Olio extravergine d'oliva", qta: 30, u: "g", k: ["Olio extravergine"] }
+      ]},
+      { nome: "Carne", ingredienti: [
+        { nome: "Macinato di manzo", qta: 400, u: "g", k: ["Macinato di manzo"] }
+      ]},
+      { nome: "Maiale", cond: true, condNome: "Maiale", ingredienti: [] },
+      { nome: "Sugo", ingredienti: [
+        { nome: "Vino rosso", nota: "un bicchiere", qta: 125, u: "g", k: ["Vino rosso"] },
+        { nome: "Doppio concentrato di pomodoro", nota: "1 cucchiaio", qta: 20, u: "g", k: ["Concentrato di pomodoro"] },
+        { nome: "Passata di pomodoro", qta: 200, u: "g", k: ["Passata di pomodoro"] },
+        { nome: "Brodo vegetale caldo, non salato", nota: "due terzi subito, il resto se si asciuga", qta: 300, u: "g", k: ["Brodo vegetale"] },
+        { nome: "Sale fino", qta: 4, u: "g", base: true },
+        { nome: "Pepe nero", qta: 1, u: "g", k: ["Pepe nero"] },
+        { nome: "Noce moscata", nota: "facoltativa, una grattugiata", qta: 0.3, u: "g", k: ["Noce moscata"] }
+      ]}
+    ],
+    procedimento: [
+      "Pulisci e trita finemente la cipolla, il sedano e la carota."
+    ],
+    note: [
+      "Si conserva in frigo 2–3 giorni in un contenitore di vetro ben chiuso; si può preparare il giorno prima e scaldare al momento. Si può congelare.",
+      "Se vuoi puoi aggiungere a fine cottura piselli scottati, o a inizio cottura funghi porcini secchi ammollati o salsiccia di maiale sbriciolata."
+    ],
+    condimenti: (() => {
+      const dopo = [
+        IND("Sempre a livello 7, versa il vino rosso e lascialo evaporare, poi aggiungi il doppio concentrato e mescola.",
+            "A fiamma vivace, versa il vino rosso e lascialo evaporare, poi aggiungi il doppio concentrato e mescola."),
+        IND({ casa: "fede", si: "Unisci la passata e due terzi del brodo caldo, copri e scendi a livello 2: cuoci 2 ore, mescolando ogni tanto. Deve solo sobbollire.", no: "Unisci la passata e due terzi del brodo caldo, copri e scendi a livello 3: cuoci 2 ore, mescolando ogni tanto. Deve solo sobbollire; se bolle forte scendi a 2." },
+            "Unisci la passata e due terzi del brodo caldo, copri e cuoci 2 ore a fuoco medio-basso, mescolando ogni tanto."),
+        "A metà cottura aggiungi sale e pepe e, se vuoi, una grattugiata di noce moscata. Se il ragù si asciuga troppo aggiungi il resto del brodo.",
+        "A fine cottura il ragù deve essere arancione scuro, denso e cremoso. Assaggia e correggi sale e pepe."
+      ];
+      const scalda = IND({ casa: "fede", si: "Metti l'olio nella casseruola di ghisa e scaldala 5 minuti a livello 3.", no: "Scalda l'olio nella casseruola a livello 5." }, "Scalda l'olio nella casseruola a fuoco medio.");
+      return [
+        { id: "pancetta", nome: "Pancetta fresca", titolo: "Ragù alla bolognese",
+          ingredienti: [{ nome: "Pancetta fresca", nota: "non affumicata", qta: 150, u: "g", k: ["Pancetta fresca"] }],
+          procedimento: ["Trita finemente anche la pancetta.", scalda,
+            IND("Aggiungi la pancetta a livello 5 e rosolala 4–5 minuti, mescolando spesso, finché si scioglie e sfrigola.", "Aggiungi la pancetta e rosolala, mescolando spesso, finché si scioglie e sfrigola; non deve bruciare."),
+            IND("Scendi a livello 4, aggiungi il trito di verdure e fallo appassire 10–12 minuti, mescolando con il mestolo di legno: la cipolla non deve bruciare.", "Aggiungi il trito di verdure e fallo appassire piano a fuoco medio-basso, mescolando con il mestolo di legno: la cipolla non deve bruciare."),
+            IND("Alza a livello 7, aggiungi il macinato di manzo e rosolalo circa 10 minuti, mescolando e sgranandolo bene.", "Alza la fiamma, aggiungi il macinato di manzo e rosolalo circa 10 minuti, mescolando e sgranandolo bene.")] },
+        { id: "macinato", nome: "Macinato di maiale", titolo: "Ragù alla bolognese con macinato di maiale",
+          ingredienti: [{ nome: "Macinato di maiale", qta: 150, u: "g", k: ["Macinato di maiale"] }],
+          note: ["Il macinato di maiale al posto della pancetta dà un ragù più magro e meno saporito: se vuoi, rosola un po' di più la carne finché è ben colorita."],
+          procedimento: [scalda,
+            IND("Porta a livello 4, aggiungi il trito di verdure e fallo appassire 10–12 minuti, mescolando con il mestolo di legno: la cipolla non deve bruciare.", "Aggiungi il trito di verdure e fallo appassire piano a fuoco medio-basso, mescolando con il mestolo di legno: la cipolla non deve bruciare."),
+            IND("Alza a livello 7, aggiungi il macinato di manzo e quello di maiale e rosolali circa 10 minuti, mescolando e sgranandoli bene, finché sono ben coloriti.", "Alza la fiamma, aggiungi il macinato di manzo e quello di maiale e rosolali circa 10 minuti, mescolando e sgranandoli bene, finché sono ben coloriti.")] }
+      ].map(c => ({ ...c, dopo }));
+    })()
+  },
+  {
     id: "gnocchi-di-patate", img: "gnocchi", aggiunta: "2026-11-09T19:20:00+01:00",
     titolo: "Gnocchi di patate",
     sezione: "Primi", sottosezione: "Gnocchi",
@@ -2537,6 +2632,7 @@ const ART = {
   frullato: `<svg viewBox="0 0 160 120" aria-hidden="true"><ellipse cx="80" cy="108" rx="58" ry="6" fill="#000" opacity=".08"/><path d="M110 92q8-14 18 0q-9 14-18 0z" fill="#d9374a"/><path d="M114 82l6 4 6-4" stroke="#3f8a3a" stroke-width="3" fill="none"/><path d="M28 96q6-12 16 0q-8 12-16 0z" fill="#d9374a"/><path d="M58 22h40l-5 82H63z" fill="#eef5f7" stroke="#c9d8dd" stroke-width="2"/><path d="M60.5 42h35l-3.6 60H64.1z" fill="#ef8fa2"/><path d="M64 26h4l-3 72h-3z" fill="#fff" opacity=".6"/></svg>`,
   bevande: `<svg viewBox="0 0 160 120" aria-hidden="true"><ellipse cx="80" cy="108" rx="58" ry="6" fill="#000" opacity=".08"/><rect x="104" y="40" width="30" height="64" rx="8" fill="#eef5f7" stroke="#c9d8dd" stroke-width="2"/><rect x="113" y="22" width="12" height="20" rx="3" fill="#eef5f7" stroke="#c9d8dd" stroke-width="2"/><rect x="112" y="16" width="14" height="8" rx="2" fill="#2f6b4f"/><rect x="106" y="56" width="26" height="46" rx="6" fill="#f3ead8"/><path d="M58 22h40l-5 82H63z" fill="#eef5f7" stroke="#c9d8dd" stroke-width="2"/><path d="M60.5 42h35l-3.6 60H64.1z" fill="#f3ead8"/><path d="M64 26h4l-3 72h-3z" fill="#fff" opacity=".6"/></svg>`,
   senape: `<svg viewBox="0 0 160 120" aria-hidden="true"><ellipse cx="80" cy="106" rx="54" ry="7" fill="#000" opacity=".08"/><path d="M46 46h44v52a6 6 0 0 1-6 6H52a6 6 0 0 1-6-6z" fill="#eef3f2" stroke="#c9d3d1" stroke-width="2"/><path d="M49 58h38v40a4 4 0 0 1-4 4H53a4 4 0 0 1-4-4z" fill="#d7a72a"/><circle cx="58" cy="72" r="1.6" fill="#8a5a1a"/><circle cx="70" cy="84" r="1.6" fill="#8a5a1a"/><circle cx="78" cy="68" r="1.6" fill="#f3d36a"/><circle cx="62" cy="92" r="1.6" fill="#f3d36a"/><circle cx="80" cy="94" r="1.6" fill="#8a5a1a"/><rect x="43" y="36" width="50" height="11" rx="3" fill="#b08d3e"/><rect x="58" y="70" width="20" height="14" rx="2" fill="#fffdf6" opacity=".9"/><ellipse cx="122" cy="94" rx="20" ry="9" fill="#f7f3ea" stroke="#d8d0bd" stroke-width="1.5"/><ellipse cx="122" cy="92" rx="14" ry="5" fill="#e0b13a"/><circle cx="117" cy="91" r="1.4" fill="#8a5a1a"/><circle cx="126" cy="93" r="1.4" fill="#f6dd84"/><path d="M104 60q4-10 12-4" stroke="#c9a032" stroke-width="5" fill="none" stroke-linecap="round"/><circle cx="104" cy="66" r="3.5" fill="#d9a630"/><circle cx="111" cy="70" r="3" fill="#6b4416"/><circle cx="99" cy="74" r="2.6" fill="#e8c35a"/></svg>`,
+  ragu: `<svg viewBox="0 0 160 120" aria-hidden="true"><ellipse cx="80" cy="106" rx="58" ry="8" fill="#000" opacity=".08"/><path d="M28 62h104v24q0 18-20 18H48q-20 0-20-18z" fill="#c8572a"/><ellipse cx="80" cy="62" rx="52" ry="14" fill="#d8693a"/><ellipse cx="80" cy="62" rx="44" ry="10" fill="#9c3a1c"/><g fill="#b8532a"><circle cx="62" cy="60" r="3"/><circle cx="74" cy="64" r="2.6"/><circle cx="88" cy="59" r="3.2"/><circle cx="98" cy="64" r="2.5"/><circle cx="70" cy="57" r="2.2"/><circle cx="92" cy="66" r="2"/></g><g fill="#7a2a12"><circle cx="66" cy="65" r="1.8"/><circle cx="82" cy="61" r="2"/><circle cx="104" cy="60" r="1.6"/></g><circle cx="78" cy="58" r="1.6" fill="#e8822c"/><circle cx="96" cy="60" r="1.4" fill="#e8822c"/><path d="M118 40l-30 26" stroke="#a5713c" stroke-width="5" stroke-linecap="round"/><ellipse cx="120" cy="38" rx="6" ry="4" fill="#b98247" transform="rotate(-40 120 38)"/><path d="M22 68h8M130 68h8" stroke="#a84a22" stroke-width="5" stroke-linecap="round"/></svg>`,
   pancake: `<svg viewBox="0 0 160 120" aria-hidden="true"><ellipse cx="80" cy="106" rx="56" ry="8" fill="#000" opacity=".08"/><ellipse cx="80" cy="96" rx="56" ry="13" fill="#fffdf6" stroke="#e2dccb" stroke-width="2"/><g><path d="M42 88q38 10 76 0v-8q-38 10-76 0z" fill="#d79a4a"/><ellipse cx="80" cy="80" rx="38" ry="8" fill="#e9b766"/><path d="M44 76q36 10 72 0v-8q-36 10-72 0z" fill="#d38f3e"/><ellipse cx="80" cy="68" rx="36" ry="8" fill="#ebbd6c"/><path d="M46 64q34 10 68 0v-8q-34 10-68 0z" fill="#d69544"/><ellipse cx="80" cy="56" rx="34" ry="8" fill="#eec474"/></g><path d="M62 54q18 8 34-2q8-4 6 6q-2 8-6 14q-2 4-4-2q-2-6-10-6q-10 0-14-4q-8-4-6-6z" fill="#a8581c" opacity=".85"/><rect x="72" y="47" width="14" height="9" rx="2" fill="#fbe9a8"/><rect x="72" y="47" width="14" height="3" rx="1.5" fill="#fff6cf"/></svg>`,
   verdure: `<svg viewBox="0 0 160 120" aria-hidden="true"><ellipse cx="80" cy="104" rx="56" ry="8" fill="#000" opacity=".08"/><ellipse cx="80" cy="74" rx="58" ry="30" fill="#fffdf6" stroke="#e2dccb" stroke-width="2"/><ellipse cx="80" cy="74" rx="46" ry="22" fill="#f7f3ea"/><g stroke-linecap="round"><path d="M46 70l26-10M50 80l24-8M58 88l22-9" stroke="#e8822c" stroke-width="6"/><path d="M84 62q14 4 26-2M86 72q12 3 24-3M88 82q11 2 22-4" stroke="#4f8a3a" stroke-width="3.5" fill="none"/></g><g fill="#3f7a35"><circle cx="104" cy="88" r="6"/><circle cx="111" cy="85" r="5.5"/><circle cx="107" cy="80" r="5"/><circle cx="68" cy="56" r="5"/><circle cx="74" cy="53" r="4.5"/></g><rect x="105" y="89" width="4" height="8" rx="2" fill="#8fbf6a"/><circle cx="62" cy="62" r="1.4" fill="#5c3b1c"/><circle cx="96" cy="66" r="1.4" fill="#5c3b1c"/></svg>`,
   maionesesoda: `<svg viewBox="0 0 160 120" aria-hidden="true"><ellipse cx="80" cy="104" rx="52" ry="7" fill="#000" opacity=".08"/><ellipse cx="70" cy="84" rx="42" ry="17" fill="#f1ece0"/><path d="M28 70h84v14a42 17 0 0 1-84 0z" fill="#e6dfcf"/><ellipse cx="70" cy="70" rx="42" ry="15" fill="#f7f3ea" stroke="#d8d0bd" stroke-width="2"/><ellipse cx="70" cy="70" rx="33" ry="10" fill="#f3e3a6"/><path d="M52 69q8-8 17-3t18-2" stroke="#ead48a" stroke-width="5" fill="none" stroke-linecap="round"/><circle cx="62" cy="66" r="2.6" fill="#6b7d3a"/><circle cx="78" cy="72" r="2.4" fill="#6b7d3a"/><circle cx="84" cy="65" r="2.2" fill="#5d6f31"/><ellipse cx="128" cy="92" rx="18" ry="13" fill="#fffdf6" stroke="#e2dccb" stroke-width="1.5"/><circle cx="128" cy="92" r="7.5" fill="#f2c13c"/><circle cx="125.5" cy="89.5" r="2" fill="#f8da7a"/></svg>`,
