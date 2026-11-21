@@ -2791,7 +2791,7 @@ const RICETTE = [
           procedimento: [stendi, "Spalma la marmellata sul fondo in uno strato uniforme.", strisce, forno, "Lascia raffreddare la crostata prima di toglierla dalla tortiera."],
           fasi: [{ nome: "Raffreddare", min: 30, attesa: true }] },
         { id: "crema", nome: "Crema pasticcera", titolo: "Crostata alla crema pasticcera",
-          ingredienti: [{ nome: "Crema pasticcera", nota: "fredda, dalla ricetta Crema pasticcera (Dolci › Creme)", qta: 450, u: "g", k: ["Crema pasticcera"] }],
+          ingredienti: [{ nome: "Crema pasticcera", nota: "fredda, dalla ricetta Crema pasticcera (Dolci › Creme)", qta: 450, u: "g", sub: { id: "crema-pasticcera", resa: 750 } }],
           fasiPrima: [{ nome: "Preparare la crema pasticcera e farla raffreddare", min: 90, attesa: true }],
           prima: ["Prepara prima la crema pasticcera (ricetta Crema pasticcera) e lasciala raffreddare in frigo coperta: deve essere fredda. La dose intera della crema basta per una crostata e ne avanza un po'."],
           procedimento: [stendi, "Mescola un attimo la crema fredda con la frusta perché torni liscia e versala sul fondo, livellandola.", strisce, forno, "Lascia raffreddare la crostata, poi tienila in frigo: con la crema va mangiata entro 2–3 giorni."],
@@ -4834,14 +4834,16 @@ function shoppingList(m){
   const frigo = new Set(m.frigo || []);
   const out = new Map();
   for (const r of menuRecipes(m)) conDish(m, r, f => {
-    for (const i of allIng(r)){
-      if (i.base || !i.k || i.k.some(k => frigo.has(k))) continue;
+    const add = (i, ff, per) => {
+      if (i.sub){ const sr = RICETTE.find(x => x.id === i.sub.id); if (sr && i.qta != null){ for (const j of allIng(sr)) add(j, ff * i.qta / i.sub.resa, per + " (" + sr.titolo.toLowerCase() + ")"); return; } }
+      if (i.base || !i.k || i.k.some(k => frigo.has(k))) return;
       const key = i.k[0];
       if (!out.has(key)) out.set(key, { nome: i.k.join(" o "), per: new Set(), q: new Map(), nq: false, fac: true });
-      const x = out.get(key); x.per.add(r.titolo); if (!/facoltativ/i.test(i.nota || "")) x.fac = false;
+      const x = out.get(key); x.per.add(per); if (!/facoltativ/i.test(i.nota || "")) x.fac = false;
       const u = i.u === "" ? "#" + contaLab(i) : i.u;
-      if (i.qta == null) x.nq = true; else x.q.set(u, (x.q.get(u) || 0) + i.qta * f);
-    }
+      if (i.qta == null) x.nq = true; else x.q.set(u, (x.q.get(u) || 0) + i.qta * ff);
+    };
+    for (const i of allIng(r)) add(i, f, piattoNome(r).titolo);
   });
   return [...out.values()].map(x => ({ ...x, qta: x.q.size ? qtaTxt(x.q) : "" })).sort((a, b) => a.nome.localeCompare(b.nome, "it"));
 }
