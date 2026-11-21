@@ -5137,7 +5137,7 @@ function refreshMenuViews(){ const h = location.hash.slice(1); if (h === "scaric
     store.ref.onSnapshot(s => {
       if (!s.metadata.fromCache){ clearTimeout(timer); store.note = ""; }
       const data = s.exists ? s.data() : null;
-      store.menus = data && Array.isArray(data.list) ? data.list.map(m => ({ ...m, piatti: [...(m.piatti || [])], frigo: [...(m.frigo || [])] })) : [];
+      store.menus = data && Array.isArray(data.list) ? JSON.parse(JSON.stringify(data.list)).map(m => ({ ...m, dish: m.dish || {}, piatti: [...(m.piatti || [])], frigo: [...(m.frigo || [])] })) : [];
       store.ready = true; refreshMenuViews();
     }, () => { clearTimeout(timer); store.ref = null; useLocal(); refreshMenuViews(); });
   } catch (e){ useLocal(); refreshMenuViews(); }
