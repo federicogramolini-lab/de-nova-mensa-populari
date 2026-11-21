@@ -4471,7 +4471,7 @@ function spesaSalva(liste){
   if (store.spesaRef) store.writing = store.writing.then(() => store.spesaRef.set({ liste: JSON.stringify(t) })).catch(() => {});
 }
 function spesaNuova(nome, voci){
-  const l = { id: "s" + Date.now().toString(36), nome, creata: Date.now(), voci: voci.map((t, i) => ({ id: "v" + i + Math.random().toString(36).slice(2, 6), t, ok: false })) };
+  const l = { id: "s" + Date.now().toString(36), nome, creata: Date.now(), conPiatti: true, voci: voci.map((t, i) => ({ id: "v" + i + Math.random().toString(36).slice(2, 6), t, ok: false })) };
   const liste = spesaListe(); liste.unshift(l); spesaSalva(liste); return l;
 }
 // voci della spesa di un menù; con "persone" ricalcola le dosi per quel numero di persone (teglie e quantità del menù restano)
@@ -4479,7 +4479,7 @@ function spesaDaMenu(m, persone){
   const mm = persone ? { ...m, persone, dish: Object.fromEntries(Object.entries(m.dish || {}).map(([k, c]) => { const { persone: _, ...resto } = c; return [k, resto]; })) } : m;
   return shoppingList(mm).map(spesaVoce);
 }
-function spesaVoce(x){ return (x.nome + (x.qta ? " " + x.qta : "")).replace(/\s+/g, " ").trim(); }
+function spesaVoce(x){ return (x.nome + (x.qta ? " " + x.qta : "") + (x.per && x.per.size ? " (" + [...x.per].join(", ") + ")" : "")).replace(/\s+/g, " ").trim(); }
 const SPESA_INK = t => "spesa:" + t;
 async function spesaScrivi(testi){
   for (const t of new Set(testi)) if (t && !MANO.has(SPESA_INK(t))){
@@ -4528,7 +4528,21 @@ function renderSpese(){
       const l = spesaNuova(`Spesa per ${m.nome} (${n} ${n === 1 ? "persona" : "persone"})`, spesaDaMenu(m, n)); location.hash = "spesa-" + l.id; };
   }
 }
+// liste fatte da un menù prima del 21/11/2026: aggiunge tra parentesi i piatti per cui serve ogni voce (una volta sola)
+function spesaPiatti(l){
+  if (l.conPiatti || !/^Spesa per /.test(l.nome || "")) return l;
+  const nomeM = l.nome.replace(/^Spesa per /, "").replace(/ \(\d+ person[ae]\)$/, ""), mn = (l.nome.match(/ \((\d+) person[ae]\)$/) || [])[1];
+  const m = (store.menus || []).find(x => x.nome === nomeM); if (!m) return l;
+  const shop = shoppingList(mn ? { ...m, persone: Number(mn) } : m), nomi = shop.map(x => x.nome).sort((a, b) => b.length - a.length);
+  const per = Object.fromEntries(shop.map(x => [x.nome, [...x.per].join(", ")]));
+  const ricetta = Object.fromEntries(menuRecipes(m).flatMap(r => conDish(m, r, () => allIng(r).filter(i => i.k).map(i => [i.k[0], piattoNome(r).titolo]))));
+  const voci = l.voci.map(v => { if (/\)$/.test(v.t)) return v; const n = nomi.find(k => v.t === k || v.t.startsWith(k + " ")); const p = n ? per[n] : (Object.keys(ricetta).sort((a, b) => b.length - a.length).map(k => v.t.startsWith(k + " ") ? ricetta[k] : null).find(Boolean)); return p ? { ...v, t: v.t + " (" + p + ")" } : v; });
+  const nl = { ...l, voci, conPiatti: true };
+  spesaSalva(spesaListe().map(x => x.id === l.id ? nl : x));
+  return nl;
+}
 function renderSpesa(l){
+  l = spesaPiatti(l);
   const fatte = l.voci.filter(v => v.ok).length;
   let html = masthead("spesa") + `<a class="back" href="#spesa"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>Le tue liste</a>
   <div class="quaderno" role="group" aria-label="${esc(l.nome)}">
@@ -4835,7 +4849,7 @@ function shoppingList(m){
   const out = new Map();
   for (const r of menuRecipes(m)) conDish(m, r, f => {
     const add = (i, ff, per) => {
-      if (i.sub){ const sr = RICETTE.find(x => x.id === i.sub.id); if (sr && i.qta != null){ for (const j of allIng(sr)) add(j, ff * i.qta / i.sub.resa, per + " (" + sr.titolo.toLowerCase() + ")"); return; } }
+      if (i.sub){ const sr = RICETTE.find(x => x.id === i.sub.id); if (sr && i.qta != null){ for (const j of allIng(sr)) add(j, ff * i.qta / i.sub.resa, per + " – " + sr.titolo.toLowerCase()); return; } }
       if (i.base || !i.k || i.k.some(k => frigo.has(k))) return;
       const key = i.k[0];
       if (!out.has(key)) out.set(key, { nome: i.k.join(" o "), per: new Set(), q: new Map(), nq: false, fac: true });
