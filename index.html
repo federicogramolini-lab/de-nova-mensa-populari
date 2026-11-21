@@ -2901,6 +2901,7 @@ let cestinoRef = null;
 let isOwner = false;
 let titoliRef = null;
 /*SYNC*/const SYNC_DATA = {"titoli":{"focaccia-barese":"Focaccia barese senza patata","spaghetti-pomodoro-freddi":"Spaghetti alla crudiaiola","toast-zuppa-cipolle":"Toast di zuppa di cipolle"},"cestino":["pan-brioche-giallozafferano","pan-brioche-giapponese","pizza-teglia-75"]};/*/SYNC*/
+/*SYNCU*/const SYNC_UTENTI = {"menus":[{"creato":1795265160930,"dish":{"bistecca-padella-acciaio":{"persone":1,"sc":{"contorno":"zucchine"}},"pane-senza-impasto":{"sc":{"c":"00w350-saraceno"}},"pasta-fresca-uovo":{"sc":{"c":"sfoglia"}},"pasta-frolla-claudia":{"sc":{"c":"crema"},"tg":{"d":11,"n":4}},"ragu-bolognese":{"sc":{"c":"macinato","pentola":"acciaio"}}},"frigo":[],"id":"mwqeivoi","nome":"Menù del 21 novembre","persone":4,"piatti":["pasta-fresca-uovo","ragu-bolognese","bistecca-padella-acciaio","pasta-frolla-claudia","pane-senza-impasto"],"profilo":"federico"}],"spesa":{"federico":[{"id":"smwqej87b","nome":"Spesa per Menù del 21 novembre","creata":1795265177159,"piattiV":2,"voci":[{"id":"v0d30j","t":"Aglio 1 spicchio (bistecca)","ok":true},{"id":"v1m8yz","t":"Amido di riso 17 g (crostata)","ok":false},{"id":"v25iur","t":"Aroma di limone o Limone 0,7 fiala (crostata)","ok":true},{"id":"v3wcit","t":"Bistecca 250 g (bistecca)","ok":false},{"id":"v4w3ts","t":"Brodo vegetale 300 g (ragù)","ok":true},{"id":"v59e0x","t":"Burro 122 g (bistecca, crostata)","ok":false},{"id":"v6fg0u","t":"Carota 60 g (ragù)","ok":true},{"id":"v7lnfo","t":"Cipolla 60 g (ragù)","ok":true},{"id":"v8br1s","t":"Concentrato di pomodoro 20 g (ragù)","ok":true},{"id":"v96487","t":"Farina 00 615 g (pasta, crostata)","ok":false},{"id":"v10xstk","t":"Farina 00 W350 400 g (pane)","ok":true},{"id":"v118xp9","t":"Farina di grano saraceno 100 g (pane)","ok":true},{"id":"v12eegc","t":"Latte intero 215 g (crostata)","ok":false},{"id":"v13yxxa","t":"Lievito di birra 2 g (pane)","ok":true},{"id":"v14ujl3","t":"Lievito per dolci 5,7 g (crostata)","ok":true},{"id":"v15rp8s","t":"Limone 1,3 g (crostata)","ok":true},{"id":"v16rofx","t":"Macinato di maiale 150 g (ragù)","ok":true},{"id":"v17tn0s","t":"Macinato di manzo 400 g (ragù)","ok":false},{"id":"v18yt3c","t":"Noce moscata 0,3 g (ragù)","ok":true},{"id":"v19dmw3","t":"Olio di semi 5 g (bistecca)","ok":true},{"id":"v20nsaa","t":"Olio extravergine 30 g (ragù)","ok":true},{"id":"v21rnqz","t":"Passata di pomodoro 200 g (ragù)","ok":true},{"id":"v22ynkc","t":"Pepe nero 1 g (ragù)","ok":true},{"id":"v23zb05","t":"Sedano 60 g (ragù)","ok":true},{"id":"v244t61","t":"Timo 2 rametti (bistecca)","ok":true},{"id":"v25juyn","t":"Uova 5 + 4 tuorli (pasta, crostata)","ok":false},{"id":"v268bsv","t":"Vaniglia 1 (crostata)","ok":false},{"id":"v270d5l","t":"Vino rosso 125 g (ragù)","ok":false},{"id":"v28mioh","t":"Zucchero 56 g (crostata)","ok":true},{"id":"v2957xo","t":"Zucchero a velo 89 g (crostata)","ok":false},{"id":"v301us5","t":"Zucchine 150 g (bistecca)","ok":false}]}]}};/*/SYNCU*/
 /* nomi cambiati ed eliminazioni fatti su claude.ai, copiati qui ogni notte: valgono anche nella copia su GitHub */
 RICETTE.forEach(r => { const t = SYNC_DATA.titoli[r.id]; if (typeof t === "string" && t.trim()) r.titolo = t.trim().slice(0, 120); r.titoloOrig = r.titolo; });
 /* Scelte alternative (versioni, condimenti…): uno o più menù a tendina per ricetta.
@@ -3610,6 +3611,8 @@ function saveCestino(){
   store.writing = store.writing.then(() => cestinoRef.set({ ids })).catch(() => {});
 }
 function findMenu(id){ return store.menus.find(m => m.id === id); }
+// ogni profilo vede solo i suoi menù (quelli senza profilo, salvati prima del 21/11/2026, sono di Federico su claude.ai e del profilo del dispositivo su GitHub)
+function mieiMenu(){ return (store.menus || []).filter(m => (m.profilo || "federico") === persona()); }
 function menuRecipes(m){ return m.piatti.filter(id => !cestino.has(id)).map(id => RICETTE.find(r => r.id === id)).filter(Boolean); }
 function dataIt(ts){ try { return new Date(ts).toLocaleDateString("it-IT", { day: "numeric", month: "long", year: "numeric" }); } catch (e){ return ""; } }
 
@@ -4023,7 +4026,7 @@ function chiediTipoMenu(){
 
 /* ---------- Scarica il ricettario (intero o in parte) ---------- */
 function sel(){
-  if (!state.sel){ state.sel = { ricette: new Set(VIS().map(r => r.id)), menu: new Set(store.menus.map(m => m.id)), app: new Set(ELETTRO().map(E => E.id)), cond: {} }; }
+  if (!state.sel){ state.sel = { ricette: new Set(VIS().map(r => r.id)), menu: new Set(mieiMenu().map(m => m.id)), app: new Set(ELETTRO().map(E => E.id)), cond: {} }; }
   const S = state.sel; VIS().forEach(r => { if (hasDims(r) && !S.cond[r.id]){ S.cond[r.id] = {}; DIMS(r).forEach(d => S.cond[r.id][d.key] = new Set(S.ricette.has(r.id) ? d.items.map(c => c.id) : [])); } });
   return S;
 }
@@ -4071,7 +4074,7 @@ function renderScarica(){
     else if (k.startsWith("sub:")){ const [sz, sb] = k.slice(4).split("|"); selRicette(S, VIS().filter(r => r.sezione === sz && (r.sottosezione || "") === sb).map(r => r.id), on); }
     else if (k.startsWith("r:")) selRicette(S, [k.slice(2)], on);
     else if (k.startsWith("v:")){ const [id, dk, cid] = k.slice(2).split("|"); const st = S.cond[id][dk]; on ? st.add(cid) : st.delete(cid); Object.values(S.cond[id]).every(x => x.size) ? S.ricette.add(id) : S.ricette.delete(id); }
-    else if (k === "menu:all") setAll(S.menu, store.menus.map(m => m.id));
+    else if (k === "menu:all") setAll(S.menu, mieiMenu().map(m => m.id));
     else if (k.startsWith("m:")) setAll(S.menu, [k.slice(2)]);
     else if (k === "app:all") setAll(S.app, ELETTRO().map(E => E.id));
     else if (k.startsWith("a:")) setAll(S.app, [k.slice(2)]);
@@ -4455,8 +4458,8 @@ function renderMenus(){
   </div>`;
   if (store.note) html += `<p class="status" style="margin-top:8px">${esc(store.note)}</p>`;
   if (!store.ready) html += `<p class="empty" style="margin-top:16px">Carico i menù…</p>`;
-  else if (!store.menus.length) html += `<p class="hint">Non hai ancora creato menù. Tocca “Nuovo menù”: ti chiedo cosa hai in frigo e ti propongo i piatti che puoi preparare.</p>`;
-  else html += `<div class="menu-list">${store.menus.slice().sort((a, b) => b.creato - a.creato).map(m => {
+  else if (!mieiMenu().length) html += `<p class="hint">Non hai ancora creato menù. Tocca “Nuovo menù”: ti chiedo cosa hai in frigo e ti propongo i piatti che puoi preparare.</p>`;
+  else html += `<div class="menu-list">${mieiMenu().sort((a, b) => b.creato - a.creato).map(m => {
     const rs = menuRecipes(m);
     return `<a class="mcard" href="#menu-${m.id}">
       <div class="thumbs">${rs.slice(0, 5).map(r => `<span>${art(r)}</span>`).join("")}</div>
@@ -4534,7 +4537,7 @@ async function spesaManoDopo(testi, voci = []){
 const BARRA = `<svg class="q-barra" viewBox="0 0 100 10" preserveAspectRatio="none" aria-hidden="true"><path d="M1 6.2 C 18 4.6, 34 6.8, 52 5.1 S 84 4.2, 99 5.6" fill="none" stroke="#376c54" stroke-width="2.4" stroke-linecap="round" vector-effect="non-scaling-stroke"/></svg>`;
 function renderSpese(){
   const liste = spesaListe();
-  const menus = (store.menus || []).slice().sort((a, b) => b.creato - a.creato);
+  const menus = mieiMenu().sort((a, b) => b.creato - a.creato);
   let html = masthead("spesa") + `
   <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap"><h1>Lista della spesa</h1></div>
   <div class="spesa-new">
@@ -4564,7 +4567,7 @@ function renderSpese(){
 function spesaPiatti(l){
   if (l.piattiV >= 2 || !/^Spesa per /.test(l.nome || "")) return l;
   const nomeM = l.nome.replace(/^Spesa per /, "").replace(/ \(\d+ person[ae]\)$/, ""), mn = (l.nome.match(/ \((\d+) person[ae]\)$/) || [])[1];
-  const m = (store.menus || []).find(x => x.nome === nomeM); if (!m) return l;
+  const m = mieiMenu().find(x => x.nome === nomeM); if (!m) return l;
   const shop = mn ? shoppingList({ ...m, persone: Number(mn), dish: Object.fromEntries(Object.entries(m.dish || {}).map(([k, c]) => { const { persone: _, ...resto } = c; return [k, resto]; })) }) : shoppingList(m);
   const nomi = shop.map(x => x.nome), inizia = (v, n) => voceParti(v.t)[0] === n || voceParti(v.t)[0].startsWith(n + " ");
   const voci = shop.map((x, i) => { const old = l.voci.find(v => inizia(v, x.nome)); return { id: old ? old.id : "v" + i + Math.random().toString(36).slice(2, 6), t: spesaVoce(x), ok: !!(old && old.ok) }; });
@@ -4728,7 +4731,7 @@ function renderWizard(){
       if (Object.keys(o).length) dish[id] = o; });
     if (d.edit){ const m = store.menus.find(x => x.id === d.edit);
       if (m){ m.piatti = [...d.piatti]; m.dish = dish; m.nome = (d.nome || "").trim() || m.nome; m.persone = d.persone || m.persone; m.frigo = [...d.frigo]; persist(); state.draft = null; location.hash = "menu-" + m.id; return; } }
-    const m = { id: Date.now().toString(36), nome: (d.nome || "").trim() || "Menù", creato: Date.now(), frigo: [...d.frigo], piatti: [...d.piatti], persone: d.persone || 4, dish };
+    const m = { id: Date.now().toString(36), nome: (d.nome || "").trim() || "Menù", creato: Date.now(), frigo: [...d.frigo], piatti: [...d.piatti], persone: d.persone || 4, dish, profilo: persona() };
     store.menus = [...store.menus, m]; persist(); state.draft = null;
     location.hash = "menu-" + m.id;
   };
@@ -5204,12 +5207,29 @@ route();
 manoFont();
 aperturaCopertina();
 
+// fuori da claude.ai: copia sul dispositivo i menù e le liste della spesa salvati su claude.ai (riga SYNC_UTENTI, aggiornata ogni notte)
+function importaSyncUtenti(){
+  const U = SYNC_UTENTI; if (!U || !Array.isArray(U.menus)) return;
+  let prev = {}; try { prev = JSON.parse(localStorage.getItem("ricettario-sync-utenti") || "{}") || {}; } catch (e) {}
+  const sig = JSON.stringify(U); if (prev.sig === sig) return;
+  const exM = new Set(prev.menu || []), nuoviM = new Set(U.menus.map(m => m.id));
+  const loc = store.menus.filter(m => !(exM.has(m.id) && !nuoviM.has(m.id)));
+  U.menus.forEach(x => { const c = JSON.parse(JSON.stringify(x)), i = loc.findIndex(m => m.id === x.id); if (i >= 0) loc[i] = c; else loc.push(c); });
+  store.menus = loc; try { localStorage.setItem("ricettario-menu", JSON.stringify(loc)); } catch (e) {}
+  const tutte = spesaTutte(), exL = new Set(prev.liste || []), nuoveL = new Set(Object.values(U.spesa || {}).flat().map(l => l.id));
+  Object.keys(tutte).forEach(p => { if (Array.isArray(tutte[p])) tutte[p] = tutte[p].filter(l => !(exL.has(l.id) && !nuoveL.has(l.id))); });
+  Object.entries(U.spesa || {}).forEach(([p, ls]) => { const arr = Array.isArray(tutte[p]) ? tutte[p] : []; ls.slice().reverse().forEach(x => { const c = JSON.parse(JSON.stringify(x)), i = arr.findIndex(l => l.id === x.id); if (i >= 0) arr[i] = c; else arr.unshift(c); }); tutte[p] = arr; });
+  try { localStorage.setItem("ricettario-spesa", JSON.stringify(tutte)); localStorage.setItem("ricettario-sync-utenti", JSON.stringify({ sig, menu: [...nuoviM], liste: [...nuoveL] })); } catch (e) {}
+}
 function useLocal(){
   store.local = true;
   try { store.menus = JSON.parse(localStorage.getItem("ricettario-menu") || "[]"); } catch (e){ store.menus = []; }
+  // menù salvati sul dispositivo prima dei profili: sono del profilo scelto su questo dispositivo
+  if (store.menus.some(m => !m.profilo)){ store.menus.forEach(m => { if (!m.profilo) m.profilo = persona(); }); try { localStorage.setItem("ricettario-menu", JSON.stringify(store.menus)); } catch (e) {} }
+  importaSyncUtenti();
   store.ready = true;
 }
-function refreshMenuViews(){ const h = location.hash.slice(1); if (h === "scarica" && state.sel){ store.menus.forEach(m => { if (!state.sel.seen) state.sel.menu.add(m.id); }); state.sel.seen = true; } if (h === "menu" || h === "scarica" || (h.startsWith("menu-") && h !== "menu-nuovo")) route(); }
+function refreshMenuViews(){ const h = location.hash.slice(1); if (h === "scarica" && state.sel){ mieiMenu().forEach(m => { if (!state.sel.seen) state.sel.menu.add(m.id); }); state.sel.seen = true; } if (h === "menu" || h === "scarica" || (h.startsWith("menu-") && h !== "menu-nuovo")) route(); }
 
 (async function init(){
   if (!(window.claude && window.claude.use)){
