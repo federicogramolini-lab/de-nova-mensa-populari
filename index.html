@@ -795,12 +795,28 @@ const RICETTE = [
     condLabel: "Farina",
     condimenti: [
       { id: "solo-0", nome: "Solo farina 0", ingredienti: [
-        { nome: "Farina 0", qta: 500, u: "g", k: ["Farina 0"] }
+        { nome: "Farina 0", qta: 500, u: "g", k: ["Farina 0"] },
+        { nome: "Acqua", nota: "a temperatura ambiente", qta: 350, u: "g", base: true }
       ]},
       { id: "0-manitoba", nome: "Farina 0 e Manitoba", ingredienti: [
         { nome: "Farina 0", qta: 300, u: "g", k: ["Farina 0"] },
-        { nome: "Farina Manitoba", qta: 200, u: "g", k: ["Manitoba"] }
-      ]}
+        { nome: "Farina Manitoba", qta: 200, u: "g", k: ["Manitoba"] },
+        { nome: "Acqua", nota: "a temperatura ambiente", qta: 350, u: "g", base: true }
+      ]},
+      { id: "00-w350", nome: "Solo farina 00 W350", ingredienti: [
+        { nome: "Farina 00 W350", qta: 500, u: "g", k: ["Farina 00 W350"] },
+        { nome: "Acqua", nota: "a temperatura ambiente", qta: 375, u: "g", base: true }
+      ], note: ["Con la sola 00 W350 il pane viene con la mollica bianca e morbida, ben alveolata, e un sapore delicato: non è indicata per un pane rustico, per quello meglio le versioni con la farina 0 o con il grano saraceno. È molto forte e assorbe più acqua, per questo l'acqua sale a 375 g."] },
+      { id: "00w350-manitoba", nome: "Farina 00 W350 e Manitoba", ingredienti: [
+        { nome: "Farina 00 W350", qta: 300, u: "g", k: ["Farina 00 W350"] },
+        { nome: "Farina Manitoba", qta: 200, u: "g", k: ["Manitoba"] },
+        { nome: "Acqua", nota: "a temperatura ambiente", qta: 385, u: "g", base: true }
+      ], note: ["Sono due farine forti: l'impasto regge bene anche 18 ore e più di lievitazione e la mollica viene molto alveolata, un po' più gommosa. Assorbono tanta acqua: se l'impasto ti sembra sodo, la volta dopo arriva a 400 g."] },
+      { id: "00w350-saraceno", nome: "Farina 00 W350 e grano saraceno", ingredienti: [
+        { nome: "Farina 00 W350", qta: 400, u: "g", k: ["Farina 00 W350"] },
+        { nome: "Farina di grano saraceno", qta: 100, u: "g", k: ["Farina di grano saraceno"] },
+        { nome: "Acqua", nota: "a temperatura ambiente", qta: 380, u: "g", base: true }
+      ], note: ["Il grano saraceno non ha glutine: oltre il 20% il pane non si gonfia più. La 00 W350, molto forte, lo regge bene. Viene un pane più scuro e rustico, dal sapore che ricorda la nocciola, con la mollica un po' più compatta. Il saraceno beve molta acqua: per questo 380 g."] }
     ],
     fasi: [
       { nome: "Sciogliere il lievito nell'acqua", min: 5 },
@@ -821,9 +837,8 @@ const RICETTE = [
     strumenti: ["Ciotola molto capiente", "Forchetta o cucchiaio", "Pellicola", "Carta da forno o canovaccio infarinati", { casa: "forno", si: "Casseruola Slowcook ovale in ghisa 25 × 20 cm, con il coperchio", ma: "Pentola da forno con il coperchio: ghisa, acciaio dal fondo spesso o vetro temperato", no: "Pentola da forno con il coperchio: ghisa, acciaio dal fondo spesso o vetro temperato" }, "Guanti da forno", "Gratella"],
     energia: [{ app: "forno", kwh: [1.6, 2], come: "preriscaldamento con la pentola dentro e circa un'ora a 230 °C" }],
     gruppi: [
-      { nome: "Farina", cond: true, condNome: "Farina", ingredienti: [] },
+      { nome: "Farina e acqua", cond: true, condNome: "Farina e acqua", ingredienti: [] },
       { nome: "Impasto", ingredienti: [
-        { nome: "Acqua", nota: "a temperatura ambiente", qta: 350, u: "g", base: true },
         { nome: "Lievito di birra fresco", qta: 2, u: "g", k: ["Lievito di birra"] },
         { nome: "Sale", qta: 10, u: "g", base: true },
         { nome: "Farina per la spianatoia", nota: "poca", qta: null, u: "", base: true }
