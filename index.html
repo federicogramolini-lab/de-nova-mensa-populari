@@ -1083,7 +1083,7 @@ const RICETTE = [
     })() }]
   },
   {
-    id: "crema-pasticcera", img: "crema", aggiunta: "2026-11-21T12:55:00+01:00",
+    id: "crema-pasticcera", img: "cremapasticcera", aggiunta: "2026-11-21T12:55:00+01:00",
     titolo: "Crema pasticcera",
     sezione: "Dolci", sottosezione: "Creme",
     fonte: { nome: "Iginio Massari" },
@@ -1130,6 +1130,58 @@ const RICETTE = [
       "Se non la usi subito coprila con la pellicola a contatto e tienila in frigo."
     ],
     note: ["Si conserva in frigo, a 0–4 °C, con la pellicola, fino a 5 giorni."]
+  },
+  {
+    id: "pasta-fresca-uovo", img: "pastafresca", aggiunta: "2026-11-21T13:10:00+01:00",
+    titolo: "Pasta fresca all'uovo",
+    sezione: "Primi", sottosezione: "Pasta fresca",
+    fonte: { nome: "GialloZafferano", url: "https://ricette.giallozafferano.it/Pasta-fresca-all-uovo.html" },
+    porzioni: 4, unitaPorzioni: ["persona","persone"],
+    condLabel: "Macchina",
+    fasi: [],
+    cottura: { tipo: "mixer", dettaglio: "Nessuna cottura: poi si cuoce in acqua salata", extra: "Sfogliatrice o torchio" },
+    energia: [{ app: "altro", kwh: [0.01, 0.05], come: "qualche minuto di planetaria" }],
+    gruppi: [{ nome: "Impasto", cond: true, condNome: "Impasto", ingredienti: [] }],
+    procedimento: [],
+    note: ["Si cuoce in acqua bollente salata: la pasta tirata con la sfogliatrice in 2–3 minuti, quella del torchio in 4–6 minuti secondo lo spessore."],
+    condimenti: [
+      { id: "sfoglia", nome: "Sfogliatrice (sfoglia per tagliatelle, lasagne, ravioli)", titolo: "Pasta fresca all'uovo",
+        ingredienti: [
+          { nome: "Farina 00", qta: 400, u: "g", k: ["Farina 00"] },
+          { nome: "Uova da almeno 70 g", qta: 4, u: "", k: ["Uova"] },
+          { nome: "Sale fino", nota: "un pizzico", qta: 2, u: "g", base: true }
+        ],
+        strumenti: [{ casa: "fede", si: "Sfogliatrice Imperia", no: "Sfogliatrice a rulli (o il mattarello)" }, { casa: "fede", si: "Planetaria Ariete Moderna con il gancio (oppure a mano)", no: "Spianatoia e forchetta" }, "Tarocco", "Mattarello", "Pellicola"],
+        fasi: [{ nome: "Impastare", min: 15 }, { nome: "Riposo in frigo", min: 30, attesa: true }, { nome: "Tirare la sfoglia e tagliarla", min: 20, max: 30 }],
+        procedimento: [
+          { casa: "fede", si: "Metti la farina e il sale nella ciotola della planetaria, sbatti le uova con la forchetta e aggiungile. Impasta col gancio a velocità 1 per 1 minuto, poi a velocità 2–3 per 5–6 minuti, finché l'impasto è compatto e liscio. Se preferisci, fallo a mano come nei passaggi per la spianatoia.", no: "Versa la farina sulla spianatoia e forma una conca al centro con il fondo di una ciotola. Nella stessa ciotola sbatti le uova con la forchetta e versale al centro della farina, poi aggiungi un pizzico di sale." },
+          { casa: "fede", si: "Finisci di impastare a mano un minuto sulla spianatoia. Se ci sono crepe, inumidisci le mani con l'acqua e impasta ancora finché è compatto e omogeneo, poi forma un panetto.", no: "Mescola con la forchetta per incorporare la farina, poi raccogli quella sulla spianatoia con il tarocco. Quando le uova sono ben amalgamate continua a mano, portando l'impasto verso il centro e tirandolo con il palmo senza strapparlo. Se ci sono crepe, inumidisci le mani con l'acqua e impasta ancora finché è compatto e omogeneo, poi forma un panetto." },
+          "Avvolgi il panetto nella pellicola e mettilo in frigo per 30 minuti.",
+          "Stacca un pezzetto di impasto con il tarocco e copri il resto con la ciotola o con la pellicola, perché non si secchi.",
+          { casa: "fede", si: "Schiaccia il pezzetto con le mani, stendilo un po' con il mattarello e ripiega le estremità verso il centro, così entra nei rulli dell'Imperia.", no: "Schiaccia il pezzetto con le mani, stendilo un po' con il mattarello e ripiega le estremità verso il centro, così entra nei rulli della sfogliatrice." },
+          { casa: "fede", si: "Passalo 3 o 4 volte con l'Imperia sulla posizione più larga, ripiegando ogni volta la sfoglia per rinforzarla. Poi stringi i rulli una posizione alla volta fino alla più sottile. Taglia le sfoglie nel formato che vuoi.", no: "Passalo 3 o 4 volte nei rulli alla posizione più larga, ripiegando ogni volta la sfoglia per rinforzarla. Poi stringi i rulli una posizione alla volta fino alla più sottile. Taglia le sfoglie nel formato che vuoi." }
+        ] },
+      { id: "torchio", nome: "Torchio (maccheroni, spaghetti, tagliatelle trafilati)", titolo: "Pasta fresca all'uovo al torchio",
+        fonte: { nome: "Libretto Ariete del kit accessori 4079" },
+        ingredienti: [
+          { nome: "Semola rimacinata di grano duro", qta: 400, u: "g", k: ["Semola rimacinata"] },
+          { nome: "Uova medie", qta: 2, u: "", k: ["Uova"] },
+          { nome: "Acqua fredda", nota: "più qualche goccia se serve", qta: 30, u: "g", base: true },
+          { nome: "Sale fino", nota: "un pizzico", qta: 2, u: "g", base: true }
+        ],
+        strumenti: [{ casa: "fede", si: "Planetaria Ariete Moderna con il gancio e il tritacarne del kit 4079 con le trafile per la pasta", no: "Planetaria con il gancio e il torchio (estrusore) per la pasta con le trafile" }, "Premicibo", "Coltello", "Vassoio spolverato di semola", "Pellicola"],
+        fasi: [{ nome: "Impastare a briciole", min: 5 }, { nome: "Riposo coperto", min: 30, attesa: true }, { nome: "Trafilare la pasta", min: 15, max: 20 }, { nome: "Far asciugare la pasta", min: 15, max: 30, attesa: true }],
+        procedimento: [
+          "Metti la semola e il sale nella ciotola della planetaria. Sbatti le uova con l'acqua.",
+          { casa: "fede", si: "Col gancio a velocità 1 versa le uova poco alla volta, poi passa a velocità 3 e impasta circa 3 minuti: non deve diventare un panetto ma restare a briciole grandi.", no: "Col gancio a velocità bassa versa le uova poco alla volta, poi alza un poco e impasta circa 3 minuti: non deve diventare un panetto ma restare a briciole grandi." },
+          "Prova: stringi una manciata di briciole in mano. Devono compattarsi senza attaccarsi alle dita. Se si sbriciolano subito aggiungi qualche goccia d'acqua e impasta ancora 30 secondi; se sono appiccicose aggiungi un cucchiaio di semola.",
+          "Copri la ciotola e lascia riposare 30 minuti.",
+          { casa: "fede", si: "Monta il tritacarne del kit 4079 con la trafila che vuoi (maccheroni, spaghetti grossi, spaghetti fini, tagliatelle o pappardelle) e porta la planetaria a velocità 5–6.", no: "Monta il torchio con la trafila che vuoi e accendi la planetaria alla velocità indicata dal libretto per la pasta." },
+          { casa: "fede", si: "Metti le briciole nella tramoggia poco alla volta, spingendole con il premicibo. Taglia la pasta con il coltello alla lunghezza che vuoi mentre esce. Non far andare la macchina più di 5 minuti di fila: fermala qualche minuto e riparti.", no: "Metti le briciole nella tramoggia poco alla volta, spingendole con il premicibo. Taglia la pasta con il coltello alla lunghezza che vuoi mentre esce." },
+          "Stendi la pasta sul vassoio spolverato di semola, senza sovrapporla, e lasciala asciugare 15–30 minuti prima di cuocerla."
+        ],
+        note: ["L'impasto per il torchio è molto più asciutto di quello per la sfoglia: è normale che resti a briciole. Se fosse umido come quello della sfoglia si impasterebbe nella vite, intaserebbe la trafila e la pasta uscirebbe appiccicata."] }
+    ]
   },
   {
     id: "gnocchi-di-patate", img: "gnocchi", aggiunta: "2026-11-09T19:20:00+01:00",
@@ -2267,40 +2319,67 @@ const RICETTE = [
   },
   {
     id: "verdure-fondo-carne", img: "verdure", aggiunta: "2026-11-14T17:50:00+01:00",
-    titolo: "Verdure saltate nel fondo della carne",
+    titolo: "Verdure saltate in padella",
     sezione: "Contorni", sottosezione: "Verdure",
     porzioni: 2, unitaPorzioni: ["persona","persone"],
     condLabel: "Verdura",
     fasi: [{ nome: "Tagliare la verdura", min: 5 }],
     cottura: { tipo: "fornelli", gen: { dettaglio: "Fornelli, padella", extra: "" }, dettaglio: "Piano a induzione, padella", extra: "Verdura coperta con un po' d'acqua, poi saltata a livello 6" },
     piastra: {
-      zona: "Sinistra davanti (Ø 21 cm), la stessa della carne",
+      zona: "Sinistra davanti (Ø 21 cm)",
       passi: [],
-      attenzioni: ["Resta a livello 6: se nella padella c'è il burro della carne, al 7 brucia.", "Un solo strato di verdura: se è troppa fa vapore e non prende colore."],
+      attenzioni: ["Un solo strato di verdura: se è troppa fa vapore e non prende colore."],
       differenza: "Il «fuoco medio-alto» del gas sull'induzione è il livello 6; a livello 6 la zona usa circa 1,2 kW e resta posto sotto il limite del contatore per un'altra zona."
     },
     strumenti: [PAD({ casa: "fede", si: "Padella Agnelli Aluinox lucida Ø 24 cm", no: "Padella in acciaio inox" }, "Padella antiaderente"), "Coperchio della padella, se ce l'hai", "Pinze o cucchiaio di legno"],
     energia: [{ app: "piastra", kwh: [0.1, 0.2], come: "circa 8 minuti a livello 6" }],
     gruppi: [
       { nome: "Verdura", cond: true, condNome: "Verdura", ingredienti: [] },
+      { nome: "Grasso", cond: "grasso", condNome: "Grasso", ingredienti: [] },
       { nome: "Per saltare", ingredienti: [
         { nome: "Acqua", qta: 40, u: "g", base: true },
-        { nome: "Burro", nota: "solo se la padella è pulita: nel fondo della carne non serve", qta: 15, u: "g", k: ["Burro"] },
-        { nome: "Aglio", nota: "facoltativo", qta: 1, u: "spicchi", k: ["Aglio"] },
-        { nome: "Timo", nota: "facoltativo", qta: 2, u: "rametti", k: ["Timo"] },
         { nome: "Sale fino", qta: 2, u: "g", base: true }
+      ]},
+      { nome: "Odori (facoltativi)", ingredienti: [
+        { nome: "Aglio", nota: "facoltativo, in camicia e schiacciato", qta: 1, u: "spicchi", k: ["Aglio"] },
+        { nome: "Timo", nota: "facoltativo", qta: 2, u: "rametti", k: ["Timo"] },
+        { nome: "Rosmarino", nota: "facoltativo", qta: 1, u: "rametti", k: ["Rosmarino"] },
+        { nome: "Peperoncino", nota: "facoltativo", qta: 1, u: "", k: ["Peperoncino"] },
+        { nome: "Prezzemolo", nota: "facoltativo, tritato alla fine", qta: 2, u: "rametti", k: ["Prezzemolo"] }
       ]}
     ],
     procedimento: [],
-    note: ["Va fatta nella padella dove hai appena cotto la carne, mentre la carne riposa: l'acqua stacca il fondo e la verdura prende il sapore. Funziona anche con la padella pulita, con il burro e, se vuoi, aglio e timo.", "Se non hai un coperchio adatto, aggiungi l'acqua un cucchiaio alla volta e mescola più spesso: ci mette un paio di minuti in più."],
+    note: ["Se non hai un coperchio adatto, aggiungi l'acqua un cucchiaio alla volta e mescola più spesso: ci mette un paio di minuti in più.", "Gli odori vanno bene con tutte le verdure; il peperoncino soprattutto con broccoli e broccoletti, il rosmarino con carote e fagiolini."],
     condimenti: VERD_FONDO.map(v => { const x = verdFondo(v, false); return {
-      id: v.id, nome: v.nome, titolo: v.id === "broccoli" ? "Broccoli saltati nel fondo della carne" : v.id === "broccoletti" ? "Broccoletti saltati nel fondo della carne" : v.nome + " saltat" + (v.id === "carote" ? "e" : "i") + " nel fondo della carne",
+      id: v.id, nome: v.nome, titolo: v.id === "broccoli" ? "Broccoli saltati" : v.id === "broccoletti" ? "Broccoletti saltati" : v.nome + " saltat" + (v.id === "carote" ? "e" : "i"),
       ingredienti: [{ ...v.ing }],
-      procedimento: [v.taglio,
-        IND("Usa la padella dove hai cotto la carne, con il suo fondo; se è pulita, scalda il burro con l'aglio schiacciato e il timo, se li usi, a livello 6 per 1 minuto.",
-            "Usa la padella dove hai cotto la carne, con il suo fondo; se è pulita, scalda il burro con l'aglio schiacciato e il timo, se li usi, a fuoco medio-alto per 1 minuto.")].concat(x.passi),
+      prima: [v.taglio],
+      procedimento: x.passi,
       fasi: x.fasi, passi: x.piano
-    }; })
+    }; }),
+    altreScelte: [{ key: "grasso", label: "Grasso", items: (() => {
+      const fine = "Togli l'aglio e i rametti, se li hai usati; se vuoi, cospargi di prezzemolo tritato.";
+      return [
+        { id: "fondo", nome: "Nel fondo della carne", ingredienti: [],
+          prima: [IND("Usa la padella dove hai appena cotto la carne, con il suo fondo e il grasso rimasto, a livello 6. Se l'aglio della carne è diventato scuro toglilo; se vuoi aggiungi gli odori.", "Usa la padella dove hai appena cotto la carne, con il suo fondo e il grasso rimasto, a fuoco medio-alto. Se l'aglio della carne è diventato scuro toglilo; se vuoi aggiungi gli odori.")],
+          dopo: [fine],
+          attenzioni: ["Nel fondo della carne c'è spesso del burro: resta a livello 6, al 7 brucia."],
+          note: ["L'acqua stacca il fondo della carne e la verdura ne prende il sapore: si fa mentre la carne riposa."] },
+        { id: "olio", nome: "Con olio extravergine",
+          ingredienti: [{ nome: "Olio extravergine d'oliva", qta: 20, u: "g", k: ["Olio extravergine"] }],
+          prima: [IND("Scalda l'olio nella padella a livello 6 per 1 minuto con gli odori che vuoi: aglio schiacciato, rametti di timo o rosmarino, peperoncino.", "Scalda l'olio nella padella a fuoco medio-alto per 1 minuto con gli odori che vuoi: aglio schiacciato, rametti di timo o rosmarino, peperoncino.")],
+          dopo: [fine] },
+        { id: "burro", nome: "Con burro",
+          ingredienti: [{ nome: "Burro", qta: 20, u: "g", k: ["Burro"] }],
+          prima: [IND("Sciogli il burro nella padella a livello 5 con gli odori che vuoi: aglio schiacciato, rametti di timo, peperoncino. Quando smette di schiumare passa a livello 6.", "Sciogli il burro nella padella a fuoco medio con gli odori che vuoi: aglio schiacciato, rametti di timo, peperoncino. Quando smette di schiumare alza un poco la fiamma.")],
+          dopo: [fine],
+          attenzioni: ["Col burro resta a livello 6: al 7 brucia e diventa amaro."] },
+        { id: "olioburro", nome: "Con olio e burro",
+          ingredienti: [{ nome: "Olio extravergine d'oliva", qta: 10, u: "g", k: ["Olio extravergine"] }, { nome: "Burro", qta: 15, u: "g", k: ["Burro"] }],
+          prima: [IND("Scalda l'olio con il burro nella padella a livello 6 per 1 minuto con gli odori che vuoi: aglio schiacciato, rametti di timo o rosmarino, peperoncino. L'olio evita che il burro bruci.", "Scalda l'olio con il burro nella padella a fuoco medio-alto per 1 minuto con gli odori che vuoi: aglio schiacciato, rametti di timo o rosmarino, peperoncino. L'olio evita che il burro bruci.")],
+          dopo: [fine] }
+      ];
+    })() }]
   },
   {
     id: "bistecca-padella-acciaio", img: "bistecca",
@@ -2703,7 +2782,8 @@ const ART = {
   frullato: `<svg viewBox="0 0 160 120" aria-hidden="true"><ellipse cx="80" cy="108" rx="58" ry="6" fill="#000" opacity=".08"/><path d="M110 92q8-14 18 0q-9 14-18 0z" fill="#d9374a"/><path d="M114 82l6 4 6-4" stroke="#3f8a3a" stroke-width="3" fill="none"/><path d="M28 96q6-12 16 0q-8 12-16 0z" fill="#d9374a"/><path d="M58 22h40l-5 82H63z" fill="#eef5f7" stroke="#c9d8dd" stroke-width="2"/><path d="M60.5 42h35l-3.6 60H64.1z" fill="#ef8fa2"/><path d="M64 26h4l-3 72h-3z" fill="#fff" opacity=".6"/></svg>`,
   bevande: `<svg viewBox="0 0 160 120" aria-hidden="true"><ellipse cx="80" cy="108" rx="58" ry="6" fill="#000" opacity=".08"/><rect x="104" y="40" width="30" height="64" rx="8" fill="#eef5f7" stroke="#c9d8dd" stroke-width="2"/><rect x="113" y="22" width="12" height="20" rx="3" fill="#eef5f7" stroke="#c9d8dd" stroke-width="2"/><rect x="112" y="16" width="14" height="8" rx="2" fill="#2f6b4f"/><rect x="106" y="56" width="26" height="46" rx="6" fill="#f3ead8"/><path d="M58 22h40l-5 82H63z" fill="#eef5f7" stroke="#c9d8dd" stroke-width="2"/><path d="M60.5 42h35l-3.6 60H64.1z" fill="#f3ead8"/><path d="M64 26h4l-3 72h-3z" fill="#fff" opacity=".6"/></svg>`,
   senape: `<svg viewBox="0 0 160 120" aria-hidden="true"><ellipse cx="80" cy="106" rx="54" ry="7" fill="#000" opacity=".08"/><path d="M46 46h44v52a6 6 0 0 1-6 6H52a6 6 0 0 1-6-6z" fill="#eef3f2" stroke="#c9d3d1" stroke-width="2"/><path d="M49 58h38v40a4 4 0 0 1-4 4H53a4 4 0 0 1-4-4z" fill="#d7a72a"/><circle cx="58" cy="72" r="1.6" fill="#8a5a1a"/><circle cx="70" cy="84" r="1.6" fill="#8a5a1a"/><circle cx="78" cy="68" r="1.6" fill="#f3d36a"/><circle cx="62" cy="92" r="1.6" fill="#f3d36a"/><circle cx="80" cy="94" r="1.6" fill="#8a5a1a"/><rect x="43" y="36" width="50" height="11" rx="3" fill="#b08d3e"/><rect x="58" y="70" width="20" height="14" rx="2" fill="#fffdf6" opacity=".9"/><ellipse cx="122" cy="94" rx="20" ry="9" fill="#f7f3ea" stroke="#d8d0bd" stroke-width="1.5"/><ellipse cx="122" cy="92" rx="14" ry="5" fill="#e0b13a"/><circle cx="117" cy="91" r="1.4" fill="#8a5a1a"/><circle cx="126" cy="93" r="1.4" fill="#f6dd84"/><path d="M104 60q4-10 12-4" stroke="#c9a032" stroke-width="5" fill="none" stroke-linecap="round"/><circle cx="104" cy="66" r="3.5" fill="#d9a630"/><circle cx="111" cy="70" r="3" fill="#6b4416"/><circle cx="99" cy="74" r="2.6" fill="#e8c35a"/></svg>`,
-  crema: `<svg viewBox="0 0 160 120" aria-hidden="true"><ellipse cx="80" cy="106" rx="56" ry="8" fill="#000" opacity=".08"/><path d="M32 60q0 40 48 40t48-40z" fill="#fffdf6" stroke="#e2dccb" stroke-width="2"/><ellipse cx="80" cy="60" rx="48" ry="12" fill="#f7f3ea" stroke="#e2dccb" stroke-width="2"/><path d="M40 60q8-14 22-8q8-10 20-4q12-8 22 2q12-4 16 10q-40 12-80 0z" fill="#f6d36b"/><path d="M58 54q10-6 18 0M86 52q8-4 14 2" stroke="#fbe7a0" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M104 34q14 10 22 34" stroke="#3b2a1a" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M108 32q14 10 22 34" stroke="#5a4028" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M124 86q10-4 14 2q-6 6-14-2z" fill="#f2d14b"/><path d="M118 90q8 2 10-4" stroke="#e6b93a" stroke-width="1.5" fill="none"/></svg>`,
+  pastafresca: `<svg viewBox="0 0 160 120" aria-hidden="true"><ellipse cx="80" cy="106" rx="58" ry="8" fill="#000" opacity=".08"/><ellipse cx="80" cy="86" rx="58" ry="18" fill="#efe3c4"/><g fill="none" stroke-linecap="round"><path d="M40 82q20-22 40-8t40-4" stroke="#f0cf73" stroke-width="7"/><path d="M44 90q22-18 42-6t36-6" stroke="#e9c260" stroke-width="7"/><path d="M50 76q18-14 34-4t30 0" stroke="#f4d985" stroke-width="7"/><path d="M58 96q20-12 38-4t24-4" stroke="#e5bb55" stroke-width="6"/></g><circle cx="46" cy="70" r="2" fill="#fff" opacity=".6"/><circle cx="104" cy="94" r="1.6" fill="#fff" opacity=".6"/><ellipse cx="124" cy="52" rx="13" ry="16" fill="#fffaf0" stroke="#e2dccb" stroke-width="1.5"/><path d="M28 48q6-4 12 0t12 0" stroke="#d8c9a3" stroke-width="2" fill="none"/></svg>`,
+  cremapasticcera: `<svg viewBox="0 0 160 120" aria-hidden="true"><ellipse cx="80" cy="106" rx="56" ry="8" fill="#000" opacity=".08"/><path d="M32 60q0 40 48 40t48-40z" fill="#fffdf6" stroke="#e2dccb" stroke-width="2"/><ellipse cx="80" cy="60" rx="48" ry="12" fill="#f7f3ea" stroke="#e2dccb" stroke-width="2"/><path d="M40 60q8-14 22-8q8-10 20-4q12-8 22 2q12-4 16 10q-40 12-80 0z" fill="#f6d36b"/><path d="M58 54q10-6 18 0M86 52q8-4 14 2" stroke="#fbe7a0" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M104 34q14 10 22 34" stroke="#3b2a1a" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M108 32q14 10 22 34" stroke="#5a4028" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M124 86q10-4 14 2q-6 6-14-2z" fill="#f2d14b"/><path d="M118 90q8 2 10-4" stroke="#e6b93a" stroke-width="1.5" fill="none"/></svg>`,
   ragu: `<svg viewBox="0 0 160 120" aria-hidden="true"><ellipse cx="80" cy="106" rx="58" ry="8" fill="#000" opacity=".08"/><path d="M28 62h104v24q0 18-20 18H48q-20 0-20-18z" fill="#c8572a"/><ellipse cx="80" cy="62" rx="52" ry="14" fill="#d8693a"/><ellipse cx="80" cy="62" rx="44" ry="10" fill="#9c3a1c"/><g fill="#b8532a"><circle cx="62" cy="60" r="3"/><circle cx="74" cy="64" r="2.6"/><circle cx="88" cy="59" r="3.2"/><circle cx="98" cy="64" r="2.5"/><circle cx="70" cy="57" r="2.2"/><circle cx="92" cy="66" r="2"/></g><g fill="#7a2a12"><circle cx="66" cy="65" r="1.8"/><circle cx="82" cy="61" r="2"/><circle cx="104" cy="60" r="1.6"/></g><circle cx="78" cy="58" r="1.6" fill="#e8822c"/><circle cx="96" cy="60" r="1.4" fill="#e8822c"/><path d="M118 40l-30 26" stroke="#a5713c" stroke-width="5" stroke-linecap="round"/><ellipse cx="120" cy="38" rx="6" ry="4" fill="#b98247" transform="rotate(-40 120 38)"/><path d="M22 68h8M130 68h8" stroke="#a84a22" stroke-width="5" stroke-linecap="round"/></svg>`,
   pancake: `<svg viewBox="0 0 160 120" aria-hidden="true"><ellipse cx="80" cy="106" rx="56" ry="8" fill="#000" opacity=".08"/><ellipse cx="80" cy="96" rx="56" ry="13" fill="#fffdf6" stroke="#e2dccb" stroke-width="2"/><g><path d="M42 88q38 10 76 0v-8q-38 10-76 0z" fill="#d79a4a"/><ellipse cx="80" cy="80" rx="38" ry="8" fill="#e9b766"/><path d="M44 76q36 10 72 0v-8q-36 10-72 0z" fill="#d38f3e"/><ellipse cx="80" cy="68" rx="36" ry="8" fill="#ebbd6c"/><path d="M46 64q34 10 68 0v-8q-34 10-68 0z" fill="#d69544"/><ellipse cx="80" cy="56" rx="34" ry="8" fill="#eec474"/></g><path d="M62 54q18 8 34-2q8-4 6 6q-2 8-6 14q-2 4-4-2q-2-6-10-6q-10 0-14-4q-8-4-6-6z" fill="#a8581c" opacity=".85"/><rect x="72" y="47" width="14" height="9" rx="2" fill="#fbe9a8"/><rect x="72" y="47" width="14" height="3" rx="1.5" fill="#fff6cf"/></svg>`,
   verdure: `<svg viewBox="0 0 160 120" aria-hidden="true"><ellipse cx="80" cy="104" rx="56" ry="8" fill="#000" opacity=".08"/><ellipse cx="80" cy="74" rx="58" ry="30" fill="#fffdf6" stroke="#e2dccb" stroke-width="2"/><ellipse cx="80" cy="74" rx="46" ry="22" fill="#f7f3ea"/><g stroke-linecap="round"><path d="M46 70l26-10M50 80l24-8M58 88l22-9" stroke="#e8822c" stroke-width="6"/><path d="M84 62q14 4 26-2M86 72q12 3 24-3M88 82q11 2 22-4" stroke="#4f8a3a" stroke-width="3.5" fill="none"/></g><g fill="#3f7a35"><circle cx="104" cy="88" r="6"/><circle cx="111" cy="85" r="5.5"/><circle cx="107" cy="80" r="5"/><circle cx="68" cy="56" r="5"/><circle cx="74" cy="53" r="4.5"/></g><rect x="105" y="89" width="4" height="8" rx="2" fill="#8fbf6a"/><circle cx="62" cy="62" r="1.4" fill="#5c3b1c"/><circle cx="96" cy="66" r="1.4" fill="#5c3b1c"/></svg>`,
