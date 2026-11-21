@@ -998,32 +998,14 @@ const RICETTE = [
       { nome: "Sfumare col vino", min: 3, max: 5 },
       { nome: "Cottura lenta col coperchio", min: 120 }
     ],
-    cottura: { tipo: "fornelli", gen: { dettaglio: "Fornelli, casseruola con coperchio", extra: "Soffritto, carne a fuoco vivace, poi 2 ore col coperchio a fuoco medio-basso" }, dettaglio: "Piano a induzione, casseruola con coperchio", extra: "Soffritto a livello 4, carne a livello 7, poi 2 ore col coperchio a sobbollire" },
+    cottura: { tipo: "fornelli", gen: { dettaglio: "Fornelli, pentola con coperchio", extra: "Soffritto, carne a fuoco vivace, poi 2 ore col coperchio a fuoco medio-basso" }, dettaglio: "Piano a induzione, pentola con coperchio", extra: "Soffritto a livello 4, carne a livello 7, poi 2 ore col coperchio a sobbollire (livello 2–3)" },
     piastra: {
       zona: "Sinistra davanti (Ø 21 cm)",
-      passi: [{ casa: "fede", si: [
-        { fase: "Ghisa vuota con l'olio (un terzo della potenza)", livello: "3", tempo: "5 min" },
-        { fase: "Pancetta (versione con la pancetta)", livello: "5", tempo: "4–5 min" },
-        { fase: "Soffritto", livello: "4", tempo: "10–12 min" },
-        { fase: "Rosolare la carne", livello: "7", tempo: "10 min" },
-        { fase: "Sfumare col vino", livello: "7", tempo: "3–5 min" },
-        { fase: "Cottura lenta col coperchio", livello: "2", tempo: "2 h" }
-      ], no: [
-        { fase: "Olio (e pancetta)", livello: "5", tempo: "4–5 min" },
-        { fase: "Soffritto", livello: "4", tempo: "10–12 min" },
-        { fase: "Rosolare la carne", livello: "7", tempo: "10 min" },
-        { fase: "Sfumare col vino", livello: "7", tempo: "3–5 min" },
-        { fase: "Cottura lenta col coperchio", livello: "3", tempo: "2 h" }
-      ] }],
-      attenzioni: [{ casa: "fede", si: [
-        "Ghisa: i primi 5 minuti a livello 3, niente Boost.",
-        "Nella ghisa col coperchio il livello 2 basta per 2 ore: deve solo sobbollire, con qualche bollicina ogni tanto."
-      ], no: [
-        "Col coperchio deve solo sobbollire: se bolle forte scendi a livello 2."
-      ] }, "La cipolla del soffritto non deve scurire: se colorisce, abbassa di un livello."],
-      differenza: { casa: "fede", si: "La ghisa trattiene il calore: per le 2 ore di cottura lenta basta un livello in meno rispetto a una casseruola normale. A livello 2 la zona usa circa 0,4 kW, quindi resta posto per il resto della cucina.", no: "Il «fuoco medio-basso» del gas, col coperchio e per 2 ore, sull'induzione è il livello 3: il calore è più costante e il ragù sobbolle senza attaccarsi." }
+      passi: [],
+      attenzioni: ["La cipolla del soffritto non deve scurire: se colorisce, abbassa di un livello."],
+      differenza: "Il «fuoco medio-basso» del gas, col coperchio e per 2 ore, sull'induzione è il livello 2 nella ghisa, che trattiene il calore, e il livello 3 nelle altre pentole. A quei livelli la zona usa circa 0,4 kW e resta posto per il resto della cucina."
     },
-    strumenti: [{ casa: "fede", si: "Casseruola Slowcook in ghisa Agnelli 25 × 20 cm con il coperchio", no: "Casseruola antiaderente con il coperchio" }, "Tagliere e coltello", "Mestolo di legno", "Pentolino per il brodo"],
+    strumenti: ["Tagliere e coltello", "Mestolo di legno", "Pentolino per il brodo"],
     energia: [{ app: "piastra", kwh: [0.8, 1.1], come: "circa 30 minuti tra soffritto e rosolatura, poi 2 ore a sobbollire (circa 0,4 kW)" }],
     gruppi: [
       { nome: "Soffritto", ingredienti: [
@@ -1046,38 +1028,59 @@ const RICETTE = [
         { nome: "Noce moscata", nota: "facoltativa, una grattugiata", qta: 0.3, u: "g", k: ["Noce moscata"] }
       ]}
     ],
-    procedimento: [
-      "Pulisci e trita finemente la cipolla, il sedano e la carota."
-    ],
+    procedimento: [],
     note: [
       "Si conserva in frigo 2–3 giorni in un contenitore di vetro ben chiuso; si può preparare il giorno prima e scaldare al momento. Si può congelare.",
       "Se vuoi puoi aggiungere a fine cottura piselli scottati, o a inizio cottura funghi porcini secchi ammollati o salsiccia di maiale sbriciolata."
     ],
-    condimenti: (() => {
-      const dopo = [
-        IND("Sempre a livello 7, versa il vino rosso e lascialo evaporare, poi aggiungi il doppio concentrato e mescola.",
-            "A fiamma vivace, versa il vino rosso e lascialo evaporare, poi aggiungi il doppio concentrato e mescola."),
-        IND({ casa: "fede", si: "Unisci la passata e due terzi del brodo caldo, copri e scendi a livello 2: cuoci 2 ore, mescolando ogni tanto. Deve solo sobbollire.", no: "Unisci la passata e due terzi del brodo caldo, copri e scendi a livello 3: cuoci 2 ore, mescolando ogni tanto. Deve solo sobbollire; se bolle forte scendi a 2." },
-            "Unisci la passata e due terzi del brodo caldo, copri e cuoci 2 ore a fuoco medio-basso, mescolando ogni tanto."),
-        "A metà cottura aggiungi sale e pepe e, se vuoi, una grattugiata di noce moscata. Se il ragù si asciuga troppo aggiungi il resto del brodo.",
-        "A fine cottura il ragù deve essere arancione scuro, denso e cremoso. Assaggia e correggi sale e pepe."
-      ];
-      const scalda = IND({ casa: "fede", si: "Metti l'olio nella casseruola di ghisa e scaldala 5 minuti a livello 3.", no: "Scalda l'olio nella casseruola a livello 5." }, "Scalda l'olio nella casseruola a fuoco medio.");
+    condimenti: [
+      { id: "pancetta", nome: "Pancetta fresca", titolo: "Ragù alla bolognese",
+        ingredienti: [{ nome: "Pancetta fresca", nota: "non affumicata", qta: 150, u: "g", k: ["Pancetta fresca"] }],
+        prima: ["Trita finemente la pancetta."],
+        procedimento: [
+          IND("Aggiungi la pancetta a livello 5 e rosolala 4–5 minuti, mescolando spesso, finché si scioglie e sfrigola.", "Aggiungi la pancetta e rosolala, mescolando spesso, finché si scioglie e sfrigola; non deve bruciare."),
+          IND("Metti a livello 4, aggiungi il trito di verdure e fallo appassire 10–12 minuti, mescolando con il mestolo di legno: la cipolla non deve bruciare.", "Aggiungi il trito di verdure e fallo appassire piano a fuoco medio-basso, mescolando con il mestolo di legno: la cipolla non deve bruciare."),
+          IND("Alza a livello 7, aggiungi il macinato di manzo e rosolalo circa 10 minuti, mescolando e sgranandolo bene.", "Alza la fiamma, aggiungi il macinato di manzo e rosolalo circa 10 minuti, mescolando e sgranandolo bene.")],
+        dopo: [IND("Sempre a livello 7, versa il vino rosso e lascialo evaporare, poi aggiungi il doppio concentrato e mescola.", "A fiamma vivace, versa il vino rosso e lascialo evaporare, poi aggiungi il doppio concentrato e mescola.")] },
+      { id: "macinato", nome: "Macinato di maiale", titolo: "Ragù alla bolognese con macinato di maiale",
+        ingredienti: [{ nome: "Macinato di maiale", qta: 150, u: "g", k: ["Macinato di maiale"] }],
+        note: ["Il macinato di maiale al posto della pancetta dà un ragù più magro e meno saporito: se vuoi, rosola un po' di più la carne finché è ben colorita."],
+        procedimento: [
+          IND("Metti a livello 4, aggiungi il trito di verdure e fallo appassire 10–12 minuti, mescolando con il mestolo di legno: la cipolla non deve bruciare.", "Aggiungi il trito di verdure e fallo appassire piano a fuoco medio-basso, mescolando con il mestolo di legno: la cipolla non deve bruciare."),
+          IND("Alza a livello 7, aggiungi il macinato di manzo e quello di maiale e rosolali circa 10 minuti, mescolando e sgranandoli bene, finché sono ben coloriti.", "Alza la fiamma, aggiungi il macinato di manzo e quello di maiale e rosolali circa 10 minuti, mescolando e sgranandoli bene, finché sono ben coloriti.")],
+        dopo: [IND("Sempre a livello 7, versa il vino rosso e lascialo evaporare, poi aggiungi il doppio concentrato e mescola.", "A fiamma vivace, versa il vino rosso e lascialo evaporare, poi aggiungi il doppio concentrato e mescola.")] }
+    ],
+    altreScelte: [{ key: "pentola", label: "Pentola", items: (() => {
+      const trita = "Pulisci e trita finemente la cipolla, il sedano e la carota.";
+      const fine = ["A metà cottura aggiungi sale e pepe e, se vuoi, una grattugiata di noce moscata. Se il ragù si asciuga troppo aggiungi il resto del brodo.",
+        "A fine cottura il ragù deve essere arancione scuro, denso e cremoso. Assaggia e correggi sale e pepe."];
+      const righe = (olio, lenta) => [olio,
+        { fase: "Pancetta (se c'è)", livello: "5", tempo: "4–5 min" },
+        { fase: "Soffritto", livello: "4", tempo: "10–12 min" },
+        { fase: "Rosolare la carne", livello: "7", tempo: "10 min" },
+        { fase: "Sfumare col vino", livello: "7", tempo: "3–5 min" },
+        { fase: "Cottura lenta col coperchio", livello: lenta, tempo: "2 h" }];
       return [
-        { id: "pancetta", nome: "Pancetta fresca", titolo: "Ragù alla bolognese",
-          ingredienti: [{ nome: "Pancetta fresca", nota: "non affumicata", qta: 150, u: "g", k: ["Pancetta fresca"] }],
-          procedimento: ["Trita finemente anche la pancetta.", scalda,
-            IND("Aggiungi la pancetta a livello 5 e rosolala 4–5 minuti, mescolando spesso, finché si scioglie e sfrigola.", "Aggiungi la pancetta e rosolala, mescolando spesso, finché si scioglie e sfrigola; non deve bruciare."),
-            IND("Scendi a livello 4, aggiungi il trito di verdure e fallo appassire 10–12 minuti, mescolando con il mestolo di legno: la cipolla non deve bruciare.", "Aggiungi il trito di verdure e fallo appassire piano a fuoco medio-basso, mescolando con il mestolo di legno: la cipolla non deve bruciare."),
-            IND("Alza a livello 7, aggiungi il macinato di manzo e rosolalo circa 10 minuti, mescolando e sgranandolo bene.", "Alza la fiamma, aggiungi il macinato di manzo e rosolalo circa 10 minuti, mescolando e sgranandolo bene.")] },
-        { id: "macinato", nome: "Macinato di maiale", titolo: "Ragù alla bolognese con macinato di maiale",
-          ingredienti: [{ nome: "Macinato di maiale", qta: 150, u: "g", k: ["Macinato di maiale"] }],
-          note: ["Il macinato di maiale al posto della pancetta dà un ragù più magro e meno saporito: se vuoi, rosola un po' di più la carne finché è ben colorita."],
-          procedimento: [scalda,
-            IND("Porta a livello 4, aggiungi il trito di verdure e fallo appassire 10–12 minuti, mescolando con il mestolo di legno: la cipolla non deve bruciare.", "Aggiungi il trito di verdure e fallo appassire piano a fuoco medio-basso, mescolando con il mestolo di legno: la cipolla non deve bruciare."),
-            IND("Alza a livello 7, aggiungi il macinato di manzo e quello di maiale e rosolali circa 10 minuti, mescolando e sgranandoli bene, finché sono ben coloriti.", "Alza la fiamma, aggiungi il macinato di manzo e quello di maiale e rosolali circa 10 minuti, mescolando e sgranandoli bene, finché sono ben coloriti.")] }
-      ].map(c => ({ ...c, dopo }));
-    })()
+        { id: "ghisa", nome: "Pentola di ghisa", nascondi: true,
+          strumenti: [{ casa: "fede", si: "Casseruola Slowcook in ghisa Agnelli 25 × 20 cm con il coperchio", no: "Pentola di ghisa con il coperchio" }],
+          prima: [trita, IND("Metti l'olio nella pentola di ghisa e scaldala 5 minuti a livello 3: la ghisa va scaldata piano.", "Metti l'olio nella pentola di ghisa e scaldala qualche minuto a fuoco medio-basso.")],
+          dopo: [IND("Unisci la passata e due terzi del brodo caldo, copri e scendi a livello 2: cuoci 2 ore, mescolando ogni tanto. Deve solo sobbollire: la ghisa tiene il calore.", "Unisci la passata e due terzi del brodo caldo, copri e cuoci 2 ore a fuoco basso, mescolando ogni tanto: la ghisa tiene il calore.")].concat(fine),
+          passi: righe({ fase: "Ghisa vuota con l'olio (un terzo della potenza)", livello: "3", tempo: "5 min" }, "2"),
+          attenzioni: ["Ghisa: i primi 5 minuti a livello 3, niente Boost.", "Nella ghisa col coperchio il livello 2 basta per 2 ore: deve solo sobbollire, con qualche bollicina ogni tanto."] },
+        { id: "acciaio", nome: "Pentola d'acciaio",  nascondi: true,
+          strumenti: ["Pentola d'acciaio con il coperchio, Ø 22–24 cm (4–5 litri), col fondo spesso"],
+          prima: [trita, IND("Scalda l'olio nella pentola d'acciaio a livello 5 per 1 minuto.", "Scalda l'olio nella pentola d'acciaio a fuoco medio.")],
+          dopo: [IND("Unisci la passata e due terzi del brodo caldo, raschiando bene il fondo con il mestolo, copri e scendi a livello 3: cuoci 2 ore. Mescola ogni 15–20 minuti arrivando sul fondo, perché nell'acciaio tende ad attaccarsi.", "Unisci la passata e due terzi del brodo caldo, raschiando bene il fondo con il mestolo, copri e cuoci 2 ore a fuoco medio-basso. Mescola ogni 15–20 minuti arrivando sul fondo, perché nell'acciaio tende ad attaccarsi.")].concat(fine),
+          passi: righe({ fase: "Olio nella pentola d'acciaio", livello: "5", tempo: "1 min" }, "3"),
+          attenzioni: ["Nell'acciaio il soffritto e la carne lasciano un po' di fondo attaccato: va bene, è sapore. Il vino lo stacca: raschialo con il mestolo mentre evapora.", "Quando metti la carne lasciala 1–2 minuti senza girarla: all'inizio si attacca, poi si stacca da sola quando è rosolata.", "Nelle 2 ore mescola più spesso che nella ghisa e controlla che non si asciughi: tieni il brodo a portata di mano."] },
+        { id: "antiaderente", nome: "Casseruola antiaderente", nascondi: true,
+          strumenti: ["Casseruola antiaderente con il coperchio"],
+          prima: [trita, IND("Scalda l'olio nella casseruola a livello 5.", "Scalda l'olio nella casseruola a fuoco medio.")],
+          dopo: [IND("Unisci la passata e due terzi del brodo caldo, copri e scendi a livello 3: cuoci 2 ore, mescolando ogni tanto. Deve solo sobbollire; se bolle forte scendi a 2.", "Unisci la passata e due terzi del brodo caldo, copri e cuoci 2 ore a fuoco medio-basso, mescolando ogni tanto.")].concat(fine),
+          passi: righe({ fase: "Olio nella casseruola", livello: "5", tempo: "1 min" }, "3"),
+          attenzioni: ["Col coperchio deve solo sobbollire: se bolle forte scendi a livello 2."] }
+      ];
+    })() }]
   },
   {
     id: "crema-pasticcera", img: "crema", aggiunta: "2026-11-21T12:55:00+01:00",
@@ -1094,15 +1097,15 @@ const RICETTE = [
     ],
     cottura: { tipo: "fornelli", gen: { dettaglio: "Fornelli, pentolino e tegame", extra: "Sempre a fiamma bassa" }, dettaglio: "Piano a induzione, pentolino e tegame", extra: "Latte a livello 4, crema a livello 3 sempre mescolando" },
     piastra: {
-      zona: "Pentolino sulla destra dietro (Ø 18 cm), poi il tegame della crema sulla stessa zona",
+      zona: "Destra dietro (Ø 18 cm) per il pentolino e il tegame Ø 20; sinistra davanti (Ø 21 cm) per i tegami Ø 24 e Ø 28",
       passi: [
         { fase: "Latte con vaniglia e limone fino a sfiorare il bollore", livello: "4", tempo: "8–10 min" },
         { fase: "Crema sul fuoco, sempre mescolando", livello: "3", tempo: "4–6 min, finché si addensa" }
       ],
-      attenzioni: ["Fiamma bassa vuol dire livello 3–4: più alto i tuorli fanno grumi sul fondo.", "Mescola sempre con la frusta, anche sui bordi."],
+      attenzioni: ["Fiamma bassa vuol dire livello 3–4: più alto i tuorli fanno grumi sul fondo.", "Mescola sempre con la frusta, anche sui bordi.", "Il tegame giusto è quello in cui la crema sta alta 2–4 cm: in uno troppo grande si attacca ai bordi, in uno troppo piccolo cuoce male al centro e serve più tempo. Con dosi grandi il latte ci mette di più a sfiorare il bollore e la crema qualche minuto in più ad addensarsi."],
       differenza: "Sull'induzione il calore arriva subito e si ferma subito: se la crema si addensa troppo in fretta, spostala un attimo dalla zona e continua a mescolare."
     },
-    strumenti: ["Pentolino", { casa: "fede", si: "Padella a mantecare Agnelli Ø 20 cm (il tegame della crema)", no: "Tegame dal fondo spesso" }, "Frusta morbida", "Colino", "Ciotola messa in freezer", "Termometro da cucina", "Pellicola"],
+    strumenti: [{ casa: "fede", si: "Per il latte: pentolino fino a 1 kg di crema, oltre la padella a mantecare Agnelli Ø 24", no: "Per il latte: pentolino fino a 1 kg di crema, oltre una pentola più grande" }, { casa: "fede", si: "Per la crema, secondo la dose: padella a mantecare Agnelli Ø 20 fino a circa 800 g di crema, Ø 24 fino a 1,5 kg, Ø 28 fino a 2,2 kg (dosi più grandi in due volte)", no: "Per la crema, un tegame dal fondo spesso secondo la dose: Ø 18–20 cm fino a circa 800 g di crema, Ø 24 fino a 1,5 kg, Ø 28 fino a 2,2 kg" }, "Frusta morbida", "Colino", "Ciotola messa in freezer", "Termometro da cucina", "Pellicola"],
     energia: [{ app: "piastra", kwh: [0.15, 0.2], come: "circa 15 minuti tra latte e crema a livello 3–4" }],
     gruppi: [
       { nome: "Latte aromatizzato", ingredienti: [
