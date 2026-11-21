@@ -460,10 +460,15 @@ const VERD_FONDO = [
   { id: "fagiolini", nome: "Fagiolini", ing: { nome: "Fagiolini", qta: 300, u: "g", k: ["Fagiolini"] }, taglio: "Spunta i fagiolini e lavali.", cop: "5–6", sco: "2–3", c: [5, 6], s: [2, 3] },
   { id: "asparagi", nome: "Asparagi", ing: { nome: "Asparagi", qta: 350, u: "g", k: ["Asparagi"] }, taglio: "Lava gli asparagi e togli la parte dura in fondo: piegandoli si spezzano da soli dove diventano teneri. Se sono grossi tagliali a metà per il lungo.", cop: "2–3", sco: "3–4", c: [0, 3], s: [3, 4], copNota: " Se sono sottili non coprirli: niente acqua e passa subito al passo dopo." },
   { id: "broccoli", nome: "Cimette di broccolo", ing: { nome: "Broccolo", nota: "cimette e gambo", qta: 300, u: "g", k: ["Broccolo"] }, taglio: "Dividi il broccolo in cimette piccole e taglia il gambo, pelato, a fette sottili.", cop: "3–4", sco: "2", c: [3, 4], s: [2, 2] },
+  { id: "zucchine", nome: "Zucchine", ing: { nome: "Zucchine", nota: "2 medie", qta: 300, u: "g", k: ["Zucchine"] }, taglio: "Lava le zucchine, spuntale e tagliale a rondelle spesse circa 5 mm (o a mezzelune se sono grosse). Asciugale bene con la carta da cucina.", sco: "5–7", c: [0, 0], s: [5, 7], nocop: true },
   { id: "broccoletti", nome: "Broccoletti romani (cime di rapa)", ing: { nome: "Broccoletti romani o cime di rapa", nota: "già puliti", qta: 400, u: "g", k: ["Broccoletti"] }, taglio: "Pulisci i broccoletti tenendo le foglie tenere e le cimette, sciacquali e lasciali ancora umidi.", cop: "4–5", sco: "1–2", c: [4, 5], s: [1, 2] }
 ];
 function verdFondo(v, inBistecca){
-  const passi = [
+  const passi = v.nocop ? [
+    IND(`Metti le zucchine nella padella in un solo strato, a livello 6, senza acqua e senza coperchio: le zucchine l'acqua la tirano fuori da sole. Lasciale 2 minuti senza toccarle, poi saltale per altri ${v.s[0] - 2}–${v.s[1] - 2} minuti, finché sono dorate ma ancora sode.`,
+        `Metti le zucchine nella padella in un solo strato, a fuoco medio-alto, senza acqua e senza coperchio: le zucchine l'acqua la tirano fuori da sole. Lasciale 2 minuti senza toccarle, poi saltale per altri ${v.s[0] - 2}–${v.s[1] - 2} minuti, finché sono dorate ma ancora sode.`),
+    "Sala solo alla fine: il sale le fa buttare acqua e invece di dorarsi bollirebbero."
+  ] : [
     IND(`Metti la verdura nella padella in un solo strato, a livello 6, aggiungi l'acqua e copri: ${v.cop} minuti.${v.copNota || ""}`,
         `Metti la verdura nella padella in un solo strato, a fuoco medio-alto, aggiungi l'acqua e copri: ${v.cop} minuti.${v.copNota || ""}`),
     IND(`Scopri, lascia evaporare l'acqua e salta la verdura, sempre a livello 6, per altri ${v.sco} minuti, finché prende colore. Sala alla fine.`,
@@ -473,7 +478,7 @@ function verdFondo(v, inBistecca){
     taglio: v.taglio,
     passi: inBistecca ? ["Mentre le bistecche riposano su un piatto, coperte appena (possono aspettare anche 10 minuti), lascia nella padella il burro e il timo; se l'aglio è diventato scuro toglilo."].concat(passi) : passi,
     fasi: [{ nome: "Verdura coperta in padella", min: v.c[0], max: v.c[1] }, { nome: "Verdura saltata in padella", min: v.s[0], max: v.s[1] }].filter(f => f.max > 0),
-    piano: [{ fase: "Verdura con l'acqua, coperta", livello: "6", tempo: v.cop + " min" }, { fase: "Verdura scoperta, saltata", livello: "6", tempo: v.sco + " min" }]
+    piano: v.nocop ? [{ fase: "Zucchine saltate, senza coperchio", livello: "6", tempo: v.sco + " min" }] : [{ fase: "Verdura con l'acqua, coperta", livello: "6", tempo: v.cop + " min" }, { fase: "Verdura scoperta, saltata", livello: "6", tempo: v.sco + " min" }]
   };
 }
 const GNOCCHI_CODA = [
@@ -2363,7 +2368,6 @@ const RICETTE = [
       { nome: "Verdura", cond: true, condNome: "Verdura", ingredienti: [] },
       { nome: "Grasso", cond: "grasso", condNome: "Grasso", ingredienti: [] },
       { nome: "Per saltare", ingredienti: [
-        { nome: "Acqua", qta: 40, u: "g", base: true },
         { nome: "Sale fino", qta: 2, u: "g", base: true }
       ]},
       { nome: "Odori (facoltativi)", ingredienti: [
@@ -2377,8 +2381,8 @@ const RICETTE = [
     procedimento: [],
     note: ["Se non hai un coperchio adatto, aggiungi l'acqua un cucchiaio alla volta e mescola più spesso: ci mette un paio di minuti in più.", "Gli odori vanno bene con tutte le verdure; il peperoncino soprattutto con broccoli e broccoletti, il rosmarino con carote e fagiolini."],
     condimenti: VERD_FONDO.map(v => { const x = verdFondo(v, false); return {
-      id: v.id, nome: v.nome, titolo: v.id === "broccoli" ? "Broccoli saltati" : v.id === "broccoletti" ? "Broccoletti saltati" : v.nome + " saltat" + (v.id === "carote" ? "e" : "i"),
-      ingredienti: [{ ...v.ing }],
+      id: v.id, nome: v.nome, titolo: v.id === "broccoli" ? "Broccoli saltati" : v.id === "broccoletti" ? "Broccoletti saltati" : v.nome + " saltat" + (v.id === "carote" || v.id === "zucchine" ? "e" : "i"),
+      ingredienti: [{ ...v.ing }].concat(v.nocop ? [] : [{ nome: "Acqua", qta: 40, u: "g", base: true }]),
       prima: [v.taglio],
       procedimento: x.passi,
       fasi: x.fasi, passi: x.piano
@@ -2466,7 +2470,7 @@ const RICETTE = [
       { id: "no", nome: "Senza contorno", nascondi: true, ingredienti: [] }
     ].concat(VERD_FONDO.map(v => { const x = verdFondo(v, true); return {
       id: v.id, nome: v.nome, titolo: "Bistecca in padella d'acciaio con " + (v.id === "broccoli" ? "broccoli" : v.id === "broccoletti" ? "broccoletti" : v.nome.toLowerCase()),
-      ingredienti: [{ ...v.ing }, { nome: "Acqua", nota: "per la verdura", qta: 40, u: "g", base: true }, { nome: "Sale fino", nota: "per la verdura", qta: 2, u: "g", base: true }],
+      ingredienti: [{ ...v.ing }].concat(v.nocop ? [] : [{ nome: "Acqua", nota: "per la verdura", qta: 40, u: "g", base: true }], [{ nome: "Sale fino", nota: "per la verdura", qta: 2, u: "g", base: true }]),
       fasiPrima: [{ nome: "Tagliare la verdura", min: 5 }], fasi: x.fasi,
       prima: [x.taglio], dopo: x.passi,
       passi: x.piano,
