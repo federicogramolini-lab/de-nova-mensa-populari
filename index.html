@@ -1169,8 +1169,8 @@ const RICETTE = [
     strumenti: [{ casa: "fede", si: "Per il latte: pentolino fino a 1 kg di crema, oltre la padella a mantecare Agnelli Ø 24", no: "Per il latte: pentolino fino a 1 kg di crema, oltre una pentola più grande" }, { casa: "fede", si: "Per la crema, secondo la dose: padella a mantecare Agnelli Ø 20 fino a circa 800 g di crema, Ø 24 fino a 1,5 kg, Ø 28 fino a 2,2 kg (dosi più grandi in due volte)", no: "Per la crema, un tegame dal fondo spesso secondo la dose: Ø 18–20 cm fino a circa 800 g di crema, Ø 24 fino a 1,5 kg, Ø 28 fino a 2,2 kg" }, "Frusta morbida", "Colino", "Ciotola messa in freezer", "Termometro da cucina", "Pellicola"],
     energia: [{ app: "piastra", kwh: [0.15, 0.2], come: "circa 15 minuti tra latte e crema a livello 3–4" }],
     gruppi: [
-      { nome: "Latte aromatizzato", ingredienti: [
-        { nome: "Latte intero", qta: 500, u: "g", k: ["Latte intero"] },
+      { nome: "Latte", cond: true, condNome: "Latte", ingredienti: [] },
+      { nome: "Aromi", ingredienti: [
         { nome: "Baccelli di vaniglia", qta: 2, u: "", k: ["Vaniglia"] },
         { nome: "Scorza di limone", nota: "di ½ limone, solo la parte gialla", qta: 3, u: "g", k: ["Limone"] }
       ]},
@@ -1186,10 +1186,22 @@ const RICETTE = [
       IND("Metti nel pentolino il latte con i semi e i baccelli di vaniglia e la scorza di limone e portalo a sfiorare il bollore a livello 4.", "Metti sul fuoco il latte con i semi e i baccelli di vaniglia e la scorza di limone e portalo a sfiorare il bollore a fiamma bassa."),
       "Intanto, in un altro tegame, metti i tuorli, lo zucchero e l'amido di riso e mescolali con la frusta morbida finché sono lisci e cremosi.",
       "Quando il latte sfiora il bollore versalo nel tegame con i tuorli in 3 volte, passandolo nel colino, continuando a mescolare con la frusta.",
-      IND("Rimetti sul fuoco a livello 3 e continua a mescolare finché la crema si addensa.", "Rimetti sul fuoco, sempre a fiamma bassa, e continua a mescolare finché la crema si addensa."),
-      "Versa subito la crema nella ciotola presa dal freezer e mescola velocemente per portarla a 50 °C. Quando è liscia e lucida è pronta.",
-      "Se non la usi subito coprila con la pellicola a contatto e tienila in frigo."
+      IND("Rimetti sul fuoco a livello 3 e continua a mescolare finché la crema si addensa.", "Rimetti sul fuoco, sempre a fiamma bassa, e continua a mescolare finché la crema si addensa.")
     ],
+    condLabel: "Latte",
+    condimenti: (() => {
+      const dopo = ["Versa subito la crema nella ciotola presa dal freezer e mescola velocemente per portarla a 50 °C. Quando è liscia e lucida è pronta.",
+        "Se non la usi subito coprila con la pellicola a contatto e tienila in frigo."];
+      return [
+        { id: "intero", nome: "Latte intero", nascondi: true, ingredienti: [{ nome: "Latte intero", qta: 500, u: "g", k: ["Latte intero"] }], dopo },
+        { id: "soia", nome: "Latte di soia", titolo: "Crema pasticcera al latte di soia",
+          ingredienti: [{ nome: "Latte di soia", nota: "senza zucchero", qta: 500, u: "g", k: ["Latte vegetale"] }, { nome: "Burro freddo", nota: "facoltativo, per una crema più ricca", qta: 12, u: "g", k: ["Burro"] }],
+          prima: [{ casa: "fede", si: "Usa il latte di soia fatto in casa con la My Veggie Drink (ricetta Latte vegetale: base Soia, oppure Mandorla e soia, quantità 600 ml). Se non ce l'hai pronto fallo prima: tra programma e frigo servono circa 2 ore.", no: "Usa un latte di soia senza zucchero." }],
+          procedimento: ["Se vuoi una crema più ricca, togli dal fuoco e incorpora il burro freddo a pezzetti, mescolando finché si scioglie."],
+          dopo,
+          note: ["Il latte di soia è il vegetale che sostituisce meglio il latte intero: ha quasi le stesse proteine, quindi con i tuorli e l'amido la crema si addensa allo stesso modo; vaniglia e limone coprono il suo sapore. Ha meno grassi: per questo il burro facoltativo alla fine. Con il latte d'avena togli 5 g di amido e 15 g di zucchero, perché è già dolce e contiene amido; mandorla e riso da soli sono troppo leggeri."] }
+      ];
+    })(),
     note: ["Si conserva in frigo, a 0–4 °C, con la pellicola, fino a 5 giorni."]
   },
   {
@@ -1212,15 +1224,18 @@ const RICETTE = [
           { nome: "Uova da almeno 70 g", qta: 4, u: "", k: ["Uova"] },
           { nome: "Sale fino", nota: "un pizzico", qta: 2, u: "g", base: true }
         ],
-        strumenti: [{ casa: "fede", si: "Sfogliatrice Imperia", no: "Sfogliatrice a rulli (o il mattarello)" }, { casa: "fede", si: "Planetaria Ariete Moderna con il gancio (oppure a mano)", no: "Spianatoia e forchetta" }, "Tarocco", "Mattarello", "Pellicola"],
-        fasi: [{ nome: "Impastare", min: 15 }, { nome: "Riposo in frigo", min: 30, attesa: true }, { nome: "Tirare la sfoglia e tagliarla", min: 20, max: 30 }],
+        strumenti: [{ casa: "fede", si: "Imperia Titania (sfoglia larga 15 cm, tagli da 2 e 6,5 mm)", no: "Sfogliatrice a rulli (o il mattarello)" }, { casa: "fede", si: "Planetaria Ariete Moderna con il gancio (oppure a mano)", no: "Spianatoia e forchetta" }, "Tarocco", "Mattarello", "Pellicola"],
+        fasi: [{ nome: "Impastare", min: 15 }, { nome: "Riposo in frigo", min: 30, attesa: true }, { nome: "Tirare la sfoglia e tagliarla", min: 30, max: 40 }],
         procedimento: [
           { casa: "fede", si: "Metti la farina e il sale nella ciotola della planetaria, sbatti le uova con la forchetta e aggiungile. Impasta col gancio a velocità 1 per 1 minuto, poi a velocità 2–3 per 5–6 minuti, finché l'impasto è compatto e liscio. Se preferisci, fallo a mano come nei passaggi per la spianatoia.", no: "Versa la farina sulla spianatoia e forma una conca al centro con il fondo di una ciotola. Nella stessa ciotola sbatti le uova con la forchetta e versale al centro della farina, poi aggiungi un pizzico di sale." },
           { casa: "fede", si: "Finisci di impastare a mano un minuto sulla spianatoia. Se ci sono crepe, inumidisci le mani con l'acqua e impasta ancora finché è compatto e omogeneo, poi forma un panetto.", no: "Mescola con la forchetta per incorporare la farina, poi raccogli quella sulla spianatoia con il tarocco. Quando le uova sono ben amalgamate continua a mano, portando l'impasto verso il centro e tirandolo con il palmo senza strapparlo. Se ci sono crepe, inumidisci le mani con l'acqua e impasta ancora finché è compatto e omogeneo, poi forma un panetto." },
           "Avvolgi il panetto nella pellicola e mettilo in frigo per 30 minuti.",
-          "Stacca un pezzetto di impasto con il tarocco e copri il resto con la ciotola o con la pellicola, perché non si secchi.",
-          { casa: "fede", si: "Schiaccia il pezzetto con le mani, stendilo un po' con il mattarello e ripiega le estremità verso il centro, così entra nei rulli dell'Imperia.", no: "Schiaccia il pezzetto con le mani, stendilo un po' con il mattarello e ripiega le estremità verso il centro, così entra nei rulli della sfogliatrice." },
-          { casa: "fede", si: "Passalo 3 o 4 volte con l'Imperia sulla posizione più larga, ripiegando ogni volta la sfoglia per rinforzarla. Poi stringi i rulli una posizione alla volta fino alla più sottile. Taglia le sfoglie nel formato che vuoi.", no: "Passalo 3 o 4 volte nei rulli alla posizione più larga, ripiegando ogni volta la sfoglia per rinforzarla. Poi stringi i rulli una posizione alla volta fino alla più sottile. Taglia le sfoglie nel formato che vuoi." }
+          "Dividi l'impasto in pezzi da circa 100 g (con la dose intera ne vengono 8) e lavorane uno alla volta: copri il resto con la ciotola o con la pellicola, perché non si secchi. Ogni pezzo, tirato sottile, diventa una sfoglia lunga circa 70–80 cm; se preferisci sfoglie più corte, circa 40 cm, fai pezzi da 50 g.",
+          { casa: "fede", si: "Schiaccia il pezzo con le mani, stendilo un po' con il mattarello e ripiega le estremità verso il centro: deve restare largo al massimo 14 cm, perché i rulli della Titania sono larghi 15 cm.", no: "Schiaccia il pezzo con le mani, stendilo un po' con il mattarello e ripiega le estremità verso il centro, così entra nei rulli della sfogliatrice." },
+          { casa: "fede", si: "Passalo 3 o 4 volte nella Titania sulla posizione più larga, ripiegando ogni volta la sfoglia per rinforzarla. Poi stringi i rulli una posizione alla volta: fermati alla 5 per tagliatelle, fettuccine e tagliolini; arriva alla 6, la più sottile, per ravioli e lasagne.", no: "Passalo 3 o 4 volte nei rulli alla posizione più larga, ripiegando ogni volta la sfoglia per rinforzarla. Poi stringi i rulli una posizione alla volta: fermati alla penultima per tagliatelle, fettuccine e tagliolini; arriva alla più sottile per ravioli e lasagne." },
+          "Prima di passarla nel taglio, dividi la sfoglia in pezzi della lunghezza giusta: 25–30 cm per tagliatelle e fettuccine, circa 25 cm per i tagliolini; per le lasagne fogli lunghi come la teglia (di solito 25–30 cm).",
+          { casa: "fede", si: "Passa i pezzi nel taglio della Titania: quello da 6,5 mm fa le fettuccine (tagliatelle larghe), quello da 2 mm i tagliolini. Le pappardelle tagliale a mano col coltello, lunghe 20–25 cm e larghe 2–3 cm.", no: "Passa i pezzi nel taglio della sfogliatrice, oppure arrotola la sfoglia e tagliala a mano col coltello della larghezza che vuoi. Le pappardelle sono lunghe 20–25 cm e larghe 2–3 cm." },
+          "Spolvera la pasta con un po' di semola o di farina e formane dei nidi, oppure stendila su un vassoio, perché non si attacchi."
         ] },
       { id: "torchio", nome: "Torchio, con le uova", titolo: "Pasta fresca all'uovo al torchio",
         fonte: { nome: "Libretto Ariete del kit accessori 4079" },
@@ -3786,7 +3801,21 @@ const PADELLE = {
   nota: "Dati dalle schede Pentole Agnelli della linea Aluinox 3ply 1907 (codici ALUM111BM20/24/28, ALIX111ALIN20); altezze esatte delle mantecare Ø 20 e 28 e della padella Ø 24 da controllare sulla padella."
 };
 
-const ELETTRO = () => [fornoCasa() ? FORNO : fornoMa() ? FORNO_MA : null, induzioneCasa() ? PIASTRA : null, showNinja() ? NINJA : null, showNinja() ? GHISA : null, showNinja() ? VEGGIE : null, showNinja() ? PLANETARIA : null, showNinja() ? PADELLE : null].filter(Boolean);
+const IMPERIA = {
+  id: "imperia", nome: "Imperia Titania", path: "Macchina per la pasta · Imperia",
+  intro: "Macchina manuale per la pasta fresca all'uovo, in acciaio cromato, fatta in Italia: in un solo corpo tira la sfoglia e la taglia in due formati. Si fissa al piano con il morsetto e si gira con la manovella.",
+  dati: [["Sfoglia", "larga 15 cm", "rulli da 150 mm: impasto largo al massimo 14 cm"], ["Spessori", "6 posizioni", "apertura dei rulli da 0,2 a 2,2 mm"], ["Tagli", "2 mm e 6,5 mm", "tagliolini e fettuccine"], ["Uso", "a mano", "manovella e morsetto"]],
+  liste: [
+    { titolo: "Spessori da usare", righe: [["Posizione più larga", "3–4 passaggi ripiegando la sfoglia, per rinforzarla"], ["Posizione 5", "tagliatelle, fettuccine e tagliolini"], ["Posizione 6 (la più sottile)", "ravioli e lasagne"]] },
+    { titolo: "Formati e lunghezze", righe: [["Fettuccine / tagliatelle", "taglio da 6,5 mm, lunghe 25–30 cm"], ["Tagliolini", "taglio da 2 mm, lunghi circa 25 cm"], ["Pappardelle", "a mano: 20–25 cm, larghe 2–3 cm"], ["Lasagne", "fogli lunghi come la teglia (25–30 cm)"], ["Pezzi d'impasto", "100 g fanno una sfoglia di circa 70–80 cm; 50 g circa 40 cm"]] },
+    { titolo: "Cura", righe: [["Pulizia", "a secco, con un pennello o un panno: niente acqua né lavastoviglie"], ["Impasto", "se si attacca ai rulli, spolvera la sfoglia con un po' di farina"]] }
+  ],
+  pregi: [["Robusta", "tutta in acciaio, dura per decenni."], ["Due tagli già montati", "fettuccine e tagliolini senza accessori."]],
+  difetti: [["Larghezza", "la sfoglia non supera i 15 cm."], ["Pappardelle", "vanno tagliate a mano."]],
+  nota: "Dati dalle schede dei rivenditori dell'Imperia Titania (art. 190): sfoglia 150 mm, 6 spessori, apertura rulli 0,2–2,2 mm, tagli 2 mm e 6,5 mm."
+};
+
+const ELETTRO = () => [fornoCasa() ? FORNO : fornoMa() ? FORNO_MA : null, induzioneCasa() ? PIASTRA : null, showNinja() ? NINJA : null, showNinja() ? GHISA : null, showNinja() ? VEGGIE : null, showNinja() ? PLANETARIA : null, showNinja() ? PADELLE : null, showNinja() ? IMPERIA : null].filter(Boolean);
 
 function listeOf(E){ return E.liste || [E.consumi, E.tabella ? { titolo: "Indicazioni del manuale (con preriscaldamento)", righe: E.tabella } : null].filter(Boolean); }
 
