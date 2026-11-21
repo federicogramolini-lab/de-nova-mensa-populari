@@ -2492,24 +2492,14 @@ const RICETTE = [
       { nome: "Bistecche fuori dal frigo", min: 30 },
       { nome: "Asciugare e condire", min: 3 },
       { nome: "Scaldare la padella", min: 2, max: 5 },
-      { nome: "Rosolatura, due lati", min: 4, max: 6 },
-      { nome: "Burro, aglio e timo", min: 1, max: 2 },
-      { nome: "Riposo", min: 5 }
     ],
-    cottura: { tipo: "fornelli", gen: { dettaglio: "Fornelli, padella d'acciaio", extra: "" }, dettaglio: "Piano a induzione, padella d'acciaio", extra: "Padella scaldata a livello 7 per 2–2 min 30, poi 2 minuti per lato a livello 6" },
+    cottura: { tipo: "fornelli", gen: { dettaglio: "Fornelli, padella d'acciaio", extra: "" }, dettaglio: "Piano a induzione, padella d'acciaio", extra: "Padella scaldata a livello 7 per 2–2 min 30, poi a livello 6: 2 minuti per lato al sangue, 3–4 media, 5–6 ben cotta" },
     piastra: {
       zona: "La zona grande, con una padella che la copra tutta",
       passi: [{ padella: true, acciaio: [
-        { fase: "Scaldare la padella d'acciaio vuota", livello: "7", tempo: "2–2 min 30" },
-        { fase: "Rosolatura delle bistecche", livello: "6", tempo: "2 min per lato" },
-        { fase: "Lasciar intiepidire un attimo la padella", livello: "3", tempo: "circa 1 min" },
-        { fase: "Burro, aglio e timo, arrosando", livello: "3", tempo: "30 s per lato" },
-        { fase: "Riposo", livello: "spento", tempo: "5 min" }
+        { fase: "Scaldare la padella d'acciaio vuota", livello: "7", tempo: "2–2 min 30" }
       ], antiaderente: [
-        { fase: "Scaldare la padella antiaderente", livello: "5–6", tempo: "1–2 min" },
-        { fase: "Rosolatura delle bistecche", livello: "6", tempo: "2–3 min per lato" },
-        { fase: "Burro, aglio e timo, arrosando", livello: "3", tempo: "30 s per lato" },
-        { fase: "Riposo", livello: "spento", tempo: "5 min" }
+        { fase: "Scaldare la padella antiaderente", livello: "5–6", tempo: "1–2 min" }
       ] }],
       attenzioni: [{ padella: true, acciaio: [
         "Livello 7 basta: non alzare al massimo e niente Boost. L'acciaio vuoto sull'induzione supera in fretta i 300 °C, l'olio brucia e la padella si macchia; a livello 9 non risparmi quasi energia.",
@@ -2559,14 +2549,27 @@ const RICETTE = [
         acciaio: "Scalda la padella d'acciaio vuota a fuoco medio-basso per 4–5 minuti, senza alzare al massimo: l'olio brucerebbe e la padella si rovinerebbe prima ancora di mettere la carne. Per capire se è pronta versa una goccia d'acqua: deve formare una o due perline che scivolano sul fondo.",
         antiaderente: "Scalda la padella antiaderente per 1–2 minuti a fuoco medio-alto, senza esagerare con il calore." } },
       "Versa un filo d'olio ad alto punto di fumo. Se fuma molto, la padella è già troppo calda.",
-      { casa: "induzione", si: "Scendi a livello 6, metti le bistecche e premile leggermente, così la crosta si forma in modo uniforme. Lasciale senza toccarle per un paio di minuti, poi girale e cuoci l'altro lato.", no: "Metti le bistecche e premile leggermente, così la crosta si forma in modo uniforme. Lasciale senza toccarle per un paio di minuti, poi girale e cuoci l'altro lato." },
-      { casa: "induzione", si: "Scendi a livello 3 e lascia intiepidire un attimo la padella. Aggiungi il burro, l'aglio schiacciato e il timo.", no: "Abbassa il fuoco e lascia intiepidire un attimo la padella. Aggiungi il burro, l'aglio schiacciato e il timo." },
-      { casa: "induzione", si: "Sempre a livello 3, perché il burro non bruci, inclina la padella e versa il burro sulle bistecche con un cucchiaio, circa 30 secondi per lato.", no: "Tenendo il fuoco basso, perché il burro non bruci, inclina la padella e versa il burro sulle bistecche con un cucchiaio, circa 30 secondi per lato." },
-      "Per una cottura media al sangue la temperatura al cuore deve essere circa 49 °C. Lascia riposare le bistecche 5 minuti prima di tagliarle."
     ],
+    condLabel: "Cottura",
+    condimenti: (() => {
+      const burro = [
+        { casa: "induzione", si: "Scendi a livello 3 e lascia intiepidire un attimo la padella. Aggiungi il burro, l'aglio schiacciato e il timo.", no: "Abbassa il fuoco e lascia intiepidire un attimo la padella. Aggiungi il burro, l'aglio schiacciato e il timo." },
+        { casa: "induzione", si: "Sempre a livello 3, perché il burro non bruci, inclina la padella e versa il burro sulle bistecche con un cucchiaio, circa 30 secondi per lato.", no: "Tenendo il fuoco basso, perché il burro non bruci, inclina la padella e versa il burro sulle bistecche con un cucchiaio, circa 30 secondi per lato." }];
+      const voce = (id, nome, lato, latoAnti, rosola, temp, extraSi, extraNo) => ({ id, nome, ingredienti: [],
+        fasi: [{ nome: "Rosolatura in padella, due lati", min: rosola[0], max: rosola[1] }, { nome: "Burro, aglio e timo", min: 1, max: 2 }, { nome: "Riposo", min: 5 }],
+        passi: [{ padella: true, acciaio: [{ fase: "Rosolatura delle bistecche", livello: id === "ben-cotta" ? "6, poi 5" : "6", tempo: lato + " per lato" }], antiaderente: [{ fase: "Rosolatura delle bistecche", livello: id === "ben-cotta" ? "6, poi 5" : "6", tempo: latoAnti + " per lato" }] }, { padella: true, acciaio: [{ fase: "Lasciar intiepidire un attimo la padella", livello: "3", tempo: "circa 1 min" }, { fase: "Burro, aglio e timo, arrosando", livello: "3", tempo: "30 s per lato" }, { fase: "Riposo", livello: "spento", tempo: "5 min" }], antiaderente: [{ fase: "Burro, aglio e timo, arrosando", livello: "3", tempo: "30 s per lato" }, { fase: "Riposo", livello: "spento", tempo: "5 min" }] }],
+        procedimento: [
+          { casa: "induzione", si: `Scendi a livello 6, metti le bistecche e premile leggermente, così la crosta si forma in modo uniforme. Lasciale senza toccarle per un paio di minuti, finché si staccano da sole, poi girale. ${extraSi}`, no: `Metti le bistecche e premile leggermente, così la crosta si forma in modo uniforme. Lasciale senza toccarle per un paio di minuti, finché si staccano da sole, poi girale. ${extraNo}` }
+        ].concat(burro, [`Controlla con il termometro: ${temp} al cuore. Lascia riposare le bistecche 5 minuti prima di tagliarle.`]) });
+      return [
+        voce("sangue", "Al sangue", "2 min", "2–3 min", [4, 5], "50–52 °C", "Cuoci circa 2 minuti per lato.", "Cuoci circa 2 minuti per lato."),
+        voce("media", "Media", "3–4 min", "3–4 min", [6, 8], "55–58 °C", "Cuoci circa 3–4 minuti per lato.", "Cuoci circa 3–4 minuti per lato."),
+        voce("ben-cotta", "Ben cotta", "5–6 min", "5–6 min", [10, 12], "65 °C o più", "Cuoci circa 5–6 minuti per lato, girandole spesso; quando la crosta è fatta scendi a livello 5, così fuori non si secca.", "Cuoci circa 5–6 minuti per lato, girandole spesso; quando la crosta è fatta abbassa un poco il fuoco, così fuori non si secca.")
+      ];
+    })(),
     note: [
       "Durante il riposo la temperatura al cuore sale ancora di qualche grado.",
-      "Con bistecche più alte di 3 cm allunga la rosolatura e controlla con il termometro."
+      "I tempi sono per bistecche alte 2–2,5 cm: con bistecche più alte allunga la rosolatura e controlla con il termometro."
     ]
   },
   {
