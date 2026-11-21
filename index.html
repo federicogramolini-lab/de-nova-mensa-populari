@@ -4494,17 +4494,17 @@ const SPESA_INK = t => "spesa:" + t;
 function voceParti(t){ const m = /^(.*?)\s*(\([^()]*(?:\([^()]*\)[^()]*)*\))\s*$/.exec(t); return m ? [m[1], m[2]] : [t, ""]; }
 async function voceMano(t, fs){
   const [a, b] = voceParti(t);
-  const A = await manoRiga(a.toUpperCase(), "#376c54", fs * 1.3, false, 0.03, 0.112, 1.01, 0.92, "ManoStampa"); if (!A) return A; if (!b) return voceRitaglia(A.canvas, A.base * A.canvas.height, A.tx * A.canvas.height, (A.tx + A.tw) * A.canvas.height);
+  const A = await manoRiga(a.toUpperCase(), "#376c54", fs * 1.42, false, 0.03, 0.112, 1.01, 0.92, "ManoStampa"); if (!A) return A; const HR = Math.round(fs * 1.775); if (!b) return voceRitaglia(A.canvas, A.base * A.canvas.height, A.tx * A.canvas.height, (A.tx + A.tw) * A.canvas.height, HR);
   const fs2 = fs * 0.92, B = await manoRiga(b, "#376c54", fs2, false, 0.038, 0.112, 1.01, 0.92); if (!B) return A;
   const H = A.canvas.height, HB = B.canvas.height, gap = fs * 0.45;
   const xb = (A.tx + A.tw) * H + gap - B.tx * HB, W = Math.ceil(xb + B.canvas.width), yb = A.base * H - B.base * HB;
   const c = document.createElement("canvas"); c.width = W; c.height = H; const g = c.getContext("2d");
   g.drawImage(A.canvas, 0, 0); g.drawImage(B.canvas, xb, yb);
-  return voceRitaglia(c, A.base * H, A.tx * H, (xb + (B.tx + B.tw) * HB));
+  return voceRitaglia(c, A.base * H, A.tx * H, (xb + (B.tx + B.tw) * HB), HR);
 }
 // toglie il margine in alto e in basso: il maiuscolo occupa meglio la riga, la base resta allo stesso punto
-function voceRitaglia(c, basePx, txPx, finePx){
-  const H = c.height, H2 = Math.round(H * 0.78), top = Math.round(basePx - 0.62 * H2);
+function voceRitaglia(c, basePx, txPx, finePx, H2){
+  const top = Math.round(basePx - 0.62 * H2);
   const o = document.createElement("canvas"); o.width = c.width; o.height = H2; o.getContext("2d").drawImage(c, 0, -top);
   return { url: o.toDataURL("image/png"), canvas: o, ratio: o.width / H2, pad: txPx / H2, base: (basePx - top) / H2, tx: txPx / H2, tw: (finePx - txPx) / H2 };
 }
