@@ -356,6 +356,13 @@ a{color:inherit}
 .frigo-chip[aria-pressed="true"]::before{content:"✓";color:var(--accent)}
 .pick{display:grid;grid-template-columns:64px 1fr auto;gap:12px;align-items:center;background:var(--surface);border:1.5px solid var(--line);border-radius:14px;padding:10px 12px;cursor:pointer;text-align:left;width:100%}
 .pick[aria-pressed="true"]{border-color:var(--accent);box-shadow:inset 0 0 0 1.5px var(--accent)}
+.pick-ctl{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin:-4px 0 4px;padding:10px 12px 12px;border:1.5px solid var(--accent);border-top:none;border-radius:0 0 14px 14px;background:var(--surface);font-size:14px}
+.pick-wrap .pick[aria-pressed="true"]{border-radius:14px 14px 0 0}
+.pick-ctl .dc{display:flex;align-items:center;gap:6px}.pick-ctl .dc>span{color:var(--muted)}
+.mini-step{display:inline-flex;align-items:center;border:1.5px solid var(--line);border-radius:9px;overflow:hidden;vertical-align:middle}
+.mini-step button{width:32px;height:32px;border:none;background:var(--accent-soft);color:var(--accent);font-size:18px;font-weight:700;cursor:pointer}
+.mini-step input{width:42px;height:32px;border:none;text-align:center;font-weight:700;background:var(--surface);font-size:15px}
+.mreset{border:none;background:none;color:var(--accent);text-decoration:underline;cursor:pointer;font-size:13px;padding:0}
 .pick .th{width:64px;height:50px;border-radius:10px;background:var(--tile);display:grid;place-items:center}
 .pick .th svg{width:92%;height:auto}
 .pick .mt{font-size:14px;color:var(--muted)}
@@ -1133,7 +1140,7 @@ const RICETTE = [
   },
   {
     id: "pasta-fresca-uovo", img: "pastafresca", aggiunta: "2026-11-21T13:10:00+01:00",
-    titolo: "Pasta fresca all'uovo",
+    titolo: "Pasta fresca",
     sezione: "Primi", sottosezione: "Pasta fresca",
     fonte: { nome: "GialloZafferano", url: "https://ricette.giallozafferano.it/Pasta-fresca-all-uovo.html" },
     porzioni: 4, unitaPorzioni: ["persona","persone"],
@@ -1161,7 +1168,7 @@ const RICETTE = [
           { casa: "fede", si: "Schiaccia il pezzetto con le mani, stendilo un po' con il mattarello e ripiega le estremità verso il centro, così entra nei rulli dell'Imperia.", no: "Schiaccia il pezzetto con le mani, stendilo un po' con il mattarello e ripiega le estremità verso il centro, così entra nei rulli della sfogliatrice." },
           { casa: "fede", si: "Passalo 3 o 4 volte con l'Imperia sulla posizione più larga, ripiegando ogni volta la sfoglia per rinforzarla. Poi stringi i rulli una posizione alla volta fino alla più sottile. Taglia le sfoglie nel formato che vuoi.", no: "Passalo 3 o 4 volte nei rulli alla posizione più larga, ripiegando ogni volta la sfoglia per rinforzarla. Poi stringi i rulli una posizione alla volta fino alla più sottile. Taglia le sfoglie nel formato che vuoi." }
         ] },
-      { id: "torchio", nome: "Torchio (maccheroni, spaghetti, tagliatelle trafilati)", titolo: "Pasta fresca all'uovo al torchio",
+      { id: "torchio", nome: "Torchio, con le uova", titolo: "Pasta fresca all'uovo al torchio",
         fonte: { nome: "Libretto Ariete del kit accessori 4079" },
         ingredienti: [
           { nome: "Semola rimacinata di grano duro", qta: 400, u: "g", k: ["Semola rimacinata"] },
@@ -1180,7 +1187,26 @@ const RICETTE = [
           { casa: "fede", si: "Metti le briciole nella tramoggia poco alla volta, spingendole con il premicibo. Taglia la pasta con il coltello alla lunghezza che vuoi mentre esce. Non far andare la macchina più di 5 minuti di fila: fermala qualche minuto e riparti.", no: "Metti le briciole nella tramoggia poco alla volta, spingendole con il premicibo. Taglia la pasta con il coltello alla lunghezza che vuoi mentre esce." },
           "Stendi la pasta sul vassoio spolverato di semola, senza sovrapporla, e lasciala asciugare 15–30 minuti prima di cuocerla."
         ],
-        note: ["L'impasto per il torchio è molto più asciutto di quello per la sfoglia: è normale che resti a briciole. Se fosse umido come quello della sfoglia si impasterebbe nella vite, intaserebbe la trafila e la pasta uscirebbe appiccicata."] }
+        note: ["L'impasto per il torchio è molto più asciutto di quello per la sfoglia: è normale che resti a briciole. Se fosse umido come quello della sfoglia si impasterebbe nella vite, intaserebbe la trafila e la pasta uscirebbe appiccicata."] },
+      { id: "torchio-semola", nome: "Torchio, senza uova (semola e acqua)", titolo: "Pasta fresca di semola al torchio",
+        fonte: { nome: "Libretto Ariete del kit accessori 4079" },
+        ingredienti: [
+          { nome: "Semola rimacinata di grano duro", qta: 400, u: "g", k: ["Semola rimacinata"] },
+          { nome: "Acqua tiepida", nota: "più qualche goccia se serve", qta: 125, u: "g", base: true },
+          { nome: "Sale fino", nota: "un pizzico", qta: 2, u: "g", base: true }
+        ],
+        strumenti: [{ casa: "fede", si: "Planetaria Ariete Moderna con il gancio e il tritacarne del kit 4079 con le trafile per la pasta", no: "Planetaria con il gancio e il torchio (estrusore) per la pasta con le trafile" }, "Premicibo", "Coltello", "Vassoio spolverato di semola", "Pellicola"],
+        fasi: [{ nome: "Impastare a briciole", min: 5 }, { nome: "Riposo coperto", min: 30, attesa: true }, { nome: "Trafilare la pasta", min: 15, max: 20 }, { nome: "Far asciugare la pasta", min: 15, max: 30, attesa: true }],
+        procedimento: [
+          "Metti la semola nella ciotola della planetaria e sciogli il sale nell'acqua tiepida.",
+          { casa: "fede", si: "Col gancio a velocità 1 versa l'acqua poco alla volta, poi passa a velocità 3 e impasta circa 3 minuti: non deve diventare un panetto ma restare a briciole grandi.", no: "Col gancio a velocità bassa versa l'acqua poco alla volta, poi alza un poco e impasta circa 3 minuti: non deve diventare un panetto ma restare a briciole grandi." },
+          "Prova: stringi una manciata di briciole in mano. Devono compattarsi senza attaccarsi alle dita. Se si sbriciolano subito aggiungi qualche goccia d'acqua e impasta ancora 30 secondi; se sono appiccicose aggiungi un cucchiaio di semola.",
+          "Copri la ciotola e lascia riposare 30 minuti.",
+          { casa: "fede", si: "Monta il tritacarne del kit 4079 con la trafila che vuoi (maccheroni, spaghetti grossi, spaghetti fini, tagliatelle o pappardelle) e porta la planetaria a velocità 5–6.", no: "Monta il torchio con la trafila che vuoi e accendi la planetaria alla velocità indicata dal libretto per la pasta." },
+          { casa: "fede", si: "Metti le briciole nella tramoggia poco alla volta, spingendole con il premicibo. Taglia la pasta con il coltello alla lunghezza che vuoi mentre esce. Non far andare la macchina più di 5 minuti di fila: fermala qualche minuto e riparti.", no: "Metti le briciole nella tramoggia poco alla volta, spingendole con il premicibo. Taglia la pasta con il coltello alla lunghezza che vuoi mentre esce." },
+          "Stendi la pasta sul vassoio spolverato di semola, senza sovrapporla, e lasciala asciugare 15–30 minuti prima di cuocerla."
+        ],
+        note: ["Senza uova la pasta è più chiara e più ruvida, regge bene i sughi e si conserva meglio: si può far seccare. L'impasto per il torchio è molto più asciutto di quello per la sfoglia: è normale che resti a briciole. Se fosse umido come quello della sfoglia si impasterebbe nella vite, intaserebbe la trafila e la pasta uscirebbe appiccicata."] }
     ]
   },
   {
@@ -4515,8 +4541,16 @@ function chiediFineSpesa(l){
   d.querySelector("[data-v=si]").focus();
 }
 
+function wizCtl(d, r){
+  const id = r.id, c = (d.dish || {})[id] || {}, sc = sceltaValida(r, c.sc || condSel(r));
+  let h = DIMS(r).map(x => `<label class="dc"><span>${esc(x.label)}</span><select class="cond-sel" data-wdim="${x.key}" data-wr="${id}">${x.items.map(it => `<option value="${it.id}" ${sc[x.key] === it.id ? "selected" : ""}>${esc(it.nome)}</option>`).join("")}</select></label>`).join("");
+  if (r.cont) h += `<span class="dc"><span>${r.cont.nome === "teglia" ? "Teglia" : "Stampo"}: la scegli nella pagina del menù</span></span>`;
+  else if (perPersone(r)) h += `<span class="dc"><span>Persone</span>${miniStep("wpers", id, c.persone || d.persone || 4, "Persone per " + r.titolo)}</span>`;
+  else h += `<span class="dc"><span>Quantità</span><span class="qty"><input data-wporz="${id}" inputmode="decimal" value="${fmt(c.porz || r.porzioni)}" aria-label="Quantità"><span class="u">${esc(r.unitaPorzioni[1])}</span></span></span>`;
+  return `<div class="pick-ctl">${h}</div>`;
+}
 function renderWizard(){
-  const d = state.draft;
+  const d = state.draft; d.dish = d.dish || {};
   let html = masthead("menu") + `<a class="back" href="#menu"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>I tuoi menù</a>`;
 
   if (d.step === 1){
@@ -4550,7 +4584,7 @@ function renderWizard(){
     const rs = VIS().filter(r => r.sezione === s).map(r => ({ r, m: match(r, d.frigo) }))
       .sort((a, b) => useFrigo ? (b.m.have / (b.m.tot || 1)) - (a.m.have / (a.m.tot || 1)) || a.r.titolo.localeCompare(b.r.titolo, "it") : a.r.titolo.localeCompare(b.r.titolo, "it"));
     html += `<section class="section-block"><div class="section-title"><h2>${s}</h2><span>${rs.length}</span></div>`;
-    html += rs.length ? `<div class="picks">${rs.map(({ r, m }) => `
+    html += rs.length ? `<div class="picks">${rs.map(({ r, m }) => `<div class="pick-wrap">
       <button class="pick" data-r="${r.id}" aria-pressed="${d.piatti.has(r.id)}">
         <span class="th">${art(r)}</span>
         <span><b>${esc(r.titolo)}</b>
@@ -4558,7 +4592,7 @@ function renderWizard(){
           ${useFrigo ? `<span class="mt" style="display:block">${m.miss.length ? `Hai ${m.have} di ${m.tot} · manca: ${esc(m.miss.map(i => i.nome).join(", "))}` : "Hai tutto"}</span><span class="bar"><i style="width:${Math.round(100 * m.have / (m.tot || 1))}%"></i></span>` : ""}
         </span>
         <span class="box" aria-hidden="true">${d.piatti.has(r.id) ? "✓" : ""}</span>
-      </button>`).join("")}</div>` : `<p class="empty">Nessuna ricetta in questa sezione, per ora.</p>`;
+      </button>${d.piatti.has(r.id) ? wizCtl(d, r) : ""}</div>`).join("")}</div>` : `<p class="empty">Nessuna ricetta in questa sezione, per ora.</p>`;
     html += `</section>`;
   }
   html += `<div class="sticky-bar">
@@ -4567,16 +4601,29 @@ function renderWizard(){
     <button class="btn" id="save" ${d.piatti.size ? "" : "disabled"}>Salva menù (${d.piatti.size})</button>
   </div>`;
   app.innerHTML = html;
+  const R = id => RICETTE.find(x => x.id === id);
+  const wd = id => (d.dish[id] = d.dish[id] || {}), redrawW = () => { const y = window.scrollY; renderWizard(); window.scrollTo(0, y); };
+  app.querySelectorAll("[data-wdim]").forEach(el => el.onchange = () => { const r = R(el.dataset.wr), c = wd(r.id); c.sc = { ...sceltaValida(r, c.sc || condSel(r)), [el.dataset.wdim]: el.value }; });
+  const setWP = (id, v) => { v = Math.max(1, Math.min(99, Math.round(v))); const c = wd(id); if (v === (d.persone || 4)) delete c.persone; else c.persone = v; redrawW(); };
+  app.querySelectorAll("[data-wpers]").forEach(el => el.addEventListener("change", () => { const v = parseNum(el.value); if (v) setWP(el.dataset.wpers, v); else redrawW(); }));
+  app.querySelectorAll("[data-wpers-btn]").forEach(b => b.onclick = () => { const id = b.dataset.id; setWP(id, (wd(id).persone || d.persone || 4) + Number(b.dataset.wpersBtn)); });
+  app.querySelectorAll("[data-wporz]").forEach(el => el.addEventListener("change", () => { const v = parseNum(el.value); if (v) wd(el.dataset.wporz).porz = v; }));
   const nameInp = document.getElementById("mname");
   nameInp.addEventListener("input", () => { d.nome = nameInp.value; });
-  const p0 = document.getElementById("mpers0"); p0.addEventListener("input", () => { const v = parseNum(p0.value); if (v) d.persone = Math.max(1, Math.round(v)); });
+  const p0 = document.getElementById("mpers0"); p0.addEventListener("input", () => { const v = parseNum(p0.value); if (v) d.persone = Math.max(1, Math.round(v)); }); p0.addEventListener("change", redrawW);
   document.getElementById("back1").onclick = e => { e.preventDefault(); d.step = 1; renderWizard(); };
-  app.querySelectorAll("[data-r]").forEach(b => b.onclick = () => {
+  app.querySelectorAll("button.pick[data-r]").forEach(b => b.onclick = () => {
     const id = b.dataset.r; d.piatti.has(id) ? d.piatti.delete(id) : d.piatti.add(id);
     const y = window.scrollY; renderWizard(); window.scrollTo(0, y);
   });
   document.getElementById("save").onclick = () => {
-    const m = { id: Date.now().toString(36), nome: (d.nome || "").trim() || "Menù", creato: Date.now(), frigo: [...d.frigo], piatti: [...d.piatti], persone: d.persone || 4, dish: {} };
+    const dish = {};
+    [...d.piatti].forEach(id => { const r = R(id); if (!r) return; const c = d.dish[id] || {}, o = {};
+      if (hasDims(r)) o.sc = sceltaValida(r, c.sc || condSel(r));
+      if (c.persone && c.persone !== (d.persone || 4)) o.persone = c.persone;
+      if (c.porz) o.porz = c.porz;
+      if (Object.keys(o).length) dish[id] = o; });
+    const m = { id: Date.now().toString(36), nome: (d.nome || "").trim() || "Menù", creato: Date.now(), frigo: [...d.frigo], piatti: [...d.piatti], persone: d.persone || 4, dish };
     store.menus = [...store.menus, m]; persist(); state.draft = null;
     location.hash = "menu-" + m.id;
   };
@@ -4741,6 +4788,7 @@ function shoppingList(m){
   });
   return [...out.values()].map(x => ({ ...x, qta: x.q.size ? qtaTxt(x.q) : "" })).sort((a, b) => a.nome.localeCompare(b.nome, "it"));
 }
+function miniStep(attr, id, val, lab){ return `<span class="mini-step"><button type="button" data-${attr}-btn="-1" data-id="${id}" aria-label="Meno">−</button><input data-${attr}="${id}" inputmode="numeric" value="${fmt(val)}" aria-label="${esc(lab)}"><button type="button" data-${attr}-btn="1" data-id="${id}" aria-label="Più">+</button></span>`; }
 function dishCtl(m, r){
   const c = dishCfg(m, r), id = r.id;
   let h = DIMS(r).map(d => `<label class="dc"><span>${esc(d.label)}</span><select class="cond-sel" data-mdim="${d.key}" data-r="${id}">${d.items.map(it => `<option value="${it.id}" ${dishSc(m, r)[d.key] === it.id ? "selected" : ""}>${esc(it.nome)}</option>`).join("")}</select></label>`).join("");
@@ -4751,7 +4799,7 @@ function dishCtl(m, r){
         : `<span>Ø</span><span class="qty"><input data-mtg="d" data-r="${id}" inputmode="decimal" value="${fmt(t.d)}" aria-label="Diametro in cm"><span class="u">cm</span></span>`}
       ${r.cont.nome === "stampo" ? `<span>h</span><span class="qty"><input data-mtg="h" data-r="${id}" inputmode="decimal" value="${fmt(t.h)}" aria-label="Altezza in cm, 0 per non considerarla"><span class="u">cm</span></span>` : ""}
       <span>quante?</span><span class="qty"><input data-mtg="n" data-r="${id}" inputmode="numeric" value="${fmt(t.n)}" aria-label="Quante" style="width:40px"></span></span>`;
-  } else if (perPersone(r)) h += `<span class="dc"><span>Persone</span><span class="qty"><input data-mpers="${id}" inputmode="numeric" value="${fmt(c.persone || menuPersone(m))}" aria-label="Persone per ${esc(r.titolo)}" style="width:44px"></span></span>`;
+  } else if (perPersone(r)) h += `<span class="dc"><span>Persone</span>${miniStep("mpers", id, c.persone || menuPersone(m), "Persone per " + r.titolo)}${c.persone && c.persone !== menuPersone(m) ? ` <button type="button" class="mreset" data-mreset="${id}">come il menù (${menuPersone(m)})</button>` : ""}</span>`;
   else h += `<span class="dc"><span>Quantità</span><span class="qty"><input data-mporz="${id}" inputmode="decimal" value="${fmt(c.porz || r.porzioni)}" aria-label="Quantità"><span class="u">${esc(r.unitaPorzioni[1])}</span></span></span>`;
   return h;
 }
@@ -4765,7 +4813,7 @@ function renderMenu(m){
   <h1 style="margin:4px 0 10px">${esc(m.nome)}</h1>
   <div class="scaler-row" style="margin-bottom:14px"><span>Persone</span>
     <div class="stepper"><button id="mminus" aria-label="Meno">−</button><input id="mpers" type="text" inputmode="numeric" value="${menuPersone(m)}" aria-label="Persone"><button id="mplus" aria-label="Più">+</button></div>
-    <span class="status">vale per tutti i piatti a persona; teglie e stampi li scegli piatto per piatto</span></div>
+    <span class="status">vale per i piatti a cui non hai cambiato le persone; per ogni piatto puoi sceglierle qui sotto, teglie e stampi piatto per piatto</span></div>
   <div class="recap">
     <div class="rc"><span class="lab">${ICON.basket}Piatti</span><span class="big">${rs.length}</span></div>
     <div class="rc"><span class="lab">${ICON.clock}Tempo, organizzandoti</span><span class="big" style="font-size:18px">${dur(piano.totale)}</span><span class="sub">Uno dopo l'altro sarebbero ${durAB(totA, totB)}. Vedi il piano di lavoro qui sotto.</span></div>
@@ -4796,7 +4844,7 @@ function renderMenu(m){
   </div>`;
   app.innerHTML = html;
   const redraw = () => { const y = scrollY; renderMenu(m); scrollTo(0, y); };
-  const setPers = n => { n = Math.max(1, Math.min(99, Math.round(n))); m.persone = n; Object.values(m.dish || {}).forEach(c => delete c.persone); persist(); redraw(); };
+  const setPers = n => { n = Math.max(1, Math.min(99, Math.round(n))); m.persone = n; Object.values(m.dish || {}).forEach(c => { if (c.persone === n) delete c.persone; }); persist(); redraw(); };
   document.getElementById("mminus").onclick = () => setPers(menuPersone(m) - 1);
   document.getElementById("mplus").onclick = () => setPers(menuPersone(m) + 1);
   const mp = document.getElementById("mpers"); mp.addEventListener("change", () => { const v = parseNum(mp.value); v ? setPers(v) : redraw(); });
@@ -4804,7 +4852,10 @@ function renderMenu(m){
   app.querySelectorAll("[data-mdim]").forEach(el => el.onchange = () => { const r = R(el.dataset.r); setDish(m, r, { sc: { ...dishSc(m, r), [el.dataset.mdim]: el.value } }); redraw(); });
   app.querySelectorAll("[data-mforma]").forEach(el => el.onchange = () => { const r = R(el.dataset.mforma); setDish(m, r, { tg: { ...(dishCfg(m, r).tg || {}), forma: el.value } }); redraw(); });
   app.querySelectorAll("[data-mtg]").forEach(el => el.addEventListener("change", () => { const r = R(el.dataset.r), k = el.dataset.mtg, v = parseNum(el.value); if (v != null || (k === "h" && String(el.value).trim() === "0")) setDish(m, r, { tg: { ...(dishCfg(m, r).tg || {}), [k]: k === "n" ? Math.max(1, Math.round(v)) : (v || 0) } }); redraw(); }));
-  app.querySelectorAll("[data-mpers]").forEach(el => el.addEventListener("change", () => { const r = R(el.dataset.mpers), v = parseNum(el.value); if (v) setDish(m, r, { persone: Math.max(1, Math.round(v)) }); redraw(); }));
+  const setDP = (r, v) => { v = Math.max(1, Math.min(99, Math.round(v))); if (v === menuPersone(m)){ const c = dishCfg(m, r); delete c.persone; setDish(m, r, {}); } else setDish(m, r, { persone: v }); redraw(); };
+  app.querySelectorAll("[data-mpers]").forEach(el => el.addEventListener("change", () => { const v = parseNum(el.value); if (v) setDP(R(el.dataset.mpers), v); else redraw(); }));
+  app.querySelectorAll("[data-mpers-btn]").forEach(b => b.onclick = () => { const r = R(b.dataset.id); setDP(r, (dishCfg(m, r).persone || menuPersone(m)) + Number(b.dataset.mpersBtn)); });
+  app.querySelectorAll("[data-mreset]").forEach(b => b.onclick = () => { const r = R(b.dataset.mreset); const c = dishCfg(m, r); delete c.persone; setDish(m, r, {}); redraw(); });
   app.querySelectorAll("[data-mporz]").forEach(el => el.addEventListener("change", () => { const r = R(el.dataset.mporz), v = parseNum(el.value); if (v) setDish(m, r, { porz: v }); redraw(); }));
   app.querySelectorAll(".dish .qty input").forEach(i => { i.addEventListener("focus", () => i.select()); i.addEventListener("keydown", e => { if (e.key === "Enter"){ e.preventDefault(); i.blur(); } }); });
   document.getElementById("del").onclick = () => {
