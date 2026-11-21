@@ -360,6 +360,8 @@ a{color:inherit}
 .pick-ctl{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin:-4px 0 4px;padding:10px 12px 12px;border:1.5px solid var(--accent);border-top:none;border-radius:0 0 14px 14px;background:var(--surface);font-size:14px}
 .pick-wrap .pick[aria-pressed="true"]{border-radius:14px 14px 0 0}
 .pick-ctl .dc{display:flex;align-items:center;gap:6px}.pick-ctl .dc>span{color:var(--muted)}
+.menu-ctx{margin:6px 0 14px;padding:10px 14px;border:1.5px solid var(--accent);border-radius:12px;background:var(--accent-soft);font-size:14px}
+.menu-ctx a{color:var(--accent);margin-left:6px}
 .mini-step{display:inline-flex;align-items:center;border:1.5px solid var(--line);border-radius:9px;overflow:hidden;vertical-align:middle}
 .mini-step button{width:32px;height:32px;border:none;background:var(--accent-soft);color:var(--accent);font-size:18px;font-weight:700;cursor:pointer}
 .mini-step input{width:42px;height:32px;border:none;text-align:center;font-weight:700;background:var(--surface);font-size:15px}
@@ -3250,7 +3252,25 @@ function renderRecipeVotoBind(r){
   app.querySelectorAll(".voto [data-voto]").forEach(b => b.onclick = () => { const n = +b.dataset.voto; setVoto(r, n === voto(r) ? 0 : n); app.querySelector(".voto").outerHTML = votoHTML(r); renderRecipeVotoBind(r); app.querySelector(".voto [data-voto]").focus(); });
   app.querySelectorAll(".voto [data-prova]").forEach(b => b.onclick = () => { const v = b.dataset.prova === "1"; setProvata(r, provata(r) === v ? null : v); app.querySelector(".voto").outerHTML = votoHTML(r); renderRecipeVotoBind(r); app.querySelector(`.voto [data-prova="${b.dataset.prova}"]`).focus(); });
 }
+// ricetta aperta da un menù: mostra dosi, scelte e teglia del menù, e quello che si cambia va nel menù
+function menuCtxApply(r, m){
+  if (!state.mctx || state.mctx.rid !== r.id || state.mctx.mid !== m.id){ if (state.mctx) menuCtxEnd(); state.mctx = { rid: r.id, mid: m.id, prevF: state.factor[r.id], prevTg: state.tg && state.tg[r.id] }; }
+  if (hasDims(r)) applyCond(r, dishSc(m, r));
+  if (!state.tg) state.tg = {};
+  if (r.cont) state.tg[r.id] = { ...dishTg(m, r) };
+  const c = dishCfg(m, r);
+  state.factor[r.id] = r.cont ? tgFactor(r) : perPersone(r) ? (c.persone || menuPersone(m)) / r.porzioni : (c.porz || r.porzioni) / r.porzioni;
+}
+function menuCtxEnd(){
+  const x = state.mctx; if (!x) return; state.mctx = null;
+  const r = RICETTE.find(y => y.id === x.rid); if (!r) return;
+  if (hasDims(r)) applyCond(r, condSel(r));
+  if (x.prevF == null) delete state.factor[r.id]; else state.factor[r.id] = x.prevF;
+  if (state.tg){ if (x.prevTg) state.tg[r.id] = x.prevTg; else delete state.tg[r.id]; }
+}
 function renderRecipe(r){
+  const mc = state.mctx && state.mctx.rid === r.id ? findMenu(state.mctx.mid) : null;
+  if (mc) menuCtxApply(r, mc);
   const f = state.factor[r.id] || 1;
   const porz = r.porzioni * f;
   const step = r.porzioniStep || (r.porzioni >= 4 ? 1 : 0.5);
@@ -3258,8 +3278,10 @@ function renderRecipe(r){
   const macchina = (r.strumenti || []).includes("Ariete My Veggie Drink");
   const quick = macchina ? [1, 2, 3, 4] : [0.5, 1, 1.5, 2, 3];
 
-  let html = masthead("ricette") + `
-  <a class="back" href="#"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>Tutte le ricette</a>
+  let html = masthead(mc ? "menu" : "ricette") + (mc ? `
+  <a class="back" href="#menu-${mc.id}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>Torna al menù «${esc(mc.nome)}»</a>
+  <div class="menu-ctx">Dosi, scelte e teglia del menù <b>«${esc(mc.nome)}»</b>: quello che cambi qui cambia anche nel menù. <a href="#${r.id}">Apri la ricetta normale</a></div>` : `
+  <a class="back" href="#"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>Tutte le ricette</a>`) + `
   <div class="hero">
     <div class="art">${art(r)}</div>
     <div class="head">
@@ -3373,7 +3395,7 @@ function renderRecipe(r){
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M12 4v11m0 0-4-4m4 4 4-4M5 20h14"/></svg>
           Scarica PDF
         </button>
-        ${Math.abs(f - 1) > 1e-9 ? `<button class="btn ghost" id="reset">Torna alle dosi originali</button>` : ""}
+        ${Math.abs(f - 1) > 1e-9 && !mc ? `<button class="btn ghost" id="reset">Torna alle dosi originali</button>` : ""}
         <button class="btn danger" id="delr" ${cestinoRef && isOwner ? "" : "hidden"}>${state.confirmDel === r.id ? "Tocca di nuovo per eliminare" : "Elimina ricetta"}</button>
         <span class="status" id="status">${downloads ? "" : "Il download non è disponibile in questa vista."}</span>
       </div>
@@ -3381,7 +3403,13 @@ function renderRecipe(r){
   </div>`;
   app.innerHTML = html; manoTitoloApp();
 
-  const setF = nf => { if (nf > 0){ state.factor[r.id] = nf; renderRecipe(r); } };
+  const setF = nf => { if (!(nf > 0)) return;
+    if (mc){
+      if (r.cont){ const tt = state.tg[r.id] || {}; setDish(mc, r, { tg: Object.fromEntries(["forma", "a", "b", "d", "n", "h", "chiuso"].filter(k => tt[k] != null).map(k => [k, tt[k]])) }); }
+      else if (perPersone(r)){ const n = Math.max(1, Math.round(nf * r.porzioni)), c = dishCfg(mc, r); if (n === menuPersone(mc)){ delete c.persone; setDish(mc, r, {}); } else setDish(mc, r, { persone: n }); }
+      else setDish(mc, r, { porz: nf * r.porzioni });
+    } else state.factor[r.id] = nf;
+    renderRecipe(r); };
   if (r.cont){
     const t = tgState(r);
     const applyT = () => setF(tgFactor(r));
@@ -3410,7 +3438,7 @@ function renderRecipe(r){
   document.getElementById("plus").onclick = () => { const p = Math.round((porz + step) / step) * step; setF(p / r.porzioni); };
   app.querySelectorAll("[data-x]").forEach(b => b.onclick = () => setF(parseFloat(b.dataset.x)));
   renderRecipeVotoBind(r);
-  app.querySelectorAll("select.cond-sel[data-dim]").forEach(cs => cs.onchange = () => { const y = scrollY; setCond(r, { ...r.scelta, [cs.dataset.dim]: cs.value }); renderRecipe(r); scrollTo(0, y); });
+  app.querySelectorAll("select.cond-sel[data-dim]").forEach(cs => cs.onchange = () => { const y = scrollY; if (mc) setDish(mc, r, { sc: { ...dishSc(mc, r), [cs.dataset.dim]: cs.value } }); else setCond(r, { ...r.scelta, [cs.dataset.dim]: cs.value }); renderRecipe(r); scrollTo(0, y); });
   const reset = document.getElementById("reset"); if (reset) reset.onclick = () => setF(1);
   app.querySelectorAll(".qty input").forEach(inp => {
     const base = parseFloat(inp.dataset.base);
@@ -4974,8 +5002,8 @@ function renderMenu(m){
     const items = rs.filter(r => r.sezione === s);
     if (!items.length) continue;
     html += `<section class="section-block"><div class="section-title"><h2>${s}</h2><span>${items.length}</span></div><div class="dishes">${items.map(r => `<div class="dish">
-      <a class="th" href="#${r.id}">${art(r)}</a>
-      <div class="dish-main"><a href="#${r.id}"><b>${esc(conDish(m, r, () => piattoNome(r).titolo))}</b></a>
+      <a class="th" href="#${r.id}~${m.id}">${art(r)}</a>
+      <div class="dish-main"><a href="#${r.id}~${m.id}"><b>${esc(conDish(m, r, () => piattoNome(r).titolo))}</b></a>
         <span class="mt">${conDish(m, r, () => `${durR(r)} · ${esc(cot(r).dettaglio)}`)}</span>
         <div class="dish-ctl">${dishCtl(m, r)}</div>
         <span class="mt dose">Dosi: ${esc(dishDose(m, r))}</span></div></div>`).join("")}</div></section>`;
@@ -5047,6 +5075,7 @@ function renderMenu(m){
    ===================================================================== */
 function route(){
   const h = location.hash.slice(1);
+  if (state.mctx && !h.includes("~")) menuCtxEnd();
   if (h !== "menu-nuovo") state.draft = null;
   if (h === "menu") return renderMenus();
   if ((h === "elettrodomestici" || h === "forno") && federico()) return renderElettro();
@@ -5064,7 +5093,13 @@ function route(){
     if (!store.ready){ app.innerHTML = masthead("menu") + `<p class="empty">Carico il menù…</p>`; return; }
     return renderMenus();
   }
-  const r = RICETTE.find(x => x.id === h);
+  const [rid, mid] = h.split("~");
+  const r = RICETTE.find(x => x.id === rid);
+  if (r && mid){
+    const m = findMenu(mid);
+    if (m){ if (!state.mctx || state.mctx.rid !== r.id || state.mctx.mid !== m.id){ menuCtxEnd(); state.mctx = { rid: r.id, mid: m.id, prevF: state.factor[r.id], prevTg: state.tg && state.tg[r.id] }; } return renderRecipe(r); }
+    if (!store.ready){ app.innerHTML = masthead("menu") + `<p class="empty">Carico il menù…</p>`; return; }
+  }
   if (r) return renderRecipe(r);
   renderList();
 }
@@ -5268,7 +5303,7 @@ function useLocal(){
   importaSyncUtenti();
   store.ready = true;
 }
-function refreshMenuViews(){ const h = location.hash.slice(1); if (h === "scarica" && state.sel){ mieiMenu().forEach(m => { if (!state.sel.seen) state.sel.menu.add(m.id); }); state.sel.seen = true; } if (h === "menu" || h === "scarica" || (h.startsWith("menu-") && h !== "menu-nuovo")) route(); }
+function refreshMenuViews(){ const h = location.hash.slice(1); if (h === "scarica" && state.sel){ mieiMenu().forEach(m => { if (!state.sel.seen) state.sel.menu.add(m.id); }); state.sel.seen = true; } if (h === "menu" || h === "scarica" || (h.startsWith("menu-") && h !== "menu-nuovo") || h.includes("~")) route(); }
 
 (async function init(){
   if (!(window.claude && window.claude.use)){
