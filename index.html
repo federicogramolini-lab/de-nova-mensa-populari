@@ -2808,7 +2808,7 @@ const RICETTE = [
           fasi: [{ nome: "Raffreddare", min: 30, attesa: true }] },
         { id: "crema", nome: "Crema pasticcera", titolo: "Crostata alla crema pasticcera",
           ingredienti: [{ nome: "Crema pasticcera", nota: "fredda, dalla ricetta Crema pasticcera (Dolci › Creme)", qta: 450, u: "g", sub: { id: "crema-pasticcera", resa: 750 } }],
-          fasiPrima: [{ nome: "Preparare la crema pasticcera e farla raffreddare", min: 90, attesa: true }],
+          fasiPrima: [{ nome: "Crema pasticcera: latte, tuorli e cottura", min: 20, max: 25, sub: "crema-pasticcera" }, { nome: "Raffreddare la crema pasticcera", min: 60, attesa: true, sub: "crema-pasticcera" }],
           prima: ["Prepara prima la crema pasticcera (ricetta Crema pasticcera) e lasciala raffreddare in frigo coperta: deve essere fredda. La dose intera della crema basta per una crostata e ne avanza un po'."],
           procedimento: [stendi, "Mescola un attimo la crema fredda con la frusta perché torni liscia e versala sul fondo, livellandola.", strisce, forno, "Lascia raffreddare la crostata, poi tienila in frigo: con la crema va mangiata entro 2–3 giorni."],
           fasi: [{ nome: "Raffreddare", min: 60, attesa: true }] },
@@ -4679,6 +4679,7 @@ function chiediFineSpesa(l){
 function wizCtl(d, r){
   const id = r.id, c = (d.dish || {})[id] || {}, sc = sceltaValida(r, c.sc || condSel(r));
   let h = DIMS(r).map(x => `<label class="dc"><span>${esc(x.label)}</span><select class="cond-sel" data-wdim="${x.key}" data-wr="${id}">${x.items.map(it => `<option value="${it.id}" ${sc[x.key] === it.id ? "selected" : ""}>${esc(it.nome)}</option>`).join("")}</select></label>`).join("");
+  h += subCtl("wsub", id, conCond(r, sc, () => subPrep(r)), c.pronti || {});
   if (r.cont) h += `<span class="dc"><span>${r.cont.nome === "teglia" ? "Teglia" : "Stampo"}: la scegli nella pagina del menù</span></span>`;
   else if (perPersone(r)) h += `<span class="dc"><span>Persone</span>${miniStep("wpers", id, c.persone || d.persone || 4, "Persone per " + r.titolo)}</span>`;
   else h += `<span class="dc"><span>Quantità</span><span class="qty"><input data-wporz="${id}" inputmode="decimal" value="${fmt(c.porz || r.porzioni)}" aria-label="Quantità"><span class="u">${esc(r.unitaPorzioni[1])}</span></span></span>`;
@@ -4740,6 +4741,8 @@ function renderWizard(){
   const R = id => RICETTE.find(x => x.id === id);
   const wd = id => (d.dish[id] = d.dish[id] || {}), redrawW = () => { const y = window.scrollY; renderWizard(); window.scrollTo(0, y); };
   app.querySelectorAll("[data-wdim]").forEach(el => el.onchange = () => { const r = R(el.dataset.wr), c = wd(r.id); c.sc = { ...sceltaValida(r, c.sc || condSel(r)), [el.dataset.wdim]: el.value }; });
+  app.querySelectorAll("[data-wdim]").forEach(el => el.addEventListener("change", () => setTimeout(redrawW, 0)));
+  app.querySelectorAll("[data-wsub]").forEach(el => el.onchange = () => { const c = wd(el.dataset.sr); c.pronti = { ...(c.pronti || {}), [el.dataset.wsub]: el.value === "pronta" }; redrawW(); });
   const setWP = (id, v) => { v = Math.max(1, Math.min(99, Math.round(v))); const c = wd(id); if (v === (d.persone || 4)) delete c.persone; else c.persone = v; redrawW(); };
   app.querySelectorAll("[data-wpers]").forEach(el => el.addEventListener("change", () => { const v = parseNum(el.value); if (v) setWP(el.dataset.wpers, v); else redrawW(); }));
   app.querySelectorAll("[data-wpers-btn]").forEach(b => b.onclick = () => { const id = b.dataset.id; setWP(id, (wd(id).persone || d.persone || 4) + Number(b.dataset.wpersBtn)); });
@@ -4780,9 +4783,10 @@ function conDish(m, r, fn, conTitolo = false){
   if (t) state.tg[r.id] = t;
   try {
     return conCond(r, dishSc(m, r), () => {
-      const c = dishCfg(m, r);
+      const c = dishCfg(m, r), pr = c.pronti || {}, savedF = r.fasi;
+      if (Object.values(pr).some(Boolean)) r.fasi = (r.fasi || []).filter(x => !(x.sub && pr[x.sub]));
       const f = r.cont ? tgFactor(r) : perPersone(r) ? (c.persone || menuPersone(m)) / r.porzioni : (c.porz || r.porzioni) / r.porzioni;
-      return fn(f);
+      try { return fn(f); } finally { r.fasi = savedF; }
     }, conTitolo);
   } finally { if (t){ if (had) state.tg[r.id] = old; else delete state.tg[r.id]; } }
 }
@@ -4924,14 +4928,19 @@ function shoppingList(m){
       const u = i.u === "" ? "#" + contaLab(i) : i.u;
       if (i.qta == null) x.nq = true; else x.q.set(u, (x.q.get(u) || 0) + i.qta * ff);
     };
-    for (const i of allIng(r)) add(i, f, piattoNome(r).titolo);
+    const pr = dishCfg(m, r).pronti || {};
+    for (const i of allIng(r)) if (!(i.sub && pr[i.sub.id])) add(i, f, piattoNome(r).titolo);
   });
   return [...out.values()].map(x => ({ ...x, qta: x.q.size ? qtaTxt(x.q) : "" })).sort((a, b) => a.nome.localeCompare(b.nome, "it"));
 }
 function miniStep(attr, id, val, lab){ return `<span class="mini-step"><button type="button" data-${attr}-btn="-1" data-id="${id}" aria-label="Meno">−</button><input data-${attr}="${id}" inputmode="numeric" value="${fmt(val)}" aria-label="${esc(lab)}"><button type="button" data-${attr}-btn="1" data-id="${id}" aria-label="Più">+</button></span>`; }
+// preparazioni di base dentro un piatto (es. la crema pasticcera della crostata): da fare o già pronte
+function subPrep(r){ return allIng(r).filter(i => i.sub).map(i => RICETTE.find(x => x.id === i.sub.id)).filter(Boolean); }
+function subCtl(attr, rid, subs, pronti){ return subs.map(sr => `<label class="dc"><span>${esc(sr.titolo)}</span><select class="cond-sel" data-${attr}="${sr.id}" data-sr="${rid}"><option value="fare" ${pronti[sr.id] ? "" : "selected"}>da preparare</option><option value="pronta" ${pronti[sr.id] ? "selected" : ""}>ce l'ho già pronta</option></select></label>`).join(""); }
 function dishCtl(m, r){
   const c = dishCfg(m, r), id = r.id;
   let h = DIMS(r).map(d => `<label class="dc"><span>${esc(d.label)}</span><select class="cond-sel" data-mdim="${d.key}" data-r="${id}">${d.items.map(it => `<option value="${it.id}" ${dishSc(m, r)[d.key] === it.id ? "selected" : ""}>${esc(it.nome)}</option>`).join("")}</select></label>`).join("");
+  h += subCtl("msub", id, conDish(m, r, () => subPrep(r)), c.pronti || {});
   if (r.cont){
     const t = dishTg(m, r);
     h += `<label class="dc"><span>${r.cont.nome === "teglia" ? "Teglia" : "Stampo"}</span><select class="cond-sel" data-mforma="${id}"><option value="rett" ${t.forma === "rett" ? "selected" : ""}>Rettangolare</option><option value="tonda" ${t.forma === "tonda" ? "selected" : ""}>Tondo</option></select></label>
@@ -4991,6 +5000,7 @@ function renderMenu(m){
   const mp = document.getElementById("mpers"); mp.addEventListener("change", () => { const v = parseNum(mp.value); v ? setPers(v) : redraw(); });
   const R = id => RICETTE.find(x => x.id === id);
   app.querySelectorAll("[data-mdim]").forEach(el => el.onchange = () => { const r = R(el.dataset.r); setDish(m, r, { sc: { ...dishSc(m, r), [el.dataset.mdim]: el.value } }); redraw(); });
+  app.querySelectorAll("[data-msub]").forEach(el => el.onchange = () => { const r = R(el.dataset.sr), c = dishCfg(m, r); setDish(m, r, { pronti: { ...(c.pronti || {}), [el.dataset.msub]: el.value === "pronta" } }); redraw(); });
   app.querySelectorAll("[data-mforma]").forEach(el => el.onchange = () => { const r = R(el.dataset.mforma); setDish(m, r, { tg: { ...(dishCfg(m, r).tg || {}), forma: el.value } }); redraw(); });
   app.querySelectorAll("[data-mtg]").forEach(el => el.addEventListener("change", () => { const r = R(el.dataset.r), k = el.dataset.mtg, v = parseNum(el.value); if (v != null || (k === "h" && String(el.value).trim() === "0")) setDish(m, r, { tg: { ...(dishCfg(m, r).tg || {}), [k]: k === "n" ? Math.max(1, Math.round(v)) : (v || 0) } }); redraw(); }));
   const setDP = (r, v) => { v = Math.max(1, Math.min(99, Math.round(v))); if (v === menuPersone(m)){ const c = dishCfg(m, r); delete c.persone; setDish(m, r, {}); } else setDish(m, r, { persone: v }); redraw(); };
