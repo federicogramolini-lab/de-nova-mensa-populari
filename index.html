@@ -1080,6 +1080,55 @@ const RICETTE = [
     })()
   },
   {
+    id: "crema-pasticcera", img: "crema", aggiunta: "2026-11-21T12:55:00+01:00",
+    titolo: "Crema pasticcera",
+    sezione: "Dolci", sottosezione: "Creme",
+    fonte: { nome: "Iginio Massari" },
+    porzioni: 750, unitaPorzioni: ["g di crema", "g di crema"], porzioniStep: 250,
+    fasi: [
+      { nome: "Latte con vaniglia e limone a sfiorare il bollore", min: 8, max: 10 },
+      { nome: "Tuorli, zucchero e amido", min: 3 },
+      { nome: "Unire il latte filtrato", min: 2 },
+      { nome: "Cottura della crema, mescolando", min: 4, max: 6 },
+      { nome: "Raffreddare a 50 °C nella ciotola fredda", min: 3, max: 5 }
+    ],
+    cottura: { tipo: "fornelli", gen: { dettaglio: "Fornelli, pentolino e tegame", extra: "Sempre a fiamma bassa" }, dettaglio: "Piano a induzione, pentolino e tegame", extra: "Latte a livello 4, crema a livello 3 sempre mescolando" },
+    piastra: {
+      zona: "Pentolino sulla destra dietro (Ø 18 cm), poi il tegame della crema sulla stessa zona",
+      passi: [
+        { fase: "Latte con vaniglia e limone fino a sfiorare il bollore", livello: "4", tempo: "8–10 min" },
+        { fase: "Crema sul fuoco, sempre mescolando", livello: "3", tempo: "4–6 min, finché si addensa" }
+      ],
+      attenzioni: ["Fiamma bassa vuol dire livello 3–4: più alto i tuorli fanno grumi sul fondo.", "Mescola sempre con la frusta, anche sui bordi."],
+      differenza: "Sull'induzione il calore arriva subito e si ferma subito: se la crema si addensa troppo in fretta, spostala un attimo dalla zona e continua a mescolare."
+    },
+    strumenti: ["Pentolino", { casa: "fede", si: "Padella a mantecare Agnelli Ø 20 cm (il tegame della crema)", no: "Tegame dal fondo spesso" }, "Frusta morbida", "Colino", "Ciotola messa in freezer", "Termometro da cucina", "Pellicola"],
+    energia: [{ app: "piastra", kwh: [0.15, 0.2], come: "circa 15 minuti tra latte e crema a livello 3–4" }],
+    gruppi: [
+      { nome: "Latte aromatizzato", ingredienti: [
+        { nome: "Latte intero", qta: 500, u: "g", k: ["Latte intero"] },
+        { nome: "Baccelli di vaniglia", qta: 2, u: "", k: ["Vaniglia"] },
+        { nome: "Scorza di limone", nota: "di ½ limone, solo la parte gialla", qta: 3, u: "g", k: ["Limone"] }
+      ]},
+      { nome: "Crema", ingredienti: [
+        { nome: "Tuorli", nota: "circa 7", qta: 125, u: "g", k: ["Tuorli"] },
+        { nome: "Zucchero", qta: 130, u: "g", k: ["Zucchero"] },
+        { nome: "Amido di riso", nota: "oppure amido di mais, per una crema più soda", qta: 40, u: "g", k: ["Amido di riso"] }
+      ]}
+    ],
+    procedimento: [
+      "Metti una ciotola in freezer prima di cominciare: servirà per raffreddare la crema.",
+      "Apri i baccelli di vaniglia per il lungo e raschia i semi.",
+      IND("Metti nel pentolino il latte con i semi e i baccelli di vaniglia e la scorza di limone e portalo a sfiorare il bollore a livello 4.", "Metti sul fuoco il latte con i semi e i baccelli di vaniglia e la scorza di limone e portalo a sfiorare il bollore a fiamma bassa."),
+      "Intanto, in un altro tegame, metti i tuorli, lo zucchero e l'amido di riso e mescolali con la frusta morbida finché sono lisci e cremosi.",
+      "Quando il latte sfiora il bollore versalo nel tegame con i tuorli in 3 volte, passandolo nel colino, continuando a mescolare con la frusta.",
+      IND("Rimetti sul fuoco a livello 3 e continua a mescolare finché la crema si addensa.", "Rimetti sul fuoco, sempre a fiamma bassa, e continua a mescolare finché la crema si addensa."),
+      "Versa subito la crema nella ciotola presa dal freezer e mescola velocemente per portarla a 50 °C. Quando è liscia e lucida è pronta.",
+      "Se non la usi subito coprila con la pellicola a contatto e tienila in frigo."
+    ],
+    note: ["Si conserva in frigo, a 0–4 °C, con la pellicola, fino a 5 giorni."]
+  },
+  {
     id: "gnocchi-di-patate", img: "gnocchi", aggiunta: "2026-11-09T19:20:00+01:00",
     titolo: "Gnocchi di patate",
     sezione: "Primi", sottosezione: "Gnocchi",
@@ -2632,6 +2681,7 @@ const ART = {
   frullato: `<svg viewBox="0 0 160 120" aria-hidden="true"><ellipse cx="80" cy="108" rx="58" ry="6" fill="#000" opacity=".08"/><path d="M110 92q8-14 18 0q-9 14-18 0z" fill="#d9374a"/><path d="M114 82l6 4 6-4" stroke="#3f8a3a" stroke-width="3" fill="none"/><path d="M28 96q6-12 16 0q-8 12-16 0z" fill="#d9374a"/><path d="M58 22h40l-5 82H63z" fill="#eef5f7" stroke="#c9d8dd" stroke-width="2"/><path d="M60.5 42h35l-3.6 60H64.1z" fill="#ef8fa2"/><path d="M64 26h4l-3 72h-3z" fill="#fff" opacity=".6"/></svg>`,
   bevande: `<svg viewBox="0 0 160 120" aria-hidden="true"><ellipse cx="80" cy="108" rx="58" ry="6" fill="#000" opacity=".08"/><rect x="104" y="40" width="30" height="64" rx="8" fill="#eef5f7" stroke="#c9d8dd" stroke-width="2"/><rect x="113" y="22" width="12" height="20" rx="3" fill="#eef5f7" stroke="#c9d8dd" stroke-width="2"/><rect x="112" y="16" width="14" height="8" rx="2" fill="#2f6b4f"/><rect x="106" y="56" width="26" height="46" rx="6" fill="#f3ead8"/><path d="M58 22h40l-5 82H63z" fill="#eef5f7" stroke="#c9d8dd" stroke-width="2"/><path d="M60.5 42h35l-3.6 60H64.1z" fill="#f3ead8"/><path d="M64 26h4l-3 72h-3z" fill="#fff" opacity=".6"/></svg>`,
   senape: `<svg viewBox="0 0 160 120" aria-hidden="true"><ellipse cx="80" cy="106" rx="54" ry="7" fill="#000" opacity=".08"/><path d="M46 46h44v52a6 6 0 0 1-6 6H52a6 6 0 0 1-6-6z" fill="#eef3f2" stroke="#c9d3d1" stroke-width="2"/><path d="M49 58h38v40a4 4 0 0 1-4 4H53a4 4 0 0 1-4-4z" fill="#d7a72a"/><circle cx="58" cy="72" r="1.6" fill="#8a5a1a"/><circle cx="70" cy="84" r="1.6" fill="#8a5a1a"/><circle cx="78" cy="68" r="1.6" fill="#f3d36a"/><circle cx="62" cy="92" r="1.6" fill="#f3d36a"/><circle cx="80" cy="94" r="1.6" fill="#8a5a1a"/><rect x="43" y="36" width="50" height="11" rx="3" fill="#b08d3e"/><rect x="58" y="70" width="20" height="14" rx="2" fill="#fffdf6" opacity=".9"/><ellipse cx="122" cy="94" rx="20" ry="9" fill="#f7f3ea" stroke="#d8d0bd" stroke-width="1.5"/><ellipse cx="122" cy="92" rx="14" ry="5" fill="#e0b13a"/><circle cx="117" cy="91" r="1.4" fill="#8a5a1a"/><circle cx="126" cy="93" r="1.4" fill="#f6dd84"/><path d="M104 60q4-10 12-4" stroke="#c9a032" stroke-width="5" fill="none" stroke-linecap="round"/><circle cx="104" cy="66" r="3.5" fill="#d9a630"/><circle cx="111" cy="70" r="3" fill="#6b4416"/><circle cx="99" cy="74" r="2.6" fill="#e8c35a"/></svg>`,
+  crema: `<svg viewBox="0 0 160 120" aria-hidden="true"><ellipse cx="80" cy="106" rx="56" ry="8" fill="#000" opacity=".08"/><path d="M32 60q0 40 48 40t48-40z" fill="#fffdf6" stroke="#e2dccb" stroke-width="2"/><ellipse cx="80" cy="60" rx="48" ry="12" fill="#f7f3ea" stroke="#e2dccb" stroke-width="2"/><path d="M40 60q8-14 22-8q8-10 20-4q12-8 22 2q12-4 16 10q-40 12-80 0z" fill="#f6d36b"/><path d="M58 54q10-6 18 0M86 52q8-4 14 2" stroke="#fbe7a0" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M104 34q14 10 22 34" stroke="#3b2a1a" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M108 32q14 10 22 34" stroke="#5a4028" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M124 86q10-4 14 2q-6 6-14-2z" fill="#f2d14b"/><path d="M118 90q8 2 10-4" stroke="#e6b93a" stroke-width="1.5" fill="none"/></svg>`,
   ragu: `<svg viewBox="0 0 160 120" aria-hidden="true"><ellipse cx="80" cy="106" rx="58" ry="8" fill="#000" opacity=".08"/><path d="M28 62h104v24q0 18-20 18H48q-20 0-20-18z" fill="#c8572a"/><ellipse cx="80" cy="62" rx="52" ry="14" fill="#d8693a"/><ellipse cx="80" cy="62" rx="44" ry="10" fill="#9c3a1c"/><g fill="#b8532a"><circle cx="62" cy="60" r="3"/><circle cx="74" cy="64" r="2.6"/><circle cx="88" cy="59" r="3.2"/><circle cx="98" cy="64" r="2.5"/><circle cx="70" cy="57" r="2.2"/><circle cx="92" cy="66" r="2"/></g><g fill="#7a2a12"><circle cx="66" cy="65" r="1.8"/><circle cx="82" cy="61" r="2"/><circle cx="104" cy="60" r="1.6"/></g><circle cx="78" cy="58" r="1.6" fill="#e8822c"/><circle cx="96" cy="60" r="1.4" fill="#e8822c"/><path d="M118 40l-30 26" stroke="#a5713c" stroke-width="5" stroke-linecap="round"/><ellipse cx="120" cy="38" rx="6" ry="4" fill="#b98247" transform="rotate(-40 120 38)"/><path d="M22 68h8M130 68h8" stroke="#a84a22" stroke-width="5" stroke-linecap="round"/></svg>`,
   pancake: `<svg viewBox="0 0 160 120" aria-hidden="true"><ellipse cx="80" cy="106" rx="56" ry="8" fill="#000" opacity=".08"/><ellipse cx="80" cy="96" rx="56" ry="13" fill="#fffdf6" stroke="#e2dccb" stroke-width="2"/><g><path d="M42 88q38 10 76 0v-8q-38 10-76 0z" fill="#d79a4a"/><ellipse cx="80" cy="80" rx="38" ry="8" fill="#e9b766"/><path d="M44 76q36 10 72 0v-8q-36 10-72 0z" fill="#d38f3e"/><ellipse cx="80" cy="68" rx="36" ry="8" fill="#ebbd6c"/><path d="M46 64q34 10 68 0v-8q-34 10-68 0z" fill="#d69544"/><ellipse cx="80" cy="56" rx="34" ry="8" fill="#eec474"/></g><path d="M62 54q18 8 34-2q8-4 6 6q-2 8-6 14q-2 4-4-2q-2-6-10-6q-10 0-14-4q-8-4-6-6z" fill="#a8581c" opacity=".85"/><rect x="72" y="47" width="14" height="9" rx="2" fill="#fbe9a8"/><rect x="72" y="47" width="14" height="3" rx="1.5" fill="#fff6cf"/></svg>`,
   verdure: `<svg viewBox="0 0 160 120" aria-hidden="true"><ellipse cx="80" cy="104" rx="56" ry="8" fill="#000" opacity=".08"/><ellipse cx="80" cy="74" rx="58" ry="30" fill="#fffdf6" stroke="#e2dccb" stroke-width="2"/><ellipse cx="80" cy="74" rx="46" ry="22" fill="#f7f3ea"/><g stroke-linecap="round"><path d="M46 70l26-10M50 80l24-8M58 88l22-9" stroke="#e8822c" stroke-width="6"/><path d="M84 62q14 4 26-2M86 72q12 3 24-3M88 82q11 2 22-4" stroke="#4f8a3a" stroke-width="3.5" fill="none"/></g><g fill="#3f7a35"><circle cx="104" cy="88" r="6"/><circle cx="111" cy="85" r="5.5"/><circle cx="107" cy="80" r="5"/><circle cx="68" cy="56" r="5"/><circle cx="74" cy="53" r="4.5"/></g><rect x="105" y="89" width="4" height="8" rx="2" fill="#8fbf6a"/><circle cx="62" cy="62" r="1.4" fill="#5c3b1c"/><circle cx="96" cy="66" r="1.4" fill="#5c3b1c"/></svg>`,
