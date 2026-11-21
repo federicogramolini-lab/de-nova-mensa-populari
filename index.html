@@ -1239,6 +1239,27 @@ const RICETTE = [
           { casa: "fede", si: "Passa i pezzi nel taglio della Titania: quello da 6,5 mm fa le fettuccine (tagliatelle larghe), quello da 2 mm i tagliolini. Le pappardelle tagliale a mano col coltello, lunghe 20–25 cm e larghe 2–3 cm.", no: "Passa i pezzi nel taglio della sfogliatrice, oppure arrotola la sfoglia e tagliala a mano col coltello della larghezza che vuoi. Le pappardelle sono lunghe 20–25 cm e larghe 2–3 cm." },
           "Spolvera la pasta con un po' di semola o di farina e formane dei nidi, oppure stendila su un vassoio, perché non si attacchi."
         ] },
+      { id: "sfoglia-semola", nome: "Sfogliatrice, farina 00 e semola (più ruvida)", titolo: "Pasta fresca all'uovo con semola",
+        ingredienti: [
+          { nome: "Farina 00", qta: 200, u: "g", k: ["Farina 00"] },
+          { nome: "Semola rimacinata di grano duro", qta: 200, u: "g", k: ["Semola rimacinata"] },
+          { nome: "Uova da almeno 70 g", qta: 4, u: "", k: ["Uova"] },
+          { nome: "Sale fino", nota: "un pizzico", qta: 2, u: "g", base: true }
+        ],
+        strumenti: [{ casa: "fede", si: "Imperia Titania (sfoglia larga 15 cm, tagli da 2 e 6,5 mm)", no: "Sfogliatrice a rulli (o il mattarello)" }, { casa: "fede", si: "Planetaria Ariete Moderna con il gancio (oppure a mano)", no: "Spianatoia e forchetta" }, "Tarocco", "Mattarello", "Pellicola"],
+        fasi: [{ nome: "Impastare", min: 15 }, { nome: "Riposo in frigo", min: 30, max: 45, attesa: true }, { nome: "Tirare la sfoglia e tagliarla", min: 30, max: 40 }],
+        procedimento: [
+          { casa: "fede", si: "Metti la farina, la semola e il sale nella ciotola della planetaria, sbatti le uova con la forchetta e aggiungile. Impasta col gancio a velocità 1 per 1 minuto, poi a velocità 2–3 per 5–6 minuti, finché l'impasto è compatto e liscio. Se preferisci, fallo a mano come nei passaggi per la spianatoia.", no: "Mescola la farina con la semola, versale sulla spianatoia e forma una conca al centro con il fondo di una ciotola. Nella stessa ciotola sbatti le uova con la forchetta e versale al centro della farina, poi aggiungi un pizzico di sale." },
+          { casa: "fede", si: "Finisci di impastare a mano un minuto sulla spianatoia. Se ci sono crepe, inumidisci le mani con l'acqua e impasta ancora finché è compatto e omogeneo, poi forma un panetto.", no: "Mescola con la forchetta per incorporare la farina, poi raccogli quella sulla spianatoia con il tarocco. Quando le uova sono ben amalgamate continua a mano, portando l'impasto verso il centro e tirandolo con il palmo senza strapparlo. Se ci sono crepe, inumidisci le mani con l'acqua e impasta ancora finché è compatto e omogeneo, poi forma un panetto." },
+          "Avvolgi il panetto nella pellicola e mettilo in frigo per 30–45 minuti: con la semola ha bisogno di qualche minuto in più per diventare elastico.",
+          "Dividi l'impasto in pezzi da circa 100 g (con la dose intera ne vengono 8) e lavorane uno alla volta: copri il resto con la ciotola o con la pellicola, perché non si secchi. Ogni pezzo, tirato sottile, diventa una sfoglia lunga circa 70–80 cm; se preferisci sfoglie più corte, circa 40 cm, fai pezzi da 50 g.",
+          { casa: "fede", si: "Schiaccia il pezzo con le mani, stendilo un po' con il mattarello e ripiega le estremità verso il centro: deve restare largo al massimo 14 cm, perché i rulli della Titania sono larghi 15 cm.", no: "Schiaccia il pezzo con le mani, stendilo un po' con il mattarello e ripiega le estremità verso il centro, così entra nei rulli della sfogliatrice." },
+          { casa: "fede", si: "Passalo 3 o 4 volte nella Titania sulla posizione più larga, ripiegando ogni volta la sfoglia per rinforzarla. Poi stringi i rulli una posizione alla volta: fermati alla 5 per tagliatelle, fettuccine e tagliolini; arriva alla 6, la più sottile, per ravioli e lasagne.", no: "Passalo 3 o 4 volte nei rulli alla posizione più larga, ripiegando ogni volta la sfoglia per rinforzarla. Poi stringi i rulli una posizione alla volta: fermati alla penultima per tagliatelle, fettuccine e tagliolini; arriva alla più sottile per ravioli e lasagne." },
+          "Prima di passarla nel taglio, dividi la sfoglia in pezzi della lunghezza giusta: 25–30 cm per tagliatelle e fettuccine, circa 25 cm per i tagliolini; per le lasagne fogli lunghi come la teglia (di solito 25–30 cm).",
+          { casa: "fede", si: "Passa i pezzi nel taglio della Titania: quello da 6,5 mm fa le fettuccine (tagliatelle larghe), quello da 2 mm i tagliolini. Le pappardelle tagliale a mano col coltello, lunghe 20–25 cm e larghe 2–3 cm.", no: "Passa i pezzi nel taglio della sfogliatrice, oppure arrotola la sfoglia e tagliala a mano col coltello della larghezza che vuoi. Le pappardelle sono lunghe 20–25 cm e larghe 2–3 cm." },
+          "Spolvera la pasta con un po' di semola o di farina e formane dei nidi, oppure stendila su un vassoio, perché non si attacchi."
+        ] ,
+        note: ["Con metà semola rimacinata la sfoglia viene più ruvida e porosa, trattiene meglio il sugo e resta più al dente; il colore è più giallo. L'impasto è un po' più sodo: se si crepa, inumidisci le mani e impasta ancora, o aggiungi un cucchiaio d'acqua. Per stenderla e tagliarla usa la semola al posto della farina. Cuoce un minuto in più."] },
       { id: "torchio", nome: "Torchio, con le uova", titolo: "Pasta fresca all'uovo al torchio",
         fonte: { nome: "Libretto Ariete del kit accessori 4079" },
         ingredienti: [
