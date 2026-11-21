@@ -2608,15 +2608,34 @@ const RICETTE = [
         { nome: "Lievito per dolci", nota: "mezza bustina", qta: 8, u: "g", k: ["Lievito per dolci"] },
         { nome: "Sale fino", qta: 4, u: "g", base: true },
         { nome: "Aroma di limone", qta: 1, u: "fiala", k: ["Aroma di limone","Limone"] }
-      ]}
+      ]},
+      { nome: "Farcitura", cond: true, condNome: "Farcitura", ingredienti: [] }
     ],
     procedimento: [
       { casa: "fede", si: "Nella planetaria con la frusta a foglia mescola tutti gli ingredienti a velocità 1–2, aggiungendo il lievito per ultimo, solo finché l'impasto è compatto: non lavorarla troppo.", no: "Mescola tutti gli ingredienti, aggiungendo il lievito per ultimo, fino a un impasto compatto." },
-      "Avvolgi l'impasto nella pellicola e lascialo riposare in frigorifero almeno 30 minuti.",
-      "Stendi l'impasto e guarnisci (crostata, biscotti…).",
-      { casa: "forno", si: "Preriscalda il forno in Statico (2 scatti) a 180 °C. Al segnale inforna sul ripiano 2 e cuoci 35 minuti.", ma: "Preriscalda il forno in Statico a 180 °C. Quando si spegne la spia del termostato inforna sul ripiano 2 e cuoci 35 minuti.", no: "Preriscalda il forno statico a 180 °C e cuoci a metà altezza per 35 minuti." }
+      "Avvolgi l'impasto nella pellicola e lascialo riposare in frigorifero almeno 30 minuti."
     ],
-    note: ["I 35 minuti sono per la crostata: per i biscotti la cottura è più breve, controllali dai 12 minuti."]
+    condLabel: "Farcitura",
+    condimenti: (() => {
+      const forno = { casa: "forno", si: "Preriscalda il forno in Statico (2 scatti) a 180 °C. Al segnale inforna sul ripiano 2 e cuoci 35 minuti.", ma: "Preriscalda il forno in Statico a 180 °C. Quando si spegne la spia del termostato inforna sul ripiano 2 e cuoci 35 minuti.", no: "Preriscalda il forno statico a 180 °C e cuoci a metà altezza per 35 minuti." };
+      const stendi = "Stendi circa due terzi della frolla e fodera la tortiera, fondo e bordi; bucherella il fondo con una forchetta.";
+      const strisce = "Stendi la frolla rimasta, ricava delle strisce e disponile a griglia sopra la farcitura, sigillandole sul bordo.";
+      return [
+        { id: "marmellata", nome: "Marmellata", titolo: "Crostata di marmellata",
+          ingredienti: [{ nome: "Marmellata o confettura", nota: "del gusto che preferisci", qta: 350, u: "g", k: ["Marmellata"] }],
+          procedimento: [stendi, "Spalma la marmellata sul fondo in uno strato uniforme.", strisce, forno, "Lascia raffreddare la crostata prima di toglierla dalla tortiera."],
+          fasi: [{ nome: "Raffreddare", min: 30, attesa: true }] },
+        { id: "crema", nome: "Crema pasticcera", titolo: "Crostata alla crema pasticcera",
+          ingredienti: [{ nome: "Crema pasticcera", nota: "fredda, dalla ricetta Crema pasticcera (Dolci › Creme)", qta: 450, u: "g", k: ["Crema pasticcera"] }],
+          fasiPrima: [{ nome: "Preparare la crema pasticcera e farla raffreddare", min: 90, attesa: true }],
+          prima: ["Prepara prima la crema pasticcera (ricetta Crema pasticcera) e lasciala raffreddare in frigo coperta: deve essere fredda. La dose intera della crema basta per una crostata e ne avanza un po'."],
+          procedimento: [stendi, "Mescola un attimo la crema fredda con la frusta perché torni liscia e versala sul fondo, livellandola.", strisce, forno, "Lascia raffreddare la crostata, poi tienila in frigo: con la crema va mangiata entro 2–3 giorni."],
+          fasi: [{ nome: "Raffreddare", min: 60, attesa: true }] },
+        { id: "nessuna", nome: "Nessuna (solo frolla, per biscotti o basi)", titolo: "Pasta frolla", ingredienti: [],
+          procedimento: ["Stendi l'impasto e usalo come ti serve (crostata, biscotti…).", forno],
+          note: ["I 35 minuti sono per la crostata: per i biscotti la cottura è più breve, controllali dai 12 minuti."] }
+      ];
+    })()
   },
   {
     id: "crema-cioccolato-light", img: "crema",
