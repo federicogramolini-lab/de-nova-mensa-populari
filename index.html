@@ -2949,7 +2949,11 @@ const RICETTE = [
         { nome: "Sale fino", qta: 4, u: "g", base: true },
         { nome: "Aroma di limone", qta: 1, u: "fiala", k: ["Aroma di limone","Limone"] }
       ]},
-      { nome: "Farcitura", cond: true, condNome: "Farcitura", ingredienti: [] }
+      { nome: "Farcitura", cond: true, condNome: "Farcitura", ingredienti: [] },
+      { nome: "Per la tortiera", ingredienti: [
+        { nome: "Burro", nota: "per ungere la tortiera", qta: 10, u: "g", k: ["Burro"] },
+        { nome: "Farina 00", nota: "per infarinarla", qta: null, u: "", base: true }
+      ]}
     ],
     procedimento: [
       { casa: "fede", si: "Nella planetaria con la frusta a foglia mescola tutti gli ingredienti a velocità 1–2, aggiungendo il lievito per ultimo, solo finché l'impasto è compatto: non lavorarla troppo.", no: "Mescola tutti gli ingredienti, aggiungendo il lievito per ultimo, fino a un impasto compatto." },
@@ -2958,7 +2962,7 @@ const RICETTE = [
     condLabel: "Farcitura",
     condimenti: (() => {
       const forno = { casa: "forno", si: "Preriscalda il forno in Statico (2 scatti) a 180 °C. Al segnale inforna sul ripiano 2 e cuoci 35 minuti.", ma: "Preriscalda il forno in Statico a 180 °C. Quando si spegne la spia del termostato inforna sul ripiano 2 e cuoci 35 minuti.", no: "Preriscalda il forno statico a 180 °C e cuoci a metà altezza per 35 minuti." };
-      const stendi = "Stendi circa due terzi della frolla e fodera la tortiera, fondo e bordi; bucherella il fondo con una forchetta.";
+      const stendi = "Imburra bene la tortiera, fondo e bordi, poi infarinala e scuoti via la farina in eccesso; in alternativa metti un disco di carta da forno sul fondo e imburra solo i bordi. Così la crostata si sforma senza rompersi. Stendi circa due terzi della frolla e fodera la tortiera, fondo e bordi; bucherella il fondo con una forchetta.";
       const strisce = "Stendi la frolla rimasta, ricava delle strisce e disponile a griglia sopra la farcitura, sigillandole sul bordo.";
       return [
         { id: "marmellata", nome: "Marmellata", titolo: "Crostata di marmellata",
